@@ -14,7 +14,7 @@ public class Main {
     ;
     public static void main(String[] args) {
         Xogo xogo=new Xogo();
-        xogo.consola();
+        xogo.iniciar();
     }
 
 

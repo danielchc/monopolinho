@@ -3,14 +3,19 @@ package monopolinho;
 import java.util.Scanner;
 
 public class Xogo {
+    public void iniciar(){
+        System.out.println("Bem vindo o Monopolinho: ");
+        consola();
+    }
     public void consola(){
-        System.out.println("$> ");
         Scanner scanner= new Scanner(System.in);
-        interpretarComando(scanner.nextLine());
+        while(true){
+            System.out.println("$> ");
+            interpretarComando(scanner.nextLine());
+        }
     }
     public void interpretarComando(String comando) {
         String[] cmds=comando.split(" ");
-        System.out.println("\uD83D\uDE97");
         switch (cmds[0].toLowerCase()){
             case "crear":
                 if(cmds.length!=3){
@@ -26,6 +31,7 @@ public class Xogo {
                 System.exit(0);
                 break;
             default:
+                System.out.println("Comando non recoñecido");
         }
     }
 }
