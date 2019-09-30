@@ -3,7 +3,7 @@ package monopolinho;
 import java.util.Random;
 
 public class Avatar {
-    enum TipoAvatar{
+    public enum TipoAvatar{
         DEFAULT,
         COCHE,
         LARANJO
