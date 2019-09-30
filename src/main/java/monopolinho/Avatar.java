@@ -4,9 +4,10 @@ import java.util.Random;
 
 public class Avatar {
     public enum TipoAvatar{
-        DEFAULT,
+        PELOTA,
         COCHE,
-        LARANJO
+        ESFINXE,
+        SOMBREIRO,
     }
     private Xogador xogador;
     TipoAvatar tipo; //String tipo;
@@ -55,9 +56,9 @@ public class Avatar {
     public String toString(){
         return String.format("{\n" +
                 "\tid: %s\n " +
-                "\ttipo: %d\n" +
+                "\ttipo: %s\n" +
                 "\txogador: %s\n" +
-                "}",this.id,this.tipo.ordinal(),this.xogador.getNome());
+                "}",this.id,this.tipo.toString(),this.xogador.getNome());
     }
     /*
     private String[] avatares={"O","\uD83D\uDE97","L"};
