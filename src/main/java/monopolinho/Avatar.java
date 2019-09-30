@@ -6,7 +6,7 @@ public class Avatar {
         COCHE,
         LARANJO
     }
-    private String[] avatares={"O","C","L"};
+    private String[] avatares={"O","\uD83D\uDE97","L"};
     private TipoAvatar tipoAvatar;
 
     public Avatar(TipoAvatar tipoAvatar){
