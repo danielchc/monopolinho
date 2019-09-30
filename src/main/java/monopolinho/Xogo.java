@@ -21,8 +21,7 @@ public class Xogo {
                 if(cmds.length!=3){
                     System.out.println("Sintaxe: crear <nome> <avatar>");
                 }else{
-                    Xogador x=new Xogador(cmds[1],new Avatar(Avatar.TipoAvatar.COCHE));
-                    //System.out.println(x.getAvatar().getRepresentacion());
+                    Xogador x=new Xogador(cmds[1],Avatar.TipoAvatar.COCHE);
                     System.out.println(x.toString());
                 }
                 break;

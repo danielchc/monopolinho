@@ -1,12 +1,17 @@
 package monopolinho;
 
-public class Casilla {
 
+public class Casilla {
+    enum TipoCasilla{
+        CARCEL,
+        SOLAR,
+        PUTAMIERDA
+    }
     /* Atributos */
     private String NombreCasilla;
-    private String TipoCasilla;
+    private TipoCasilla TipoCasilla;
     private String GrupoCasilla; //Color da casilla
-    private String Propietario;
+    private Xogador Propietario;
     private float Valor;
     private float Alquiler;
     private float ValorHotel;
@@ -22,7 +27,7 @@ public class Casilla {
     private float AlquilerPistaDeporte;
 
     /* Constructores */
-    public Casilla(String NombreCasilla,String TipoCasilla){
+    public Casilla(String NombreCasilla,TipoCasilla TipoCasilla){
         this.NombreCasilla=NombreCasilla;
         this.TipoCasilla=TipoCasilla;
     }
@@ -35,10 +40,10 @@ public class Casilla {
         this.NombreCasilla=NombreCasilla;
     }
 
-    public String getTipoCasilla(){
+    public TipoCasilla getTipoCasilla(){
         return TipoCasilla;
     }
-    public void setTipoCasilla(String TipoCasilla){
+    public void setTipoCasilla(TipoCasilla TipoCasilla){
         this.TipoCasilla=TipoCasilla;
     }
 
@@ -49,10 +54,10 @@ public class Casilla {
         this.GrupoCasilla=GrupoCasilla;
     }
 
-    public String getPropietario(){
+    public Xogador getPropietario(){
         return Propietario;
     }
-    public void setPropietario(String Propietario){
+    public void setPropietario(Xogador Propietario){
         this.Propietario=Propietario;
     }
 
