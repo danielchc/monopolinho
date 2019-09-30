@@ -25,7 +25,25 @@ public class Xogo {
                     System.out.println(x.toString());
                 }
                 break;
-            case "sair":
+            /* FALTA IMPLEMENTAR ESTES COMANDOS, SOLO ESTAN OS CASES */
+            case "xogador":
+                break;
+            case "listar":
+                break;
+            case "lanzar":
+                break;
+            case "acabar":
+                break;
+            case "salir":
+                break;
+            case "describir":
+                break;
+            case "comprar":
+                break;
+            case "ver":
+                break;
+                
+            case "exit":
                 System.out.println("Saindo...");
                 System.exit(0);
                 break;
