@@ -20,7 +20,7 @@ public class Xogador {
 
     public Xogador(String nome, Avatar.TipoAvatar tipoAvatar){
         this.nome=nome;
-        this.fortuna=100000;
+        this.fortuna= Valores.FORTUNA_INCIAL;
         this.dineroGastado=0;
         this.avatar=new Avatar(tipoAvatar,this);
         this.propiedades=new ArrayList<>(); //lookoooo
