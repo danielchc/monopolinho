@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class Casilla {
     private String nome;
-    private String tipo;
+    private Grupo tipo;
     private float valor;
     private int posicion;
     private Xogador dono;
-    public Casilla(String nome,String tipo,int posicion, float valor){
+    public Casilla(String nome,Grupo tipo,int posicion, float valor){
         this.nome=nome;
         this.tipo=tipo;
         this.posicion=posicion;
@@ -36,7 +36,7 @@ public class Casilla {
         return posicion;
     }
 
-    public String getTipo() {
+    public Grupo getTipo() {
         return tipo;
     }
 

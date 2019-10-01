@@ -9,6 +9,7 @@ public class Xogador {
     private float fortuna;
     private float dineroGastado;
     private ArrayList<Casilla> propiedades;
+    private boolean tenTurno;
 
     public Xogador(){
         this.nome="Banca";
@@ -47,6 +48,15 @@ public class Xogador {
     public void engadirPropiedade(Casilla casilla){
         if(casilla!=null)this.propiedades.add(casilla);
     }
+
+    public void setTenTurno(boolean tenTurno) {
+        this.tenTurno = tenTurno;
+    }
+
+    public boolean getTenTurno() {
+        return tenTurno;
+    }
+
     public void setNome(String nome) {
         if(nome!=null)this.nome = nome;
     }

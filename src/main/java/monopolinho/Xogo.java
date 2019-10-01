@@ -1,10 +1,19 @@
 package monopolinho;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Xogo {
+
+    private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
+
+
+
+
+
     public void iniciar(){
         System.out.println("Bem vindo o Monopolinho: ");
+        this.xogadores=new ArrayList<>();
         consola();
     }
     public void consola(){
@@ -22,6 +31,7 @@ public class Xogo {
                     System.out.println("Sintaxe: crear <nome> <avatar>");
                 }else{
                     Xogador x=new Xogador(cmds[1],Avatar.TipoAvatar.COCHE);
+                    this.xogadores.add(x);  //añado o xogador creado á lista de xogadores
                     System.out.println(x.toString());
                 }
                 break;
@@ -29,6 +39,24 @@ public class Xogo {
             case "xogador":
                 break;
             case "listar":
+                switch (cmds[1]){
+                    case "xogadores":
+                        for(int i=0;i<xogadores.size();i++){
+                            System.out.println(xogadores.get(i));
+                        }
+                        break;
+                    case "avatares":
+                        break;
+                    case "enventa":
+                        /*for(int i=0;i<banca.propiedades.size();i++){
+                            System.out.println(banca.propiedades.get(i));
+                        }*/
+                        break;
+                    default:
+                        System.out.println("\nOpción de listaxe non válida");
+                        break;
+                }
+
                 break;
             case "lanzar":
                 if(cmds.length!=2){
@@ -55,6 +83,13 @@ public class Xogo {
                 }
                 break;
             case "comprar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: comprar <casilla>");
+                }else{
+                    //quitarlle a propiedade á banca
+                    //engadirlla ao xogador
+                    //restar fortuna ao xogador
+                }
                 break;
             case "ver":
                 break;
