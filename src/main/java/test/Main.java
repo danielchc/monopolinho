@@ -16,7 +16,8 @@ public class Main {
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
-        t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
+        t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("cousa",p,"",10000,3000));
+
         System.out.println(t);
         /*
         Dados d=new Dados();

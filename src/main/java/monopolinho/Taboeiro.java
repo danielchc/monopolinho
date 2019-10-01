@@ -48,7 +48,7 @@ public class Taboeiro {
 
         //NORTE
         String[] ncasillas=new String[]{"","",""};
-        for(int i=0;i<getCasillas().size();i++)
+        for(int i=0;i<getCasillas(Zona.NORTE).size();i++)
             ReprASCII.unirCasilla(ncasillas,getCasillas(Zona.NORTE).get(i));
         for(String s:ncasillas)taboeiro+=s+"\n";
         return taboeiro;
