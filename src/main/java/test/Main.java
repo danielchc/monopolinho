@@ -7,12 +7,15 @@ public class Main {
      */
     ;
     public static void main(String[] args) {
+        ASCII a=new ASCII();
+        System.out.println(a.imprimirTableiro());
+        /*
         Dados d=new Dados();
         d.lanzarDados();
         System.out.printf("%d %d\n",d.getDados()[0],d.getDados()[1]);
         System.out.printf("%b",d.sonDobles());
         return;
-        /*Xogador banca=new Xogador();
+        Xogador banca=new Xogador();
         Xogador xogador=new Xogador("David", Avatar.TipoAvatar.COCHE);
         Xogador xogador1=new Xogador("Daniel", Avatar.TipoAvatar.ESFINXE);
         Xogador xogador2=new Xogador("Helena", Avatar.TipoAvatar.COCHE);
