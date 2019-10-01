@@ -3,7 +3,13 @@ package monopolinho;
 import java.util.ArrayList;
 
 public class Taboeiro {
-    private ArrayList<Casilla> casillas;
+    public enum Zona{
+        SUR,
+        OESTE,
+        NORTE,
+        ESTE
+    }
+    private ArrayList<ArrayList<Casilla>> casillas;
 
 
     public void Taboeiro(){
@@ -11,17 +17,18 @@ public class Taboeiro {
         //Xerador de casillas
     }
 
-    /* DAME SEGMENTATION
-    public void anhadirCasilla(Casilla casilla){
-        if(casilla!=null) {
-            this.casillas.add(casilla);
-        }
+
+    public void engadirCasilla(Zona z,Casilla casilla){
+        if(casilla!=null)this.casillas.get(z.ordinal()).add(casilla);
     }
 
-    public ArrayList<Casilla> getCasillas() {
+    public ArrayList<ArrayList<Casilla>> getCasillas() {
         return casillas;
     }
-
+    public ArrayList<Casilla> getCasillas(Zona z) {
+        return casillas.get(z.ordinal());
+    }
+    /*
     public boolean existeNombreCasilla(String casilla){
         if(casilla==null){
             System.err.println("\nString non inicializado");

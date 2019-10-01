@@ -1,7 +1,6 @@
 package monopolinho;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Xogador {
     private String nome;
@@ -20,7 +19,7 @@ public class Xogador {
 
     public Xogador(String nome, Avatar.TipoAvatar tipoAvatar){
         this.nome=nome;
-        this.fortuna= Valores.FORTUNA_INCIAL;
+        this.fortuna= Valor.FORTUNA_INCIAL;
         this.dineroGastado=0;
         this.avatar=new Avatar(tipoAvatar,this);
         this.propiedades=new ArrayList<>(); //lookoooo
@@ -47,6 +46,7 @@ public class Xogador {
     public void engadirPropiedade(Casilla casilla){
         if(casilla!=null)this.propiedades.add(casilla);
     }
+
     public void setNome(String nome) {
         if(nome!=null)this.nome = nome;
     }
@@ -85,5 +85,11 @@ public class Xogador {
                 "\tGastos:"+  this.dineroGastado +",\n"+
                 "\tPropiedades:"+listaprop+"\n"+
                 "}";
+    }
+    public boolean equals(Object obj){
+        if(obj instanceof Xogador){
+            if(this.nome.equals(((Xogador) obj).nome))return true;
+        }
+        return false;
     }
 }
