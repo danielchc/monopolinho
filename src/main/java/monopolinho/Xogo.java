@@ -33,10 +33,26 @@ public class Xogo {
                     Xogador x=new Xogador(cmds[1],Avatar.TipoAvatar.COCHE);
                     this.xogadores.add(x);  //añado o xogador creado á lista de xogadores
                     System.out.println(x.toString());
+                    boolean nonPrimeiro=true;   //variable bandeira
+                    for(int i=0;i<xogadores.size();i++) {
+                        if (xogadores.get(i).getAvatar().getId().equals(x.getAvatar().getId()) && i == 0) { //se é o primeiro enton ten o primeiro turno
+                            x.setTenTurno(true);
+                            nonPrimeiro=false;
+                        }
+                    }
+                    if (nonPrimeiro==true){     //se bandeira indica que non se fijou como primeiro, enton o turno non lle toca
+                        x.setTenTurno(false);   //senon non ten turno
+                    }
+
                 }
                 break;
             /* FALTA IMPLEMENTAR ESTES COMANDOS, SOLO ESTAN OS CASES */
             case "xogador":
+                for(int i=0;i<xogadores.size();i++){
+                    if(xogadores.get(i).getTenTurno()==true){
+                        System.out.println("\nTurno de "+xogadores.get(i).getNome());
+                    }
+                }
                 break;
             case "listar":
                 switch (cmds[1]){
