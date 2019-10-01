@@ -27,4 +27,22 @@ public class Casilla {
     public void setDono(Xogador dono) {
         if(dono!=null)this.dono = dono;
     }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    @Override
+    public String toString(){
+        String texto="{"+"\n\tTipo: "+this.tipo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
+        return texto;
+    }
 }

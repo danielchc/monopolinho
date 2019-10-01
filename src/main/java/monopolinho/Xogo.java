@@ -31,12 +31,28 @@ public class Xogo {
             case "listar":
                 break;
             case "lanzar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: lanzar dados");
+                }else{
+                    Dados dados=new Dados();
+                    dados.lanzarDados();
+                    System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
+                }
                 break;
             case "acabar":
                 break;
             case "salir":
                 break;
             case "describir":
+                switch (cmds[1]){
+                    case "xogador":
+                        break;
+                    case "avatar":
+                        break;
+                    default: //describir casilla
+
+                        break;
+                }
                 break;
             case "comprar":
                 break;
