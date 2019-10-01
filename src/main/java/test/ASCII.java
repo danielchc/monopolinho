@@ -28,11 +28,11 @@ public class ASCII {
         };
     }
 
+
     public String[] unirCasilla(String[] casillas,String[] casilla){
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla[i];
         return casillas;
     }
-
 
     public String imprimirTableiro(){
 

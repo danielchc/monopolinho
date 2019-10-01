@@ -4,16 +4,25 @@ import java.util.ArrayList;
 
 public class Casilla {
     private String nome;
-    private Grupo tipo;
+    private Grupo grupo;
     private float valor;
     private int posicion;
     private Xogador dono;
+    private ReprASCII.ColorCasilla colorCasilla;
     ArrayList<Avatar> avatares;
-    public Casilla(String nome,String tipo,int posicion, float valor){
+    public Casilla(String nome,Grupo grupo,String tipo,int posicion, float valor){
         this.nome=nome;
-        this.tipo=tipo;
+        this.grupo=grupo;
         this.posicion=posicion;
         this.valor=valor;
+        this.colorCasilla=this.getGrupo().getColor();
+    }
+    public Casilla(String nome, Grupo grupo, String tipo, int posicion, float valor, ReprASCII.ColorCasilla colorCasilla){
+        this.nome=nome;
+        this.grupo=grupo;
+        this.posicion=posicion;
+        this.valor=valor;
+        this.colorCasilla=colorCasilla;
     }
 
     public String getNome() {
@@ -36,24 +45,25 @@ public class Casilla {
         return posicion;
     }
 
-    public Grupo getTipo() {
-        return tipo;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
     //FALTA IMPLEMENTAR GRUPO ANTES
-    /*public String[] getRepresentacion(){
+
+    public String[] getRepresentacion(){
         String avataresCasilla="";
         for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId();
         return new String[]{
-                color + centrarTexto("") + Valor.ANSI_RESET,
-                color + centrarTexto(this.nome) + Valor.ANSI_RESET,
-                color + centrarTexto(avataresCasilla) + Valor.ANSI_RESET ,
+                ReprASCII.colorear(this.colorCasilla, ReprASCII.centrarTexto("")),
+                ReprASCII.colorear(this.colorCasilla, ReprASCII.centrarTexto(this.nome)),
+                ReprASCII.colorear(this.colorCasilla, ReprASCII.centrarTexto(avataresCasilla)),
         };
-    }*/
+    }
 
     @Override
     public String toString(){
-        String texto="{"+"\n\tTipo: "+this.tipo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
+        String texto="{"+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
         return texto;
     }
 

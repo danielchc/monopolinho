@@ -1,13 +1,14 @@
 package monopolinho;
 
 public class Grupo {
+
     private String tipo; //solar ou especial
     private String posicion;    //norte sure este ou oeste
-    private String color;
+    private ReprASCII.ColorCasilla color;
     private int numeroSolares;
 
 
-    public void Grupo(String tipo,String color,String posicion){
+    public void Grupo(String tipo, ReprASCII.ColorCasilla color, String posicion){
         if(tipo==null || color==null || posicion==null){
             System.err.println("Error: algun elemento non inicializado");
             return;
@@ -58,11 +59,11 @@ public class Grupo {
         return tipo;
     }
 
-    public void setColor(String color) {
+    public void setColor(ReprASCII.ColorCasilla color) {
         if (color!=null)this.color = color;
-    }
+    } //NON CREO QUE SE USE
 
-    public String getColor() {
+    public ReprASCII.ColorCasilla getColor() {
         return color;
     }
 }
