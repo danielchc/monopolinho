@@ -42,7 +42,7 @@ public class Xogo {
                 break;
             case "ver":
                 break;
-                
+
             case "exit":
                 System.out.println("Saindo...");
                 System.exit(0);
