@@ -7,7 +7,12 @@ public class Main {
      */
     ;
     public static void main(String[] args) {
-        Xogador banca=new Xogador();
+        Dados d=new Dados();
+        d.lanzarDados();
+        System.out.printf("%d %d\n",d.getDados()[0],d.getDados()[1]);
+        System.out.printf("%b",d.sonDobles());
+        return;
+        /*Xogador banca=new Xogador();
         Xogador xogador=new Xogador("David", Avatar.TipoAvatar.COCHE);
         Xogador xogador1=new Xogador("Daniel", Avatar.TipoAvatar.ESFINXE);
         Xogador xogador2=new Xogador("Helena", Avatar.TipoAvatar.COCHE);
@@ -21,7 +26,7 @@ public class Main {
         System.out.println(xogador1);
         System.out.println(xogador2);
         System.out.println(xogador3);
-        System.out.println(xogador.getAvatar().toString());
+        System.out.println(xogador.getAvatar().toString());*/
     }
 
 
