@@ -12,8 +12,9 @@ public class Taboeiro {
     private ArrayList<ArrayList<Casilla>> casillas;
 
 
-    public void Taboeiro(){
+    public Taboeiro(){
         this.casillas=new ArrayList<>();
+        for(int i=0;i<4;i++)this.casillas.add(new ArrayList<>()); //AÑADIR ZONAS
         //Xerador de casillas
     }
 
@@ -41,4 +42,32 @@ public class Taboeiro {
         }
         return false;
     }*/
+    @Override
+    public String toString(){
+        String taboeiro="";
+
+        //NORTE
+        String[] ncasillas=new String[]{"","",""};
+        for(int i=0;i<getCasillas().size();i++)
+            ReprASCII.unirCasilla(ncasillas,getCasillas(Zona.NORTE).get(i));
+        for(String s:ncasillas)taboeiro+=s+"\n";
+        return taboeiro;
+        //TA COMENTAO PORQUE NON PUXEN CASILLAS NAS OUTRAS ZONAS E DA PEREZA FACER UN IF
+        /*ESTE OESTE
+        String[] ocasillas;
+        for(int i=0;i<10;i--){
+            ocasillas=new String[]{"","",""};
+            ReprASCII.unirCasilla(ocasillas,getCasillas(Zona.OESTE).get(9-i));
+            for(int j=0;j<8;j++)ReprASCII.engadirCasillaVacia(ocasillas);
+            ReprASCII.unirCasilla(ocasillas,getCasillas(Zona.ESTE).get(i));
+            for(String s:ocasillas)taboeiro+=s+"\n";
+        }
+
+        //SUR
+        String[] scasillas=new String[]{"","",""};
+        for(int i=9;i>=0;i--)ReprASCII.unirCasilla(scasillas,getCasillas(Zona.SUR).get(i));
+        for(String s:scasillas)taboeiro+=s+"\n";
+
+        return taboeiro;*/
+    }
 }

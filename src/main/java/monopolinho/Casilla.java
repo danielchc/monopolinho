@@ -16,6 +16,7 @@ public class Casilla {
         this.posicion=posicion;
         this.valor=valor;
         this.colorCasilla=this.getGrupo().getColor();
+        this.avatares=new ArrayList<Avatar>();
     }
     public Casilla(String nome, Grupo grupo, String tipo, int posicion, float valor, ReprASCII.ColorCasilla colorCasilla){
         this.nome=nome;
@@ -23,6 +24,7 @@ public class Casilla {
         this.posicion=posicion;
         this.valor=valor;
         this.colorCasilla=colorCasilla;
+        this.avatares=new ArrayList<Avatar>();
     }
 
     public String getNome() {

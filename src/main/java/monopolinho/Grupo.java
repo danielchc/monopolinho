@@ -8,7 +8,8 @@ public class Grupo {
     private int numeroSolares;
 
 
-    public void Grupo(String tipo, ReprASCII.ColorCasilla color, String posicion){
+
+    public Grupo(String tipo, ReprASCII.ColorCasilla color, String posicion){
         if(tipo==null || color==null || posicion==null){
             System.err.println("Error: algun elemento non inicializado");
             return;

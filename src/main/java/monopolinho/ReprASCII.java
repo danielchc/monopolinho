@@ -25,12 +25,21 @@ public class ReprASCII {
         "\u001B[0m"
     };
     public static final int WIDTH=15;
+
     public static String centrarTexto(String texto){
         String sp="";
         for (int i=0;i<((WIDTH-texto.length())/2);i++)sp+=" ";
         return (sp+texto+sp).substring(0,WIDTH-1);
     }
     public static String colorear(ColorCasilla color, String texto){
-        return  CORESCASILLA[color.ordinal()] + texto + CORESCASILLA[color.ordinal()];
+        return  CORESCASILLA[color.ordinal()] + texto + CORESCASILLA[ColorCasilla.RESET.ordinal()];
+    }
+    public static String[] unirCasilla(String[] casillas,Casilla casilla){
+        for (int i=0;i<casillas.length;i++)casillas[i]+=casilla.getRepresentacion()[i];
+        return casillas;
+    }
+    public static String[] engadirCasillaVacia(String[] casillas){
+        for (int i=0;i<casillas.length;i++)casillas[i]+=centrarTexto("");
+        return casillas;
     }
 }
