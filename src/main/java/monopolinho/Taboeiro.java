@@ -47,27 +47,27 @@ public class Taboeiro {
         String taboeiro="";
 
         //NORTE
-        String[] ncasillas=new String[]{"","",""};
+        String[] ncasillas=new String[]{"","","",""};
         for(int i=0;i<getCasillas(Zona.NORTE).size();i++)
             ReprASCII.unirCasilla(ncasillas,getCasillas(Zona.NORTE).get(i));
-        for(String s:ncasillas)taboeiro+=s+"\n";
+        taboeiro+=String.join("\n",ncasillas);
         return taboeiro;
         //TA COMENTAO PORQUE NON PUXEN CASILLAS NAS OUTRAS ZONAS E DA PEREZA FACER UN IF
-        /*ESTE OESTE
+       /* ESTE OESTE
         String[] ocasillas;
         for(int i=0;i<10;i--){
             ocasillas=new String[]{"","",""};
             ReprASCII.unirCasilla(ocasillas,getCasillas(Zona.OESTE).get(9-i));
             for(int j=0;j<8;j++)ReprASCII.engadirCasillaVacia(ocasillas);
             ReprASCII.unirCasilla(ocasillas,getCasillas(Zona.ESTE).get(i));
-            for(String s:ocasillas)taboeiro+=s+"\n";
+            taboeiro+=String.join("\n",ocasillas);
         }
 
         //SUR
         String[] scasillas=new String[]{"","",""};
         for(int i=9;i>=0;i--)ReprASCII.unirCasilla(scasillas,getCasillas(Zona.SUR).get(i));
-        for(String s:scasillas)taboeiro+=s+"\n";
-
-        return taboeiro;*/
+        taboeiro+=String.join("\n",scasillas);
+        return taboeiro;
+        */
     }
 }

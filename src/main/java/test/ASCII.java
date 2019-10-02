@@ -49,7 +49,7 @@ public class ASCII {
         String[] sur=new String[]{"SAIDA","2","3","4","5","6","7","8","9","CARCEL"};
         String[] norte=new String[]{"PARKING","LUGO","SANTIAGO","ORENSE","PONTEVEDRA","VIGO","FERROL","CORUNA","TUI","PACARCEL"};
         String[] este=new String[]{"LEON","VALLADOLID","SALAMANCA","MADRID","ALBACETE","VALENCIA","BARCELONA","SANTANDER","BILBAO","TARRAGONA"};
-        String[] oeste=new String[]{"LEON","VALLADOLID","SALAMANCA","MADRID","ALBACETE","VALENCIA","BARCELONA","SANTANDER","BILBAO","TARRAGONA"};
+        String[] oeste=new String[]{"LEON","VALLADOLID","SALAMANCA","COUSA","ALBACETE","VALENCIA","BARCELONA","SANTANDER","BILBAO","TARRAGONA"};
 
         String taboeiro="";
 
@@ -66,10 +66,11 @@ public class ASCII {
             unirCasilla(ocasillas,generarCasilla(ANSI_RED_BACKGROUND,oeste[i]));
 
             for(int j=0;j<8;j++)
-                unirCasilla(ocasillas,new String[]{centrarTexto(""),centrarTexto(""),centrarTexto(""),centrarTexto("")});
+                unirCasilla(ocasillas,generarCasilla(ANSI_BLACK_BACKGROUND,""));
+            //unirCasilla(ocasillas,new String[]{centrarTexto(""),centrarTexto(""),centrarTexto(""),centrarTexto("")});
 
             unirCasilla(ocasillas,generarCasilla(ANSI_PURPLE_BACKGROUND,este[9-i]));
-            
+
             for(String s:ocasillas)taboeiro+=s+"\n";
         }
 

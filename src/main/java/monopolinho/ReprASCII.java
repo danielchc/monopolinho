@@ -25,21 +25,32 @@ public class ReprASCII {
         "\u001B[0m"
     };
     public static final int WIDTH=15;
+    public enum Borde{
+        SUPERIOR,
+        INFERIOR
+    }
 
-    public static String centrarTexto(String texto){
+    private static String centrarTexto(String texto,int w){
         String sp="";
-        for (int i=0;i<((WIDTH-texto.length())/2);i++)sp+=" ";
-        return (sp+texto+sp).substring(0,WIDTH-1);
+        for (int i=0;i<((w-texto.length())/2);i++)sp+=" ";
+        return (sp+texto+sp).substring(0,w-1);
+    }
+    public static String borde(Borde borde){
+        String b=(borde==Borde.SUPERIOR)?"\u259B":"\u2599";
+        for(int i=0;i<WIDTH-3;i++)b+=(borde==Borde.SUPERIOR)?"\u2580":"\u2583";
+        b+=(borde==Borde.SUPERIOR)?"\u259C":"\u259F";
+        return b;
+    }
+    public static String bordeTextoCentrado(String texto){
+        return "\u258C"+centrarTexto(texto,WIDTH-2)+"\u2590";
     }
     public static String colorear(ColorCasilla color, String texto){
         return  CORESCASILLA[color.ordinal()] + texto + CORESCASILLA[ColorCasilla.RESET.ordinal()];
     }
-    public static String[] unirCasilla(String[] casillas,Casilla casilla){
+    public static void unirCasilla(String[] casillas,Casilla casilla){
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla.getRepresentacion()[i];
-        return casillas;
     }
-    public static String[] engadirCasillaVacia(String[] casillas){
-        for (int i=0;i<casillas.length;i++)casillas[i]+=centrarTexto("");
-        return casillas;
+    public static void engadirCasillaVacia(String[] casillas){
+        for (int i=0;i<casillas.length;i++)casillas[i]+=colorear(ColorCasilla.NEGRO,centrarTexto("",WIDTH));
     }
 }
