@@ -20,7 +20,7 @@ public class Xogo {
     public void consola(){
         Scanner scanner= new Scanner(System.in);
         while(true){
-            System.out.println("$> ");
+            System.out.print("$> ");
             interpretarComando(scanner.nextLine());
         }
     }
