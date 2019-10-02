@@ -10,7 +10,7 @@ public class ReprASCII {
         AZUL,
         VIOLETA,
         CYAN,
-        BLANCO,
+        GRIS,
         RESET
     }
     public static final String[] CORESCASILLA=new String[]{
