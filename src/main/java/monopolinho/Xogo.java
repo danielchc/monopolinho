@@ -48,7 +48,6 @@ public class Xogo {
 
                 }
                 break;
-            /* FALTA IMPLEMENTAR ESTES COMANDOS, SOLO ESTAN OS CASES */
             case "xogador":
                 for(int i=0;i<xogadores.size();i++){
                     if(xogadores.get(i).getTenTurno()){
