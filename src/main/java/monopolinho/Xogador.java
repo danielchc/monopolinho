@@ -115,7 +115,7 @@ public class Xogador {
     }
     public boolean equals(Object obj){
         if(obj instanceof Xogador){
-            if(this.nome.equals(((Xogador) obj).nome))return true;
+            if(this.avatar.getId().equals(((Xogador) obj).avatar.getId()))return true;
         }
         return false;
     }

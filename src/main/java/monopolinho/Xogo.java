@@ -112,12 +112,21 @@ public class Xogo {
                         }else{
                             for(int i=0;i<xogadores.size();i++){
                                 if(xogadores.get(i).getNome().equals(cmds[2])){
-                                    System.out.println(avatares.get(i));
+                                    System.out.println(xogadores.get(i));
                                 }
                             }
                         }
                         break;
                     case "avatar":
+                        if(cmds.length!=3){
+                            System.out.println("Sintaxe: describir avatar <id>");
+                        }else{
+                            for(int i=0;i<avatares.size();i++){
+                                if(avatares.get(i).getId().equals(cmds[2])){
+                                    System.out.println(avatares.get(i));
+                                }
+                            }
+                        }
                         break;
                     default: //describir casilla
 
