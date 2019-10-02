@@ -20,7 +20,7 @@ public class Xogo {
     public void consola(){
         Scanner scanner= new Scanner(System.in);
         while(true){
-            System.out.print("$> ");
+            System.out.println("$> ");
             interpretarComando(scanner.nextLine());
         }
     }
@@ -79,7 +79,7 @@ public class Xogo {
                 }
 
                 break;
-            case "lanzar":
+            case "lanzar":  //falta acabalo
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: lanzar dados");
                 }else{
@@ -107,6 +107,15 @@ public class Xogo {
             case "describir":
                 switch (cmds[1]){
                     case "xogador":
+                        if(cmds.length!=3){
+                            System.out.println("Sintaxe: describir xogador <nome>");
+                        }else{
+                            for(int i=0;i<xogadores.size();i++){
+                                if(xogadores.get(i).getNome().equals(cmds[2])){
+                                    System.out.println(avatares.get(i));
+                                }
+                            }
+                        }
                         break;
                     case "avatar":
                         break;

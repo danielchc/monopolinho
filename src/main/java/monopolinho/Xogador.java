@@ -9,6 +9,7 @@ public class Xogador {
     private float dineroGastado;
     private ArrayList<Casilla> propiedades;
     private boolean tenTurno;
+    private boolean enCarcel;
 
     public Xogador(){
         this.nome="Banca";
@@ -16,6 +17,15 @@ public class Xogador {
         this.dineroGastado=0;
         this.fortuna=Integer.MAX_VALUE; //1000000000
         this.propiedades=new ArrayList<>(); //lookoooo
+    }
+
+    public Xogador(String nome, float fortuna){     // Este é o constructor para o parking, xa que ten que acumular o diñeiro
+        this.nome=nome;
+        this.fortuna=fortuna;
+        this.dineroGastado=0;
+        this.avatar=null;
+        this.propiedades=new ArrayList<>(); //lookoooo
+
     }
 
     public Xogador(String nome, Avatar.TipoAvatar tipoAvatar){
@@ -54,6 +64,14 @@ public class Xogador {
 
     public boolean getTenTurno() {
         return tenTurno;
+    }
+
+    public void setEnCarcel(boolean enCarcel) {
+        this.enCarcel = enCarcel;
+    }
+
+    public boolean getEnCarcel() {
+        return enCarcel;
     }
 
     public void setNome(String nome) {
