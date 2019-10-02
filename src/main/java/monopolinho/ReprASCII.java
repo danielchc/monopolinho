@@ -36,13 +36,13 @@ public class ReprASCII {
         return (sp+texto+sp).substring(0,w-1);
     }
     public static String borde(Borde borde){
-        String b=(borde==Borde.SUPERIOR)?"\u259B":"\u2599";
-        for(int i=0;i<WIDTH-3;i++)b+=(borde==Borde.SUPERIOR)?"\u2580":"\u2583";
-        b+=(borde==Borde.SUPERIOR)?"\u259C":"\u259F";
+        String b="+";
+        for(int i=0;i<WIDTH-3;i++)b+="=";
+        b+="+";
         return b;
     }
     public static String bordeTextoCentrado(String texto){
-        return "\u258C"+centrarTexto(texto,WIDTH-2)+"\u2590";
+        return "|"+centrarTexto(texto,WIDTH-2)+"|";
     }
     public static String colorear(ColorCasilla color, String texto){
         return  CORESCASILLA[color.ordinal()] + texto + CORESCASILLA[ColorCasilla.RESET.ordinal()];

@@ -24,17 +24,25 @@ public class ASCII {
         SUPERIOR,
         INFERIOR
     }
-    private String borde(Borde borde){
+    /*private String borde(Borde borde){
         String b=(borde==Borde.SUPERIOR)?"\u259B":"\u2599";
         for(int i=0;i<WIDTH-3;i++)b+=(borde==Borde.SUPERIOR)?"\u2580":"\u2583";
         b+=(borde==Borde.SUPERIOR)?"\u259C":"\u259F";
+        return b;
+    }    */
+    private String borde(Borde borde){
+        String b=(borde==Borde.SUPERIOR)?"+":"+";
+        for(int i=0;i<WIDTH-3;i++)b+=(borde==Borde.SUPERIOR)?"=":"=";
+        b+=(borde==Borde.SUPERIOR)?"+":"+";
         return b;
     }
     public String[] generarCasilla(String color,String valor){
         return new String[]{
                 color + borde(Borde.SUPERIOR)+ ANSI_RESET,
-                color + "\u258C"+centrarTexto(valor).substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
-                color + "\u258C"+centrarTexto("&p").substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
+                //color + "\u258C"+centrarTexto(valor).substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
+                //color + "\u258C"+centrarTexto("&p").substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
+                color + "|"+centrarTexto(valor).substring(1,WIDTH-2) +"|"+ ANSI_RESET,
+                color + "|"+centrarTexto("&p").substring(1,WIDTH-2) +"|"+ ANSI_RESET,
                 color + borde(Borde.INFERIOR) + ANSI_RESET ,
         };
     }
