@@ -53,6 +53,13 @@ public class Avatar {
     }
 
     @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Avatar){
+            if(this.id.equals(((Avatar) obj).id))return true;
+        }
+        return false;
+    }
+    @Override
     public String toString(){
         return String.format("{\n" +
                 "\tid: %s\n " +

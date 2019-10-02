@@ -7,7 +7,9 @@ public class Main {
      */
     ;
     public static void main(String[] args) {
-        Taboeiro t=new Taboeiro();
+        ASCII a=new ASCII();
+        System.out.println(a.imprimirTableiro());
+        /*Taboeiro t=new Taboeiro();
         Grupo p=new Grupo("KK", ReprASCII.ColorCasilla.AMARELO,"Norte");
 
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
@@ -17,8 +19,10 @@ public class Main {
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MATOSINHOS",p,"",10000,3000));
         t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("cousa",p,"",10000,3000));
+        t.engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("cousa",p,"",10000,3000, ReprASCII.ColorCasilla.CYAN));
 
         System.out.println(t);
+        */
         /*
         Dados d=new Dados();
         d.lanzarDados();

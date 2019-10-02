@@ -55,7 +55,7 @@ public class Casilla {
 
     public String[] getRepresentacion(){
         String avataresCasilla="";
-        for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId();
+        for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId()+" ";
         return new String[]{
                 ReprASCII.colorear(this.colorCasilla, ReprASCII.centrarTexto("")),
                 ReprASCII.colorear(this.colorCasilla, ReprASCII.centrarTexto(this.nome)),
@@ -72,7 +72,7 @@ public class Casilla {
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Casilla){
-            if(this.nome.equals(((Casilla) obj).nome))return true;
+            if(this.posicion==((Casilla) obj).posicion)return true;
         }
         return false;
     }
