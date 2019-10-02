@@ -20,18 +20,28 @@ public class ASCII {
         for (int i=0;i<((WIDTH-texto.length())/2);i++)sp+=" ";
         return (sp+texto+sp).substring(0,WIDTH-1);
     }
+    public enum Borde{
+        SUPERIOR,
+        INFERIOR
+    }
+    private String borde(Borde borde){
+        String b=(borde==Borde.SUPERIOR)?"\u259B":"\u2599";
+        for(int i=0;i<WIDTH-3;i++)b+=(borde==Borde.SUPERIOR)?"\u2580":"\u2583";
+        b+=(borde==Borde.SUPERIOR)?"\u259C":"\u259F";
+        return b;
+    }
     public String[] generarCasilla(String color,String valor){
         return new String[]{
-                color + centrarTexto("") + ANSI_RESET,
-                color + centrarTexto(valor) + ANSI_RESET,
-                color + centrarTexto("&J") + ANSI_RESET ,
+                color + borde(Borde.SUPERIOR)+ ANSI_RESET,
+                color + "\u258C"+centrarTexto(valor).substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
+                color + "\u258C"+centrarTexto("&P").substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
+                color + borde(Borde.INFERIOR) + ANSI_RESET ,
         };
     }
 
 
-    public String[] unirCasilla(String[] casillas,String[] casilla){
+    public void unirCasilla(String[] casillas,String[] casilla){
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla[i];
-        return casillas;
     }
 
     public String imprimirTableiro(){
@@ -44,19 +54,19 @@ public class ASCII {
         String taboeiro="";
 
         //NORTE
-        String[] ncasillas=new String[]{"","",""};
-        for(int i=0;i<5;i++)ncasillas=unirCasilla(ncasillas,generarCasilla(ANSI_GREEN_BACKGROUND,norte[i]));
-        for(int i=0;i<5;i++)ncasillas=unirCasilla(ncasillas,generarCasilla(ANSI_CYAN_BACKGROUND,norte[i]));
+        String[] ncasillas=new String[]{"","","",""};
+        for(int i=0;i<5;i++)unirCasilla(ncasillas,generarCasilla(ANSI_GREEN_BACKGROUND,norte[i]));
+        for(int i=0;i<5;i++)unirCasilla(ncasillas,generarCasilla(ANSI_CYAN_BACKGROUND,norte[i]));
         for(String s:ncasillas)taboeiro+=s+"\n";
 
         //ESTE OESTE
         String[] ocasillas;
         for(int i=9;i>=0;i--){
-            ocasillas=new String[]{"","",""};
+            ocasillas=new String[]{"","","",""};
             unirCasilla(ocasillas,generarCasilla(ANSI_RED_BACKGROUND,oeste[i]));
 
             for(int j=0;j<8;j++)
-                unirCasilla(ocasillas,new String[]{centrarTexto(""),centrarTexto(""),centrarTexto("")});
+                unirCasilla(ocasillas,new String[]{centrarTexto(""),centrarTexto(""),centrarTexto(""),centrarTexto("")});
 
             unirCasilla(ocasillas,generarCasilla(ANSI_PURPLE_BACKGROUND,este[9-i]));
             
@@ -64,8 +74,8 @@ public class ASCII {
         }
 
         //SUR
-        String[] scasillas=new String[]{"","",""};
-        for(int i=9;i>=0;i--)scasillas=unirCasilla(scasillas,generarCasilla(ANSI_YELLOW_BACKGROUND,sur[i]));
+        String[] scasillas=new String[]{"","","",""};
+        for(int i=9;i>=0;i--)unirCasilla(scasillas,generarCasilla(ANSI_YELLOW_BACKGROUND,sur[i]));
         for(String s:scasillas)taboeiro+=s+"\n";
 
         return taboeiro;
