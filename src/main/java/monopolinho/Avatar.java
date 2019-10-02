@@ -61,11 +61,8 @@ public class Avatar {
     }
     @Override
     public String toString(){
-        return String.format("{\n" +
-                "\tid: %s\n " +
-                "\ttipo: %s\n" +
-                "\txogador: %s\n" +
-                "}",this.id,this.tipo.toString(),this.xogador.getNome());
+        String texto="{"+"\n\tId: "+this.id+"\n\tTipo: "+this.tipo.toString()+"\n\tXogador: "+this.xogador.getNome()+"\n}";
+        return texto;
     }
     /*
     private String[] avatares={"O","\uD83D\uDE97","L"};

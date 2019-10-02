@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Xogo {
 
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
-
+    private ArrayList<Avatar> avatares; //lista de avatares
 
 
 
@@ -14,6 +14,7 @@ public class Xogo {
     public void iniciar(){
         System.out.println("Bem vindo o Monopolinho: ");
         this.xogadores=new ArrayList<>();
+        this.avatares=new ArrayList<>();
         consola();
     }
     public void consola(){
@@ -31,11 +32,12 @@ public class Xogo {
                     System.out.println("Sintaxe: crear <nome> <avatar>");
                 }else{
                     Xogador x=new Xogador(cmds[1],Avatar.TipoAvatar.COCHE);
-                    this.xogadores.add(x);  //añado o xogador creado á lista de xogadores
-                    System.out.println(x.toString());
+                    this.xogadores.add(x);              //añado o xogador creado á lista de xogadores
+                    this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares
+                    System.out.println(x);
                     boolean nonPrimeiro=true;   //variable bandeira
                     for(int i=0;i<xogadores.size();i++) {
-                        if (xogadores.get(i).getAvatar().getId().equals(x.getAvatar().getId()) && i == 0) { //se é o primeiro enton ten o primeiro turno
+                        if (xogadores.get(i).equals(x) && i == 0) { //se é o primeiro enton ten o primeiro turno
                             x.setTenTurno(true);
                             nonPrimeiro=false;
                         }
@@ -49,7 +51,7 @@ public class Xogo {
             /* FALTA IMPLEMENTAR ESTES COMANDOS, SOLO ESTAN OS CASES */
             case "xogador":
                 for(int i=0;i<xogadores.size();i++){
-                    if(xogadores.get(i).getTenTurno()==true){
+                    if(xogadores.get(i).getTenTurno()){
                         System.out.println("\nTurno de "+xogadores.get(i).getNome());
                     }
                 }
@@ -62,6 +64,9 @@ public class Xogo {
                         }
                         break;
                     case "avatares":
+                        for(int i=0;i<avatares.size();i++){
+                            System.out.println(avatares.get(i));
+                        }
                         break;
                     case "enventa":
                         /*for(int i=0;i<banca.propiedades.size();i++){
@@ -84,6 +89,18 @@ public class Xogo {
                 }
                 break;
             case "acabar":
+                if(cmds.length!=2) {
+                    System.out.println("Sintaxe: acabar turno");
+                }else{
+                    for(int i=0;i<xogadores.size();i++){
+                        if(xogadores.get(i).getTenTurno()){
+                            xogadores.get(i).setTenTurno(false);                     //o turno do xogador actual pasa a false
+                            xogadores.get((i+1)%xogadores.size()).setTenTurno(true); //o turno siguiente é o seiguiente, si ten o turno o ultimo enton tocalle ao primeiro
+                            System.out.println("\nTurno de "+xogadores.get(i).getNome()+" , agora tocalle a "+xogadores.get((i+1)%xogadores.size()).getNome());
+                            break;
+                        }
+                    }
+                }
                 break;
             case "salir":
                 break;
