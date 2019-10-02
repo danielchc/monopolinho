@@ -34,8 +34,16 @@ public class ASCII {
         return new String[]{
                 color + borde(Borde.SUPERIOR)+ ANSI_RESET,
                 color + "\u258C"+centrarTexto(valor).substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
-                color + "\u258C"+centrarTexto("&P").substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
+                color + "\u258C"+centrarTexto("&p").substring(1,WIDTH-2) +"\u2590"+ ANSI_RESET,
                 color + borde(Borde.INFERIOR) + ANSI_RESET ,
+        };
+    }
+    public String[] casillaVacia(String color){
+        return new String[]{
+                color+ centrarTexto("")+ ANSI_RESET,
+                color+ centrarTexto("")+ ANSI_RESET,
+                color+ centrarTexto("")+ ANSI_RESET,
+                color+ centrarTexto("")+ ANSI_RESET
         };
     }
 
@@ -66,7 +74,7 @@ public class ASCII {
             unirCasilla(ocasillas,generarCasilla(ANSI_RED_BACKGROUND,oeste[i]));
 
             for(int j=0;j<8;j++)
-                unirCasilla(ocasillas,generarCasilla(ANSI_BLACK_BACKGROUND,""));
+                unirCasilla(ocasillas,casillaVacia(ANSI_BLACK_BACKGROUND));
             //unirCasilla(ocasillas,new String[]{centrarTexto(""),centrarTexto(""),centrarTexto(""),centrarTexto("")});
 
             unirCasilla(ocasillas,generarCasilla(ANSI_PURPLE_BACKGROUND,este[9-i]));
