@@ -31,13 +31,17 @@ public class Xogo {
         String[] cmds=comando.split(" ");
         switch (cmds[0].toLowerCase()){
             case "crear":
-                if(cmds.length!=3){
-                    System.out.println("Sintaxe: crear <nome> <avatar>");
+                if(cmds.length!=4){
+                    System.out.println("Sintaxe: crear xogador <nome> <avatar>");
                 }else{
-                    Xogador x=new Xogador(cmds[1], interpretarMov(cmds[2]));
+                    Xogador x=new Xogador(cmds[2], interpretarMov(cmds[3]));
                     this.xogadores.add(x);              //añado o xogador creado á lista de xogadores
                     this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares //NON SEI SE ESTO FAI FALLA
                     System.out.println(x);
+
+                    //REVISAARRR!!
+                    /*
+                    //(xogadores.get(0).equals(x))
                     boolean nonPrimeiro=true;   //variable bandeira
                     for(int i=0;i<xogadores.size();i++) {
                         if (xogadores.get(i).equals(x) && i == 0) { //se é o primeiro enton ten o primeiro turno
@@ -47,22 +51,29 @@ public class Xogo {
                     }
                     if (nonPrimeiro==true){     //se bandeira indica que non se fijou como primeiro, enton o turno non lle toca
                         x.setTenTurno(false);   //senon non ten turno
-                    }
+                    }*/
 
+                    //Esto o mellor safabase mellor creando unha variable Xogador tenTurno aqui e pacasa
+                    //Esta liña fai o mesmo que todo o que pos arriba :D
+                    x.setTenTurno(xogadores.get(0).equals(x));
+
+                    //REPINTAR O TABLEIRO
                 }
                 break;
             case "xogador":
-                for(int i=0;i<xogadores.size();i++){
-                    if(xogadores.get(i).getTenTurno()){
-                        System.out.println("\nTurno de "+xogadores.get(i).getNome());
+                for(Xogador x:this.xogadores){
+                    if(x.getTenTurno()){
+                        System.out.println(x);
+                        break;
                     }
                 }
+                //System.out.println("Non hai xogadores"); //COMPROBAR ANTES
                 break;
             case "listar":
                 switch (cmds[1]){
                     case "xogadores":
-                        for(int i=0;i<xogadores.size();i++){
-                            System.out.println(xogadores.get(i));
+                        for(Xogador x:this.xogadores){
+                            System.out.println(x.describir());
                         }
                         break;
                     case "avatares":
@@ -105,6 +116,7 @@ public class Xogo {
                 }
                 break;
             case "salir":
+                //IMPLEMENTAR, COMPROBAR SE ESTÁ NA CARCEL
                 break;
             case "describir":
                 switch (cmds[1]){
@@ -112,9 +124,9 @@ public class Xogo {
                         if(cmds.length!=3){
                             System.out.println("Sintaxe: describir xogador <nome>");
                         }else{
-                            for(int i=0;i<xogadores.size();i++){
-                                if(xogadores.get(i).getNome().equals(cmds[2])){
-                                    System.out.println(xogadores.get(i));
+                            for(Xogador x:this.xogadores){
+                                if(x.getNome().equals(cmds[2])){
+                                    System.out.println(x.describir());
                                 }
                             }
                         }
@@ -123,9 +135,9 @@ public class Xogo {
                         if(cmds.length!=3){
                             System.out.println("Sintaxe: describir avatar <id>");
                         }else{
-                            for(int i=0;i<avatares.size();i++){
-                                if(avatares.get(i).getId().equals(cmds[2])){
-                                    System.out.println(avatares.get(i));
+                            for(Avatar a:this.avatares){
+                                if(a.getId().equals(cmds[2])){
+                                    System.out.println(a);
                                 }
                             }
                         }

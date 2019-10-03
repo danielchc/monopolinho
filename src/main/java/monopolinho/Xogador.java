@@ -100,20 +100,26 @@ public class Xogador {
         this.dineroGastado = dineroGastado;
     }
 
-    @Override
-    public String toString(){
+    public String describir(){
         String listaprop="[";
         if(this.propiedades.size()!=0)
             for(Casilla c:this.propiedades)
                 listaprop+="\n\t\t"+c.getNome()+",";
         listaprop+="\n\t]";
         return "{\n\tNome:" +this.nome+ ",\n"+
-                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"NON TEN")+ ",\n"+
+                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
                 "\tFortuna:"+ this.fortuna+ ",\n"+
                 "\tGastos:"+  this.dineroGastado +",\n"+
                 "\tPropiedades:"+listaprop+"\n"+
                 "}";
     }
+    @Override
+    public String toString(){
+        return "{\n\tNome:" +this.nome+ ",\n"+
+                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
+                "}";
+    }
+
     public boolean equals(Object obj){
         if(obj instanceof Xogador){
             if(this.avatar.getId().equals(((Xogador) obj).avatar.getId()))return true;
