@@ -158,7 +158,7 @@ public class Xogo {
                 break;
             case "ver":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: ver taboeiro");
+                    System.out.println("Sintaxe: ver tableiro");
                 }else {
                     System.out.println(taboeiro);
                 }
