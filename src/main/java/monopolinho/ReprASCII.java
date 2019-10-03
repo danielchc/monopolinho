@@ -49,16 +49,17 @@ public class ReprASCII {
         for (int i=0;i<casillas.length;i++)casillas[i]+=centrarTexto("",WIDTH);
     }
     public static void debuxoMonopolinho(String[] casillas,int parte) {
+        int nw=(WIDTH * 9) - 8;
         if (parte == 0) {
-            casillas[0] += centrarTexto("", (WIDTH * 8) - 7);
-            casillas[1] += centrarTexto("", (WIDTH * 8) - 7);
-            casillas[2] += centrarTexto("__  __                               _ _       _          ", (WIDTH * 8) - 7);
-            casillas[3] += centrarTexto("|  \\/  | ___  _ __   ___  _ __   ___ | (_)_ __ | |__   ___  ", (WIDTH * 8) - 7);
+            casillas[0] += centrarTexto("", nw);
+            casillas[1] += centrarTexto("", nw);
+            casillas[2] += centrarTexto("__  __                               _ _       _          ", nw);
+            casillas[3] += centrarTexto("|  \\/  | ___  _ __   ___  _ __   ___ | (_)_ __ | |__   ___  ", nw);
         }else if (parte==1) {
-            casillas[0] += centrarTexto("| |\\/| |/ _ \\| '_ \\ / _ \\| '_ \\ / _ \\| | | '_ \\| '_ \\ / _ \\ ", (WIDTH * 8) - 7);
-            casillas[1] += centrarTexto("| |  | | (_) | | | | (_) | |_) | (_) | | | | | | | | | (_) |", (WIDTH * 8) - 7);
-            casillas[2] += centrarTexto("|_|  |_|\\___/|_| |_|\\___/| .__/ \\___/|_|_|_| |_|_| |_|\\___/ ", (WIDTH * 8) - 7);
-            casillas[3] += centrarTexto("                         |_|                                ", (WIDTH * 8) - 7);
+            casillas[0] += centrarTexto("| |\\/| |/ _ \\| '_ \\ / _ \\| '_ \\ / _ \\| | | '_ \\| '_ \\ / _ \\ ", nw);
+            casillas[1] += centrarTexto("| |  | | (_) | | | | (_) | |_) | (_) | | | | | | | | | (_) |", nw);
+            casillas[2] += centrarTexto("|_|  |_|\\___/|_| |_|\\___/| .__/ \\___/|_|_|_| |_|_| |_|\\___/ ", nw);
+            casillas[3] += centrarTexto("                         |_|                                ", nw);
         }
     }
 }

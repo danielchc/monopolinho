@@ -1,6 +1,5 @@
 package monopolinho;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -116,7 +115,7 @@ public class Xogo {
                 }
                 break;
             case "salir":
-                //IMPLEMENTAR, COMPROBAR SE ESTÁ NA CARCEL
+                //IMPLEMENTAR, COMPROBAR SE ESTA NA CARCEL
                 break;
             case "describir":
                 switch (cmds[1]){
