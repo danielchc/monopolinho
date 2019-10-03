@@ -36,9 +36,8 @@ public class ReprASCII {
         return (sp+texto+sp).substring(0,w-1);
     }
     public static String borde(Borde borde){
-        String b="+";
-        for(int i=0;i<WIDTH-3;i++)b+="=";
-        b+="+";
+        String b="";
+        for(int i=0;i<WIDTH-1;i++)b+="*";
         return b;
     }
     public static String bordeTextoCentrado(String texto){
