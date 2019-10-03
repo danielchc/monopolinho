@@ -145,7 +145,11 @@ public class Xogo {
                 }
                 break;
             case "ver":
-                System.out.println(taboeiro);
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: ver taboeiro");
+                }else {
+                    System.out.println(taboeiro);
+                }
                 break;
             case "exit":
                 System.out.println("Saindo...");
