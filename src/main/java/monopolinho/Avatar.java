@@ -3,17 +3,17 @@ package monopolinho;
 import java.util.Random;
 
 public class Avatar {
-    public enum TipoAvatar{
+    public enum TipoMovemento {
         PELOTA,
         COCHE,
         ESFINXE,
         SOMBREIRO,
     }
     private Xogador xogador;
-    TipoAvatar tipo; //String tipo;
+    TipoMovemento tipo; //String tipo;
     private String id;
     private Casilla posicion; //CASILLA
-    public Avatar(TipoAvatar tipo, Xogador xogador){
+    public Avatar(TipoMovemento tipo, Xogador xogador){
         this.tipo=tipo;
         setXogador(xogador);
         xerarId();
@@ -23,7 +23,7 @@ public class Avatar {
         return posicion;
     }
 
-    public TipoAvatar getTipo() {
+    public TipoMovemento getTipo() {
         return tipo;
     }
 

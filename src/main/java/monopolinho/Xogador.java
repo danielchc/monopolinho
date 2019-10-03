@@ -19,20 +19,21 @@ public class Xogador {
         this.propiedades=new ArrayList<>(); //lookoooo
     }
 
-    public Xogador(String nome, float fortuna){     // Este é o constructor para o parking, xa que ten que acumular o diñeiro
+    // En todo caso faltalle o tipo de movemento
+    /*public Xogador(String nome, float fortuna){     // Este é o constructor para o parking, xa que ten que acumular o diñeiro
         this.nome=nome;
         this.fortuna=fortuna;
         this.dineroGastado=0;
         this.avatar=null;
         this.propiedades=new ArrayList<>(); //lookoooo
 
-    }
+    }*/
 
-    public Xogador(String nome, Avatar.TipoAvatar tipoAvatar){
+    public Xogador(String nome, Avatar.TipoMovemento tipoMovemento){
         this.nome=nome;
         this.fortuna= Valor.FORTUNA_INCIAL;
         this.dineroGastado=0;
-        this.avatar=new Avatar(tipoAvatar,this);
+        this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>(); //lookoooo
 
     }

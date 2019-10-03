@@ -40,7 +40,7 @@ public class ReprASCII {
         return "|"+centrarTexto(texto,WIDTH-2)+"|";
     }
     public static String colorear(ColorCasilla color, String texto){
-        return  CORESCASILLA[color.ordinal()] + texto + CORESCASILLA[ColorCasilla.RESET.ordinal()];
+        return CORESCASILLA[color.ordinal()] + texto + CORESCASILLA[ColorCasilla.RESET.ordinal()];
     }
     public static void unirCasilla(String[] casillas,Casilla casilla){
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla.getRepresentacion()[i];

@@ -1,5 +1,7 @@
 package monopolinho;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,9 +34,9 @@ public class Xogo {
                 if(cmds.length!=3){
                     System.out.println("Sintaxe: crear <nome> <avatar>");
                 }else{
-                    Xogador x=new Xogador(cmds[1],Avatar.TipoAvatar.COCHE);
+                    Xogador x=new Xogador(cmds[1], interpretarMov(cmds[2]));
                     this.xogadores.add(x);              //añado o xogador creado á lista de xogadores
-                    this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares
+                    this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares //NON SEI SE ESTO FAI FALLA
                     System.out.println(x);
                     boolean nonPrimeiro=true;   //variable bandeira
                     for(int i=0;i<xogadores.size();i++) {
@@ -151,6 +153,20 @@ public class Xogo {
                 break;
             default:
                 System.out.println("Comando non recoñecido");
+        }
+    }
+
+    private Avatar.TipoMovemento interpretarMov(String tipomov){
+        switch (tipomov.toLowerCase()){
+            case "pelota":
+                return Avatar.TipoMovemento.PELOTA;
+            case "esfinxe":
+                return Avatar.TipoMovemento.ESFINXE;
+            case "sombreiro":
+                return Avatar.TipoMovemento.SOMBREIRO;
+            case "coche":
+            default:
+                return Avatar.TipoMovemento.COCHE;
         }
     }
 }

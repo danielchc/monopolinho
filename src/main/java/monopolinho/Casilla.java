@@ -51,7 +51,6 @@ public class Casilla {
         return grupo;
     }
 
-    //FALTA IMPLEMENTAR GRUPO ANTES
 
     public String[] getRepresentacion(){
         String avataresCasilla="";
