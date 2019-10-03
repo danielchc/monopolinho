@@ -25,17 +25,13 @@ public class ReprASCII {
         "\u001B[0m"
     };
     public static final int WIDTH=15;
-    public enum Borde{
-        SUPERIOR,
-        INFERIOR
-    }
 
     private static String centrarTexto(String texto,int w){
         String sp="";
         for (int i=0;i<((w-texto.length())/2);i++)sp+=" ";
         return (sp+texto+sp).substring(0,w-1);
     }
-    public static String borde(Borde borde){
+    public static String borde(){
         String b="";
         for(int i=0;i<WIDTH-1;i++)b+="*";
         return b;
@@ -50,6 +46,19 @@ public class ReprASCII {
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla.getRepresentacion()[i];
     }
     public static void engadirCasillaVacia(String[] casillas){
-        for (int i=0;i<casillas.length;i++)casillas[i]+=colorear(ColorCasilla.NEGRO,centrarTexto("",WIDTH));
+        for (int i=0;i<casillas.length;i++)casillas[i]+=centrarTexto("",WIDTH);
+    }
+    public static void debuxoMonopolinho(String[] casillas,int parte) {
+        if (parte == 0) {
+            casillas[0] += centrarTexto("", (WIDTH * 8) - 7);
+            casillas[1] += centrarTexto("", (WIDTH * 8) - 7);
+            casillas[2] += centrarTexto("__  __                               _ _       _          ", (WIDTH * 8) - 7);
+            casillas[3] += centrarTexto("|  \\/  | ___  _ __   ___  _ __   ___ | (_)_ __ | |__   ___  ", (WIDTH * 8) - 7);
+        }else if (parte==1) {
+            casillas[0] += centrarTexto("| |\\/| |/ _ \\| '_ \\ / _ \\| '_ \\ / _ \\| | | '_ \\| '_ \\ / _ \\ ", (WIDTH * 8) - 7);
+            casillas[1] += centrarTexto("| |  | | (_) | | | | (_) | |_) | (_) | | | | | | | | | (_) |", (WIDTH * 8) - 7);
+            casillas[2] += centrarTexto("|_|  |_|\\___/|_| |_|\\___/| .__/ \\___/|_|_|_| |_|_| |_|\\___/ ", (WIDTH * 8) - 7);
+            casillas[3] += centrarTexto("                         |_|                                ", (WIDTH * 8) - 7);
+        }
     }
 }

@@ -57,10 +57,10 @@ public class Casilla {
         String avataresCasilla="";
         for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId()+" ";
         return new String[]{
-                ReprASCII.colorear(this.colorCasilla, ReprASCII.borde(ReprASCII.Borde.SUPERIOR)),
+                ReprASCII.colorear(this.colorCasilla, ReprASCII.borde()),
                 ReprASCII.colorear(this.colorCasilla, ReprASCII.bordeTextoCentrado(this.nome)),
                 ReprASCII.colorear(this.colorCasilla, ReprASCII.bordeTextoCentrado(avataresCasilla)),
-                ReprASCII.colorear(this.colorCasilla, ReprASCII.borde(ReprASCII.Borde.INFERIOR)),
+                ReprASCII.colorear(this.colorCasilla, ReprASCII.borde()),
         };
     }
 

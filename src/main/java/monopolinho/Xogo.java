@@ -7,7 +7,7 @@ public class Xogo {
 
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
     private ArrayList<Avatar> avatares; //lista de avatares
-
+    private Taboeiro taboeiro;
 
 
 
@@ -15,6 +15,7 @@ public class Xogo {
         System.out.println("Bem vindo o Monopolinho: ");
         this.xogadores=new ArrayList<>();
         this.avatares=new ArrayList<>();
+        taboeiro=new Taboeiro();
         consola();
     }
     public void consola(){
@@ -142,8 +143,8 @@ public class Xogo {
                 }
                 break;
             case "ver":
+                System.out.println(taboeiro);
                 break;
-
             case "exit":
                 System.out.println("Saindo...");
                 System.exit(0);

@@ -26,22 +26,11 @@ public class Taboeiro {
     public ArrayList<ArrayList<Casilla>> getCasillas() {
         return casillas;
     }
+
     public ArrayList<Casilla> getCasillas(Zona z) {
         return casillas.get(z.ordinal());
     }
-    /*
-    public boolean existeNombreCasilla(String casilla){
-        if(casilla==null){
-            System.err.println("\nString non inicializado");
-            return false;
-        }
-        for(int i=0;i<casillas.size();i++){
-           if(casillas.get(i).getNome().equals(casilla)) {
-               return true;
-           }
-        }
-        return false;
-    }*/
+
     @Override
     public String toString(){
         String taboeiro="";
@@ -58,7 +47,14 @@ public class Taboeiro {
         for(int i=0;i<10;i++){
             ocasillas=new String[]{"","","",""};
             ReprASCII.unirCasilla(ocasillas,getCasillas(Zona.OESTE).get(9-i));
-            for(int j=0;j<8;j++)ReprASCII.engadirCasillaVacia(ocasillas);
+            for(int j=0;j<8;j++){
+                if((i==4) && (j==0))
+                    ReprASCII.debuxoMonopolinho(ocasillas,1);
+                else if((i==3) && (j==0))
+                    ReprASCII.debuxoMonopolinho(ocasillas,0);
+                else if (i!=4 && i!=3)
+                    ReprASCII.engadirCasillaVacia(ocasillas);
+            }
             ReprASCII.unirCasilla(ocasillas,getCasillas(Zona.ESTE).get(i));
             taboeiro+=String.join("\n",ocasillas);
             taboeiro+="\n";
