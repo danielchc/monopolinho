@@ -22,7 +22,7 @@ public class Casilla {
     private TipoCasilla tipoCasilla;
     private ReprTab.ReprColor colorCasilla;
     ArrayList<Avatar> avatares;
-
+ //F
     public Casilla(String nome,TipoCasilla tipoCasilla){
         this.nome=nome;
         this.tipoCasilla=tipoCasilla;
