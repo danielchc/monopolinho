@@ -38,25 +38,9 @@ public class Xogo {
                     this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares //NON SEI SE ESTO FAI FALLA
                     System.out.println(x);
 
-                    //REVISAARRR!!
-                    /*
-                    //(xogadores.get(0).equals(x))
-                    boolean nonPrimeiro=true;   //variable bandeira
-                    for(int i=0;i<xogadores.size();i++) {
-                        if (xogadores.get(i).equals(x) && i == 0) { //se é o primeiro enton ten o primeiro turno
-                            x.setTenTurno(true);
-                            nonPrimeiro=false;
-                        }
-                    }
-                    if (nonPrimeiro==true){     //se bandeira indica que non se fijou como primeiro, enton o turno non lle toca
-                        x.setTenTurno(false);   //senon non ten turno
-                    }*/
-
-                    //Esto o mellor safabase mellor creando unha variable Xogador tenTurno aqui e pacasa
-                    //Esta liña fai o mesmo que todo o que pos arriba :D
                     x.setTenTurno(xogadores.get(0).equals(x));
-
-                    //REPINTAR O TABLEIRO
+                    taboeiro.getCasilla(0).engadirAvatar(x.getAvatar());
+                    System.out.println(taboeiro);
                 }
                 break;
             case "xogador":

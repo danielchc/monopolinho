@@ -28,6 +28,7 @@ public class Casilla {
     }
 
     public void engadirAvatar(Avatar a){
+        a.setPosicion(this);
         if(!avatares.contains(a))avatares.add(a);
     }
 
@@ -73,7 +74,7 @@ public class Casilla {
 
     @Override
     public String toString(){
-        String texto="{"+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
+        String texto="{"+"\n\tNome: "+this.nome+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
         return texto;
     }
 

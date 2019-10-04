@@ -31,6 +31,13 @@ public class Taboeiro {
         return casillas.get(z.ordinal());
     }
 
+    public Casilla getCasilla(int posicion){
+        if((posicion>=0)&&(posicion<11)) return getCasillas(Zona.SUR).get(posicion);
+        else if((posicion>=11)&&(posicion<20)) return getCasillas(Zona.OESTE).get(posicion-11);
+        else if((posicion>=20)&&(posicion<31)) return getCasillas(Zona.SUR).get(posicion-20);
+        else return getCasillas(Zona.ESTE).get(posicion-31);
+    }
+
     public void xerarCasillas(){
         Grupo marron=new Grupo("casilla", ReprASCII.ColorCasilla.GRIS,"Norte"); //cambiar color
         Grupo cyan=new Grupo("casilla", ReprASCII.ColorCasilla.CYAN,"Norte");
