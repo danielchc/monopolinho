@@ -1,4 +1,4 @@
-package monopolinho;
+package monopolinho.obxetos;
 
 import java.util.Random;
 

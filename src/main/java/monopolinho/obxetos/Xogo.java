@@ -1,5 +1,10 @@
-package monopolinho;
+package monopolinho.obxetos;
 
+
+import monopolinho.obxetos.Avatar;
+import monopolinho.obxetos.Dados;
+import monopolinho.obxetos.Taboeiro;
+import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,7 +23,6 @@ public class Xogo {
 
     public void iniciar(){
         System.out.println("Bem vindo o Monopolinho: ");
-        
         consola();
     }
     public void consola(){

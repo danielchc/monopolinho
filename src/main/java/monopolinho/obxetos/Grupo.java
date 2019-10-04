@@ -1,40 +1,25 @@
-package monopolinho;
+package monopolinho.obxetos;
+
+import monopolinho.axuda.ReprTab;
 
 public class Grupo {
 
     private String tipo; //solar ou especial
     private String posicion;    //norte sure este ou oeste
-    private ReprASCII.ColorCasilla color;
+    private ReprTab.ReprColor color;
     private int numeroSolares;
 
 
 
-    public Grupo(String tipo, ReprASCII.ColorCasilla color, String posicion){
+    public Grupo(String tipo, ReprTab.ReprColor color, String posicion){
         if(tipo==null || color==null || posicion==null){
             System.err.println("Error: algun elemento non inicializado");
             return;
         }
         this.tipo=tipo;
         this.color=color;
-        //this.posicion=determinarPoscicion(color);
-        //this.numeroSolares=determinarSolares(color);
+
     }
-
-    /*public String determinarPosicion(String color){
-        if(color!=null){
-            //facer un switch que segun o color devolva a posicion
-        }
-    }
-
-    public int determinarSolares(Strin color){
-        if(color!=null){
-           //facer un switch que segun o color devolva o numero de solares
-        }
-    }
-
-
-    */
-
 
     public void setNumeroSolares(int numeroSolares) {
         this.numeroSolares = numeroSolares;
@@ -60,11 +45,11 @@ public class Grupo {
         return tipo;
     }
 
-    public void setColor(ReprASCII.ColorCasilla color) {
+    public void setColor(ReprTab.ReprColor color) {
         if (color!=null)this.color = color;
     } //NON CREO QUE SE USE
 
-    public ReprASCII.ColorCasilla getColor() {
+    public ReprTab.ReprColor getColor() {
         return color;
     }
 }

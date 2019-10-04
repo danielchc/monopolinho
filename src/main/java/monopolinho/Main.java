@@ -1,6 +1,6 @@
 package monopolinho;
 
-import java.util.Scanner;
+import monopolinho.obxetos.Xogo;
 
 /**
  *

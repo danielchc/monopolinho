@@ -1,4 +1,6 @@
-package monopolinho;
+package monopolinho.obxetos;
+
+import monopolinho.axuda.Valor;
 
 import java.util.ArrayList;
 

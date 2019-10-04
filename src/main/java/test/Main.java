@@ -1,5 +1,5 @@
 package test;
-import monopolinho.*;
+import monopolinho.obxetos.Taboeiro;
 
 public class Main {
     /**
@@ -9,9 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Taboeiro t=new Taboeiro();
 
-        for(int i=0;i<40;i++){
-            System.out.println(t.getCasilla(i));
-        }
+//        for(int i=0;i<40;i++){
+//            System.out.println(t.getCasilla(i));
+//        }
         System.out.println(t);
         /*
         Dados d=new Dados();
