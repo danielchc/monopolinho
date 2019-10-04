@@ -24,16 +24,11 @@ public class Casilla {
     private ReprTab.ReprColor colorCasilla;
     ArrayList<Avatar> avatares;
 
-    public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla,int posicion, float valor){
+    public Casilla(String nome,TipoCasilla tipoCasilla){
         this.nome=nome;
-        this.grupo=grupo;
-        this.posicion=posicion;
-        this.valor=valor;
         this.tipoCasilla=tipoCasilla;
+        this.avatares=new ArrayList<Avatar>();
         switch (tipoCasilla){
-            case SOLAR:
-                this.colorCasilla=this.getGrupo().getColor();
-                break;
             case SORTE:
                 this.colorCasilla= ReprTab.ReprColor.ANSI_RED_BOLD;
                 break;
@@ -52,7 +47,12 @@ public class Casilla {
             default:
                 this.colorCasilla= ReprTab.ReprColor.ANSI_BLACK;
         }
-        this.avatares=new ArrayList<Avatar>();
+    }
+    public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla, float valor){
+        this(nome,tipoCasilla);
+        this.grupo=grupo;
+        this.colorCasilla=this.getGrupo().getColor();
+        this.valor=valor;
     }
 
     public void engadirAvatar(Avatar a){
@@ -84,6 +84,10 @@ public class Casilla {
         return posicion;
     }
 
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
     public Grupo getGrupo() {
         return grupo;
     }
@@ -94,8 +98,8 @@ public class Casilla {
         for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId()+" ";
         return new String[]{
                 ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
-                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(this.nome)),
-                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?valor+"$":"")),
+                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.nome:"")),
+                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?valor+"$":this.nome)),
                 ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(avataresCasilla)),
                 ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
         };
