@@ -17,6 +17,7 @@ public class Casilla {
     private String nome;
     private Grupo grupo;
     private float valor;
+    private float alquiler;
     private int posicion=-1; //VAYA PUTA ÑAPA CHAVAL
     private Xogador dono;
     private TipoCasilla tipoCasilla;
@@ -48,11 +49,12 @@ public class Casilla {
                 this.colorCasilla= ReprTab.ReprColor.ANSI_BLACK;
         }
     }
-    public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla, float valor){
+    public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla, float valor,float alquiler){
         this(nome,tipoCasilla);
         this.grupo=grupo;
         this.colorCasilla=this.getGrupo().getColor();
         this.valor=valor;
+        this.alquiler=alquiler;
     }
 
     public void engadirAvatar(Avatar a){
@@ -66,6 +68,14 @@ public class Casilla {
 
     public TipoCasilla getTipoCasilla() {
         return tipoCasilla;
+    }
+
+    public float getAlquiler() {
+        return alquiler;
+    }
+
+    public void setAlquiler(float alquiler) {
+        this.alquiler = alquiler;
     }
 
     public String getNome() {

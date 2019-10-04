@@ -19,7 +19,8 @@ public class Xogo {
         this.xogadores=new ArrayList<>();
         this.avatares=new ArrayList<>();
         taboeiro=new Taboeiro();
-        System.out.println(fortunaInicialXogador());
+        Xogador banca=new Xogador(); //BANCA
+        //HAI QUE METERLLE AS PROPIEDADES
     }
 
 
@@ -36,8 +37,60 @@ public class Xogo {
     }
 
     public void cobrarSalida(Xogador x){
-        
+        float suma=0;
+        int contador=0;
+        for (int i=0;i<40;i++) {
+            if (taboeiro.getCasilla(i).getTipoCasilla() == Casilla.TipoCasilla.SOLAR) {
+                suma += taboeiro.getCasilla(i).getValor();
+                contador++;
+            }
+        }
+        x.engadirDinheiro(suma/contador);   //engadeselle a media do valor dos solares
     }
+
+    public float valorInicialTransporte(){
+        float suma=0;
+        int contador=0;
+        for (int i=0;i<40;i++) {
+            if (taboeiro.getCasilla(i).getTipoCasilla() == Casilla.TipoCasilla.SOLAR) {
+                suma += taboeiro.getCasilla(i).getValor();
+                contador++;
+            }
+        }
+        return suma/contador;
+    }
+
+    public float valorInicialServicio(){
+        return 0.75f*valorInicialTransporte();
+    }
+
+    /*  SIN COMPLETAR, FALTA O DE VALOR INICIAL DOS SOLARES
+    public float valorInicialCasaHotel(Casilla c){
+        return 0.6f*valorInicialSolar();
+    }
+    */
+
+    /*  SIN COMPLETAR, FALTA O DE VALOR INICIAL DOS SOLARES
+    public float valorInicialPiscina(Casilla c){
+        return 0.4f*valorInicialSolar();
+    }
+    */
+
+    /*  SIN COMPLETAR, FALTA O DE VALOR INICIAL DOS SOLARES
+    public float valorInicialPistaDeporte(Casilla c){
+        return 1.25f*valorInicialSolar();
+    }
+    */
+
+
+
+
+
+
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////
 
