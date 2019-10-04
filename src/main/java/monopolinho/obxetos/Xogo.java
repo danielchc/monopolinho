@@ -19,7 +19,27 @@ public class Xogo {
         this.xogadores=new ArrayList<>();
         this.avatares=new ArrayList<>();
         taboeiro=new Taboeiro();
+        System.out.println(fortunaInicialXogador());
     }
+
+
+    //FUNCIONES DINERITO//////////////////////////////////////////////
+
+    public float fortunaInicialXogador(){
+        float suma=0;
+        for (int i=0;i<40;i++){
+            if(taboeiro.getCasilla(i).getTipoCasilla()== Casilla.TipoCasilla.SOLAR){
+                suma+=taboeiro.getCasilla(i).getValor();
+            }
+        }
+        return suma/3;
+    }
+
+    public void cobrarSalida(Xogador x){
+        
+    }
+
+    ////////////////////////////////////////////////////////////////////
 
     public void iniciar(){
         System.out.println("Bem vindo o Monopolinho: ");

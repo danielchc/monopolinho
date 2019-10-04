@@ -64,6 +64,10 @@ public class Casilla {
         if(avatares.contains(a))avatares.remove(a);
     }
 
+    public TipoCasilla getTipoCasilla() {
+        return tipoCasilla;
+    }
+
     public String getNome() {
         return nome;
     }

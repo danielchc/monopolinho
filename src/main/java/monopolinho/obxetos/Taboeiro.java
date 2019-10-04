@@ -23,6 +23,10 @@ public class Taboeiro {
     }
 
 
+
+
+
+
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
             this.casillas.get(z.ordinal()).add(casilla);
