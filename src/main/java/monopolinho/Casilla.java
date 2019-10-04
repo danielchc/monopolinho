@@ -27,6 +27,14 @@ public class Casilla {
         this.avatares=new ArrayList<Avatar>();
     }
 
+    public void engadirAvatar(Avatar a){
+        if(!avatares.contains(a))avatares.add(a);
+    }
+
+    public void eliminarAvatar(Avatar a){
+        if(avatares.contains(a))avatares.remove(a);
+    }
+
     public String getNome() {
         return nome;
     }
