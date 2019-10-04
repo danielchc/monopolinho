@@ -10,13 +10,15 @@ public class Xogo {
     private ArrayList<Avatar> avatares; //lista de avatares
     private Taboeiro taboeiro;
 
-
-
-    public void iniciar(){
-        System.out.println("Bem vindo o Monopolinho: ");
+    public Xogo(){
         this.xogadores=new ArrayList<>();
         this.avatares=new ArrayList<>();
         taboeiro=new Taboeiro();
+    }
+
+    public void iniciar(){
+        System.out.println("Bem vindo o Monopolinho: ");
+        
         consola();
     }
     public void consola(){
