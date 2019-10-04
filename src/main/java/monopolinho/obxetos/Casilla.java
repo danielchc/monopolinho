@@ -1,6 +1,5 @@
 package monopolinho.obxetos;
 
-import jdk.nashorn.internal.runtime.JSONListAdapter;
 import monopolinho.axuda.ReprTab;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Casilla {
     private String nome;
     private Grupo grupo;
     private float valor;
-    private int posicion;
+    private int posicion=-1; //VAYA PUTA ÑAPA CHAVAL
     private Xogador dono;
     private TipoCasilla tipoCasilla;
     private ReprTab.ReprColor colorCasilla;
@@ -28,6 +27,7 @@ public class Casilla {
         this.nome=nome;
         this.tipoCasilla=tipoCasilla;
         this.avatares=new ArrayList<Avatar>();
+        this.grupo=null;//HABER COMO SOLUCIONAMOS ESTO XD
         switch (tipoCasilla){
             case SORTE:
                 this.colorCasilla= ReprTab.ReprColor.ANSI_RED_BOLD;
@@ -92,6 +92,14 @@ public class Casilla {
         return grupo;
     }
 
+    public void comprar(Xogador comprador){
+        if(comprador.quitarDinheiro(this.valor)){
+            comprador.engadirPropiedade(this);
+            this.dono.engadirDinheiro(this.valor);
+            this.dono.eliminarPropiedade(this);
+            this.dono=comprador;
+        }
+    }
 
     public String[] getRepresentacion(){
         String avataresCasilla="";
@@ -100,20 +108,34 @@ public class Casilla {
                 ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
                 ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.nome:"")),
                 ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?valor+"$":this.nome)),
+                //ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(Integer.toString(this.posicion))),
                 ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(avataresCasilla)),
-                ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
+                ReprTab.colorear(this.colorCasilla, ReprTab.borde())
         };
     }
 
     @Override
     public String toString(){
-        String texto="{"+"\n\tNome: "+this.nome+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
+        String texto;
+        switch (this.tipoCasilla){
+            case CARCEL:
+                texto="{\n\tCarcel Salir BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+            case IMPOSTO:
+                texto="{\n\tPagar BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+            case PARKING:
+                texto="{\n\tBote BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+            default:
+                texto="{"+"\n\tNome: "+this.nome+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
+                break;
+
+        }
         return texto;
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Casilla){
+            //TA MAL IMPLEMENTAO
             if(this.posicion==((Casilla) obj).posicion)return true;
         }
         return false;

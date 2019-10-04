@@ -132,7 +132,7 @@ public class Xogo {
                         }
                         break;
                     default: //describir casilla
-
+                        //for(this.taboeiro.getCasillas())
                         break;
                 }
                 break;

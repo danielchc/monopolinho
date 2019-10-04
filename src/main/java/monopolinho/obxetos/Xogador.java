@@ -61,6 +61,18 @@ public class Xogador {
         if(casilla!=null)this.propiedades.add(casilla);
     }
 
+    public void eliminarPropiedade(Casilla casilla){
+        if(casilla!=null)this.propiedades.remove(casilla);
+    }
+
+    public void engadirDinheiro(float dinero){
+        fortuna+=dinero;
+    }
+    public boolean quitarDinheiro(float dinero){
+        if(fortuna>=dinero)return false;
+        fortuna-=dinero;
+        return true;
+    }
     public void setTenTurno(boolean tenTurno) {
         this.tenTurno = tenTurno;
     }

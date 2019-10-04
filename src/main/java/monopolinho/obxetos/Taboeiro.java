@@ -26,7 +26,10 @@ public class Taboeiro {
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
             this.casillas.get(z.ordinal()).add(casilla);
-            casilla.setPosicion(this.casillas.get(z.ordinal()).indexOf(casilla));
+            if(z==Zona.SUR) casilla.setPosicion(this.casillas.get(z.ordinal()).indexOf(casilla));
+            else if(z==Zona.OESTE) casilla.setPosicion(11+this.casillas.get(z.ordinal()).indexOf(casilla));
+            else if(z==Zona.NORTE) casilla.setPosicion(20+this.casillas.get(z.ordinal()).indexOf(casilla));
+            else if(z==Zona.ESTE) casilla.setPosicion(31 + this.casillas.get(z.ordinal()).indexOf(casilla));
         }
     }
 
@@ -116,7 +119,7 @@ public class Taboeiro {
             }
         }
     }
-    
+
     @Override
     public String toString(){
         String taboeiro="";
