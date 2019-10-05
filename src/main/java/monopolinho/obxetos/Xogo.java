@@ -7,6 +7,8 @@ import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Xogo {
@@ -14,16 +16,28 @@ public class Xogo {
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
     private ArrayList<Avatar> avatares; //lista de avatares
     private Taboeiro taboeiro;
+    Dados dados;
 
     public Xogo(){
         this.xogadores=new ArrayList<>();
         this.avatares=new ArrayList<>();
         taboeiro=new Taboeiro();
-        Xogador banca=new Xogador(); //BANCA
-        //HAI QUE METERLLE AS PROPIEDADES
+        dados=new Dados();
     }
 
-
+    private Avatar.TipoMovemento interpretarMov(String tipomov){
+        switch (tipomov.toLowerCase()){
+            case "pelota":
+                return Avatar.TipoMovemento.PELOTA;
+            case "esfinxe":
+                return Avatar.TipoMovemento.ESFINXE;
+            case "sombreiro":
+                return Avatar.TipoMovemento.SOMBREIRO;
+            case "coche":
+            default:
+                return Avatar.TipoMovemento.COCHE;
+        }
+    }
     //FUNCIONES DINERITO//////////////////////////////////////////////
 
     public float fortunaInicialXogador(){
@@ -118,7 +132,7 @@ public class Xogo {
                     System.out.println(x);
 
                     x.setTenTurno(xogadores.get(0).equals(x));
-                    taboeiro.getCasilla(0).engadirAvatar(x.getAvatar());
+                    x.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
                     System.out.println(taboeiro);
                 }
                 break;
@@ -158,9 +172,12 @@ public class Xogo {
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: lanzar dados");
                 }else{
-                    Dados dados=new Dados();
                     dados.lanzarDados();
                     System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
+                    /*PUTA ÑAPA ESTO NON QUEDA ASI */
+                    int npos=getTurnoActual().getPosicion().getPosicionIndex()+dados.valorLanzar();
+                    getTurnoActual().setPosicion(this.taboeiro.getCasilla(npos));
+                    /*PUTA ÑAAPA ESTO NON QUEDA ASI */
                 }
                 break;
             case "acabar":
@@ -234,17 +251,10 @@ public class Xogo {
         }
     }
 
-    private Avatar.TipoMovemento interpretarMov(String tipomov){
-        switch (tipomov.toLowerCase()){
-            case "pelota":
-                return Avatar.TipoMovemento.PELOTA;
-            case "esfinxe":
-                return Avatar.TipoMovemento.ESFINXE;
-            case "sombreiro":
-                return Avatar.TipoMovemento.SOMBREIRO;
-            case "coche":
-            default:
-                return Avatar.TipoMovemento.COCHE;
-        }
+
+    //PUTA ÑAPA ESTO NON QUEDA ASI
+    public Xogador getTurnoActual(){
+        for(Xogador x: this.xogadores)if(x.getTenTurno())return x;
+        return null;
     }
 }

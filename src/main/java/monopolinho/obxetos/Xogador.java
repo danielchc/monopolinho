@@ -16,25 +16,15 @@ public class Xogador {
     public Xogador(){
         this.nome="Banca";
         this.avatar=null;
-        this.dineroGastado=0;
+        this.dineroGastado=0; //SIN IMPLEMENTAR
         this.fortuna=Integer.MAX_VALUE; //1000000000
         this.propiedades=new ArrayList<>(); //lookoooo
     }
 
-    // En todo caso faltalle o tipo de movemento
-    /*public Xogador(String nome, float fortuna){     // Este é o constructor para o parking, xa que ten que acumular o diñeiro
-        this.nome=nome;
-        this.fortuna=fortuna;
-        this.dineroGastado=0;
-        this.avatar=null;
-        this.propiedades=new ArrayList<>(); //lookoooo
-
-    }*/
-
     public Xogador(String nome, Avatar.TipoMovemento tipoMovemento){
         this.nome=nome;
         this.fortuna= Valor.FORTUNA_INCIAL;
-        this.dineroGastado=0;
+        this.dineroGastado=0; //SIN IMPLEMENTAR
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>(); //lookoooo
 
@@ -68,6 +58,7 @@ public class Xogador {
     public void engadirDinheiro(float dinero){
         fortuna+=dinero;
     }
+
     public boolean quitarDinheiro(float dinero){
         if(fortuna>=dinero)return false;
         fortuna-=dinero;
@@ -81,12 +72,8 @@ public class Xogador {
         return tenTurno;
     }
 
-    public void setEnCarcel(boolean enCarcel) {
-        this.enCarcel = enCarcel;
-    }
-
     public boolean getEnCarcel() {
-        return enCarcel;
+        return (avatar.getPosicion().getTipoCasilla()== Casilla.TipoCasilla.CARCEL);
     }
 
     public void setNome(String nome) {
@@ -107,6 +94,14 @@ public class Xogador {
 
     public float getDineroGastado() {
         return dineroGastado;
+    }
+
+    public void setPosicion(Casilla c){
+        if(c!=null)this.avatar.setPosicion(c);
+    }
+
+    public Casilla getPosicion(){
+        return this.avatar.getPosicion();
     }
 
     //ESTO PROBLABLEMENTE HAXA QUE FACER UN QUE AUTOINCREMENTE O ACTUALS

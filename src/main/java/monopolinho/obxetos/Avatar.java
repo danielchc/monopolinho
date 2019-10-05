@@ -36,7 +36,11 @@ public class Avatar {
     }
 
     public void setPosicion(Casilla posicion) {
-        if(posicion!=null)this.posicion = posicion;
+        if(posicion!=null){
+            if (this.posicion!=null)this.posicion.eliminarAvatar(this);
+            this.posicion = posicion;
+            posicion.engadirAvatar(this);
+        }
     }
 
     public void setXogador(Xogador xogador) {

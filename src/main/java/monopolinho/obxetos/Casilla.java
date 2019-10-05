@@ -58,7 +58,6 @@ public class Casilla {
     }
 
     public void engadirAvatar(Avatar a){
-        a.setPosicion(this);
         if(!avatares.contains(a))avatares.add(a);
     }
 
@@ -94,7 +93,7 @@ public class Casilla {
         return valor;
     }
 
-    public int getPosicion() {
+    public int getPosicionIndex() {
         return posicion;
     }
 

@@ -21,12 +21,6 @@ public class Taboeiro {
         xerarCasillas();
         engadirCasillasBanca();
     }
-
-
-
-
-
-
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
             this.casillas.get(z.ordinal()).add(casilla);
