@@ -2,6 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 public class Casilla {
     public enum TipoCasilla{
@@ -107,10 +108,12 @@ public class Casilla {
 
     public void comprar(Xogador comprador){
         if(comprador.quitarDinheiro(this.valor)){
-            comprador.engadirPropiedade(this);
             this.dono.engadirDinheiro(this.valor);
             this.dono.eliminarPropiedade(this);
+            comprador.engadirPropiedade(this);
             this.dono=comprador;
+        }else{
+            System.err.println("Non tes suficiente diñeiro");
         }
     }
 
@@ -138,7 +141,7 @@ public class Casilla {
             case PARKING:
                 texto="{\n\tBote BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
             default:
-                texto="{"+"\n\tNome: "+this.nome+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario"+"\n}";
+                texto="{"+"\n\tNome: "+this.nome+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario: "+this.dono.getNome()+"\n}";
                 break;
 
         }

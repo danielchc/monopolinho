@@ -48,7 +48,10 @@ public class Xogador {
         this.propiedades=propiedades;
     }
     public void engadirPropiedade(Casilla casilla){
-        if(casilla!=null)this.propiedades.add(casilla);
+        if(casilla!=null){
+            this.propiedades.add(casilla);
+            casilla.setDono(this);
+        }
     }
 
     public void eliminarPropiedade(Casilla casilla){
@@ -60,7 +63,7 @@ public class Xogador {
     }
 
     public boolean quitarDinheiro(float dinero){
-        if(fortuna>=dinero)return false;
+        if(fortuna<dinero)return false;
         fortuna-=dinero;
         return true;
     }
@@ -112,8 +115,7 @@ public class Xogador {
     public String describir(){
         String listaprop="[";
         if(this.propiedades.size()!=0)
-            for(Casilla c:this.propiedades)
-                listaprop+="\n\t\t"+c.getNome()+",";
+            for(Casilla c:this.propiedades)listaprop+="\n\t\t"+c.getNome()+",";
         listaprop+="\n\t]";
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
@@ -126,6 +128,7 @@ public class Xogador {
     public String toString(){
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
+                "\tFortuna:"+ this.fortuna + ",\n"+
                 "}";
     }
 

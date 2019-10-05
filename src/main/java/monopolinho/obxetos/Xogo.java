@@ -174,10 +174,17 @@ public class Xogo {
                 }else{
                     dados.lanzarDados();
                     System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
+
+
                     /*PUTA ÑAPA ESTO NON QUEDA ASI */
-                    int npos=getTurnoActual().getPosicion().getPosicionIndex()+dados.valorLanzar();
-                    getTurnoActual().setPosicion(this.taboeiro.getCasilla(npos));
+                    Casilla current=getTurnoActual().getPosicion();
+                    //FALTA QUE DE A VOLTA???????
+                    Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+dados.valorLanzar())%40);
+                    getTurnoActual().setPosicion(next);
+                    System.out.println("O avatar "  +getTurnoActual().getAvatar().getId() +" avanza " +dados.valorLanzar()+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n");
                     /*PUTA ÑAAPA ESTO NON QUEDA ASI */
+
+
                 }
                 break;
             case "acabar":
@@ -230,6 +237,7 @@ public class Xogo {
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: comprar <casilla>");
                 }else{
+                    getTurnoActual().getPosicion().comprar(getTurnoActual());
                     //quitarlle a propiedade á banca
                     //engadirlla ao xogador
                     //restar fortuna ao xogador
