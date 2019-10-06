@@ -55,6 +55,6 @@ public class Grupo {
 
     @Override
     public String toString(){
-        return "\n{\n\tNome:"+this.tipo+"}";
+        return "\n{\n\tTipo:"+this.tipo+"}";
     }
 }

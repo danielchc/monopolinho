@@ -1,6 +1,7 @@
 package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
+import monopolinho.axuda.Valor;
 
 import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
@@ -144,7 +145,7 @@ public class Casilla {
         String texto;
         switch (this.tipoCasilla){
             case CARCEL:
-                texto="{\n\ttipo: Carcel,\n\tsalir:!!!!!!!,\n\txogadores:[\n"+xogadores+"\n\t]\n}"; //IMPLEMENTAR ESTO
+                texto="{\n\ttipo: Carcel,\n\tsalir:"+ Valor.SAIR_CARCERE+",\n\txogadores:[\n"+xogadores+"\n\t]\n}"; //IMPLEMENTAR ESTO
                 break;
             case IMPOSTO:
                 texto="{\n\tPagar BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO

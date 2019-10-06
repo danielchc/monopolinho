@@ -126,15 +126,21 @@ public class Xogo {
     }
     public void interpretarComando(String comando) {
         String[] cmds=comando.split(" ");
+        if(cmds[0].toLowerCase().equals("crear")){
+            if(cmds.length!=4){
+                System.out.println("Sintaxe: crear xogador <nome> <avatar>");
+                return;
+            }
+            crearXogador(cmds);
+            mostrarTaboeiro();
+            return;
+        }
+        if(this.xogadores.size()==0){
+            System.err.println("Non se creou ningún xogador");
+            System.out.println("Para crear un xogador: crear xogador <nome> <avatar>");
+            return;
+        }
         switch (cmds[0].toLowerCase()){
-            case "crear":
-                if(cmds.length!=4){
-                    System.out.println("Sintaxe: crear xogador <nome> <avatar>");
-                    return;
-                }
-                crearXogador(cmds);
-                mostrarTaboeiro();
-                break;
             case "xogador":
                 if (turno!=null)System.out.println(turno);
                 else System.err.println("Non hai xogadores");
@@ -160,7 +166,6 @@ public class Xogo {
                     System.out.println("Sintaxe: lanzar dados");
                 }
                 lanzarDados();
-                mostrarTaboeiro();
                 break;
             case "acabar":
                 if(cmds.length!=2) {
@@ -214,7 +219,8 @@ public class Xogo {
                 mostrarTaboeiro();
                 break;
             case "mov": //BORRAR ISTOOOO!!!!
-                turno.setPosicion(this.taboeiro.getCasilla(turno.getPosicion().getPosicionIndex()+Integer.parseInt(cmds[1])));
+                Casilla current=turno.getPosicion();
+                interpretarAccion(current,Integer.parseInt(cmds[1]));
                 break;
             case "exit":
                 System.out.println("Saindo...");
@@ -227,7 +233,45 @@ public class Xogo {
 
     //ÑAPAAAAAAAAAAAAAAAAAA
 
-
+    private void interpretarAccion(Casilla current,int newPos){
+        String mensaxe="";
+        /*PUTA ÑAPA ESTO NON QUEDA ASI */
+        if(current.getTipoCasilla()== Casilla.TipoCasilla.CARCEL){
+            //AQUI HAI QUE FACER O DOS TURNOS
+            System.out.println("MEO DEOS VOCE ESTA PRESO!");
+            return;
+        }
+        System.out.println(current.getPosicionIndex()+newPos);
+        Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
+        switch (next.getTipoCasilla()){
+            case IRCARCEL:
+                System.out.println("MEO DEOS voce ficou presso");
+                //METER NA CARCEL!!
+                //Casilla carcel=.....
+                //turno.setPosicion();
+                pasarTurno();
+                return;
+            case CARCEL:
+                //QUE SE SUPON QUE FAS SE CAES NA CASILLA CARCEL???
+                //System.out.println("Acabas de caer en la carcel");
+                break;
+            case IMPOSTO:
+                //Añadir o bote o imposto
+                //this.taboeiro.engadirBote(next.getIMPOSTO);
+                //break;
+            case SORTE:
+            case PARKING:
+                turno.engadirDinheiro(this.taboeiro.getBote());
+                mensaxe+="O xogador "+ turno.getNome() + "recibe "+this.taboeiro.getBote()+", do bote da banca.";
+            default: //DE AQUI PARA ABAIXO VAISE EJECUTAR SEMPRE
+                //if(next.getDono()!=turno) BLABLABLALABLALBLA
+                turno.setPosicion(next);
+                mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n"+mensaxe;
+                break;
+        }
+        mostrarTaboeiro();
+        System.out.println("\n"+mensaxe);
+    }
     private void crearXogador(String[] cmds){
         Xogador xogador=new Xogador(cmds[2], interpretarMov(cmds[3]));
         this.xogadores.add(xogador);              //añado o xogador creado á lista de xogadores
@@ -280,11 +324,8 @@ public class Xogo {
     private void lanzarDados(){
         dados.lanzarDados();
         System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
-        /*PUTA ÑAPA ESTO NON QUEDA ASI */
         Casilla current=turno.getPosicion();
-        Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+dados.valorLanzar())%40);
-        turno.setPosicion(next);
-        System.out.println("O avatar "  +turno.getAvatar().getId() +" avanza " +dados.valorLanzar()+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n");
+        interpretarAccion(current,dados.valorLanzar());
     }
 
     private void pasarTurno(){
