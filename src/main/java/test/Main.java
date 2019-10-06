@@ -1,5 +1,10 @@
 package test;
+import monopolinho.obxetos.Avatar;
 import monopolinho.obxetos.Taboeiro;
+import monopolinho.obxetos.Xogador;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Main {
     /**
@@ -12,7 +17,21 @@ public class Main {
 //        for(int i=0;i<40;i++){
 //            System.out.println(t.getCasilla(i));
 //        }
-        System.out.println(t);
+        //System.out.println(t);
+        ArrayList<Xogador> xo=new ArrayList<>();
+        ListIterator<Xogador> turno=xo.listIterator();
+
+
+        turno.add(new Xogador());
+        turno.add(new Xogador("dkka", Avatar.TipoMovemento.ESFINXE));
+        turno.add(new Xogador("hola", Avatar.TipoMovemento.COCHE));
+        turno.add(new Xogador("adios", Avatar.TipoMovemento.COCHE));
+        while(turno.hasPrevious())turno.previous();
+
+        System.out.println(turno.next());
+        System.out.println(turno.next());
+        System.out.println(turno.next());
+        System.out.println(turno.next());
         /*
         Dados d=new Dados();
         d.lanzarDados();

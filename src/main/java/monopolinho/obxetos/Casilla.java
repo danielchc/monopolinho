@@ -107,14 +107,20 @@ public class Casilla {
     }
 
     public void comprar(Xogador comprador){
-        if(comprador.quitarDinheiro(this.valor)){
-            this.dono.engadirDinheiro(this.valor);
-            this.dono.eliminarPropiedade(this);
-            comprador.engadirPropiedade(this);
-            this.dono=comprador;
-        }else{
-            System.err.println("Non tes suficiente diñeiro");
+        if(this.tipoCasilla!=TipoCasilla.SOLAR && this.tipoCasilla!=TipoCasilla.INFRAESTRUCTURA){
+            System.err.println("Non podes comprar esta casilla");
+            return;
         }
+        if(!comprador.quitarDinheiro(this.valor)){
+            System.err.println("Non tes suficiente diñeiro");
+            return;
+        }
+
+        this.dono.engadirDinheiro(this.valor);
+        this.dono.eliminarPropiedade(this);
+        comprador.engadirPropiedade(this);
+        this.dono=comprador;
+
     }
 
     public String[] getRepresentacion(){

@@ -16,6 +16,7 @@ public class Xogo {
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
     private ArrayList<Avatar> avatares; //lista de avatares
     private Taboeiro taboeiro;
+    private Xogador turno;
     Dados dados;
 
     public Xogo(){
@@ -38,6 +39,9 @@ public class Xogo {
                 return Avatar.TipoMovemento.COCHE;
         }
     }
+
+
+
     //FUNCIONES DINERITO//////////////////////////////////////////////
 
     public float fortunaInicialXogador(){
@@ -130,20 +134,17 @@ public class Xogo {
                     this.xogadores.add(x);              //añado o xogador creado á lista de xogadores
                     this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares //NON SEI SE ESTO FAI FALLA
                     System.out.println(x);
-
-                    x.setTenTurno(xogadores.get(0).equals(x));
+                    if(this.xogadores.get(0).equals(x)){
+                        x.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO
+                        turno=x;
+                    }
                     x.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
                     System.out.println(taboeiro);
                 }
                 break;
             case "xogador":
-                for(Xogador x:this.xogadores){
-                    if(x.getTenTurno()){
-                        System.out.println(x);
-                        break;
-                    }
-                }
-                //System.out.println("Non hai xogadores"); //COMPROBAR ANTES
+                if (turno!=null)System.out.println(turno);
+                else System.err.println("Non hai xogadores");
                 break;
             case "listar":
                 switch (cmds[1]){
@@ -177,28 +178,23 @@ public class Xogo {
 
 
                     /*PUTA ÑAPA ESTO NON QUEDA ASI */
-                    Casilla current=getTurnoActual().getPosicion();
-                    //FALTA QUE DE A VOLTA???????
+                    Casilla current=turno.getPosicion();
                     Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+dados.valorLanzar())%40);
-                    getTurnoActual().setPosicion(next);
-                    System.out.println("O avatar "  +getTurnoActual().getAvatar().getId() +" avanza " +dados.valorLanzar()+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n");
+                    turno.setPosicion(next);
+                    System.out.println("O avatar "  +turno.getAvatar().getId() +" avanza " +dados.valorLanzar()+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n");
                     /*PUTA ÑAAPA ESTO NON QUEDA ASI */
 
 
+                    System.out.println(taboeiro);
                 }
                 break;
             case "acabar":
                 if(cmds.length!=2) {
                     System.out.println("Sintaxe: acabar turno");
                 }else{
-                    for(int i=0;i<xogadores.size();i++){
-                        if(xogadores.get(i).getTenTurno()){
-                            xogadores.get(i).setTenTurno(false);                     //o turno do xogador actual pasa a false
-                            xogadores.get((i+1)%xogadores.size()).setTenTurno(true); //o turno siguiente é o seiguiente, si ten o turno o ultimo enton tocalle ao primeiro
-                            System.out.println("\nTurno de "+xogadores.get(i).getNome()+" , agora tocalle a "+xogadores.get((i+1)%xogadores.size()).getNome());
-                            break;
-                        }
-                    }
+                    Xogador actual=turno;
+                    pasarTurno();
+                    System.out.println("Tiña o turno "+actual.getNome()+" agora teno "+turno.getNome());
                 }
                 break;
             case "salir":
@@ -237,7 +233,7 @@ public class Xogo {
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: comprar <casilla>");
                 }else{
-                    getTurnoActual().getPosicion().comprar(getTurnoActual());
+                    turno.getPosicion().comprar(turno);
                     //quitarlle a propiedade á banca
                     //engadirlla ao xogador
                     //restar fortuna ao xogador
@@ -259,10 +255,10 @@ public class Xogo {
         }
     }
 
-
-    //PUTA ÑAPA ESTO NON QUEDA ASI
-    public Xogador getTurnoActual(){
-        for(Xogador x: this.xogadores)if(x.getTenTurno())return x;
-        return null;
+    //ÑAPAAAAAAAAAAAAAAAAAA
+    public void pasarTurno(){
+        turno.setTenTurno(false);  //ATA QUE PUNTO FAI FALLA ISTO?
+        turno=this.xogadores.get((this.xogadores.indexOf(turno)+1)%this.xogadores.size());
+        turno.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO?
     }
 }
