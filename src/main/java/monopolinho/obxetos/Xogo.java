@@ -6,6 +6,7 @@ import monopolinho.obxetos.Dados;
 import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Xogador;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -14,14 +15,14 @@ import java.util.Scanner;
 public class Xogo {
 
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
-    private ArrayList<Avatar> avatares; //lista de avatares
+    //private ArrayList<Avatar> avatares; //lista de avatares
     private Taboeiro taboeiro;
     private Xogador turno;
     Dados dados;
 
     public Xogo(){
         this.xogadores=new ArrayList<>();
-        this.avatares=new ArrayList<>();
+        //this.avatares=new ArrayList<>();
         taboeiro=new Taboeiro();
         dados=new Dados();
     }
@@ -129,122 +130,91 @@ public class Xogo {
             case "crear":
                 if(cmds.length!=4){
                     System.out.println("Sintaxe: crear xogador <nome> <avatar>");
-                }else{
-                    Xogador x=new Xogador(cmds[2], interpretarMov(cmds[3]));
-                    this.xogadores.add(x);              //añado o xogador creado á lista de xogadores
-                    this.avatares.add(x.getAvatar());   //añado o avatar do xogador á lista de avatares //NON SEI SE ESTO FAI FALLA
-                    System.out.println(x);
-                    if(this.xogadores.get(0).equals(x)){
-                        x.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO
-                        turno=x;
-                    }
-                    x.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
-                    System.out.println(taboeiro);
+                    return;
                 }
+                crearXogador(cmds);
+                mostrarTaboeiro();
                 break;
             case "xogador":
                 if (turno!=null)System.out.println(turno);
                 else System.err.println("Non hai xogadores");
                 break;
             case "listar":
-                switch (cmds[1]){
+                switch (cmds[1].toLowerCase()){
                     case "xogadores":
-                        for(Xogador x:this.xogadores){
-                            System.out.println(x.describir());
-                        }
+                        listarXogadores();
                         break;
                     case "avatares":
-                        for(int i=0;i<avatares.size();i++){
-                            System.out.println(avatares.get(i));
-                        }
+                        listarAvatares();
                         break;
                     case "enventa":
-                        /*for(int i=0;i<banca.propiedades.size();i++){
-                            System.out.println(banca.propiedades.get(i));
-                        }*/
+                        listarCasillaEnVenta();
                         break;
                     default:
                         System.out.println("\nOpción de listaxe non válida");
                         break;
                 }
-
                 break;
             case "lanzar":  //falta acabalo
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: lanzar dados");
-                }else{
-                    dados.lanzarDados();
-                    System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
-
-
-                    /*PUTA ÑAPA ESTO NON QUEDA ASI */
-                    Casilla current=turno.getPosicion();
-                    Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+dados.valorLanzar())%40);
-                    turno.setPosicion(next);
-                    System.out.println("O avatar "  +turno.getAvatar().getId() +" avanza " +dados.valorLanzar()+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n");
-                    /*PUTA ÑAAPA ESTO NON QUEDA ASI */
-
-
-                    System.out.println(taboeiro);
                 }
+                lanzarDados();
+                mostrarTaboeiro();
                 break;
             case "acabar":
                 if(cmds.length!=2) {
                     System.out.println("Sintaxe: acabar turno");
-                }else{
-                    Xogador actual=turno;
-                    pasarTurno();
-                    System.out.println("Tiña o turno "+actual.getNome()+" agora teno "+turno.getNome());
+                    return;
                 }
+                pasarTurno();
                 break;
             case "salir":
                 //IMPLEMENTAR, COMPROBAR SE ESTA NA CARCEL
                 break;
             case "describir":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe describir <xogador/avatar> <nome>");
+                    System.out.println("Sintaxe describir <casilla>");
+                    return;
+                }
                 switch (cmds[1]){
                     case "xogador":
+                    case "jugador":
                         if(cmds.length!=3){
                             System.out.println("Sintaxe: describir xogador <nome>");
-                        }else{
-                            for(Xogador x:this.xogadores){
-                                if(x.getNome().equals(cmds[2])){
-                                    System.out.println(x.describir());
-                                }
-                            }
+                            return;
                         }
+                        describirXogador(cmds);
                         break;
                     case "avatar":
                         if(cmds.length!=3){
                             System.out.println("Sintaxe: describir avatar <id>");
-                        }else{
-                            for(Avatar a:this.avatares){
-                                if(a.getId().equals(cmds[2])){
-                                    System.out.println(a);
-                                }
-                            }
+                            return;
                         }
+                        describirAvatar(cmds);
                         break;
-                    default: //describir casilla
-                        //for(this.taboeiro.getCasillas())
+                    default:
+                        describirCasilla(cmds);
                         break;
                 }
                 break;
             case "comprar":
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: comprar <casilla>");
-                }else{
-                    turno.getPosicion().comprar(turno);
-                    //quitarlle a propiedade á banca
-                    //engadirlla ao xogador
-                    //restar fortuna ao xogador
+                    return;
                 }
+                comprarCasilla(cmds);
                 break;
             case "ver":
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: ver tableiro");
-                }else {
-                    System.out.println(taboeiro);
+                    return;
                 }
+                mostrarTaboeiro();
+                break;
+            case "mov": //BORRAR ISTOOOO!!!!
+                turno.setPosicion(this.taboeiro.getCasilla(turno.getPosicion().getPosicionIndex()+Integer.parseInt(cmds[1])));
                 break;
             case "exit":
                 System.out.println("Saindo...");
@@ -256,9 +226,85 @@ public class Xogo {
     }
 
     //ÑAPAAAAAAAAAAAAAAAAAA
-    public void pasarTurno(){
+
+
+    private void crearXogador(String[] cmds){
+        Xogador xogador=new Xogador(cmds[2], interpretarMov(cmds[3]));
+        this.xogadores.add(xogador);              //añado o xogador creado á lista de xogadores
+        System.out.println(xogador);
+        if(this.xogadores.get(0).equals(xogador)){
+            xogador.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO
+            turno=xogador;
+        }
+        xogador.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
+    }
+
+    private void describirCasilla(String[] cmds){
+        Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
+        if(c!=null)System.out.println(c);
+        else System.out.println("Non existe esta casilla");
+    }
+
+    public void describirXogador(String[] cmds){
+        for(Xogador x:this.xogadores){
+            if(x.getNome().toLowerCase().equals(cmds[2].toLowerCase())){
+                System.out.println(x.describir());
+                return;
+            }
+        }
+        System.out.println("Non se atopou o xogador "+cmds[2]);
+    }
+    public void describirAvatar(String[] cmds){
+        for(Xogador x:this.xogadores){
+            if(x.getNome().equals(cmds[2])){
+                System.out.println(x.describir());
+                return;
+            }
+        }
+        System.out.println("Non se atopou o avatar "+ cmds[2]);
+    }
+    private void listarAvatares(){
+        for(Xogador x:this.xogadores)
+            System.out.println(x.getAvatar());
+    }
+    private void listarXogadores(){
+        for(Xogador x:this.xogadores)
+            System.out.println(x.describir());
+    }
+    private void listarCasillaEnVenta(){
+        //POR FASER
+//        for(this.taboeiro)
+//            for(Casilla c:ac)
+//                System.out.println(c);
+    }
+    private void lanzarDados(){
+        dados.lanzarDados();
+        System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
+        /*PUTA ÑAPA ESTO NON QUEDA ASI */
+        Casilla current=turno.getPosicion();
+        Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+dados.valorLanzar())%40);
+        turno.setPosicion(next);
+        System.out.println("O avatar "  +turno.getAvatar().getId() +" avanza " +dados.valorLanzar()+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n");
+    }
+
+    private void pasarTurno(){
+        Xogador actual=turno;
         turno.setTenTurno(false);  //ATA QUE PUNTO FAI FALLA ISTO?
         turno=this.xogadores.get((this.xogadores.indexOf(turno)+1)%this.xogadores.size());
         turno.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO?
+        System.out.println("Tiña o turno "+actual.getNome()+" agora teno "+turno.getNome());
+    }
+
+    private void comprarCasilla(String[] cmds){
+        //Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
+        //TA MAL IMPLEMENTADA??????
+        turno.getPosicion().comprar(turno);
+        //quitarlle a propiedade á banca
+        //engadirlla ao xogador
+        //restar fortuna ao xogador
+    }
+
+    private void mostrarTaboeiro(){
+        System.out.println(taboeiro);
     }
 }

@@ -49,6 +49,7 @@ public class Casilla {
             default:
                 this.colorCasilla= ReprTab.ReprColor.ANSI_BLACK;
         }
+        this.tipoCasilla=tipoCasilla;
     }
     public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla, float valor,float alquiler){
         this(nome,tipoCasilla);
@@ -138,16 +139,21 @@ public class Casilla {
 
     @Override
     public String toString(){
+        String xogadores="";
+        if(this.avatares!=null)for(Avatar a:this.avatares)xogadores+="\t"+a.getXogador().getNome()+",\n";
         String texto;
         switch (this.tipoCasilla){
             case CARCEL:
-                texto="{\n\tCarcel Salir BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+                texto="{\n\ttipo: Carcel,\n\tsalir:!!!!!!!,\n\txogadores:[\n"+xogadores+"\n\t]\n}"; //IMPLEMENTAR ESTO
+                break;
             case IMPOSTO:
                 texto="{\n\tPagar BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+                break;
             case PARKING:
                 texto="{\n\tBote BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+                break;
             default:
-                texto="{"+"\n\tNome: "+this.nome+"\n\tGrupo: "+this.grupo+"\n\tPrecio: "+this.valor+"\n\tPropietario: "+this.dono.getNome()+"\n}";
+                texto="{"+"\n\tNome: "+this.nome+"\n\tTipo: "+this.tipoCasilla+"\n\tGrupo: FALTAAAA"+"\n\tPrecio: "+this.valor+"\n\tPropietario: "+this.dono.getNome()+"\n}";
                 break;
 
         }

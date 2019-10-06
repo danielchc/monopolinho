@@ -4,7 +4,7 @@ import monopolinho.axuda.ReprTab;
 
 public class Grupo {
 
-    private String tipo; //solar ou especial
+    private String tipo; //solar ou especial  //TIPOS???
     private String posicion;    //norte sure este ou oeste
     private ReprTab.ReprColor color;
     private int numeroSolares;
@@ -51,5 +51,10 @@ public class Grupo {
 
     public ReprTab.ReprColor getColor() {
         return color;
+    }
+
+    @Override
+    public String toString(){
+        return "\n{\n\tNome:"+this.tipo+"}";
     }
 }
