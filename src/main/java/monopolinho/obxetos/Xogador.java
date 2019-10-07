@@ -67,13 +67,6 @@ public class Xogador {
         fortuna-=dinero;
         return true;
     }
-    public void setTenTurno(boolean tenTurno) {
-        this.tenTurno = tenTurno;
-    }
-
-    public boolean getTenTurno() {
-        return tenTurno;
-    }
 
     public boolean getEnCarcel() {
         return (avatar.getPosicion().getTipoCasilla()== Casilla.TipoCasilla.CARCEL);

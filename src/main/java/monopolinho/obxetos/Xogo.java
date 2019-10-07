@@ -1,15 +1,13 @@
 package monopolinho.obxetos;
 
 
+import monopolinho.axuda.ReprTab;
 import monopolinho.obxetos.Avatar;
 import monopolinho.obxetos.Dados;
 import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Xogador;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Xogo {
@@ -17,42 +15,20 @@ public class Xogo {
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
     private Taboeiro taboeiro;
     private Xogador turno;
-    Dados dados;
-    Xogador banca;
+    private Dados dados;
+    private Xogador banca;
 
-    public Xogo(){
-        this.xogadores=new ArrayList<>();
+    public Xogo(ArrayList<Xogador> xogadores){
+        this.xogadores=xogadores;
+        this.turno=this.xogadores.get(0);
         taboeiro=new Taboeiro();
         banca=new Xogador();
         dados=new Dados();
         engadirCasillasBanca();
+        turno.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
     }
 
-    private void preguntarXogadores(){
-        System.out.println("\n\nInserta o numero de xogadores");
-        Scanner input=new Scanner(System.in);
-        while (!input.hasNextInt()) input.next();
-        int numXogadores = input.nextInt();
-        input.nextLine();
-        if (numXogadores>1){
-            for (int i=0;i<numXogadores;i++){
-                System.out.println("Introduce o nome do xogador "+(i+1));
-                String nome=input.nextLine();
-                System.out.println("Introduce o tipo de movemento do xogador "+(i+1));
-                String mov=input.nextLine();
-                crearXogador(nome,mov);
-            }
-        }else {
-            System.err.println("Debe haber polo menos dous xogadores");
-            System.exit(1);
-        }
-    }
-    public void iniciar(){
-        System.out.println("Bem vindo o Monopolinho: ");
-        preguntarXogadores();
-        consola();
-    }
-    private void consola(){
+    public void consola(){
         Scanner scanner= new Scanner(System.in);
         while(true){
             System.out.println("$> ");
@@ -61,7 +37,6 @@ public class Xogo {
     }
     private void interpretarComando(String comando) {
         String[] cmds=comando.split(" ");
-
         switch (cmds[0].toLowerCase()){
             case "xogador":
                 if (turno!=null)System.out.println(turno);
@@ -155,20 +130,6 @@ public class Xogo {
 
     //FUNCIONS AUXILIARES
 
-    private Avatar.TipoMovemento interpretarMov(String tipomov){
-        switch (tipomov.toLowerCase()){
-            case "pelota":
-                return Avatar.TipoMovemento.PELOTA;
-            case "esfinxe":
-                return Avatar.TipoMovemento.ESFINXE;
-            case "sombreiro":
-                return Avatar.TipoMovemento.SOMBREIRO;
-            case "coche":
-            default:
-                return Avatar.TipoMovemento.COCHE;
-        }
-    }
-
     private void engadirCasillasBanca(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona)
@@ -184,7 +145,6 @@ public class Xogo {
             System.out.println("MEO DEOS VOCE ESTA PRESO!");
             return;
         }
-        System.out.println(current.getPosicionIndex()+newPos);
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
         switch (next.getTipoCasilla()){
             case IRCARCEL:
@@ -198,6 +158,7 @@ public class Xogo {
             case IMPOSTO:
                 //Añadir o bote o imposto
                 //this.taboeiro.engadirBote(next.getIMPOSTO);
+                mensaxe+="O xogador de "+ turno.getNome() +  " que pagar IMPOSTO de IMPOSTO";
                 break;
             case SORTE:
                 break;
@@ -216,16 +177,6 @@ public class Xogo {
     }
 
     //FUNCIONS SWITCH
-    private void crearXogador(String nombre,String tipoMov){
-        Xogador xogador=new Xogador(nombre, interpretarMov(tipoMov));
-        this.xogadores.add(xogador);              //añado o xogador creado á lista de xogadores
-        System.out.println(xogador);
-        if(this.xogadores.get(0).equals(xogador)){
-            xogador.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO
-            turno=xogador;
-        }
-        xogador.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
-    }
 
     private void describirCasilla(String[] cmds){
         Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
@@ -274,9 +225,7 @@ public class Xogo {
 
     private void pasarTurno(){
         Xogador actual=turno;
-        turno.setTenTurno(false);  //ATA QUE PUNTO FAI FALLA ISTO?
         turno=this.xogadores.get((this.xogadores.indexOf(turno)+1)%this.xogadores.size());
-        turno.setTenTurno(true); //ATA QUE PUNTO FAI FALLA ISTO?
         System.out.println("Tiña o turno "+actual.getNome()+" agora teno "+turno.getNome());
     }
 

@@ -45,4 +45,11 @@ public class ReprTab {
             casillas[4] += centrarTexto("                         |_|                                ", nw);
         }
     }
+    public static String debuxoSimple(){
+        String[] p1=new String[]{"","","","",""};
+        String[] p2=new String[]{"","","","",""};
+        debuxoMonopolinho(p1,0);
+        debuxoMonopolinho(p2,1);
+        return colorear(Valor.ReprColor.ANSI_PURPLE_BOLD,String.join("\n",p1)+"\n"+String.join("\n",p2));
+    }
 }

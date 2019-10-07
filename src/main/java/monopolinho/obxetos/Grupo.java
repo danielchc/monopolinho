@@ -2,59 +2,49 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.Valor;
 
+import java.util.ArrayList;
+
 public class Grupo {
 
-    private String tipo; //solar ou especial  //TIPOS???
-    private String posicion;    //norte sure este ou oeste
+    private String grupo_nome;
     private Valor.ReprColor color;
-    private int numeroSolares;
+    private ArrayList<Casilla> solares;
 
 
 
-    public Grupo(String tipo, Valor.ReprColor color, String posicion){
-        if(tipo==null || color==null || posicion==null){
+    public Grupo(String grupo_nome, Valor.ReprColor color){
+        if(grupo_nome==null || color==null){
             System.err.println("Error: algun elemento non inicializado");
             return;
         }
-        this.tipo=tipo;
+        this.solares=new ArrayList<>();
+        this.grupo_nome=grupo_nome;
         this.color=color;
-
     }
 
-    public void setNumeroSolares(int numeroSolares) {
-        this.numeroSolares = numeroSolares;
+    public void engadirSolar(Casilla c){
+        if(c!=null)this.solares.add(c);
     }
-
-    public int getNumeroSolares() {
-        return numeroSolares;
-    }
-
-    public void setPosicion(String posicion) {
-        if(posicion!=null)this.posicion = posicion;
-    }
-
-    public String getPosicion() {
-        return posicion;
-    }
-
-    public void setTipo(String tipo) {
-        if (tipo!=null)this.tipo = tipo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setColor(Valor.ReprColor color) {
-        if (color!=null)this.color = color;
-    } //NON CREO QUE SE USE
 
     public Valor.ReprColor getColor() {
-        return color;
+        return this.color;
+    }
+    public String getNome(){
+        return this.grupo_nome;
     }
 
     @Override
     public String toString(){
-        return "\n{\n\tTipo:"+this.tipo+"}";
+        String stSolares="";
+        for(Casilla s:this.solares)stSolares+="\t\t"+s.getNome() +",\n";
+        return "\n{\n\tTipo:"+this.grupo_nome+"\n\tSolares:[\n"+stSolares+"\n\t]\n}";
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Grupo){
+            return (this.grupo_nome.equals(((Grupo) obj).grupo_nome));
+        }
+        return false;
     }
 }

@@ -61,6 +61,7 @@ public class Casilla {
     public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla, float valor,float alquiler){
         this(nome,tipoCasilla);
         this.grupo=grupo;
+        this.grupo.engadirSolar(this);
         this.colorCasilla=this.getGrupo().getColor();
         this.valor=valor;
         this.alquiler=alquiler;
@@ -166,10 +167,11 @@ public class Casilla {
                 texto="{\n\tBote BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
                 break;
             default:
-                texto="{"+"\n\tNome: "+this.nome+"\n\tTipo: "+this.tipoCasilla+"\n\tGrupo: FALTAAAA"+"\n\tPrecio: "+this.valor+"\n\tPropietario: "+this.dono.getNome()+"\n}";
+                texto="{"+"\n\tNome: "+this.nome+"\n\tTipo: "+this.tipoCasilla+"\n\tGrupo: "+this.getGrupo().getNome()+"\n\tPrecio: "+this.valor+"\n\tPropietario: "+this.dono.getNome()+"\n}";
                 break;
 
         }
+        System.out.println(this.grupo);
         return texto;
     }
 

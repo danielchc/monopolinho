@@ -1,5 +1,6 @@
 package monopolinho;
 
+import monopolinho.obxetos.Menu;
 import monopolinho.obxetos.Xogo;
 
 /**
@@ -13,8 +14,8 @@ public class Main {
      */
     ;
     public static void main(String[] args) {
-        Xogo xogo=new Xogo();
-        xogo.iniciar();
+        Menu menu=new Menu();
+        menu.iniciar();
     }
 
 

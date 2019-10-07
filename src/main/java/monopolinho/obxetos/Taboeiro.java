@@ -100,16 +100,14 @@ public class Taboeiro {
 
     public void xerarCasillas(){
 
-        Grupo grupo_ocre=new Grupo("casilla", Valor.ReprColor.ANSI_YELLOW_BACKGROUND,"Norte"); //cambiar color
-        Grupo grupo_cyan=new Grupo("casilla", Valor.ReprColor.ANSI_CYAN_BACKGROUND,"Norte");
-        Grupo grupo_violeta=new Grupo("casilla", Valor.ReprColor.ANSI_PURPLE_BACKGROUND,"Norte");
-        Grupo grupo_amarillo=new Grupo("casilla", Valor.ReprColor.ANSI_HIGH_YELLOW_BACKGROUND,"Norte"); //cambiar color
-        Grupo grupo_rojo=new Grupo("casilla", Valor.ReprColor.ANSI_RED_BACKGROUND,"Norte");
-        Grupo grupo_blanco=new Grupo("casilla", Valor.ReprColor.ANSI_WHITE_BACKGROUND,"Norte");
-        Grupo grupo_verde=new Grupo("casilla", Valor.ReprColor.ANSI_GREEN_BACKGROUND,"Norte");
-        Grupo grupo_azul=new Grupo("casilla", Valor.ReprColor.ANSI_BLUE_BACKGROUND,"Norte");
-  //provisional
-
+        Grupo grupo_ocre=new Grupo("OCRE", Valor.ReprColor.ANSI_YELLOW_BACKGROUND);
+        Grupo grupo_cyan=new Grupo("CYAN", Valor.ReprColor.ANSI_CYAN_BACKGROUND);
+        Grupo grupo_violeta=new Grupo("VIOLETA", Valor.ReprColor.ANSI_PURPLE_BACKGROUND);
+        Grupo grupo_amarillo=new Grupo("AMARELO", Valor.ReprColor.ANSI_HIGH_YELLOW_BACKGROUND);
+        Grupo grupo_rojo=new Grupo("VERMELLO", Valor.ReprColor.ANSI_RED_BACKGROUND);
+        Grupo grupo_blanco=new Grupo("GRIS", Valor.ReprColor.ANSI_WHITE_BACKGROUND);
+        Grupo grupo_verde=new Grupo("VERDE", Valor.ReprColor.ANSI_GREEN_BACKGROUND);
+        Grupo grupo_azul=new Grupo("AZUL", Valor.ReprColor.ANSI_BLUE_BACKGROUND);
 
 
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SALIDA",Casilla.TipoCasilla.SALIDA));
@@ -135,10 +133,6 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.INFRAESTRUCTURA));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("FENE",grupo_blanco,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_BLANCO/3,3000));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("IR_CARCEL",Casilla.TipoCasilla.IRCARCEL));
-
-
-
-
 
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("CORUNA",grupo_verde,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VERDE/3,3000));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("LUGO",grupo_verde,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VERDE/3,3000));
