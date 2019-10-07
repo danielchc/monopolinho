@@ -24,7 +24,7 @@ public class Casilla {
     private Xogador dono;
     private TipoCasilla tipoCasilla;
     private ReprTab.ReprColor colorCasilla;
-    ArrayList<Avatar> avatares;
+    private ArrayList<Avatar> avatares;
  //F
     public Casilla(String nome,TipoCasilla tipoCasilla){
         this.nome=nome;
@@ -61,11 +61,15 @@ public class Casilla {
     }
 
     public void engadirAvatar(Avatar a){
-        if(!avatares.contains(a))avatares.add(a);
+        if(!avatares.contains(a)){
+            avatares.add(a);
+        }
     }
 
     public void eliminarAvatar(Avatar a){
-        if(avatares.contains(a))avatares.remove(a);
+        if(avatares.contains(a)){
+            avatares.remove(a);
+        }
     }
 
     public TipoCasilla getTipoCasilla() {
@@ -89,7 +93,9 @@ public class Casilla {
     }
 
     public void setDono(Xogador dono) {
-        if(dono!=null)this.dono = dono;
+        if(dono!=null){
+            this.dono = dono;
+        }
     }
 
     public float getValor() {
