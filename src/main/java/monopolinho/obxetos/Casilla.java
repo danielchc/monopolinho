@@ -2,6 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.axuda.Valor;
 
 import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Casilla {
     private int posicion=-1; //VAYA PUTA ÑAPA CHAVAL
     private Xogador dono;
     private TipoCasilla tipoCasilla;
-    private ReprTab.ReprColor colorCasilla;
+    private Valor.ReprColor colorCasilla;
     private ArrayList<Avatar> avatares;
  //F
     public Casilla(String nome,TipoCasilla tipoCasilla){
@@ -33,22 +34,22 @@ public class Casilla {
         this.grupo=null;//HABER COMO SOLUCIONAMOS ESTO XD
         switch (tipoCasilla){
             case SORTE:
-                this.colorCasilla= ReprTab.ReprColor.ANSI_RED_BOLD;
+                this.colorCasilla= Valor.ReprColor.ANSI_RED_BOLD;
                 break;
             case CARCEL:
-                this.colorCasilla= ReprTab.ReprColor.ANSI_WHITE_BACKGROUND;
+                this.colorCasilla= Valor.ReprColor.ANSI_WHITE_BACKGROUND;
                 break;
             case PARKING:
-                this.colorCasilla= ReprTab.ReprColor.ANSI_HIGH_WHITE_BACKGROUND;
+                this.colorCasilla= Valor.ReprColor.ANSI_HIGH_WHITE_BACKGROUND;
                 break;
             case IMPOSTO:
-                this.colorCasilla= ReprTab.ReprColor.ANSI_GREEN_BOLD;
+                this.colorCasilla= Valor.ReprColor.ANSI_GREEN_BOLD;
                 break;
             case INFRAESTRUCTURA:
-                this.colorCasilla= ReprTab.ReprColor.ANSI_BLUE_BOLD;
+                this.colorCasilla= Valor.ReprColor.ANSI_BLUE_BOLD;
                 break;
             default:
-                this.colorCasilla= ReprTab.ReprColor.ANSI_BLACK;
+                this.colorCasilla= Valor.ReprColor.ANSI_BLACK;
         }
         this.tipoCasilla=tipoCasilla;
     }

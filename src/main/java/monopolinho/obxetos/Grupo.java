@@ -1,17 +1,17 @@
 package monopolinho.obxetos;
 
-import monopolinho.axuda.ReprTab;
+import monopolinho.axuda.Valor;
 
 public class Grupo {
 
     private String tipo; //solar ou especial  //TIPOS???
     private String posicion;    //norte sure este ou oeste
-    private ReprTab.ReprColor color;
+    private Valor.ReprColor color;
     private int numeroSolares;
 
 
 
-    public Grupo(String tipo, ReprTab.ReprColor color, String posicion){
+    public Grupo(String tipo, Valor.ReprColor color, String posicion){
         if(tipo==null || color==null || posicion==null){
             System.err.println("Error: algun elemento non inicializado");
             return;
@@ -45,11 +45,11 @@ public class Grupo {
         return tipo;
     }
 
-    public void setColor(ReprTab.ReprColor color) {
+    public void setColor(Valor.ReprColor color) {
         if (color!=null)this.color = color;
     } //NON CREO QUE SE USE
 
-    public ReprTab.ReprColor getColor() {
+    public Valor.ReprColor getColor() {
         return color;
     }
 

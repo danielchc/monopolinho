@@ -12,7 +12,7 @@ public class Avatar {
     private Xogador xogador;
     TipoMovemento tipo; //String tipo;
     private String id;
-    private Casilla posicion; //CASILLA
+    private Casilla posicion; //CASILLA na que esta
     public Avatar(TipoMovemento tipo, Xogador xogador){
         this.tipo=tipo;
         setXogador(xogador);

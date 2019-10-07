@@ -1,6 +1,7 @@
 package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
+import monopolinho.axuda.Valor;
 
 import java.util.ArrayList;
 
@@ -99,15 +100,15 @@ public class Taboeiro {
 
     public void xerarCasillas(){
 
-        Grupo marron=new Grupo("casilla", ReprTab.ReprColor.ANSI_HIGH_WHITE_BACKGROUND,"Norte"); //cambiar color
-        Grupo cyan=new Grupo("casilla", ReprTab.ReprColor.ANSI_CYAN_BACKGROUND,"Norte");
-        Grupo violeta=new Grupo("casilla", ReprTab.ReprColor.ANSI_PURPLE_BACKGROUND,"Norte");
-        Grupo ocre=new Grupo("casilla", ReprTab.ReprColor.ANSI_CYAN_BACKGROUND,"Norte");   //cambiar color
-        Grupo rojo=new Grupo("casilla", ReprTab.ReprColor.ANSI_RED_BACKGROUND,"Norte");
-        Grupo amarillo=new Grupo("casilla", ReprTab.ReprColor.ANSI_YELLOW_BACKGROUND,"Norte");
-        Grupo verde=new Grupo("casilla", ReprTab.ReprColor.ANSI_GREEN_BACKGROUND,"Norte");
-        Grupo azul=new Grupo("casilla", ReprTab.ReprColor.ANSI_BLUE_BACKGROUND,"Norte");
-        Grupo p=new Grupo("casilla", ReprTab.ReprColor.ANSI_RED_BACKGROUND,"Norte");  //provisional
+        Grupo marron=new Grupo("casilla", Valor.ReprColor.ANSI_HIGH_WHITE_BACKGROUND,"Norte"); //cambiar color
+        Grupo cyan=new Grupo("casilla", Valor.ReprColor.ANSI_CYAN_BACKGROUND,"Norte");
+        Grupo violeta=new Grupo("casilla", Valor.ReprColor.ANSI_PURPLE_BACKGROUND,"Norte");
+        Grupo ocre=new Grupo("casilla", Valor.ReprColor.ANSI_CYAN_BACKGROUND,"Norte");   //cambiar color
+        Grupo rojo=new Grupo("casilla", Valor.ReprColor.ANSI_RED_BACKGROUND,"Norte");
+        Grupo amarillo=new Grupo("casilla", Valor.ReprColor.ANSI_YELLOW_BACKGROUND,"Norte");
+        Grupo verde=new Grupo("casilla", Valor.ReprColor.ANSI_GREEN_BACKGROUND,"Norte");
+        Grupo azul=new Grupo("casilla", Valor.ReprColor.ANSI_BLUE_BACKGROUND,"Norte");
+        Grupo p=new Grupo("casilla", Valor.ReprColor.ANSI_RED_BACKGROUND,"Norte");  //provisional
 
 
 
