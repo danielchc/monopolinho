@@ -4,15 +4,7 @@ public class FuncionsValor {
 
     //FUNCIONES DINERITO//////////////////////////////////////////////
 
-    public float fortunaInicialXogador(Taboeiro taboeiro){
-        float suma=0;
-        for (int i=0;i<40;i++){
-            if(taboeiro.getCasilla(i).getTipoCasilla()== Casilla.TipoCasilla.SOLAR){
-                suma+=taboeiro.getCasilla(i).getValor();
-            }
-        }
-        return suma/3;
-    }
+
 
     public void cobrarSalida(Taboeiro taboeiro,Xogador x){
         float suma=0;

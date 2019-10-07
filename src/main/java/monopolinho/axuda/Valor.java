@@ -3,10 +3,9 @@ package monopolinho.axuda;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class Valor {
-    public static final float FORTUNA_INCIAL=100000;
     public static final float SAIR_CARCERE=5000;
-    public static final float IMPOSTO_BARATO=100;
-    public static final float IMPOSTO_CARO=200;
+    public static final float IMPOSTO_BARATO=1000;
+    public static final float IMPOSTO_CARO=2000;
 
     public static final float VALOR_GRUPO_OCRE=12000;
     public static final float VALOR_GRUPO_CYAN=15600;
@@ -16,6 +15,9 @@ public class Valor {
     public static final float VALOR_GRUPO_BLANCO=44550;
     public static final float VALOR_GRUPO_VERDE=57920;
     public static final float VALOR_GRUPO_AZUL=75300;
+
+    public static final float FORTUNA_INCIAL=(VALOR_GRUPO_OCRE+VALOR_GRUPO_CYAN+VALOR_GRUPO_VIOLETA+VALOR_GRUPO_AMARILLO+VALOR_GRUPO_ROJO+VALOR_GRUPO_BLANCO+VALOR_GRUPO_VERDE+VALOR_GRUPO_AZUL)/3;
+
 
     //CORES ASCII
     public enum ReprColor{

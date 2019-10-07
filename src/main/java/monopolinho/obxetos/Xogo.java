@@ -28,33 +28,40 @@ public class Xogo {
         engadirCasillasBanca();
     }
 
+    private void preguntarXogadores(){
+        System.out.println("\n\nInserta o numero de xogadores");
+        Scanner input=new Scanner(System.in);
+        while (!input.hasNextInt()) input.next();
+        int numXogadores = input.nextInt();
+        input.nextLine();
+        if (numXogadores>1){
+            for (int i=0;i<numXogadores;i++){
+                System.out.println("Introduce o nome do xogador "+(i+1));
+                String nome=input.nextLine();
+                System.out.println("Introduce o tipo de movemento do xogador "+(i+1));
+                String mov=input.nextLine();
+                crearXogador(nome,mov);
+            }
+        }else {
+            System.err.println("Debe haber polo menos dous xogadores");
+            System.exit(1);
+        }
+    }
     public void iniciar(){
         System.out.println("Bem vindo o Monopolinho: ");
+        preguntarXogadores();
         consola();
     }
-    public void consola(){
+    private void consola(){
         Scanner scanner= new Scanner(System.in);
         while(true){
             System.out.println("$> ");
             interpretarComando(scanner.nextLine());
         }
     }
-    public void interpretarComando(String comando) {
+    private void interpretarComando(String comando) {
         String[] cmds=comando.split(" ");
-        if(cmds[0].toLowerCase().equals("crear")){
-            if(cmds.length!=4){
-                System.out.println("Sintaxe: crear xogador <nome> <avatar>");
-                return;
-            }
-            crearXogador(cmds);
-            mostrarTaboeiro();
-            return;
-        }
-        if(this.xogadores.size()==0){
-            System.err.println("Non se creou ningún xogador");
-            System.out.println("Para crear un xogador: crear xogador <nome> <avatar>");
-            return;
-        }
+
         switch (cmds[0].toLowerCase()){
             case "xogador":
                 if (turno!=null)System.out.println(turno);
@@ -162,7 +169,7 @@ public class Xogo {
         }
     }
 
-    public void engadirCasillasBanca(){
+    private void engadirCasillasBanca(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona)
                 this.banca.engadirPropiedade(c);
@@ -187,31 +194,30 @@ public class Xogo {
                 //turno.setPosicion();
                 pasarTurno();
                 return;
-            case CARCEL:
-                //QUE SE SUPON QUE FAS SE CAES NA CASILLA CARCEL???
-                //System.out.println("Acabas de caer en la carcel");
-                break;
+
             case IMPOSTO:
                 //Añadir o bote o imposto
                 //this.taboeiro.engadirBote(next.getIMPOSTO);
-                //break;
+                break;
             case SORTE:
+                break;
             case PARKING:
                 turno.engadirDinheiro(this.taboeiro.getBote());
-                mensaxe+="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote da banca.";
-            default: //DE AQUI PARA ABAIXO VAISE EJECUTAR SEMPRE
-                //if(next.getDono()!=turno) BLABLABLALABLALBLA
-                turno.setPosicion(next);
-                mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n"+mensaxe;
+                mensaxe+="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote.";
+                break;
+            case CARCEL:
+                mensaxe+="So de visita...";
                 break;
         }
+        turno.setPosicion(next);
+        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n"+mensaxe;
         mostrarTaboeiro();
         System.out.println("\n"+mensaxe);
     }
 
     //FUNCIONS SWITCH
-    private void crearXogador(String[] cmds){
-        Xogador xogador=new Xogador(cmds[2], interpretarMov(cmds[3]));
+    private void crearXogador(String nombre,String tipoMov){
+        Xogador xogador=new Xogador(nombre, interpretarMov(tipoMov));
         this.xogadores.add(xogador);              //añado o xogador creado á lista de xogadores
         System.out.println(xogador);
         if(this.xogadores.get(0).equals(xogador)){
@@ -227,7 +233,7 @@ public class Xogo {
         else System.out.println("Non existe esta casilla");
     }
 
-    public void describirXogador(String[] cmds){
+    private void describirXogador(String[] cmds){
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(cmds[2].toLowerCase())){
                 System.out.println(x.describir());
@@ -236,7 +242,7 @@ public class Xogo {
         }
         System.out.println("Non se atopou o xogador "+cmds[2]);
     }
-    public void describirAvatar(String[] cmds){
+    private void describirAvatar(String[] cmds){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getId().equals(cmds[2])){
                 System.out.println(x.describir());
