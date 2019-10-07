@@ -17,7 +17,7 @@ public class Xogador {
         this.nome="Banca";
         this.avatar=null;
         this.dineroGastado=0; //SIN IMPLEMENTAR
-        this.fortuna=Integer.MAX_VALUE; //1000000000
+        this.fortuna=0;
         this.propiedades=new ArrayList<>(); //lookoooo
     }
 

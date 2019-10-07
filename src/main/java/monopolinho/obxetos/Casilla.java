@@ -15,7 +15,8 @@ public class Casilla {
         SALIDA,
         IMPOSTO,
         SORTE,
-        INFRAESTRUCTURA
+        INFRAESTRUCTURA,
+        COMUNIDADE
     }
     private String nome;
     private Grupo grupo;
