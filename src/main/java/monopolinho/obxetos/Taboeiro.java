@@ -127,24 +127,24 @@ public class Taboeiro {
 
 
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SALIDA",Casilla.TipoCasilla.SALIDA));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("ELISARDINHO",cyan,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("DORA",cyan,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TEST",cyan,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TEST",cyan,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SORTE",p,Casilla.TipoCasilla.SORTE,3000,3000));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("LOSADA",cyan,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TEST",cyan,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TRENSINO",p,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("PAGA",p,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("LADRA",marron,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TEST",marron,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("COMUNIDADE",p,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("KAK",p,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("ADDDS",p,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("CARCEL", Casilla.TipoCasilla.CARCEL));
 
 
 
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TOCOU",verde,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("DITE AI",verde,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("ADIOS",verde,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("COMUNIDADE",p,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("DITE",verde,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRENSINO",p,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("HOLA",verde,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TREN",p,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SORTE",p,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SIM",azul,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("NAO",azul,Casilla.TipoCasilla.SOLAR,3000,3000));
@@ -158,7 +158,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MATOSINHOS",ocre,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("TRENSINO",p,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MATOSINHOS",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("NAO",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SANTIAGO",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("COUSA",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
 
     }
