@@ -16,7 +16,8 @@ public class Casilla {
         IMPOSTO,
         SORTE,
         INFRAESTRUCTURA,
-        COMUNIDADE
+        COMUNIDADE,
+        TRANSPORTE
     }
     private String nome;
     private Grupo grupo;
@@ -37,14 +38,17 @@ public class Casilla {
             case SORTE:
                 this.colorCasilla= Valor.ReprColor.ANSI_RED_BOLD;
                 break;
-            case CARCEL:
-                this.colorCasilla= Valor.ReprColor.ANSI_WHITE_BACKGROUND;
-                break;
             case PARKING:
-                this.colorCasilla= Valor.ReprColor.ANSI_HIGH_WHITE_BACKGROUND;
+            case CARCEL:
+            case SALIDA:
+            case IRCARCEL:
+                this.colorCasilla= Valor.ReprColor.ANSI_BLACK_BOLD;
                 break;
             case IMPOSTO:
                 this.colorCasilla= Valor.ReprColor.ANSI_GREEN_BOLD;
+                break;
+            case TRANSPORTE:
+                this.colorCasilla=Valor.ReprColor.ANSI_PURPLE_BOLD;
                 break;
             case INFRAESTRUCTURA:
                 this.colorCasilla= Valor.ReprColor.ANSI_BLUE_BOLD;

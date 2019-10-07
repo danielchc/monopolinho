@@ -17,7 +17,8 @@ public class Main {
 //        for(int i=0;i<40;i++){
 //            System.out.println(t.getCasilla(i));
 //        }
-        //System.out.println(t);
+        System.out.println(t);
+        /*
         ArrayList<Xogador> xo=new ArrayList<>();
         ListIterator<Xogador> turno=xo.listIterator();
 
