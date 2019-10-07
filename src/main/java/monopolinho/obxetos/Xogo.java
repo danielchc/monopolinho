@@ -25,7 +25,7 @@ public class Xogo {
         banca=new Xogador();
         dados=new Dados();
         engadirCasillasBanca();
-        turno.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
+        for (Xogador t:this.xogadores) t.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
     }
 
     public void consola(){
