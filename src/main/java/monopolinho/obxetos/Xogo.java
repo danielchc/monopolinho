@@ -178,7 +178,7 @@ public class Xogo {
                 //IMPLEMENTAR, COMPROBAR SE ESTA NA CARCEL
                 break;
             case "describir":
-                if(cmds.length!=2){
+                if(cmds.length<2){
                     System.out.println("Sintaxe describir <xogador/avatar> <nome>");
                     System.out.println("Sintaxe describir <casilla>");
                     return;
@@ -262,7 +262,7 @@ public class Xogo {
             case SORTE:
             case PARKING:
                 turno.engadirDinheiro(this.taboeiro.getBote());
-                mensaxe+="O xogador "+ turno.getNome() + "recibe "+this.taboeiro.getBote()+", do bote da banca.";
+                mensaxe+="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote da banca.";
             default: //DE AQUI PARA ABAIXO VAISE EJECUTAR SEMPRE
                 //if(next.getDono()!=turno) BLABLABLALABLALBLA
                 turno.setPosicion(next);
@@ -300,7 +300,7 @@ public class Xogo {
     }
     public void describirAvatar(String[] cmds){
         for(Xogador x:this.xogadores){
-            if(x.getNome().equals(cmds[2])){
+            if(x.getAvatar().getId().equals(cmds[2])){
                 System.out.println(x.describir());
                 return;
             }
