@@ -12,15 +12,12 @@ public class Taboeiro {
         ESTE
     }
     private ArrayList<ArrayList<Casilla>> casillas;
-    private Xogador banca;
     private float bote;
 
     public Taboeiro(){
         this.casillas=new ArrayList<>();
-        banca=new Xogador();
         for(int i=0;i<4;i++)this.casillas.add(new ArrayList<>()); //AÑADIR ZONAS
         xerarCasillas();
-        engadirCasillasBanca();
     }
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
@@ -47,13 +44,6 @@ public class Taboeiro {
         else return getCasillas(Zona.ESTE).get(posicion-31);
     }
 
-    public void engadirCasillasBanca(){
-        for(ArrayList<Casilla> zona:this.casillas){
-            for(Casilla c:zona){
-                banca.engadirPropiedade(c);
-            }
-        }
-    }
     public Casilla buscarCasilla(String nome){
         for(ArrayList<Casilla> ac:this.casillas){
             for(Casilla c:ac){
@@ -169,5 +159,6 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MATOSINHOS",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("NAO",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("COUSA",violeta,Casilla.TipoCasilla.SOLAR,3000,3000));
+
     }
 }

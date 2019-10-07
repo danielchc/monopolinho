@@ -15,103 +15,18 @@ import java.util.Scanner;
 public class Xogo {
 
     private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
-    //private ArrayList<Avatar> avatares; //lista de avatares
     private Taboeiro taboeiro;
     private Xogador turno;
     Dados dados;
+    Xogador banca;
 
     public Xogo(){
         this.xogadores=new ArrayList<>();
-        //this.avatares=new ArrayList<>();
         taboeiro=new Taboeiro();
+        banca=new Xogador();
         dados=new Dados();
+        engadirCasillasBanca();
     }
-
-    private Avatar.TipoMovemento interpretarMov(String tipomov){
-        switch (tipomov.toLowerCase()){
-            case "pelota":
-                return Avatar.TipoMovemento.PELOTA;
-            case "esfinxe":
-                return Avatar.TipoMovemento.ESFINXE;
-            case "sombreiro":
-                return Avatar.TipoMovemento.SOMBREIRO;
-            case "coche":
-            default:
-                return Avatar.TipoMovemento.COCHE;
-        }
-    }
-
-
-
-    //FUNCIONES DINERITO//////////////////////////////////////////////
-
-    public float fortunaInicialXogador(){
-        float suma=0;
-        for (int i=0;i<40;i++){
-            if(taboeiro.getCasilla(i).getTipoCasilla()== Casilla.TipoCasilla.SOLAR){
-                suma+=taboeiro.getCasilla(i).getValor();
-            }
-        }
-        return suma/3;
-    }
-
-    public void cobrarSalida(Xogador x){
-        float suma=0;
-        int contador=0;
-        for (int i=0;i<40;i++) {
-            if (taboeiro.getCasilla(i).getTipoCasilla() == Casilla.TipoCasilla.SOLAR) {
-                suma += taboeiro.getCasilla(i).getValor();
-                contador++;
-            }
-        }
-        x.engadirDinheiro(suma/contador);   //engadeselle a media do valor dos solares
-    }
-
-    public float valorInicialTransporte(){
-        float suma=0;
-        int contador=0;
-        for (int i=0;i<40;i++) {
-            if (taboeiro.getCasilla(i).getTipoCasilla() == Casilla.TipoCasilla.SOLAR) {
-                suma += taboeiro.getCasilla(i).getValor();
-                contador++;
-            }
-        }
-        return suma/contador;
-    }
-
-    public float valorInicialServicio(){
-        return 0.75f*valorInicialTransporte();
-    }
-
-    /*  SIN COMPLETAR, FALTA O DE VALOR INICIAL DOS SOLARES
-    public float valorInicialCasaHotel(Casilla c){
-        return 0.6f*valorInicialSolar();
-    }
-    */
-
-    /*  SIN COMPLETAR, FALTA O DE VALOR INICIAL DOS SOLARES
-    public float valorInicialPiscina(Casilla c){
-        return 0.4f*valorInicialSolar();
-    }
-    */
-
-    /*  SIN COMPLETAR, FALTA O DE VALOR INICIAL DOS SOLARES
-    public float valorInicialPistaDeporte(Casilla c){
-        return 1.25f*valorInicialSolar();
-    }
-    */
-
-
-
-
-
-
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////////
 
     public void iniciar(){
         System.out.println("Bem vindo o Monopolinho: ");
@@ -231,7 +146,28 @@ public class Xogo {
         }
     }
 
-    //ÑAPAAAAAAAAAAAAAAAAAA
+    //FUNCIONS AUXILIARES
+
+    private Avatar.TipoMovemento interpretarMov(String tipomov){
+        switch (tipomov.toLowerCase()){
+            case "pelota":
+                return Avatar.TipoMovemento.PELOTA;
+            case "esfinxe":
+                return Avatar.TipoMovemento.ESFINXE;
+            case "sombreiro":
+                return Avatar.TipoMovemento.SOMBREIRO;
+            case "coche":
+            default:
+                return Avatar.TipoMovemento.COCHE;
+        }
+    }
+
+    public void engadirCasillasBanca(){
+        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
+            for(Casilla c:zona)
+                this.banca.engadirPropiedade(c);
+        }
+    }
 
     private void interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
@@ -272,6 +208,8 @@ public class Xogo {
         mostrarTaboeiro();
         System.out.println("\n"+mensaxe);
     }
+
+    //FUNCIONS SWITCH
     private void crearXogador(String[] cmds){
         Xogador xogador=new Xogador(cmds[2], interpretarMov(cmds[3]));
         this.xogadores.add(xogador);              //añado o xogador creado á lista de xogadores
