@@ -16,8 +16,8 @@ public class Xogador {
     public Xogador(){
         this.nome="Banca";
         this.avatar=null;
-        this.dineroGastado=0; //SIN IMPLEMENTAR
-        this.fortuna=0;
+        this.dineroGastado=0.0f; //SIN IMPLEMENTAR
+        this.fortuna=0.0f;
         this.propiedades=new ArrayList<>(); //lookoooo
     }
 

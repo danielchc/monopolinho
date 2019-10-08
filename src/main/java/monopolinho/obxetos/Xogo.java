@@ -64,6 +64,12 @@ public class Xogo {
                 }
                 lanzarDados();
                 break;
+            ///////////////////////////////////////////////////////////////////////////////////////////// BORRAR ESTOOOOOOOOO!!!!!!!!!!!!!!!!
+            case "mov": //BORRAR ISTOOOO!!!!
+                Casilla current=turno.getPosicion();
+                interpretarAccion(current,Integer.parseInt(cmds[1]));
+                break;
+            ///////////////////////////////////////////////////////////////////////////////////////////////
             case "acabar":
                 if(cmds.length!=2) {
                     System.out.println("Sintaxe: acabar turno");
@@ -114,10 +120,6 @@ public class Xogo {
                     return;
                 }
                 mostrarTaboeiro();
-                break;
-            case "mov": //BORRAR ISTOOOO!!!!
-                Casilla current=turno.getPosicion();
-                interpretarAccion(current,Integer.parseInt(cmds[1]));
                 break;
             case "exit":
                 System.out.println("Saindo...");
@@ -172,7 +174,7 @@ public class Xogo {
         }
         turno.setPosicion(next);
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n"+mensaxe;
-        mostrarTaboeiro();
+        //mostrarTaboeiro();
         System.out.println("\n"+mensaxe);
     }
 
@@ -221,6 +223,30 @@ public class Xogo {
         System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
         Casilla current=turno.getPosicion();
         interpretarAccion(current,dados.valorLanzar());
+        /////////SE SALEN DOBLES TAL CUAL ESTA NON PODERIAS COMPRAR A CASILLA NA QUE CAES NA PRIMEIRA TIRADA
+
+        if (dados.sonDobles()){
+            System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
+            dados.lanzarDados();
+            System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
+            Casilla current1=turno.getPosicion();
+            interpretarAccion(current1,dados.valorLanzar());
+            if (dados.sonDobles()){
+                System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
+                dados.lanzarDados();
+                if (dados.sonDobles()){
+                    System.out.println("\nSairon triples,"+turno.getNome()+" vai para a carcel");
+                    /////////////////////////MANDALO PA CARCEL//////////////////////////////////////////////////////////////////////////////////////
+
+
+                }
+                else{
+                    System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
+                    Casilla current2=turno.getPosicion();
+                    interpretarAccion(current2,dados.valorLanzar());
+                }
+            }
+        }
     }
 
     private void pasarTurno(){
