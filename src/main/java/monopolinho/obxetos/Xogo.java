@@ -219,6 +219,9 @@ public class Xogo {
 //                System.out.println(c);
     }
     private void lanzarDados(){
+        String quereComprar;
+        Scanner input=new Scanner(System.in);
+
         dados.lanzarDados();
         System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
         Casilla current=turno.getPosicion();
@@ -227,12 +230,28 @@ public class Xogo {
 
         if (dados.sonDobles()){
             System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
+
+            System.out.println("\nQueres comprar a casilla na que estas antes de anvanzar outra vez? si (s) ou no (n)");
+            quereComprar=input.nextLine();
+            if(quereComprar.equals("s")){
+                turno.getPosicion().comprar(turno);
+                System.out.println("Compra realizada.");
+            }
+
             dados.lanzarDados();
             System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
             Casilla current1=turno.getPosicion();
             interpretarAccion(current1,dados.valorLanzar());
             if (dados.sonDobles()){
                 System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
+
+                System.out.println("\nQueres comprar a casilla na que estas antes de anvanzar outra vez? si (s) ou no (n)");
+                quereComprar=input.nextLine();
+                if(quereComprar.equals("s")){
+                    turno.getPosicion().comprar(turno);
+                    System.out.println("Compra realizada.");
+                }
+
                 dados.lanzarDados();
                 if (dados.sonDobles()){
                     System.out.println("\nSairon triples,"+turno.getNome()+" vai para a carcel");
