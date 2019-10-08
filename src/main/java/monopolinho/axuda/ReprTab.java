@@ -20,8 +20,12 @@ public class ReprTab {
     public static String bordeTextoCentrado(String texto){
         return "│"+centrarTexto(texto,WIDTH-2)+"│";
     }
+
     public static String colorear(Valor.ReprColor color, String texto){
-        return Valor.Cores[color.ordinal()] + texto + Valor.Cores[Valor.ReprColor.ANSI_RESET.ordinal()];
+        String re=Valor.Cores[color.ordinal()] + texto + Valor.Cores[Valor.ReprColor.ANSI_RESET.ordinal()];
+        if(color== Valor.ReprColor.ANSI_BLUE_BACKGROUND || color== Valor.ReprColor.ANSI_BLACK_BACKGROUND)
+            re=Valor.Cores[Valor.ReprColor.ANSI_WHITE.ordinal()]+re+Valor.Cores[Valor.ReprColor.ANSI_RESET.ordinal()];
+        return re;
     }
     public static void unirCasilla(String[] casillas, Casilla casilla){
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla.getRepresentacion()[i];

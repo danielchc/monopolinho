@@ -100,60 +100,60 @@ public class Taboeiro {
 
     public void xerarCasillas(){
 
-        Grupo grupo_ocre=new Grupo("OCRE", Valor.ReprColor.ANSI_YELLOW_BACKGROUND);
-        Grupo grupo_cyan=new Grupo("CYAN", Valor.ReprColor.ANSI_CYAN_BACKGROUND);
-        Grupo grupo_violeta=new Grupo("VIOLETA", Valor.ReprColor.ANSI_PURPLE_BACKGROUND);
-        Grupo grupo_amarillo=new Grupo("AMARELO", Valor.ReprColor.ANSI_HIGH_YELLOW_BACKGROUND);
-        Grupo grupo_rojo=new Grupo("VERMELLO", Valor.ReprColor.ANSI_RED_BACKGROUND);
-        Grupo grupo_blanco=new Grupo("GRIS", Valor.ReprColor.ANSI_WHITE_BACKGROUND);
-        Grupo grupo_verde=new Grupo("VERDE", Valor.ReprColor.ANSI_GREEN_BACKGROUND);
-        Grupo grupo_azul=new Grupo("AZUL", Valor.ReprColor.ANSI_BLUE_BACKGROUND);
+        Grupo grupo_ocre=new Grupo("OCRE", Valor.ReprColor.ANSI_YELLOW_BACKGROUND,Valor.VALOR_GRUPO_OCRE);
+        Grupo grupo_cyan=new Grupo("CYAN", Valor.ReprColor.ANSI_CYAN_BACKGROUND,Valor.VALOR_GRUPO_CYAN);
+        Grupo grupo_violeta=new Grupo("VIOLETA", Valor.ReprColor.ANSI_PURPLE_BACKGROUND,Valor.VALOR_GRUPO_CYAN);
+        Grupo grupo_amarillo=new Grupo("AMARELO", Valor.ReprColor.ANSI_HIGH_YELLOW_BACKGROUND,Valor.VALOR_GRUPO_AMARILLO);
+        Grupo grupo_rojo=new Grupo("VERMELLO", Valor.ReprColor.ANSI_RED_BACKGROUND,Valor.VALOR_GRUPO_ROJO);
+        Grupo grupo_blanco=new Grupo("GRIS", Valor.ReprColor.ANSI_WHITE_BACKGROUND,Valor.VALOR_GRUPO_BLANCO);
+        Grupo grupo_verde=new Grupo("VERDE", Valor.ReprColor.ANSI_GREEN_BACKGROUND,Valor.VALOR_GRUPO_VERDE);
+        Grupo grupo_azul=new Grupo("AZUL", Valor.ReprColor.ANSI_BLUE_BACKGROUND,Valor.VALOR_GRUPO_AZUL);
 
 
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SALIDA",Casilla.TipoCasilla.SALIDA));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("GOIRIZ",grupo_ocre,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_OCRE/2,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("GOIRIZ",grupo_ocre,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("CAIXA",Casilla.TipoCasilla.COMUNIDADE));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SADA",grupo_ocre,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_OCRE/2,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SADA",grupo_ocre,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("IMPOSTO1",Casilla.TipoCasilla.IMPOSTO));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("AVE",Casilla.TipoCasilla.TRANSPORTE));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BOIMORTO",grupo_cyan,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_CYAN/3,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BOIMORTO",grupo_cyan,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_CYAN/3,3000));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BALDAIO",grupo_cyan,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_CYAN/3,3000));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan,Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BALDAIO",grupo_cyan,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TEIXEIRO", Casilla.TipoCasilla.CARCEL));
 
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("PARKING",Casilla.TipoCasilla.PARKING));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CASTROVERDE",grupo_rojo,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_ROJO/3,3000));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CASTROVERDE",grupo_rojo,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MUIMENTA",grupo_rojo,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_ROJO/3,3000));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("GUITIRIZ",grupo_rojo,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_ROJO/3,3000));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("HIDROAVION",Casilla.TipoCasilla.TRANSPORTE));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("ALLARIZ",grupo_blanco,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_BLANCO/3,3000));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CANGAS",grupo_blanco,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_BLANCO/3,3000));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MUIMENTA",grupo_rojo,Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("GUITIRIZ",grupo_rojo,Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("HIDROAVION",Casilla.TipoCasilla.TRANSPORTE,1000));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("ALLARIZ",grupo_blanco,Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CANGAS",grupo_blanco,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.INFRAESTRUCTURA));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("FENE",grupo_blanco,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_BLANCO/3,3000));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("FENE",grupo_blanco,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("IR_CARCEL",Casilla.TipoCasilla.IRCARCEL));
 
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("CORUNA",grupo_verde,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VERDE/3,3000));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("LUGO",grupo_verde,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VERDE/3,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("CORUNA",grupo_verde,Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("LUGO",grupo_verde,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("COMUNIDADE",Casilla.TipoCasilla.COMUNIDADE));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("ORENSE",grupo_verde,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VERDE/3,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("ORENSE",grupo_verde,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRACTOR",Casilla.TipoCasilla.TRANSPORTE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("VIGO",grupo_azul,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_AZUL/2,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("VIGO",grupo_azul,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("IMPOSTO",Casilla.TipoCasilla.IMPOSTO));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SANTIAGO",grupo_azul,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_AZUL/2,3000));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SANTIAGO",grupo_azul,Casilla.TipoCasilla.SOLAR));
 
 
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("FRADES",grupo_violeta, Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VIOLETA/3,3000));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("FRADES",grupo_violeta, Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MEIRAMA", Casilla.TipoCasilla.INFRAESTRUCTURA));//servicio
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MONELOS",grupo_violeta, Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VIOLETA/3,3000));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("LOURO",grupo_violeta, Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_VIOLETA/3,3000));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MONELOS",grupo_violeta, Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("LOURO",grupo_violeta, Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("CATAMARAN", Casilla.TipoCasilla.TRANSPORTE));//servicio
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SANTISO",grupo_amarillo,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_AMARILLO/3,3000));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SANTISO",grupo_amarillo,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("COMUNIDADE", Casilla.TipoCasilla.COMUNIDADE));//servicio
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MELIDE",grupo_amarillo,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_AMARILLO/3,3000));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SARRIA",grupo_amarillo,Casilla.TipoCasilla.SOLAR,Valor.VALOR_GRUPO_AMARILLO/3,3000));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MELIDE",grupo_amarillo,Casilla.TipoCasilla.SOLAR));
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SARRIA",grupo_amarillo,Casilla.TipoCasilla.SOLAR));
 
     }
 }

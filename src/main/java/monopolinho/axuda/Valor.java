@@ -1,6 +1,5 @@
 package monopolinho.axuda;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class Valor {
     public static final float SAIR_CARCERE=30000;
@@ -15,12 +14,6 @@ public class Valor {
     public static final float VALOR_GRUPO_BLANCO=VALOR_GRUPO_ROJO*1.3f;
     public static final float VALOR_GRUPO_VERDE=VALOR_GRUPO_BLANCO*1.3f;
     public static final float VALOR_GRUPO_AZUL=VALOR_GRUPO_VERDE*1.3f;
-
-
-
-
-
-
 
     public static final float FORTUNA_INCIAL=(VALOR_GRUPO_OCRE+VALOR_GRUPO_CYAN+VALOR_GRUPO_VIOLETA+VALOR_GRUPO_AMARILLO+VALOR_GRUPO_ROJO+VALOR_GRUPO_BLANCO+VALOR_GRUPO_VERDE+VALOR_GRUPO_AZUL);
 

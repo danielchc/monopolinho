@@ -7,12 +7,13 @@ import java.util.ArrayList;
 public class Grupo {
 
     private String grupo_nome;
+    private float valor;
     private Valor.ReprColor color;
     private ArrayList<Casilla> solares;
 
 
 
-    public Grupo(String grupo_nome, Valor.ReprColor color){
+    public Grupo(String grupo_nome, Valor.ReprColor color,float valor){
         if(grupo_nome==null || color==null){
             System.err.println("Error: algun elemento non inicializado");
             return;
@@ -20,10 +21,15 @@ public class Grupo {
         this.solares=new ArrayList<>();
         this.grupo_nome=grupo_nome;
         this.color=color;
+        this.valor=valor;
     }
 
     public void engadirSolar(Casilla c){
         if(c!=null)this.solares.add(c);
+    }
+
+    public ArrayList<Casilla> getSolares() {
+        return solares;
     }
 
     public Valor.ReprColor getColor() {
@@ -31,6 +37,14 @@ public class Grupo {
     }
     public String getNome(){
         return this.grupo_nome;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public void setValor(float valor) {
+        this.valor = valor;
     }
 
     @Override

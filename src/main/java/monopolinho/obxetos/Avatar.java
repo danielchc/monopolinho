@@ -13,6 +13,7 @@ public class Avatar {
     TipoMovemento tipo; //String tipo;
     private String id;
     private Casilla posicion; //CASILLA na que esta
+
     public Avatar(TipoMovemento tipo, Xogador xogador){
         this.tipo=tipo;
         setXogador(xogador);
@@ -65,25 +66,7 @@ public class Avatar {
     }
     @Override
     public String toString(){
-        String texto="{"+"\n\tId: "+this.id+"\n\tTipo: "+this.tipo.toString()+"\n\tXogador: "+this.xogador.getNome()+"\n}";
+        String texto="{"+"\n\tId: "+this.id+"\n\tTipo: "+this.tipo.toString()+"\n\tXogador: "+this.xogador.getPosicion().getNome()+"\n\tXogador: "+this.xogador.getNome()+"\n}";
         return texto;
     }
-    /*
-    private String[] avatares={"O","\uD83D\uDE97","L"};
-    private TipoAvatar tipoAvatar;
-    public String getRepresentacion(){
-        return avatares[this.tipoAvatar.ordinal()];
-    }
-
-    public Avatar(TipoAvatar tipoAvatar){
-        this.tipoAvatar =tipoAvatar;
-    }
-
-    public void setTipoAvatar(TipoAvatar tipoAvatar) {
-        this.tipoAvatar = tipoAvatar;
-    }
-
-    public TipoAvatar getTipoAvatar() {
-        return tipoAvatar;
-    */
 }

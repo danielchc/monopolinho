@@ -26,6 +26,7 @@ public class Xogo {
         dados=new Dados();
         engadirCasillasBanca();
         for (Xogador t:this.xogadores) t.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
+        mostrarTaboeiro();
     }
 
     public void consola(){
@@ -198,7 +199,7 @@ public class Xogo {
     private void describirAvatar(String[] cmds){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getId().equals(cmds[2])){
-                System.out.println(x.describir());
+                System.out.println(x.getAvatar());
                 return;
             }
         }
