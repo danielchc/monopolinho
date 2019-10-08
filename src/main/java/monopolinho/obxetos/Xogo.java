@@ -1,11 +1,6 @@
 package monopolinho.obxetos;
 
-
-import monopolinho.axuda.ReprTab;
-import monopolinho.obxetos.Avatar;
-import monopolinho.obxetos.Dados;
-import monopolinho.obxetos.Taboeiro;
-import monopolinho.obxetos.Xogador;
+import monopolinho.axuda.Valor;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -80,6 +75,11 @@ public class Xogo {
                 break;
             case "salir":
                 //IMPLEMENTAR, COMPROBAR SE ESTA NA CARCEL
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: acabar turno");
+                    return;
+                }
+                salirCarcel();
                 break;
             case "describir":
                 if(cmds.length<2){
@@ -142,22 +142,18 @@ public class Xogo {
 
     private void interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
-        /*PUTA ÑAPA ESTO NON QUEDA ASI */
-        if(current.getTipoCasilla()== Casilla.TipoCasilla.CARCEL){
-            //AQUI HAI QUE FACER O DOS TURNOS
-            System.out.println("MEO DEOS VOCE ESTA PRESO!");
-            return;
+        if((current.getPosicionIndex()+newPos)>39) {
+            mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro";
+            turno.getAvatar().voltaTaboeiro();
         }
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
         switch (next.getTipoCasilla()){
             case IRCARCEL:
-                System.out.println("MEO DEOS voce ficou presso");
-                //METER NA CARCEL!!
-                //Casilla carcel=.....
-                //turno.setPosicion();
-                pasarTurno();
-                return;
-
+                mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
+                turno.setTurnosNaCarcel(3);
+                next=this.taboeiro.getCasilla(10); //CASILLA CARCEL
+                //pasarTurno(); PODE PAGAR PA SALIR DA CARCEL
+                break;
             case IMPOSTO:
                 //Añadir o bote o imposto
                 //this.taboeiro.engadirBote(next.getIMPOSTO);
@@ -175,7 +171,7 @@ public class Xogo {
         }
         turno.setPosicion(next);
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n"+mensaxe;
-        //mostrarTaboeiro();
+        mostrarTaboeiro();
         System.out.println("\n"+mensaxe);
     }
 
@@ -214,21 +210,26 @@ public class Xogo {
             System.out.println(x.describir());
     }
     private void listarCasillaEnVenta(){
-        //POR FASER
-//        for(this.taboeiro)
-//            for(Casilla c:ac)
-//                System.out.println(c);
+       for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
+           for(Casilla c:zona)
+               if(c.getTipoCasilla()== Casilla.TipoCasilla.SOLAR || c.getTipoCasilla() == Casilla.TipoCasilla.INFRAESTRUCTURA || c.getTipoCasilla()== Casilla.TipoCasilla.TRANSPORTE)
+                   System.out.println(c);
     }
     private void lanzarDados(){
         String quereComprar;
         Scanner input=new Scanner(System.in);
 
         dados.lanzarDados();
+        if(turno.estaNaCarcel()){
+            System.err.println("Estás no cárcere non podes lanzar os dados se non pagas");
+            return;
+        }
         System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
         Casilla current=turno.getPosicion();
         interpretarAccion(current,dados.valorLanzar());
-        /////////SE SALEN DOBLES TAL CUAL ESTA NON PODERIAS COMPRAR A CASILLA NA QUE CAES NA PRIMEIRA TIRADA
 
+        /////////SE SALEN DOBLES TAL CUAL ESTA NON PODERIAS COMPRAR A CASILLA NA QUE CAES NA PRIMEIRA TIRADA
+        /*REVISAR ESTO */
         if (dados.sonDobles()){
             System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
 
@@ -257,8 +258,6 @@ public class Xogo {
                 if (dados.sonDobles()){
                     System.out.println("\nSairon triples,"+turno.getNome()+" vai para a carcel");
                     /////////////////////////MANDALO PA CARCEL//////////////////////////////////////////////////////////////////////////////////////
-
-
                 }
                 else{
                     System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
@@ -271,10 +270,24 @@ public class Xogo {
 
     private void pasarTurno(){
         Xogador actual=turno;
-        turno=this.xogadores.get((this.xogadores.indexOf(turno)+1)%this.xogadores.size());
+        int novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
+        turno=this.xogadores.get(novoTurno);
+        if(novoTurno==0){
+            //RESTAR CARCEL VOLTAS
+        }
         System.out.println("Tiña o turno "+actual.getNome()+" agora teno "+turno.getNome());
     }
-
+    private void salirCarcel(){
+        if (!turno.estaNaCarcel()){
+            System.out.println("O xogador non está no cárcere");
+            return;
+        }
+        if(turno.salirCarcel()){
+            System.out.println(turno.getNome()+" paga "+ Valor.SAIR_CARCERE + " y sale de la cárcel. Puede lanzar los dados.");
+        }else{
+            System.err.println("Non tes o suficiente diñeiro para saír do cárcere");
+        }
+    }
     private void comprarCasilla(String[] cmds){
         //Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
         //TA MAL IMPLEMENTADA??????

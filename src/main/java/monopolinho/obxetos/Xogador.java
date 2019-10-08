@@ -11,14 +11,15 @@ public class Xogador {
     private float dineroGastado;
     private ArrayList<Casilla> propiedades;
     private boolean tenTurno;
-    private boolean enCarcel;
+    private int turnosNaCarcel;
 
     public Xogador(){
         this.nome="Banca";
         this.avatar=null;
         this.dineroGastado=0.0f; //SIN IMPLEMENTAR
         this.fortuna=0.0f;
-        this.propiedades=new ArrayList<>(); //lookoooo
+        this.turnosNaCarcel=0;
+        this.propiedades=new ArrayList<>();
     }
 
     public Xogador(String nome, Avatar.TipoMovemento tipoMovemento){
@@ -28,6 +29,23 @@ public class Xogador {
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>(); //lookoooo
 
+    }
+
+    public int getTurnosNaCarcel() {
+        return turnosNaCarcel;
+    }
+    public boolean salirCarcel(){
+        if(this.quitarDinheiro(Valor.SAIR_CARCERE)){
+            setTurnosNaCarcel(0);
+            return true;
+        }
+        return false;
+    }
+    public void setTurnosNaCarcel(int turnosNaCarcel) {
+        this.turnosNaCarcel = turnosNaCarcel;
+    }
+    public boolean estaNaCarcel(){
+        return (this.turnosNaCarcel!=0);
     }
 
     public ArrayList<Casilla> getPropiedades() {
@@ -64,12 +82,9 @@ public class Xogador {
 
     public boolean quitarDinheiro(float dinero){
         if(fortuna<dinero)return false;
-        fortuna-=dinero;
+        this.fortuna-=dinero;
+        this.dineroGastado+=dinero;
         return true;
-    }
-
-    public boolean getEnCarcel() {
-        return (avatar.getPosicion().getTipoCasilla()== Casilla.TipoCasilla.CARCEL);
     }
 
     public void setNome(String nome) {

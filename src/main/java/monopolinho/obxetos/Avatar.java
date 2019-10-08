@@ -1,5 +1,7 @@
 package monopolinho.obxetos;
 
+import monopolinho.axuda.Valor;
+
 import java.util.Random;
 
 public class Avatar {
@@ -10,9 +12,10 @@ public class Avatar {
         SOMBREIRO,
     }
     private Xogador xogador;
-    TipoMovemento tipo; //String tipo;
+    private TipoMovemento tipo; //String tipo;
     private String id;
     private Casilla posicion; //CASILLA na que esta
+    private int voltasTaboeiro=0;
 
     public Avatar(TipoMovemento tipo, Xogador xogador){
         this.tipo=tipo;
@@ -36,6 +39,13 @@ public class Avatar {
         return id;
     }
 
+    public int getVoltasTaboeiro() {
+        return voltasTaboeiro;
+    }
+    public void voltaTaboeiro(){
+        this.voltasTaboeiro++;
+        this.xogador.engadirDinheiro(Valor.VOLTA_COMPLETA);
+    }
     public void setPosicion(Casilla posicion) {
         if(posicion!=null){
             if (this.posicion!=null)this.posicion.eliminarAvatar(this);

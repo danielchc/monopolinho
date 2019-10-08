@@ -120,7 +120,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BALDAIO",grupo_cyan,Casilla.TipoCasilla.SOLAR));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("TEIXEIRO", Casilla.TipoCasilla.CARCEL));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("CARCEL_TEIXEIRO", Casilla.TipoCasilla.CARCEL));
 
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("PARKING",Casilla.TipoCasilla.PARKING));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CASTROVERDE",grupo_rojo,Casilla.TipoCasilla.SOLAR));

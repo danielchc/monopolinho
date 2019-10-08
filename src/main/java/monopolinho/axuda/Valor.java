@@ -3,6 +3,7 @@ package monopolinho.axuda;
 
 public class Valor {
     public static final float SAIR_CARCERE=30000;
+    public static final float VOLTA_COMPLETA=28888; //CANTO É????????????
     public static final float IMPOSTO_BARATO=10000;
     public static final float IMPOSTO_CARO=25000;
 
