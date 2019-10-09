@@ -8,15 +8,29 @@ import java.util.Scanner;
 public class Menu {
     Xogo xogo;
     ArrayList<Xogador> xogadores;
+
+    ///////////CONSTRUCTOR//////////////
+
     public Menu(){
         xogadores=new ArrayList<>();
     }
+
+
+    ///////////////////METODOS//////////////////////
+
+    /*
+        Este metodo incia a partida, preguntando o numero de xogadores e inciando a consola de comandos
+     */
     public void iniciar(){
         System.out.println(ReprTab.debuxoSimple());
         preguntarXogadores();
         xogo=new Xogo(this.xogadores);
         xogo.consola();
     }
+
+    /*
+        Este metodo pregunta os xogadores que van participar e instaciaos
+     */
     private void preguntarXogadores(){
         System.out.println("\n\nInserta o numero de xogadores");
         Scanner input=new Scanner(System.in);
@@ -36,6 +50,10 @@ public class Menu {
             System.exit(1);
         }
     }
+
+    /*
+        Este metodo interpreta que tipo de movemento vai ter cada xogador
+     */
     private Avatar.TipoMovemento interpretarMov(String tipomov){
         switch (tipomov.toLowerCase()){
             case "pelota":
@@ -49,6 +67,10 @@ public class Menu {
                 return Avatar.TipoMovemento.COCHE;
         }
     }
+
+    /*
+        Este metodo instancia cada xogador
+     */
     private void crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
         Xogador xogador=new Xogador(nombre, tipoMov);
         this.xogadores.add(xogador);

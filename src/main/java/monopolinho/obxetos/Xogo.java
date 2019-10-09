@@ -130,7 +130,7 @@ public class Xogo {
             default:
                 System.out.println("Comando non recoñecido");
         }
-        
+
     }
 
     //FUNCIONS AUXILIARES
