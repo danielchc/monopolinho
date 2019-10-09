@@ -113,10 +113,7 @@ public class Casilla {
             return;
         }
 
-        if (!this.dono.getNome().equals("Banca")){  //se é doutro xogador enton non se pode comprar
-            System.err.println("Esta casilla pertence a outro xogador. Non a podes comprar");
-            return;
-        }
+
 
         this.dono.engadirDinheiro(this.getValor());
         this.dono.eliminarPropiedade(this);

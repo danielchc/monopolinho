@@ -309,7 +309,14 @@ public class Xogo {
     private void comprarCasilla(String[] cmds){
         //Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
         //TA MAL IMPLEMENTADA??????
-        turno.getPosicion().comprar(turno);
+        if (turno.getPosicion().getDono().getNome().equals(banca.getNome())){   //como banca non ten avatar non podo usar equals entre o xogador e a banca
+            turno.getPosicion().comprar(turno);
+        }
+        else{
+            System.err.println("Esta casilla pertence a "+turno.getPosicion().getDono().getNome()+". Non a podes comprar");
+            return;
+        }
+
         //quitarlle a propiedade á banca
         //engadirlla ao xogador
         //restar fortuna ao xogador
