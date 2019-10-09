@@ -228,7 +228,7 @@ public class Xogo {
         Casilla current=turno.getPosicion();
         interpretarAccion(current,dados.valorLanzar());
 
-        /////////SE SALEN DOBLES TAL CUAL ESTA NON PODERIAS COMPRAR A CASILLA NA QUE CAES NA PRIMEIRA TIRADA
+
         /*REVISAR ESTO */
         if (dados.sonDobles()){
             System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
@@ -275,7 +275,7 @@ public class Xogo {
         if(novoTurno==0){
             //RESTAR CARCEL VOLTAS
         }
-        System.out.println("Tiña o turno "+actual.getNome()+" agora teno "+turno.getNome());
+        System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
     }
     private void salirCarcel(){
         if (!turno.estaNaCarcel()){
@@ -283,7 +283,7 @@ public class Xogo {
             return;
         }
         if(turno.salirCarcel()){
-            System.out.println(turno.getNome()+" paga "+ Valor.SAIR_CARCERE + " y sale de la cárcel. Puede lanzar los dados.");
+            System.out.println(turno.getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
         }else{
             System.err.println("Non tes o suficiente diñeiro para saír do cárcere");
         }

@@ -23,13 +23,21 @@ public class Casilla {
     private Grupo grupo;
     private float valor;
     private float alquiler;
-    private int posicion=-1; //VAYA PUTA ÑAPA CHAVAL
+    private int posicion=-1;
     private Xogador dono;
     private TipoCasilla tipoCasilla;
     private Valor.ReprColor colorCasilla;
     private ArrayList<Avatar> avatares;
  //F
+
+
+    /////////CONSTRUCTORES/////////////////
+
     public Casilla(String nome,TipoCasilla tipoCasilla){
+        if(nome==null || tipoCasilla==null){
+            System.err.println("Error creando a casilla");
+            System.exit(1);
+        }
         this.nome=nome;
         this.tipoCasilla=tipoCasilla;
         this.avatares=new ArrayList<Avatar>();
@@ -58,10 +66,12 @@ public class Casilla {
         }
         this.tipoCasilla=tipoCasilla;
     }
+
     public Casilla(String nome,TipoCasilla tipoCasilla,float valor){
         this(nome,tipoCasilla);
         this.valor=valor;
     }
+
     public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla){
         this(nome,tipoCasilla);
         this.grupo=grupo;
@@ -69,68 +79,42 @@ public class Casilla {
         this.colorCasilla=this.getGrupo().getColor();
     }
 
+
+    ////////METODOS/////////////
+    /*
+        Este metodo engade un avatar á casilla.
+     */
     public void engadirAvatar(Avatar a){
         if(!avatares.contains(a)){
             avatares.add(a);
         }
     }
 
+    /*
+        Este método elimina un avatar da casilla.
+     */
     public void eliminarAvatar(Avatar a){
         if(avatares.contains(a)){
             avatares.remove(a);
         }
     }
 
-    public TipoCasilla getTipoCasilla() {
-        return tipoCasilla;
-    }
-
-    public float getAlquiler() {
-        return alquiler;
-    }
-
-    public void setAlquiler(float alquiler) {
-        this.alquiler = alquiler;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Xogador getDono() {
-        return dono;
-    }
-
-    public void setDono(Xogador dono) {
-        if(dono!=null){
-            this.dono = dono;
-        }
-    }
-
-    public float getValor() {
-        if(this.grupo!=null)return this.grupo.getValor()/this.grupo.getSolares().size();
-        else return valor;
-    }
-
-    public int getPosicionIndex() {
-        return posicion;
-    }
-
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
+    /*
+        Este metodo permite que un xogador compre unha casilla.
+     */
     public void comprar(Xogador comprador){
         if(this.tipoCasilla!=TipoCasilla.SOLAR && this.tipoCasilla!=TipoCasilla.INFRAESTRUCTURA){
             System.err.println("Non podes comprar esta casilla");
             return;
         }
+
         if(!comprador.quitarDinheiro(this.getValor())){
             System.err.println("Non tes suficiente diñeiro");
+            return;
+        }
+
+        if (!this.dono.getNome().equals("Banca")){  //se é doutro xogador enton non se pode comprar
+            System.err.println("Esta casilla pertence a outro xogador. Non a podes comprar");
             return;
         }
 
@@ -138,9 +122,11 @@ public class Casilla {
         this.dono.eliminarPropiedade(this);
         comprador.engadirPropiedade(this);
         this.dono=comprador;
-
     }
 
+    /*
+        Este metodo permite representar aos avatares nunha casilla
+     */
     public String[] getRepresentacion(){
         String avataresCasilla="";
         for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId()+" ";
@@ -153,6 +139,56 @@ public class Casilla {
                 ReprTab.colorear(this.colorCasilla, ReprTab.borde())
         };
     }
+
+
+    ///////// Getters e Setters //////////
+
+    public TipoCasilla getTipoCasilla() {
+        return tipoCasilla;
+    }
+
+    public float getAlquiler() {
+        return alquiler;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Xogador getDono() {
+        return dono;
+    }
+
+    public float getValor() {
+        if(this.grupo!=null)return this.grupo.getValor()/this.grupo.getSolares().size();
+        else return valor;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public int getPosicionIndex() {
+        return posicion;
+    }
+
+    public void setAlquiler(float alquiler) {
+        this.alquiler = alquiler;
+    }
+
+    public void setDono(Xogador dono) {
+        if(dono!=null){
+            this.dono = dono;
+        }
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
+
+
+    /////////////////////////////////////overrides//////////////////////////////
 
     @Override
     public String toString(){

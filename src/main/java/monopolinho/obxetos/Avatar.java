@@ -17,11 +17,46 @@ public class Avatar {
     private Casilla posicion; //CASILLA na que esta
     private int voltasTaboeiro=0;
 
+    /*
+        Constructor de avatar.
+        Parametros: tipo de movemento e xogador ao que representa
+        Xera un id aleatorio para o avatar.
+     */
     public Avatar(TipoMovemento tipo, Xogador xogador){
-        this.tipo=tipo;
-        setXogador(xogador);
-        xerarId();
+
+        if (tipo!=null && xogador!=null){
+            this.tipo=tipo;
+            setXogador(xogador);
+            xerarId();
+        }
+        else{
+            System.err.println("Error creando avatar");
+            System.exit(1);
+        }
     }
+
+    ////////// Metodos//////////////
+
+    /*
+        Este metodo engade 1 ao contador de voltas do xogador e engade o diñeiro de pasar pola salida
+     */
+    public void voltaTaboeiro(){
+        this.voltasTaboeiro++;
+        this.xogador.engadirDinheiro(Valor.VOLTA_COMPLETA);
+    }
+
+    /*
+        Este metodo xera un id para o avatar de forma aleatoria
+     */
+    private void xerarId(){
+        Random aleatorio=new Random(System.nanoTime());
+        this.id=""+(char) (aleatorio.nextInt(20)+65);
+    }
+
+
+
+
+    ///////// Getters e setters//////////////
 
     public Casilla getPosicion() {
         return posicion;
@@ -42,10 +77,7 @@ public class Avatar {
     public int getVoltasTaboeiro() {
         return voltasTaboeiro;
     }
-    public void voltaTaboeiro(){
-        this.voltasTaboeiro++;
-        this.xogador.engadirDinheiro(Valor.VOLTA_COMPLETA);
-    }
+
     public void setPosicion(Casilla posicion) {
         if(posicion!=null){
             if (this.posicion!=null)this.posicion.eliminarAvatar(this);
@@ -62,10 +94,7 @@ public class Avatar {
         }
     }
 
-    private void xerarId(){
-        Random aleatorio=new Random(System.nanoTime());
-        this.id=""+(char) (aleatorio.nextInt(20)+65);
-    }
+
 
     @Override
     public boolean equals(Object obj){

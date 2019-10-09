@@ -2,11 +2,19 @@ package monopolinho.axuda;
 
 
 public class Valor {
+    /*
+        Esto son os valores que se deben pagar.
+        SAIR_CARCERE págase á banca.
+        IMPOSTOS páganse ao bote do parking.
+     */
     public static final float SAIR_CARCERE=30000;
-    public static final float VOLTA_COMPLETA=28888; //CANTO É????????????
     public static final float IMPOSTO_BARATO=10000;
     public static final float IMPOSTO_CARO=25000;
 
+    /*
+        Esto son os precios de cada grupo.
+        Cada grupo é un 30% máis caro que o anterior no sentido horario.
+     */
     public static final float VALOR_GRUPO_OCRE=120000;
     public static final float VALOR_GRUPO_CYAN=VALOR_GRUPO_OCRE*1.3f;
     public static final float VALOR_GRUPO_VIOLETA=VALOR_GRUPO_CYAN*1.3f;
@@ -16,8 +24,11 @@ public class Valor {
     public static final float VALOR_GRUPO_VERDE=VALOR_GRUPO_BLANCO*1.3f;
     public static final float VALOR_GRUPO_AZUL=VALOR_GRUPO_VERDE*1.3f;
 
+    /* Fortuna inicial coa que empeza a partida cada xogador */
     public static final float FORTUNA_INCIAL=(VALOR_GRUPO_OCRE+VALOR_GRUPO_CYAN+VALOR_GRUPO_VIOLETA+VALOR_GRUPO_AMARILLO+VALOR_GRUPO_ROJO+VALOR_GRUPO_BLANCO+VALOR_GRUPO_VERDE+VALOR_GRUPO_AZUL);
 
+    /* Fortuna que recibe un xogador se completa unha volta ao tableiro */
+    public static final float VOLTA_COMPLETA=FORTUNA_INCIAL*1.3f;
 
     //CORES ASCII
     public enum ReprColor{
