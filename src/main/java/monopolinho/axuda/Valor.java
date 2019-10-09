@@ -2,14 +2,7 @@ package monopolinho.axuda;
 
 
 public class Valor {
-    /*
-        Esto son os valores que se deben pagar.
-        SAIR_CARCERE págase á banca.
-        IMPOSTOS páganse ao bote do parking.
-     */
-    public static final float SAIR_CARCERE=30000;
-    public static final float IMPOSTO_BARATO=10000;
-    public static final float IMPOSTO_CARO=25000;
+
 
     /*
         Esto son os precios de cada grupo.
@@ -24,11 +17,56 @@ public class Valor {
     public static final float VALOR_GRUPO_VERDE=VALOR_GRUPO_BLANCO*1.3f;
     public static final float VALOR_GRUPO_AZUL=VALOR_GRUPO_VERDE*1.3f;
 
+
     /* Fortuna inicial coa que empeza a partida cada xogador */
     public static final float FORTUNA_INCIAL=(VALOR_GRUPO_OCRE+VALOR_GRUPO_CYAN+VALOR_GRUPO_VIOLETA+VALOR_GRUPO_AMARILLO+VALOR_GRUPO_ROJO+VALOR_GRUPO_BLANCO+VALOR_GRUPO_VERDE+VALOR_GRUPO_AZUL);
 
     /* Fortuna que recibe un xogador se completa unha volta ao tableiro */
-    public static final float VOLTA_COMPLETA=FORTUNA_INCIAL*1.3f;
+    public static final float VOLTA_COMPLETA=FORTUNA_INCIAL/22.0f;
+
+
+    /*
+        Esto son os valores que se deben pagar.
+        SAIR_CARCERE págase á banca.
+        IMPOSTOS páganse ao bote do parking.
+     */
+    public static final float SAIR_CARCERE=VOLTA_COMPLETA*0.25f;
+    public static final float IMPOSTO_BARATO=VOLTA_COMPLETA/2.0f;
+    public static final float IMPOSTO_CARO=VOLTA_COMPLETA;
+
+
+    /*
+        Valores casillas transporte.
+        Igual que o valor por unha volta completa
+    */
+    public static final float VALOR_TRANSPORTE=VOLTA_COMPLETA;
+    /*
+        Valores casillas servicio.
+        75% do valor volta completa.
+    */
+    public static final float VALOR_SERVICIO=VOLTA_COMPLETA*0.75f;
+    /*
+        Factor de multiplicacion para calcular a hipoteca.
+        Metade do solar no que se edifica.
+     */
+    public static final float FACTOR_HIPOTECA=0.5f;
+    /*
+        Factor para calcular o alquiler dos solares.
+        10% do valor inicial.
+     */
+    public static final float FACTOR_ALQUILER=0.1f;
+    /*
+        Factor para calcular a cantidade a pagar se se cae nunha casilla dun oponente.
+     */
+    public static final float FACTOR_PAGO_ALQUILER=2.0f;    //valor a pagar=valor solar*FACTOR_ALQUILER*FACTOR_PAGO_ALQUILER
+    /*
+        Cantidade a pagar ao caer en servicios.
+     */
+    public static final float USO_SERVICIO=VOLTA_COMPLETA*0.002f;
+
+
+
+
 
     //CORES ASCII
     public enum ReprColor{

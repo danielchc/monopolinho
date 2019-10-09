@@ -113,8 +113,6 @@ public class Casilla {
             return;
         }
 
-
-
         this.dono.engadirDinheiro(this.getValor());
         this.dono.eliminarPropiedade(this);
         comprador.engadirPropiedade(this);

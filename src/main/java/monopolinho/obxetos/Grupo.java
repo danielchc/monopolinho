@@ -12,6 +12,7 @@ public class Grupo {
     private ArrayList<Casilla> solares;
 
 
+    ///////////////CONSTRUCTORES//////////////////////
 
     public Grupo(String grupo_nome, Valor.ReprColor color,float valor){
         if(grupo_nome==null || color==null){
@@ -24,9 +25,19 @@ public class Grupo {
         this.valor=valor;
     }
 
+
+    ///////////////METODOS///////////////////////////
+
+    /*
+        Este metodo engade unha casilla aos solares dun grupo
+     */
     public void engadirSolar(Casilla c){
         if(c!=null)this.solares.add(c);
     }
+
+
+
+    ////////////Getters e Setters//////////////////7
 
     public ArrayList<Casilla> getSolares() {
         return solares;
@@ -46,6 +57,10 @@ public class Grupo {
     public void setValor(float valor) {
         this.valor = valor;
     }
+
+
+
+    //////////////overrides/////////////////////
 
     @Override
     public String toString(){
