@@ -157,7 +157,25 @@ public class Xogo {
             case IMPOSTO:
                 //Añadir o bote o imposto
                 //this.taboeiro.engadirBote(next.getIMPOSTO);
-                mensaxe+="O xogador de "+ turno.getNome() +  " que pagar IMPOSTO de IMPOSTO";
+                if(next.getPosicionIndex()==4){
+                    mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getNome();
+                    if(turno.quitarDinheiro(Valor.IMPOSTO_BARATO)){
+                        taboeiro.engadirBote(Valor.IMPOSTO_BARATO);
+                    }
+                    else{
+                        System.out.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+                    }
+                }
+                else{
+                    mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getNome();
+                    if(turno.quitarDinheiro(Valor.IMPOSTO_CARO)){
+                        taboeiro.engadirBote(Valor.IMPOSTO_CARO);
+                    }
+                    else{
+                        System.out.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+                    }
+                }
+
                 break;
             case SORTE:
                 break;

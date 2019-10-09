@@ -13,7 +13,7 @@ public class Taboeiro {
         ESTE
     }
     private ArrayList<ArrayList<Casilla>> casillas;
-    private float bote;
+    private float bote=0.0f;
 
     public Taboeiro(){
         this.casillas=new ArrayList<>();
@@ -61,6 +61,10 @@ public class Taboeiro {
     public void engadirBote(float imposto) {
         this.bote += imposto;
     }
+
+
+
+
     @Override
     public String toString(){
         String taboeiro="";
