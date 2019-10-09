@@ -21,7 +21,7 @@ public class Xogo {
         dados=new Dados();
         engadirCasillasBanca();
         for (Xogador t:this.xogadores) t.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
-        mostrarTaboeiro();
+        //mostrarTaboeiro();
     }
 
     public void consola(){
@@ -32,6 +32,7 @@ public class Xogo {
         }
     }
     private void interpretarComando(String comando) {
+
         String[] cmds=comando.split(" ");
         switch (cmds[0].toLowerCase()){
             case "xogador":
@@ -129,6 +130,7 @@ public class Xogo {
             default:
                 System.out.println("Comando non recoñecido");
         }
+        
     }
 
     //FUNCIONS AUXILIARES
@@ -182,6 +184,7 @@ public class Xogo {
             case PARKING:
                 turno.engadirDinheiro(this.taboeiro.getBote());
                 mensaxe+="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote.";
+                taboeiro.setBote(0);
                 break;
             case CARCEL:
                 mensaxe+="So de visita...";

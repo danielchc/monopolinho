@@ -58,6 +58,10 @@ public class Taboeiro {
         return bote;
     }
 
+    public void setBote(float bote) {
+        this.bote = bote;
+    }
+
     public void engadirBote(float imposto) {
         this.bote += imposto;
     }
