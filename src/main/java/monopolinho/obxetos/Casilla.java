@@ -2,9 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
-import monopolinho.axuda.Valor;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 public class Casilla {
     public enum TipoCasilla{
@@ -15,7 +13,7 @@ public class Casilla {
         SALIDA,
         IMPOSTO,
         SORTE,
-        INFRAESTRUCTURA,
+        SERVICIO,
         COMUNIDADE,
         TRANSPORTE
     }
@@ -50,27 +48,23 @@ public class Casilla {
             case CARCEL:
             case SALIDA:
             case IRCARCEL:
-                this.colorCasilla= Valor.ReprColor.ANSI_BLACK_BOLD;
+                this.colorCasilla=Valor.ReprColor.ANSI_BLACK_BOLD;
                 break;
             case IMPOSTO:
-                this.colorCasilla= Valor.ReprColor.ANSI_GREEN_BOLD;
+                this.colorCasilla=Valor.ReprColor.ANSI_GREEN_BOLD;
                 break;
             case TRANSPORTE:
                 this.colorCasilla=Valor.ReprColor.ANSI_PURPLE_BOLD;
+                this.valorServicio=Valor.VALOR_TRANSPORTE;
                 break;
-            case INFRAESTRUCTURA:
-                this.colorCasilla= Valor.ReprColor.ANSI_BLUE_BOLD;
+            case SERVICIO:
+                this.colorCasilla=Valor.ReprColor.ANSI_BLUE_BOLD;
+                this.valorServicio=Valor.VALOR_SERVICIO;
                 break;
             default:
-                this.colorCasilla= Valor.ReprColor.ANSI_BLACK;
+                this.colorCasilla=Valor.ReprColor.ANSI_BLACK;
         }
         this.tipoCasilla=tipoCasilla;
-    }
-
-    public Casilla(String nome,TipoCasilla tipoCasilla,float valor){
-        this(nome,tipoCasilla);
-        if (this.getTipoCasilla()==TipoCasilla.IMPOSTO)this.imposto=valor;
-        else this.valorServicio=valor;
     }
 
     public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla){
@@ -78,6 +72,11 @@ public class Casilla {
         this.grupo=grupo;
         this.grupo.engadirSolar(this);
         this.colorCasilla=this.getGrupo().getColor();
+    }
+    //
+    public Casilla(String nome,TipoCasilla tipoCasilla,float imposto){
+        this(nome,tipoCasilla);
+        if (this.getTipoCasilla()==TipoCasilla.IMPOSTO)this.imposto=imposto;
     }
 
 
@@ -105,7 +104,7 @@ public class Casilla {
         Este metodo permite que un xogador compre unha casilla.
     */
     public void comprar(Xogador comprador){
-        if(this.tipoCasilla!=TipoCasilla.SOLAR && this.tipoCasilla!=TipoCasilla.INFRAESTRUCTURA){
+        if(this.tipoCasilla!=TipoCasilla.SOLAR && this.tipoCasilla!=TipoCasilla.SERVICIO){
             System.err.println("Non podes comprar esta casilla");
             return;
         }
@@ -160,7 +159,7 @@ public class Casilla {
         else return valorServicio;
     }
     public float getImposto() {
-        if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)return valorServicio;
+        if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)return imposto;
         else return -1;
     }
 
@@ -191,24 +190,45 @@ public class Casilla {
     @Override
     public String toString(){
         String xogadores="";
-        if(this.avatares!=null)for(Avatar a:this.avatares)xogadores+="\t"+a.getXogador().getNome()+",\n";
+        if(this.avatares!=null)for(Avatar a:this.avatares)xogadores+="\n\t\t"+a.getXogador().getNome()+",";
         String texto;
         switch (this.tipoCasilla){
+            /*ESTO CREO QUE HAI QUE IMPLEMENTALO NOUTRO LADO*/
             case CARCEL:
-                texto="{\n\ttipo: Carcel,\n\tsalir:"+ Valor.SAIR_CARCERE+",\n\txogadores:[\n"+xogadores+"\n\t]\n}"; //IMPLEMENTAR ESTO
-                break;
-            case IMPOSTO:
-                texto="{\n\tPagar BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+                //TA MAAAAAAAAAAAAAAL
+                texto="{\n\t" +
+                        "Tipo: "+this.tipoCasilla+",\n\t" +
+                        "Salir:"+ Valor.SAIR_CARCERE+",\n\t" +
+                        "Xogadores:["+xogadores+"\n\t]\n}"; //IMPLEMENTAR ESTO
                 break;
             case PARKING:
-                texto="{\n\tBote BLABLALABLBALALBLALBLALAL\n}"; //IMPLEMENTAR ESTO
+                texto="{\n\t" +
+                        "Bote: "+"A POR EL BOTEEEEEEEEEEEEEE"+"\n\t" +
+                        "Xogadores:["+xogadores+"\n\t]\n}";
+                //COMO CONA COLLO EU O BOTE!!!
                 break;
-            case INFRAESTRUCTURA:
+
+            /*FIN ESTO CREO QUE HAI QUE IMPLEMENTALO NOUTRO LADO*/
+
+            case IMPOSTO:
+                texto="{\n\t" +
+                        "Tipo: "+this.tipoCasilla+",\n\t" +
+                        "Pagar:"+ getImposto() + "\n}";
+                break;
+            case SERVICIO:
             case TRANSPORTE:
-                texto="{"+"\n\tNome: "+this.nome+"\n\tTipo: "+this.tipoCasilla+"\n\tPrecio: "+this.getValor()+"\n\tPropietario: "+this.dono.getNome()+"\n}";
+                texto="{"+"\n\tNome: "+this.nome+"\n\t" +
+                        "Tipo: "+this.tipoCasilla+"\n\t" +
+                        "Precio: "+this.getValor()+"\n\t" +
+                        "Propietario: "+this.dono.getNome()+"\n}";
                 break;
             default:
-                texto="{"+"\n\tNome: "+this.nome+"\n\tTipo: "+this.tipoCasilla+"\n\tGrupo: "+this.getGrupo().getNome()+"\n\tPrecio: "+this.getValor()+"\n\tPropietario: "+this.dono.getNome()+"\n}";
+                texto="{"+"\n\tNome: "+this.nome+"\n\t" +
+                        "Tipo: "+this.tipoCasilla+"\n\t" +
+                        "Grupo: "+this.getGrupo().getNome()+"\n\t" +
+                        "Valor: "+this.getValor()+"\n\t" +
+                        "Alquiler: "+this.getAlquiler()+"\n\t" +
+                        "Propietario: "+this.dono.getNome()+"\n}";
                 break;
 
         }

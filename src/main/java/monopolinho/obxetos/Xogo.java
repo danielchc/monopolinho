@@ -144,6 +144,8 @@ public class Xogo {
 
     private String interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
+
+        //REV: Si el avatar va a la casilla Cárcel, entonces el jugador al que representa dicho avatar no recibe ninguna cantidad extra. 
         if((current.getPosicionIndex()+newPos)>39) {
             mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
             turno.getAvatar().voltaTaboeiro();
@@ -177,7 +179,7 @@ public class Xogo {
         }
         //ALQUILER
         //SE NON E DA BANCA SIN IMPLEMENTAR
-        
+
         //if(!next.getDono().equals(turno))
         //    turno.quitarDinheiro(next.getAlquiler());
 
@@ -226,7 +228,7 @@ public class Xogo {
     private void listarCasillaEnVenta(){
        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
            for(Casilla c:zona)
-               if(c.getTipoCasilla()== Casilla.TipoCasilla.SOLAR || c.getTipoCasilla() == Casilla.TipoCasilla.INFRAESTRUCTURA || c.getTipoCasilla()== Casilla.TipoCasilla.TRANSPORTE)
+               if(c.getTipoCasilla()== Casilla.TipoCasilla.SOLAR || c.getTipoCasilla() == Casilla.TipoCasilla.SERVICIO || c.getTipoCasilla()== Casilla.TipoCasilla.TRANSPORTE)
                    System.out.println(c);
     }
     private void lanzarDados(){
