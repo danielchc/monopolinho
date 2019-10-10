@@ -145,7 +145,7 @@ public class Xogo {
     private void interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
         if((current.getPosicionIndex()+newPos)>39) {
-            mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro";
+            mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
             turno.getAvatar().voltaTaboeiro();
         }
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
