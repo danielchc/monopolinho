@@ -21,8 +21,8 @@ public class Casilla {
     }
     private String nome;
     private Grupo grupo;
-    private float valor;
-    private float alquiler;
+    private float valorServicio;
+    private float imposto;
     private int posicion=-1;
     private Xogador dono;
     private TipoCasilla tipoCasilla;
@@ -69,7 +69,8 @@ public class Casilla {
 
     public Casilla(String nome,TipoCasilla tipoCasilla,float valor){
         this(nome,tipoCasilla);
-        this.valor=valor;
+        if (this.getTipoCasilla()==TipoCasilla.IMPOSTO)this.imposto=valor;
+        else this.valorServicio=valor;
     }
 
     public Casilla(String nome,Grupo grupo,TipoCasilla tipoCasilla){
@@ -84,6 +85,7 @@ public class Casilla {
     /*
         Este metodo engade un avatar á casilla.
      */
+
     public void engadirAvatar(Avatar a){
         if(!avatares.contains(a)){
             avatares.add(a);
@@ -101,7 +103,7 @@ public class Casilla {
 
     /*
         Este metodo permite que un xogador compre unha casilla.
-     */
+    */
     public void comprar(Xogador comprador){
         if(this.tipoCasilla!=TipoCasilla.SOLAR && this.tipoCasilla!=TipoCasilla.INFRAESTRUCTURA){
             System.err.println("Non podes comprar esta casilla");
@@ -126,12 +128,11 @@ public class Casilla {
         String avataresCasilla="";
         for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId()+" ";
         return new String[]{
-                ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
-                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.nome:"")),
-                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.getValor()+"$":this.nome)),
-                //ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(Integer.toString(this.posicion))),
-                ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(avataresCasilla)),
-                ReprTab.colorear(this.colorCasilla, ReprTab.borde())
+            ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
+            ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.nome:"")),
+            ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.getValor()+"$":this.nome)),
+            ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(avataresCasilla)),
+            ReprTab.colorear(this.colorCasilla, ReprTab.borde())
         };
     }
 
@@ -143,7 +144,7 @@ public class Casilla {
     }
 
     public float getAlquiler() {
-        return alquiler;
+        return getValor()*Valor.FACTOR_ALQUILER;
     }
 
     public String getNome() {
@@ -156,7 +157,15 @@ public class Casilla {
 
     public float getValor() {
         if(this.grupo!=null)return this.grupo.getValor()/this.grupo.getSolares().size();
-        else return valor;
+        else return valorServicio;
+    }
+    public float getImposto() {
+        if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)return valorServicio;
+        else return -1;
+    }
+
+    public void setImposto(float imposto) {
+        if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)this.imposto = imposto;
     }
 
     public Grupo getGrupo() {
@@ -167,14 +176,8 @@ public class Casilla {
         return posicion;
     }
 
-    public void setAlquiler(float alquiler) {
-        this.alquiler = alquiler;
-    }
-
     public void setDono(Xogador dono) {
-        if(dono!=null){
-            this.dono = dono;
-        }
+        if(dono!=null)this.dono = dono;
     }
 
     public void setPosicion(int posicion) {

@@ -67,8 +67,6 @@ public class Taboeiro {
     }
 
 
-
-
     @Override
     public String toString(){
         String taboeiro="";
@@ -122,7 +120,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("GOIRIZ",grupo_ocre,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("CAIXA",Casilla.TipoCasilla.COMUNIDADE));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SADA",grupo_ocre,Casilla.TipoCasilla.SOLAR));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("IMPOSTO1",Casilla.TipoCasilla.IMPOSTO));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("IMPOSTO1",Casilla.TipoCasilla.IMPOSTO, Valor.IMPOSTO_BARATO));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("AVE",Casilla.TipoCasilla.TRANSPORTE));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BOIMORTO",grupo_cyan,Casilla.TipoCasilla.SOLAR));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
@@ -149,7 +147,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRACTOR",Casilla.TipoCasilla.TRANSPORTE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("VIGO",grupo_azul,Casilla.TipoCasilla.SOLAR));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("IMPOSTO",Casilla.TipoCasilla.IMPOSTO));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("IMPOSTO2",Casilla.TipoCasilla.IMPOSTO, Valor.IMPOSTO_CARO));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SANTIAGO",grupo_azul,Casilla.TipoCasilla.SOLAR));
 
 

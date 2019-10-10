@@ -38,11 +38,13 @@ public class Dados {
 
     ////////// getter //////////////////
 
-    public int[] getDados(){
+    public int getDado1(){
         if((this.dado1==0) || (this.dado2==0))System.err.println("Non se tiraron os dados");
-        int[] arr={dado1,dado2};
-        return arr;
+        return dado1;
     }
-
+    public int getDado2(){
+        if((this.dado1==0) || (this.dado2==0))System.err.println("Non se tiraron os dados");
+        return dado2;
+    }
 
 }

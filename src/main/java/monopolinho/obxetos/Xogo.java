@@ -64,7 +64,7 @@ public class Xogo {
             ///////////////////////////////////////////////////////////////////////////////////////////// BORRAR ESTOOOOOOOOO!!!!!!!!!!!!!!!!
             case "mov": //BORRAR ISTOOOO!!!!
                 Casilla current=turno.getPosicion();
-                interpretarAccion(current,Integer.parseInt(cmds[1]));
+                System.out.println(interpretarAccion(current,Integer.parseInt(cmds[1])));
                 break;
             ///////////////////////////////////////////////////////////////////////////////////////////////
             case "acabar":
@@ -142,42 +142,27 @@ public class Xogo {
         }
     }
 
-    private void interpretarAccion(Casilla current,int newPos){
+    private String interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
         if((current.getPosicionIndex()+newPos)>39) {
             mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
             turno.getAvatar().voltaTaboeiro();
+            turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
         }
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
         switch (next.getTipoCasilla()){
             case IRCARCEL:
                 mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
                 turno.setTurnosNaCarcel(3);
-                next=this.taboeiro.getCasilla(10); //CASILLA CARCEL
-                //pasarTurno(); PODE PAGAR PA SALIR DA CARCEL
                 break;
             case IMPOSTO:
-                //Añadir o bote o imposto
-                //this.taboeiro.engadirBote(next.getIMPOSTO);
-                if(next.getPosicionIndex()==4){
-                    mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getNome();
-                    if(turno.quitarDinheiro(Valor.IMPOSTO_BARATO)){
-                        taboeiro.engadirBote(Valor.IMPOSTO_BARATO);
-                    }
-                    else{
-                        System.out.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-                    }
+                mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
+                if(turno.quitarDinheiro(next.getImposto())){
+                    taboeiro.engadirBote(next.getImposto());
+                }else{
+                    System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+                    //E QUE PASA SE NON TEN CARTOS????????????????????
                 }
-                else{
-                    mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getNome();
-                    if(turno.quitarDinheiro(Valor.IMPOSTO_CARO)){
-                        taboeiro.engadirBote(Valor.IMPOSTO_CARO);
-                    }
-                    else{
-                        System.out.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-                    }
-                }
-
                 break;
             case SORTE:
                 break;
@@ -190,10 +175,18 @@ public class Xogo {
                 mensaxe+="So de visita...";
                 break;
         }
-        turno.setPosicion(next);
-        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" hasta " +next.getNome()+" \n"+mensaxe;
-        mostrarTaboeiro();
-        System.out.println("\n"+mensaxe);
+        //ALQUILER
+        //SE NON E DA BANCA SIN IMPLEMENTAR
+        
+        //if(!next.getDono().equals(turno))
+        //    turno.quitarDinheiro(next.getAlquiler());
+
+        //Mover avatar
+        if(next.getTipoCasilla()==Casilla.TipoCasilla.IRCARCEL)turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+        else turno.setPosicion(next);
+
+        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
+        return "\n"+mensaxe;
     }
 
     //FUNCIONS SWITCH
@@ -237,56 +230,31 @@ public class Xogo {
                    System.out.println(c);
     }
     private void lanzarDados(){
-        String quereComprar;
-        Scanner input=new Scanner(System.in);
-
-        dados.lanzarDados();
-        if(turno.estaNaCarcel()){
-            System.err.println("Estás no cárcere non podes lanzar os dados se non pagas");
+        if(!turno.getPodeLanzar()){
+            System.err.println("O xogador xa lanzou os dados. Non se poden lanzar de novo");
             return;
         }
-        System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
-        Casilla current=turno.getPosicion();
-        interpretarAccion(current,dados.valorLanzar());
+        dados.lanzarDados();
+        String mensaxe="\nSaiu o "+dados.getDado1()+" e o "+dados.getDado2();
 
-
-        /*REVISAR ESTO */
-        if (dados.sonDobles()){
-            System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
-
-            System.out.println("\nQueres comprar a casilla na que estas antes de anvanzar outra vez? si (s) ou no (n)");
-            quereComprar=input.nextLine();
-            if(quereComprar.equals("s")){
-                turno.getPosicion().comprar(turno);
-                System.out.println("Compra realizada.");
+        if(turno.estaNaCarcel()){
+            if(!dados.sonDobles()){
+                System.err.println(mensaxe+". Tes que sacar dobles para saír do cárcere");
+                return;
+            }else{
+                turno.salirCarcel();
+                mensaxe+=". Sacasches dados dobles, podes xogar";
             }
-
-            dados.lanzarDados();
-            System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
-            Casilla current1=turno.getPosicion();
-            interpretarAccion(current1,dados.valorLanzar());
+        }else{
             if (dados.sonDobles()){
-                System.out.println("\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.");
-
-                System.out.println("\nQueres comprar a casilla na que estas antes de anvanzar outra vez? si (s) ou no (n)");
-                quereComprar=input.nextLine();
-                if(quereComprar.equals("s")){
-                    turno.getPosicion().comprar(turno);
-                    System.out.println("Compra realizada.");
-                }
-
-                dados.lanzarDados();
-                if (dados.sonDobles()){
-                    System.out.println("\nSairon triples,"+turno.getNome()+" vai para a carcel");
-                    /////////////////////////MANDALO PA CARCEL//////////////////////////////////////////////////////////////////////////////////////
-                }
-                else{
-                    System.out.println("\nSaiu o "+dados.getDados()[0]+" e o "+dados.getDados()[1]);
-                    Casilla current2=turno.getPosicion();
-                    interpretarAccion(current2,dados.valorLanzar());
-                }
+                mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
+            }else{
+                turno.setPodeLanzar(false);
             }
         }
+        mensaxe+=interpretarAccion(turno.getPosicion(),dados.valorLanzar());
+        mostrarTaboeiro();
+        System.out.println(mensaxe);
     }
 
     private void pasarTurno(){
@@ -296,6 +264,7 @@ public class Xogo {
         if(novoTurno==0){
             //RESTAR CARCEL VOLTAS
         }
+        actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
     }
     private void salirCarcel(){
@@ -316,13 +285,9 @@ public class Xogo {
             turno.getPosicion().comprar(turno);
         }
         else{
-            System.err.println("Esta casilla pertence a "+turno.getPosicion().getDono().getNome()+". Non a podes comprar");
+            System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }
-
-        //quitarlle a propiedade á banca
-        //engadirlla ao xogador
-        //restar fortuna ao xogador
     }
 
     private void mostrarTaboeiro(){

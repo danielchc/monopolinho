@@ -38,23 +38,20 @@ public class Avatar {
     ////////// Metodos//////////////
 
     /*
-        Este metodo engade 1 ao contador de voltas do xogador e engade o diñeiro de pasar pola salida
+        Este metodo engade 1 ao contador de voltas do xogador
      */
     public void voltaTaboeiro(){
         this.voltasTaboeiro++;
-        this.xogador.engadirDinheiro(Valor.VOLTA_COMPLETA);
     }
 
     /*
         Este metodo xera un id para o avatar de forma aleatoria
      */
+
     private void xerarId(){
         Random aleatorio=new Random(System.nanoTime());
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }
-
-
-
 
     ///////// Getters e setters//////////////
 
@@ -93,8 +90,6 @@ public class Avatar {
             System.exit(1);
         }
     }
-
-
 
     @Override
     public boolean equals(Object obj){
