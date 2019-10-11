@@ -43,8 +43,8 @@ public class Menu {
                 String nome=input.nextLine();
                 System.out.println("Introduce o tipo de movemento do xogador "+i);
                 String mov=input.nextLine();
-                if(!crearXogador(nome,interpretarMov(mov))){
-                    System.err.println("Xa existe un usuario que se chama asi");
+                if(!crearXogador(nome,interpretarMov(mov)) || (!nome.toLowerCase().equals("banca"))){
+                    System.err.println("Xa existe un usuario que se chama así");
                     i--;
                 }
             }
