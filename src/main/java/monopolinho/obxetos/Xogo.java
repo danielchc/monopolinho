@@ -176,12 +176,15 @@ public class Xogo {
             case CARCEL:
                 mensaxe+="So de visita...";
                 break;
-        }
-        //ALQUILER
-        //SE NON E DA BANCA SIN IMPLEMENTAR
+            case SOLAR:
+                //ALQUILER
+                //SE NON E DA BANCA SIN IMPLEMENTAR
 
-        //if(!next.getDono().equals(turno))
-        //    turno.quitarDinheiro(next.getAlquiler());
+                //if(!next.getDono().equals(turno))
+                //    turno.quitarDinheiro(next.getAlquiler());
+                //Mostrar mensade
+                break;
+        }
 
         //Mover avatar
         if(next.getTipoCasilla()==Casilla.TipoCasilla.IRCARCEL)turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
