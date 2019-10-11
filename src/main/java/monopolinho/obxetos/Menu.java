@@ -43,7 +43,10 @@ public class Menu {
                 String nome=input.nextLine();
                 System.out.println("Introduce o tipo de movemento do xogador "+i);
                 String mov=input.nextLine();
-                crearXogador(nome,interpretarMov(mov));
+                if(!crearXogador(nome,interpretarMov(mov))){
+                    System.err.println("Xa existe un usuario que se chama asi");
+                    i--;
+                }
             }
         }else {
             System.err.println("Debe haber polo menos dous xogadores");
@@ -71,9 +74,11 @@ public class Menu {
     /*
         Este metodo instancia cada xogador
      */
-    private void crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
+    private boolean crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
         Xogador xogador=new Xogador(nombre, tipoMov);
+        if(this.xogadores.contains(xogador))return false; //Comproba se existe o usuario o método equal compara nomes!
         this.xogadores.add(xogador);
         System.out.println(xogador);
+        return true;
     }
 }

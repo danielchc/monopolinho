@@ -110,10 +110,6 @@ public class Xogo {
                 }
                 break;
             case "comprar":
-                if(cmds.length!=2){
-                    System.out.println("Sintaxe: comprar <casilla>");
-                    return;
-                }
                 comprarCasilla(cmds);
                 break;
             case "ver":
@@ -177,12 +173,14 @@ public class Xogo {
                 mensaxe+="So de visita...";
                 break;
             case SOLAR:
-                //ALQUILER
-                //SE NON E DA BANCA SIN IMPLEMENTAR
-
-                //if(!next.getDono().equals(turno))
-                //    turno.quitarDinheiro(next.getAlquiler());
-                //Mostrar mensade
+                if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
+                    if(turno.quitarDinheiro(next.getAlquiler())){
+                        mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono();
+                    }else{
+                        System.err.println("Non tes suficiente diñeiro para pagar o alquiler");
+                        return "";
+                    }
+                }
                 break;
         }
 
@@ -229,10 +227,10 @@ public class Xogo {
             System.out.println(x.describir());
     }
     private void listarCasillaEnVenta(){
-       for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
-           for(Casilla c:zona)
-               if(c.getTipoCasilla()== Casilla.TipoCasilla.SOLAR || c.getTipoCasilla() == Casilla.TipoCasilla.SERVICIO || c.getTipoCasilla()== Casilla.TipoCasilla.TRANSPORTE)
-                   System.out.println(c);
+        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
+            for(Casilla c:zona)
+                if(c.podeseComprar())
+                    System.out.println(c);
     }
     private void lanzarDados(){
         if(!turno.getPodeLanzar()){
@@ -258,7 +256,7 @@ public class Xogo {
             }
         }
         mensaxe+=interpretarAccion(turno.getPosicion(),dados.valorLanzar());
-        mostrarTaboeiro();
+        mostrarTaboeiro(); //QUITAR
         System.out.println(mensaxe);
     }
 
@@ -283,16 +281,27 @@ public class Xogo {
             System.err.println("Non tes o suficiente diñeiro para saír do cárcere");
         }
     }
+
     private void comprarCasilla(String[] cmds){
-        //Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
-        //TA MAL IMPLEMENTADA??????
-        if (turno.getPosicion().getDono().getNome().equals(banca.getNome())){   //como banca non ten avatar non podo usar equals entre o xogador e a banca
-            turno.getPosicion().comprar(turno);
+        Casilla comprar=turno.getPosicion();
+        if(!comprar.podeseComprar()){
+            System.err.println("Non podes comprar esta casilla");
+            return;
         }
-        else{
+        if (comprar.getDono().equals(banca)){
             System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }
+        if(!turno.quitarDinheiro(comprar.getValor())){
+            System.err.println("Non tes suficiente diñeiro");
+            return ;
+        }
+
+        comprar.getDono().engadirDinheiro(comprar.getValor());
+        comprar.getDono().eliminarPropiedade(comprar);
+        turno.engadirPropiedade(comprar);
+        comprar.setDono(turno);
+        System.out.println("O usuario "+turno.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
 
     private void mostrarTaboeiro(){

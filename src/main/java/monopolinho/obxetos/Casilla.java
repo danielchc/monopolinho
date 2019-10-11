@@ -101,26 +101,6 @@ public class Casilla {
     }
 
     /*
-        Este metodo permite que un xogador compre unha casilla.
-    */
-    public void comprar(Xogador comprador){
-        if(this.tipoCasilla!=TipoCasilla.SOLAR && this.tipoCasilla!=TipoCasilla.SERVICIO){
-            System.err.println("Non podes comprar esta casilla");
-            return;
-        }
-
-        if(!comprador.quitarDinheiro(this.getValor())){
-            System.err.println("Non tes suficiente diñeiro");
-            return;
-        }
-
-        this.dono.engadirDinheiro(this.getValor());
-        this.dono.eliminarPropiedade(this);
-        comprador.engadirPropiedade(this);
-        this.dono=comprador;
-    }
-
-    /*
         Este metodo permite representar aos avatares nunha casilla
      */
     public String[] getRepresentacion(){
@@ -135,7 +115,9 @@ public class Casilla {
         };
     }
 
-
+    public boolean podeseComprar(){
+        return (this.tipoCasilla== Casilla.TipoCasilla.SOLAR || this.tipoCasilla == Casilla.TipoCasilla.SERVICIO || this.tipoCasilla== Casilla.TipoCasilla.TRANSPORTE);
+    }
     ///////// Getters e Setters //////////
 
     public TipoCasilla getTipoCasilla() {
@@ -219,16 +201,18 @@ public class Casilla {
             case TRANSPORTE:
                 texto="{"+"\n\tNome: "+this.nome+"\n\t" +
                         "Tipo: "+this.tipoCasilla+"\n\t" +
-                        "Precio: "+this.getValor()+"\n\t" +
-                        "Propietario: "+this.dono.getNome()+"\n}";
+                        "Precio: "+this.getValor()+
+                        ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
+                        "\n}";
                 break;
             default:
                 texto="{"+"\n\tNome: "+this.nome+"\n\t" +
                         "Tipo: "+this.tipoCasilla+"\n\t" +
                         "Grupo: "+this.getGrupo().getNome()+"\n\t" +
                         "Valor: "+this.getValor()+"\n\t" +
-                        "Alquiler: "+this.getAlquiler()+"\n\t" +
-                        "Propietario: "+this.dono.getNome()+"\n}";
+                        "Alquiler: "+this.getAlquiler()+
+                        ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
+                        "\n}";
                 break;
 
         }

@@ -100,7 +100,11 @@ public class Avatar {
     }
     @Override
     public String toString(){
-        String texto="{"+"\n\tId: "+this.id+"\n\tTipo: "+this.tipo.toString()+"\n\tXogador: "+this.xogador.getPosicion().getNome()+"\n\tXogador: "+this.xogador.getNome()+"\n}";
+        String texto="{"+"\n\t" +
+                "Id: "+this.id+"\n\t" +
+                "Tipo: "+this.tipo.toString()+"\n\t" +
+                "Posicion: "+this.xogador.getPosicion().getNome()+"\n\t" +
+                "Xogador: "+this.xogador.getNome()+"\n}";
         return texto;
     }
 }
