@@ -288,7 +288,7 @@ public class Xogo {
             System.err.println("Non podes comprar esta casilla");
             return;
         }
-        if (comprar.getDono().equals(banca)){
+        if (!comprar.getDono().equals(banca)){
             System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }

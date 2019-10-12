@@ -199,7 +199,6 @@ public class Casilla {
                         "Salir:"+ Valor.SAIR_CARCERE+",\n\t" +
                         "Xogadores:["+xogadoresCarcel+"\n\t]\n}"; //IMPLEMENTAR ESTO
                 break;
-
             case IMPOSTO:
                 texto="{\n\t" +
                         "Tipo: "+this.tipoCasilla+",\n\t" +
