@@ -258,7 +258,7 @@ public class Xogo {
             else if(dados.sonDobles() && turno.getVecesTiradas()==3){
                 turno.setTurnosNaCarcel(3);
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
-                System.out.println("Saion triples e vas para o cárcere.");
+                System.err.println("Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
                 return;
             }
@@ -272,13 +272,13 @@ public class Xogo {
     }
 
     private void pasarTurno(){
-        turno.setVecesTiradas(0);
         Xogador actual=turno;
         int novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
         turno=this.xogadores.get(novoTurno);
         if(novoTurno==0){
             //RESTAR CARCEL VOLTAS
         }
+        actual.setVecesTiradas(0);
         actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
     }
