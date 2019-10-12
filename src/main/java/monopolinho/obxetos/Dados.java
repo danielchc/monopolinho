@@ -16,8 +16,8 @@ public class Dados {
         Este metodo xera dous valores aleatorios para os dados.
      */
     public void lanzarDados(){
-        this.dado1=2;//new Random().nextInt(6)+1;
-        this.dado2=2;//new Random().nextInt(6)+1;
+        this.dado1=new Random().nextInt(6)+1;
+        this.dado2=new Random().nextInt(6)+1;
     }
 
     /*
