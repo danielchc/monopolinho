@@ -5,6 +5,9 @@ import monopolinho.axuda.Valor;
 import java.util.ArrayList;
 
 public class Xogador {
+    /*
+        Atributos da case Xogador.
+     */
     private String nome;
     private Avatar avatar;
     private float fortuna;
@@ -15,16 +18,25 @@ public class Xogador {
     private boolean podeLanzar;
     private int vecesTiradas;
 
+
+    ///////////CONSTRUCTORES/////////////
+
+    /*
+        O constructor sen argumentos crea a banca.
+     */
     public Xogador(){
         this.nome="Banca";
         this.avatar=null;
-        this.dineroGastado=0.0f; //SIN IMPLEMENTAR
+        this.dineroGastado=0.0f;
         this.fortuna=0.0f;
         this.turnosNaCarcel=0;
         this.propiedades=new ArrayList<>();
         this.podeLanzar=false;
     }
 
+    /*
+        Este constructor crea os xogadores que van "xogar" a partida.
+     */
     public Xogador(String nome, Avatar.TipoMovemento tipoMovemento){
         this.nome=nome;
         this.fortuna= Valor.FORTUNA_INCIAL;
@@ -35,10 +47,12 @@ public class Xogador {
         this.vecesTiradas=0;
     }
 
-    public int getTurnosNaCarcel() {
-        return turnosNaCarcel;
-    }
 
+    ///////////////////metodos/////////////////////
+
+    /*
+        Este metodo saca a un xogador da carcere.
+     */
     public boolean salirCarcel(){
         if(this.quitarDinheiro(Valor.SAIR_CARCERE)){
             setTurnosNaCarcel(0);
@@ -46,7 +60,78 @@ public class Xogador {
         }
         return false;
     }
-    //////////////////////////////////////////
+
+    /*
+        Este metodo aumenta en 1 as veces que tirou un xogador. Serve para saber se un xogador sacou triples.
+     */
+    public void aumentarVecesTiradas() {
+        this.vecesTiradas++;
+    }
+
+    /*
+        Este metodo permite saber se un xogador esta no carcere.
+     */
+    public boolean estaNaCarcel(){
+        return (this.turnosNaCarcel!=0);
+    }
+
+    /*
+        Este metodo engade unha casilla as propiedades do xogador.
+     */
+    public void engadirPropiedade(Casilla casilla){
+        if(casilla!=null){
+            this.propiedades.add(casilla);
+            casilla.setDono(this);
+        }
+    }
+
+    /*
+        Este metodo elimina unha casilla das propiedades do xogador.
+     */
+    public void eliminarPropiedade(Casilla casilla){
+        if(casilla!=null)this.propiedades.remove(casilla);
+    }
+
+    /*
+        Este metodo engade diñeiro ao xogador.
+     */
+    public void engadirDinheiro(float dinero){
+        fortuna+=dinero;
+    }
+
+    /*
+        Este metodo quita diñeiro ao xogador.
+     */
+    public boolean quitarDinheiro(float dinero){
+        if(fortuna<dinero)return false;
+        this.fortuna-=dinero;
+        this.dineroGastado+=dinero;
+        return true;
+    }
+
+
+    /*
+        Este metodo devolve un String coa informacion dun xogador.
+     */
+    public String describir(){
+        String listaprop="[";
+        if(this.propiedades.size()!=0)
+            for(Casilla c:this.propiedades)listaprop+="\n\t\t"+c.getNome()+",";
+        listaprop+="\n\t]";
+        return "{\n\tNome:" +this.nome+ ",\n"+
+                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
+                "\tFortuna:"+ this.fortuna+ ",\n"+
+                "\tGastos:"+  this.dineroGastado +",\n"+
+                "\tPropiedades:"+listaprop+"\n"+
+                "}";
+    }
+
+    ////////////////getters e setters//////////////
+
+    public int getTurnosNaCarcel() {
+        return turnosNaCarcel;
+    }
+
     public int getVecesTiradas() {
         return vecesTiradas;
     }
@@ -55,17 +140,11 @@ public class Xogador {
         this.vecesTiradas = vecesTiradas;
     }
 
-    public void aumentarVecesTiradas() {
-        this.vecesTiradas++;
-    }
-    ////////////////////////////////////////////
     public void setTurnosNaCarcel(int turnosNaCarcel) {
         this.turnosNaCarcel = turnosNaCarcel;
     }
 
-    public boolean estaNaCarcel(){
-        return (this.turnosNaCarcel!=0);
-    }
+
 
     public ArrayList<Casilla> getPropiedades() {
         return propiedades;
@@ -84,27 +163,7 @@ public class Xogador {
         }
         this.propiedades=propiedades;
     }
-    public void engadirPropiedade(Casilla casilla){
-        if(casilla!=null){
-            this.propiedades.add(casilla);
-            casilla.setDono(this);
-        }
-    }
 
-    public void eliminarPropiedade(Casilla casilla){
-        if(casilla!=null)this.propiedades.remove(casilla);
-    }
-
-    public void engadirDinheiro(float dinero){
-        fortuna+=dinero;
-    }
-
-    public boolean quitarDinheiro(float dinero){
-        if(fortuna<dinero)return false;
-        this.fortuna-=dinero;
-        this.dineroGastado+=dinero;
-        return true;
-    }
 
     public void setNome(String nome) {
         if(nome!=null)this.nome = nome;
@@ -142,23 +201,16 @@ public class Xogador {
        this.podeLanzar=podeLanzar;
     }
 
-    //ESTO PROBLABLEMENTE HAXA QUE FACER UN QUE AUTOINCREMENTE O ACTUALS
+
     public void setDineroGastado(float dineroGastado) {
         this.dineroGastado = dineroGastado;
     }
 
-    public String describir(){
-        String listaprop="[";
-        if(this.propiedades.size()!=0)
-            for(Casilla c:this.propiedades)listaprop+="\n\t\t"+c.getNome()+",";
-        listaprop+="\n\t]";
-        return "{\n\tNome:" +this.nome+ ",\n"+
-                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ this.fortuna+ ",\n"+
-                "\tGastos:"+  this.dineroGastado +",\n"+
-                "\tPropiedades:"+listaprop+"\n"+
-                "}";
-    }
+
+
+
+
+    ////////////////overrides/////////////////////
     @Override
     public String toString(){
         return "{\n\tNome:" +this.nome+ ",\n"+
