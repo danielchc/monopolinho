@@ -141,53 +141,53 @@ public class Xogo {
     private String interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
 
-        //REV: Si el avatar va a la casilla Cárcel, entonces el jugador al que representa dicho avatar no recibe ninguna cantidad extra. 
-        if((current.getPosicionIndex()+newPos)>39) {
-            mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
-            turno.getAvatar().voltaTaboeiro();
-            turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
-        }
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
-        switch (next.getTipoCasilla()){
-            case IRCARCEL:
-                mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
-                turno.setTurnosNaCarcel(3);
-                break;
-            case IMPOSTO:
-                mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
-                if(turno.quitarDinheiro(next.getImposto())){
-                    taboeiro.engadirBote(next.getImposto());
-                }else{
-                    System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-                    //E QUE PASA SE NON TEN CARTOS????????????????????
-                }
-                break;
-            case SORTE:
-                break;
-            case PARKING:
-                turno.engadirDinheiro(this.taboeiro.getBote());
-                mensaxe+="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote.";
-                taboeiro.setBote(0);
-                break;
-            case CARCEL:
-                mensaxe+="So de visita...";
-                break;
-            case SOLAR:
-                if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
-                    if(turno.quitarDinheiro(next.getAlquiler())){
-                        mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono();
-                    }else{
-                        System.err.println("Non tes suficiente diñeiro para pagar o alquiler");
-                        return "";
-                    }
-                }
-                break;
-        }
 
         //Mover avatar
-        if(next.getTipoCasilla()==Casilla.TipoCasilla.IRCARCEL)turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
-        else turno.setPosicion(next);
-
+        if(next.getTipoCasilla()==Casilla.TipoCasilla.IRCARCEL) {
+            mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
+            turno.setTurnosNaCarcel(3);
+            turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+        }else{
+            if((current.getPosicionIndex()+newPos)>39) {
+                mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
+                turno.getAvatar().voltaTaboeiro();
+                turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
+            }
+            switch (next.getTipoCasilla()){
+                case IMPOSTO:
+                    mensaxe+="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
+                    if(turno.quitarDinheiro(next.getImposto())){
+                        taboeiro.engadirBote(next.getImposto());
+                    }else{
+                        System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+                        //E QUE PASA SE NON TEN CARTOS????????????????????
+                    }
+                    break;
+                case SORTE:
+                    break;
+                case PARKING:
+                    turno.engadirDinheiro(this.taboeiro.getBote());
+                    mensaxe+="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote.";
+                    taboeiro.setBote(0);
+                    break;
+                case CARCEL:
+                    mensaxe+="So de visita...";
+                    break;
+                case SOLAR:
+                    if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
+                        if(turno.quitarDinheiro(next.getAlquiler())){
+                            mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono();
+                        }else{
+                            System.err.println("Non tes suficiente diñeiro para pagar o alquiler");
+                            return "";
+                        }
+                    }
+                    break;
+            }
+            turno.setPosicion(next);
+        }
+        
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         return "\n"+mensaxe;
     }
