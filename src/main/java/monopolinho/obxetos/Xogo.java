@@ -58,6 +58,7 @@ public class Xogo {
             case "lanzar":  //falta acabalo
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: lanzar dados");
+                    return;
                 }
                 lanzarDados();
                 break;
@@ -238,29 +239,40 @@ public class Xogo {
             return;
         }
         dados.lanzarDados();
+        turno.aumentarVecesTiradas();   //1 vez tirada
+
         String mensaxe="\nSaiu o "+dados.getDado1()+" e o "+dados.getDado2();
 
         if(turno.estaNaCarcel()){
             if(!dados.sonDobles()){
-                System.err.println(mensaxe+". Tes que sacar dobles para saír do cárcere");
+                System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
                 return;
             }else{
                 turno.salirCarcel();
                 mensaxe+=". Sacasches dados dobles, podes xogar";
             }
         }else{
-            if (dados.sonDobles()){
+            if (dados.sonDobles() && turno.getVecesTiradas()<3){
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
-            }else{
+            }
+            else if(dados.sonDobles() && turno.getVecesTiradas()==3){
+                turno.setTurnosNaCarcel(3);
+                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+                System.out.println("Saion triples e vas para o cárcere.");
+                turno.setPodeLanzar(false);
+                return;
+            }
+            else{
                 turno.setPodeLanzar(false);
             }
         }
         mensaxe+=interpretarAccion(turno.getPosicion(),dados.valorLanzar());
-        mostrarTaboeiro(); //QUITAR
+        //mostrarTaboeiro(); //QUITAR
         System.out.println(mensaxe);
     }
 
     private void pasarTurno(){
+        turno.setVecesTiradas(0);
         Xogador actual=turno;
         int novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
         turno=this.xogadores.get(novoTurno);

@@ -13,6 +13,7 @@ public class Xogador {
     private boolean tenTurno;
     private int turnosNaCarcel;
     private boolean podeLanzar;
+    private int vecesTiradas;
 
     public Xogador(){
         this.nome="Banca";
@@ -31,6 +32,7 @@ public class Xogador {
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>(); //lookoooo
         this.podeLanzar=true;
+        this.vecesTiradas=0;
     }
 
     public int getTurnosNaCarcel() {
@@ -44,6 +46,19 @@ public class Xogador {
         }
         return false;
     }
+    //////////////////////////////////////////
+    public int getVecesTiradas() {
+        return vecesTiradas;
+    }
+
+    public void setVecesTiradas(int vecesTiradas) {
+        this.vecesTiradas = vecesTiradas;
+    }
+
+    public void aumentarVecesTiradas() {
+        this.vecesTiradas++;
+    }
+    ////////////////////////////////////////////
     public void setTurnosNaCarcel(int turnosNaCarcel) {
         this.turnosNaCarcel = turnosNaCarcel;
     }
