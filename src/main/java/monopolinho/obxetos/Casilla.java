@@ -115,9 +115,15 @@ public class Casilla {
         };
     }
 
+    /*
+        Este metodo permite saber se unha casilla se pode comprar ou non.
+     */
     public boolean podeseComprar(){
         return (this.tipoCasilla== Casilla.TipoCasilla.SOLAR || this.tipoCasilla == Casilla.TipoCasilla.SERVICIO || this.tipoCasilla== Casilla.TipoCasilla.TRANSPORTE);
     }
+
+
+
     ///////// Getters e Setters //////////
 
     public TipoCasilla getTipoCasilla() {
@@ -172,6 +178,9 @@ public class Casilla {
     public void setTaboeiro(Taboeiro taboeiro) {
         if(taboeiro!=null)this.taboeiro = taboeiro;
     }
+
+
+
     /////////////////////////////////////overrides//////////////////////////////
 
     @Override

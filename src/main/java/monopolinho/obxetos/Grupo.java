@@ -46,6 +46,7 @@ public class Grupo {
     public Valor.ReprColor getColor() {
         return this.color;
     }
+
     public String getNome(){
         return this.grupo_nome;
     }

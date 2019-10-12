@@ -6,6 +6,10 @@ import monopolinho.axuda.Valor;
 import java.util.ArrayList;
 
 public class Taboeiro {
+
+    /*
+        Atributos do taboeiro.
+     */
     public enum Zona{
         SUR,
         OESTE,
@@ -13,13 +17,26 @@ public class Taboeiro {
         ESTE
     }
     private ArrayList<ArrayList<Casilla>> casillas;
-    private float bote=0.0f;
+    private float bote=0.0f;    //bote que hai no parking
 
+
+    /*
+        Constructor de Taboeiro.
+        Instancia o arraylist para as zonas e cada arraylist de cada zona.
+        Xera as casillas do taboeiro.
+     */
     public Taboeiro(){
         this.casillas=new ArrayList<>();
         for(int i=0;i<4;i++)this.casillas.add(new ArrayList<>()); //AÑADIR ZONAS
         xerarCasillas();
     }
+
+
+    ////////////METODOS///////////////////////
+
+    /*
+        Este metodo engade unha casilla a unha zona do taboeiro.
+     */
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
             this.casillas.get(z.ordinal()).add(casilla);
@@ -27,25 +44,13 @@ public class Taboeiro {
             else if(z==Zona.OESTE) casilla.setPosicion(11+this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.NORTE) casilla.setPosicion(20+this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.ESTE) casilla.setPosicion(31+this.casillas.get(z.ordinal()).indexOf(casilla));
-            casilla.setTaboeiro(this); //PUTA ÑAPA CHAVAL
+            casilla.setTaboeiro(this);
         }
     }
 
-    public ArrayList<ArrayList<Casilla>> getCasillas() {
-        return casillas;
-    }
-
-    public ArrayList<Casilla> getCasillas(Zona z) {
-        return casillas.get(z.ordinal());
-    }
-
-    public Casilla getCasilla(int posicion){
-        if((posicion>=0)&&(posicion<11)) return getCasillas(Zona.SUR).get(posicion);
-        else if((posicion>=11)&&(posicion<20)) return getCasillas(Zona.OESTE).get(posicion-11);
-        else if((posicion>=20)&&(posicion<31)) return getCasillas(Zona.NORTE).get(posicion-20);
-        else return getCasillas(Zona.ESTE).get(posicion-31);
-    }
-
+    /*
+        Este metodo busca unha casilla do taboeiro e devolvea.
+     */
     public Casilla buscarCasilla(String nome){
         for(ArrayList<Casilla> ac:this.casillas){
             for(Casilla c:ac){
@@ -55,56 +60,10 @@ public class Taboeiro {
         return null;
     }
 
-    public float getBote() {
-        return bote;
-    }
 
-    public void setBote(float bote) {
-        this.bote = bote;
-    }
-
-    public void engadirBote(float imposto) {
-        this.bote += imposto;
-    }
-
-
-    @Override
-    public String toString(){
-        String taboeiro="";
-
-        //NORTE
-        String[] ncasillas=new String[]{"","","","",""};
-        for(int i=0;i<11;i++)
-            ReprTab.unirCasilla(ncasillas,getCasillas(Zona.NORTE).get(i));
-        taboeiro+=String.join("\n",ncasillas);
-        taboeiro+="\n";
-
-        //ESTE OESTE
-        String[] ocasillas;
-        for(int i=0;i<9;i++){
-            ocasillas=new String[]{"","","","",""};
-            ReprTab.unirCasilla(ocasillas,getCasillas(Zona.OESTE).get(8-i));
-            for(int j=0;j<9;j++){
-                if((i==4) && (j==0))
-                    ReprTab.debuxoMonopolinho(ocasillas,1);
-                else if((i==3) && (j==0))
-                    ReprTab.debuxoMonopolinho(ocasillas,0);
-                else if (i!=4 && i!=3)
-                    ReprTab.engadirCasillaVacia(ocasillas);
-            }
-            ReprTab.unirCasilla(ocasillas,getCasillas(Zona.ESTE).get(i));
-            taboeiro+=String.join("\n",ocasillas);
-            taboeiro+="\n";
-        }
-
-        //SUR
-        String[] scasillas=new String[]{"","","","",""};
-        for(int i=0;i<11;i++) ReprTab.unirCasilla(scasillas,getCasillas(Zona.SUR).get(10-i));
-        taboeiro+=String.join("\n",scasillas);
-
-        return taboeiro;
-    }
-
+    /*
+        Este metodo instancia todas as casillas do taboeiro e engadeas a zona que lles corresponde.
+     */
     public void xerarCasillas(){
 
         Grupo grupo_ocre=new Grupo("OCRE", Valor.ReprColor.ANSI_YELLOW_BACKGROUND,Valor.VALOR_GRUPO_OCRE);
@@ -163,4 +122,79 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SARRIA",grupo_amarillo,Casilla.TipoCasilla.SOLAR));
 
     }
+
+
+
+
+
+    /////////////////////getters e setters////////////////////////
+
+    public ArrayList<ArrayList<Casilla>> getCasillas() {
+        return casillas;
+    }
+
+    public ArrayList<Casilla> getCasillas(Zona z) {
+        return casillas.get(z.ordinal());
+    }
+
+    public Casilla getCasilla(int posicion){
+        if((posicion>=0)&&(posicion<11)) return getCasillas(Zona.SUR).get(posicion);
+        else if((posicion>=11)&&(posicion<20)) return getCasillas(Zona.OESTE).get(posicion-11);
+        else if((posicion>=20)&&(posicion<31)) return getCasillas(Zona.NORTE).get(posicion-20);
+        else return getCasillas(Zona.ESTE).get(posicion-31);
+    }
+
+
+
+    public float getBote() {
+        return bote;
+    }
+
+    public void setBote(float bote) {
+        this.bote = bote;
+    }
+
+    public void engadirBote(float imposto) {
+        this.bote += imposto;
+    }
+
+
+    @Override
+    public String toString(){
+        String taboeiro="";
+
+        //NORTE
+        String[] ncasillas=new String[]{"","","","",""};
+        for(int i=0;i<11;i++)
+            ReprTab.unirCasilla(ncasillas,getCasillas(Zona.NORTE).get(i));
+        taboeiro+=String.join("\n",ncasillas);
+        taboeiro+="\n";
+
+        //ESTE OESTE
+        String[] ocasillas;
+        for(int i=0;i<9;i++){
+            ocasillas=new String[]{"","","","",""};
+            ReprTab.unirCasilla(ocasillas,getCasillas(Zona.OESTE).get(8-i));
+            for(int j=0;j<9;j++){
+                if((i==4) && (j==0))
+                    ReprTab.debuxoMonopolinho(ocasillas,1);
+                else if((i==3) && (j==0))
+                    ReprTab.debuxoMonopolinho(ocasillas,0);
+                else if (i!=4 && i!=3)
+                    ReprTab.engadirCasillaVacia(ocasillas);
+            }
+            ReprTab.unirCasilla(ocasillas,getCasillas(Zona.ESTE).get(i));
+            taboeiro+=String.join("\n",ocasillas);
+            taboeiro+="\n";
+        }
+
+        //SUR
+        String[] scasillas=new String[]{"","","","",""};
+        for(int i=0;i<11;i++) ReprTab.unirCasilla(scasillas,getCasillas(Zona.SUR).get(10-i));
+        taboeiro+=String.join("\n",scasillas);
+
+        return taboeiro;
+    }
+
+
 }

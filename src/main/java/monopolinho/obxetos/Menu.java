@@ -76,7 +76,9 @@ public class Menu {
      */
     private boolean crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
         Xogador xogador=new Xogador(nombre, tipoMov);
-        if(this.xogadores.contains(xogador))return false; //Comproba se existe o usuario o método equal compara nomes!
+        if(this.xogadores.contains(xogador)){
+            return false; //Comproba se existe o usuario o método equal compara nomes!
+        }
         this.xogadores.add(xogador);
         System.out.println(xogador);
         return true;
