@@ -26,7 +26,8 @@ public class Taboeiro {
             if(z==Zona.SUR) casilla.setPosicion(this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.OESTE) casilla.setPosicion(11+this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.NORTE) casilla.setPosicion(20+this.casillas.get(z.ordinal()).indexOf(casilla));
-            else if(z==Zona.ESTE) casilla.setPosicion(31 + this.casillas.get(z.ordinal()).indexOf(casilla));
+            else if(z==Zona.ESTE) casilla.setPosicion(31+this.casillas.get(z.ordinal()).indexOf(casilla));
+            casilla.setTaboeiro(this); //PUTA ÑAPA CHAVAL
         }
     }
 

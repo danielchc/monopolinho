@@ -26,7 +26,7 @@ public class Casilla {
     private TipoCasilla tipoCasilla;
     private Valor.ReprColor colorCasilla;
     private ArrayList<Avatar> avatares;
- //F
+    private Taboeiro taboeiro; //PUTA ÑAPA CHAVAL
 
 
     /////////CONSTRUCTORES/////////////////
@@ -165,32 +165,40 @@ public class Casilla {
         this.posicion = posicion;
     }
 
+    public Taboeiro getTaboeiro() {
+        return taboeiro;
+    }
 
-
+    public void setTaboeiro(Taboeiro taboeiro) {
+        if(taboeiro!=null)this.taboeiro = taboeiro;
+    }
     /////////////////////////////////////overrides//////////////////////////////
 
     @Override
     public String toString(){
         String xogadores="";
-        if(this.avatares!=null)for(Avatar a:this.avatares)xogadores+="\n\t\t"+a.getXogador().getNome()+",";
+        String xogadoresCarcel="";
+        if(this.avatares!=null) {
+            for (Avatar a : this.avatares){
+                xogadores += "\n\t\t" + a.getXogador().getNome() + ",";
+                if (a.getXogador().estaNaCarcel())
+                    xogadoresCarcel += "\n\t\t[" + a.getXogador().getNome() + "," + a.getXogador().getTurnosNaCarcel() + "],";
+            }
+        }
         String texto;
         switch (this.tipoCasilla){
-            /*ESTO CREO QUE HAI QUE IMPLEMENTALO NOUTRO LADO*/
+            case PARKING:
+                texto="{\n\t" +
+                        "Bote: "+this.taboeiro.getBote()+"\n\t" +
+                        "Xogadores:["+xogadores+"\n\t]\n}";
+                break;
+
             case CARCEL:
-                //TA MAAAAAAAAAAAAAAL
                 texto="{\n\t" +
                         "Tipo: "+this.tipoCasilla+",\n\t" +
                         "Salir:"+ Valor.SAIR_CARCERE+",\n\t" +
-                        "Xogadores:["+xogadores+"\n\t]\n}"; //IMPLEMENTAR ESTO
+                        "Xogadores:["+xogadoresCarcel+"\n\t]\n}"; //IMPLEMENTAR ESTO
                 break;
-            case PARKING:
-                texto="{\n\t" +
-                        "Bote: "+"A POR EL BOTEEEEEEEEEEEEEE"+"\n\t" +
-                        "Xogadores:["+xogadores+"\n\t]\n}";
-                //COMO CONA COLLO EU O BOTE!!!
-                break;
-
-            /*FIN ESTO CREO QUE HAI QUE IMPLEMENTALO NOUTRO LADO*/
 
             case IMPOSTO:
                 texto="{\n\t" +
