@@ -43,7 +43,7 @@ public class Xogo {
         mostrarComandos();
         Scanner scanner= new Scanner(System.in);
         while(true){
-            System.out.println("$> ");
+            System.out.print("$> ");
             interpretarComando(scanner.nextLine());
         }
     }
