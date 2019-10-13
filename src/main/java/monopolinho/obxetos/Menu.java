@@ -32,16 +32,16 @@ public class Menu {
         Este metodo pregunta os xogadores que van participar e instaciaos
      */
     private void preguntarXogadores(){
-        System.out.print("\n\nInserta o numero de xogadores");
+        System.out.print("\n\nInserta o numero de xogadores: ");
         Scanner input=new Scanner(System.in);
         while (!input.hasNextInt()) input.next();
         int numXogadores = input.nextInt();
         input.nextLine();
         if (numXogadores>1){
             for (int i=1;i<=numXogadores;i++){
-                System.out.println("Introduce o nome do xogador "+i);
+                System.out.println("Introduce o nome do xogador "+i+": ");
                 String nome=input.nextLine();
-                System.out.print("Introduce o tipo de movemento do xogador "+i);
+                System.out.println("Introduce o tipo de movemento do xogador "+i+": ");
                 String mov=input.nextLine();
                 if((nome.toLowerCase().equals("banca"))||!crearXogador(nome,interpretarMov(mov))){
                     System.err.println("Xa existe un usuario que se chama así");
