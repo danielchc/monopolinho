@@ -144,7 +144,7 @@ public class Casilla {
     }
 
     public float getValor() {
-        if(this.grupo!=null)return this.grupo.getValor()/this.grupo.getSolares().size();
+        if(this.grupo!=null)return (float) Math.ceil((this.grupo.getValor()/this.grupo.getSolares().size()));
         else return valorServicio;
     }
     public float getImposto() {
