@@ -26,7 +26,8 @@ public class Casilla {
     private TipoCasilla tipoCasilla;
     private Valor.ReprColor colorCasilla;
     private ArrayList<Avatar> avatares;
-    private Taboeiro taboeiro; //PUTA ÑAPA CHAVAL
+    private Taboeiro taboeiro;
+    private boolean estaHipotecada;
 
 
     /////////CONSTRUCTORES/////////////////
@@ -40,6 +41,7 @@ public class Casilla {
         this.tipoCasilla=tipoCasilla;
         this.avatares=new ArrayList<Avatar>();
         this.grupo=null;
+        this.estaHipotecada=false;
         switch (tipoCasilla){
             case SORTE:
                 this.colorCasilla= Valor.ReprColor.ANSI_RED_BOLD;
@@ -123,9 +125,31 @@ public class Casilla {
         return (this.tipoCasilla== Casilla.TipoCasilla.SOLAR || this.tipoCasilla == Casilla.TipoCasilla.SERVICIO || this.tipoCasilla== Casilla.TipoCasilla.TRANSPORTE);
     }
 
-
+    public float getValor() {
+        if(this.grupo!=null)return (float) Math.ceil((this.grupo.getValor()/this.grupo.getSolares().size()));
+        else return valorServicio;
+    }
+    public float getImposto() {
+        if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)return imposto;
+        else return -1;
+    }
+    public float getHipoteca(){
+        if(podeseComprar()){
+            return getValor()*Valor.FACTOR_HIPOTECA;
+        }
+        return -1;
+    }
 
     ///////// Getters e Setters //////////
+
+
+    public boolean getEstaHipotecada() {
+        return estaHipotecada;
+    }
+
+    public void setEstaHipotecada(boolean estaHipotecada) {
+        this.estaHipotecada = estaHipotecada;
+    }
 
     public TipoCasilla getTipoCasilla() {
         return tipoCasilla;
@@ -143,14 +167,7 @@ public class Casilla {
         return dono;
     }
 
-    public float getValor() {
-        if(this.grupo!=null)return (float) Math.ceil((this.grupo.getValor()/this.grupo.getSolares().size()));
-        else return valorServicio;
-    }
-    public float getImposto() {
-        if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)return imposto;
-        else return -1;
-    }
+
 
     public void setImposto(float imposto) {
         if(this.getTipoCasilla()==TipoCasilla.IMPOSTO)this.imposto = imposto;
@@ -165,7 +182,12 @@ public class Casilla {
     }
 
     public void setDono(Xogador dono) {
-        if(dono!=null)this.dono = dono;
+        if(dono!=null){
+            if(this.dono!=null)
+                dono.eliminarPropiedade(this);
+            this.dono = dono;
+            dono.engadirPropiedade(this);
+        }
     }
 
     public void setPosicion(int posicion) {
@@ -216,14 +238,14 @@ public class Casilla {
                 break;
             case SERVICIO:
             case TRANSPORTE:
-                texto="{"+"\n\tNome: "+this.nome+"\n\t" +
+                texto="{"+"\n\tNome: "+this.nome+((this.estaHipotecada)?"(Hipotecada)":"")+"\n\t" +
                         "Tipo: "+this.tipoCasilla+"\n\t" +
                         "Precio: "+this.getValor()+
                         ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
                         "\n}";
                 break;
             default:
-                texto="{"+"\n\tNome: "+this.nome+"\n\t" +
+                texto="{"+"\n\tNome: "+this.nome+((this.estaHipotecada)?"(Hipotecada)":"")+"\n\t" +
                         "Tipo: "+this.tipoCasilla+"\n\t" +
                         "Grupo: "+this.getGrupo().getNome()+"\n\t" +
                         "Valor: "+this.getValor()+"\n\t" +

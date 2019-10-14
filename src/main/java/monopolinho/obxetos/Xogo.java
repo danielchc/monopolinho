@@ -128,6 +128,16 @@ public class Xogo {
             case "comprar":
                 comprarCasilla(cmds);
                 break;
+            case "bancarrota":
+                declararBancarrota();
+                break;
+            case "hipotecar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: hipotecar <casilla>");
+                    return;
+                }
+                hipotecarCasilla(cmds[1]);
+                break;
             case "ver":
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: ver tableiro");
@@ -154,13 +164,43 @@ public class Xogo {
 
     //METODOS AUXILIARES
 
+
+    /*
+    Meteodo hipotecar casilla.
+     */
+    private void hipotecarCasilla(String nome){
+        Casilla c=this.taboeiro.buscarCasilla(nome);
+        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno)){
+            c.setEstaHipotecada(true);
+            c.getDono().engadirDinheiro(c.getHipoteca());
+            System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
+        }
+        else System.err.println("Non se pode hipotecar esa casilla");
+    }
+    /*
+        Metodo bancarrota.
+     */
+
+    private void declararBancarrota(){
+        this.turno.setEnBancarrota(true);
+        for(Casilla c:this.turno.getPropiedades()){
+            c.setDono(this.banca);
+        }
+        System.err.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
+        pasarTurno();
+
+
+    }
+
+
+
     /*
         Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
      */
     private void engadirCasillasBanca(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona)
-                this.banca.engadirPropiedade(c);
+                c.setDono(banca);
         }
     }
 
@@ -249,14 +289,20 @@ public class Xogo {
                     mensaxe+="So de visita...";
                     break;
                 case SOLAR:
-                    if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
-                        if(turno.quitarDinheiro(next.getAlquiler())){
-                            mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome();
-                        }else{
-                            System.err.println("Non tes suficiente diñeiro para pagar o alquiler");
-                            return "";
+                    if(next.getEstaHipotecada()){
+                        mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
+                    }
+                    else{
+                        if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
+                            if(turno.quitarDinheiro(next.getAlquiler())){
+                                mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome();
+                            }else{
+                                System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
+                                return "";
+                            }
                         }
                     }
+
                     break;
             }
             turno.setPosicion(next);
@@ -273,7 +319,7 @@ public class Xogo {
     private void mostrarComandos(){
         String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa>\n\t+ lanzar dados"+
                         "\n\t+ acabar turno\n\t+ salir carcel\n\t+ describir <casilla>\n\t+ describir xogador <nome>\n\t+ describir avatar <avatar>"+
-                        "\n\t+ comprar <casilla>\n\t+ ver taboeiro\n\t+ exit  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
+                        "\n\t+ comprar <casilla>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ ver taboeiro\n\t+ exit  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
         System.out.println(comandos);
     }
 
@@ -345,11 +391,14 @@ public class Xogo {
     private void pasarTurno(){
         Xogador actual=turno;
         if(turno.getVecesTiradas()==0){
-            System.err.println("Tes que tirar unha vez antes de tirar turno.");
+            System.err.println("Tes que tirar unha vez antes de pasar turno.");
             return;
         }
-        int novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
-        turno=this.xogadores.get(novoTurno);
+        int novoTurno;
+        do{
+            novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
+            turno=this.xogadores.get(novoTurno);
+        }while(turno.getEnBancarrota());
         if(novoTurno==0){
             //RESTAR CARCEL VOLTAS
         }
@@ -392,8 +441,6 @@ public class Xogo {
         }
 
         comprar.getDono().engadirDinheiro(comprar.getValor());
-        comprar.getDono().eliminarPropiedade(comprar);
-        turno.engadirPropiedade(comprar);
         comprar.setDono(turno);
         System.out.println("O usuario "+turno.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }

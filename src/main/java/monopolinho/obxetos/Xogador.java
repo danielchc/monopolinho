@@ -17,6 +17,7 @@ public class Xogador {
     private int turnosNaCarcel;
     private boolean podeLanzar;
     private int vecesTiradas;
+    private boolean enBancarrota;
 
 
     ///////////CONSTRUCTORES/////////////
@@ -32,6 +33,7 @@ public class Xogador {
         this.turnosNaCarcel=0;
         this.propiedades=new ArrayList<>();
         this.podeLanzar=false;
+        this.enBancarrota=false;
     }
 
     /*
@@ -45,6 +47,7 @@ public class Xogador {
         this.propiedades=new ArrayList<>(); //lookoooo
         this.podeLanzar=true;
         this.vecesTiradas=0;
+        this.enBancarrota=false;
     }
 
 
@@ -81,7 +84,6 @@ public class Xogador {
     public void engadirPropiedade(Casilla casilla){
         if(casilla!=null){
             this.propiedades.add(casilla);
-            casilla.setDono(this);
         }
     }
 
@@ -120,13 +122,22 @@ public class Xogador {
         listaprop+="\n\t]";
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ this.fortuna+ ",\n"+
+                "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna)+ ",\n"+
                 "\tGastos:"+  this.dineroGastado +",\n"+
                 "\tPropiedades:"+listaprop+"\n"+
                 "}";
     }
 
     ////////////////getters e setters//////////////
+
+
+    public boolean getEnBancarrota() {
+        return enBancarrota;
+    }
+
+    public void setEnBancarrota(boolean enBancarrota) {
+        this.enBancarrota = enBancarrota;
+    }
 
     public int getTurnosNaCarcel() {
         return turnosNaCarcel;
@@ -215,7 +226,7 @@ public class Xogador {
     public String toString(){
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ this.fortuna + ",\n"+
+                "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna) + ",\n"+
                 "}";
     }
 
