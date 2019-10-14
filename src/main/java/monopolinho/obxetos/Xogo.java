@@ -247,7 +247,7 @@ public class Xogo {
                 case SOLAR:
                     if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
                         if(turno.quitarDinheiro(next.getAlquiler())){
-                            mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome()exit;
+                            mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome();
                         }else{
                             System.err.println("Non tes suficiente diñeiro para pagar o alquiler");
                             return "";
