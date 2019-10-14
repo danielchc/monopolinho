@@ -41,7 +41,7 @@ public class Menu {
             for (int i=1;i<=numXogadores;i++){
                 System.out.println("Introduce o nome do xogador "+i+": ");
                 String nome=input.nextLine();
-                System.out.println("Introduce o tipo de movemento do xogador "+i+": ");
+                System.out.println("Introduce o tipo de movemento do xogador <coche/sombreiro/esfinxe/pelota> "+i+": ");
                 String mov=input.nextLine();
                 if((nome.toLowerCase().equals("banca"))||!crearXogador(nome,interpretarMov(mov))){
                     System.err.println("Xa existe un usuario que se chama así");
@@ -67,6 +67,7 @@ public class Menu {
                 return Avatar.TipoMovemento.SOMBREIRO;
             case "coche":
             default:
+                System.out.println("\nAvatar inválido, asignouseche o coche por defecto.");
                 return Avatar.TipoMovemento.COCHE;
         }
     }

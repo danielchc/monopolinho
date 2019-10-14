@@ -340,6 +340,10 @@ public class Xogo {
      */
     private void pasarTurno(){
         Xogador actual=turno;
+        if(turno.getVecesTiradas()==0){
+            System.err.println("Tes que tirar unha vez antes de tirar turno.");
+            return;
+        }
         int novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
         turno=this.xogadores.get(novoTurno);
         if(novoTurno==0){
