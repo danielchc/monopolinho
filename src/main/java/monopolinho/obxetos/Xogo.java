@@ -142,6 +142,10 @@ public class Xogo {
                 System.out.println("Saindo...");
                 System.exit(0);
                 break;
+            case "mov": //BORRAR ISTOOOO!!!!
+                Casilla current=turno.getPosicion();
+                System.out.println(interpretarAccion(current,Integer.parseInt(cmds[1])));
+                break;
             default:
                 System.out.println("Comando non recoñecido");
         }
