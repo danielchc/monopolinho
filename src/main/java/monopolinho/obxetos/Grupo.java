@@ -14,6 +14,10 @@ public class Grupo {
 
     ///////////////CONSTRUCTORES//////////////////////
 
+    public Grupo(){
+        this.solares=new ArrayList<>();
+    }
+
     public Grupo(String grupo_nome, Valor.ReprColor color,float valor){
         if(grupo_nome==null || color==null){
             System.err.println("Error: algun elemento non inicializado");

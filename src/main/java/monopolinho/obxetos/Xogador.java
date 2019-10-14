@@ -117,14 +117,19 @@ public class Xogador {
      */
     public String describir(){
         String listaprop="[";
+        String listaHipotecas="[";
         if(this.propiedades.size()!=0)
-            for(Casilla c:this.propiedades)listaprop+="\n\t\t"+c.getNome()+",";
+            for(Casilla c:this.propiedades)
+                if(!c.getEstaHipotecada())listaprop+="\n\t\t"+c.getNome()+",";
+                else listaHipotecas+="\n\t\t"+c.getNome()+",";
         listaprop+="\n\t]";
+        listaHipotecas+="\n\t]";
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
                 "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna)+ ",\n"+
                 "\tGastos:"+  this.dineroGastado +",\n"+
                 "\tPropiedades:"+listaprop+"\n"+
+                "\tHipotecas:"+listaHipotecas+"\n"+
                 "}";
     }
 
@@ -147,15 +152,19 @@ public class Xogador {
         return vecesTiradas;
     }
 
+    //Sobrecarga de métodos
+
     public void setVecesTiradas(int vecesTiradas) {
         this.vecesTiradas = vecesTiradas;
+    }
+
+    public void setVecesTiradas() {
+        this.vecesTiradas = 0;
     }
 
     public void setTurnosNaCarcel(int turnosNaCarcel) {
         this.turnosNaCarcel = turnosNaCarcel;
     }
-
-
 
     public ArrayList<Casilla> getPropiedades() {
         return propiedades;

@@ -35,6 +35,10 @@ public class Avatar {
         }
     }
 
+    public Avatar(TipoMovemento tipo, Xogador xogador,String id){
+        this(tipo,xogador);
+        this.id=id;
+    }
     ////////// Metodos//////////////
 
     /*
