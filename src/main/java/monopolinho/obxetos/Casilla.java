@@ -105,7 +105,8 @@ public class Casilla {
      */
     public String[] getRepresentacion(){
         String avataresCasilla="";
-        for(Avatar a:this.avatares)avataresCasilla+="&"+a.getId()+" ";
+        if(!this.avatares.isEmpty())avataresCasilla="&";
+        for(Avatar a:this.avatares)avataresCasilla+=a.getId()+" ";
         return new String[]{
             ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
             ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.nome:"")),
