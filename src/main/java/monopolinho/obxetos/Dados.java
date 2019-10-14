@@ -46,5 +46,5 @@ public class Dados {
         if((this.dado1==0) || (this.dado2==0))System.err.println("Non se tiraron os dados");
         return dado2;
     }
-    
+
 }
