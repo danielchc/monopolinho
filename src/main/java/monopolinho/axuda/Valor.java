@@ -9,7 +9,7 @@ public class Valor {
         Cada grupo é un 30% máis caro que o anterior no sentido horario.
      */
     public static final float VALOR_GRUPO_OCRE=120000;
-    public static final float VALOR_GRUPO_CYAN=VALOR_GRUPO_OCRE*1.3f;
+    public static final float VALOR_GRUPO_CYAN=VALOR_GRUPO_OCRE*1.6f;
     public static final float VALOR_GRUPO_VIOLETA=VALOR_GRUPO_CYAN*1.3f;
     public static final float VALOR_GRUPO_AMARILLO=VALOR_GRUPO_VIOLETA*1.3f;
     public static final float VALOR_GRUPO_ROJO=VALOR_GRUPO_AMARILLO*1.3f;
