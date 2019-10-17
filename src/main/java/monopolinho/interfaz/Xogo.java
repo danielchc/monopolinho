@@ -13,6 +13,7 @@ import java.util.Scanner;
  * @author Daniel Chenel
  * @author David Carracedo
  */
+
 public class Xogo {
 
     private ArrayList<Xogador> xogadores;

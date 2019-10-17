@@ -7,21 +7,31 @@ import monopolinho.obxetos.Xogador;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
+
+
+
 public class Menu {
     Xogo xogo;
     ArrayList<Xogador> xogadores;
 
-    ///////////CONSTRUCTOR//////////////
 
+    /**
+     * Este é o constructor da clase Menu.
+     * Insta o arraylist de xogadores do xogo.
+     */
     public Menu(){
         xogadores=new ArrayList<>();
     }
 
 
-    ///////////////////METODOS//////////////////////
-
-    /*
-        Este metodo incia a partida, preguntando o numero de xogadores e inciando a consola de comandos
+    /**
+     * Este metodo inicia a partida.
+     * Pregunta polos xogadores, crea o xogo e a consola de comandos.
      */
     public void iniciar(){
         System.out.println(ReprTab.debuxoSimple());
@@ -30,8 +40,9 @@ public class Menu {
         xogo.consola();
     }
 
-    /*
-        Este metodo pregunta os xogadores que van participar e instaciaos
+
+    /**
+     * Este metodo permite preguntar o numero de xogadores e crealos.
      */
     private void preguntarXogadores(){
         System.out.print("\n\nInserta o numero de xogadores: ");
@@ -56,8 +67,11 @@ public class Menu {
         }
     }
 
-    /*
-        Este metodo interpreta que tipo de movemento vai ter cada xogador
+
+    /**
+     * Este metodo interpreta que tipo de movemento ten un avatar
+     * @param tipomov tipo de movemento do avatar
+     * @return TipoMovemento dun avatar
      */
     private Avatar.TipoMovemento interpretarMov(String tipomov){
         switch (tipomov.toLowerCase()){
@@ -74,8 +88,12 @@ public class Menu {
         }
     }
 
-    /*
-        Este metodo instancia cada xogador
+
+    /**
+     * Este metodo permite crear un xogador
+     * @param nombre nome do xogador
+     * @param tipoMov tipo de movemento do avatar do xogador
+     * @return true si se creou o xogador ou false se o xogador xa existe
      */
     private boolean crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
         Xogador xogador=new Xogador(nombre, tipoMov);
