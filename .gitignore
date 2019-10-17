@@ -2,6 +2,7 @@
 .gradle/
 .idea/
 targets/
+target/
 out/
 # Compiled class file
 *.class
