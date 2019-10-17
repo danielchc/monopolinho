@@ -4,6 +4,12 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 
 import java.util.ArrayList;
+
+/**
+ * Clase casilla
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public class Casilla {
     public enum TipoCasilla{
         SOLAR,
@@ -13,7 +19,7 @@ public class Casilla {
         SALIDA,
         IMPOSTO,
         SORTE,
-        SERVICIO,
+        SERVIZO,
         COMUNIDADE,
         TRANSPORTE
     }
@@ -62,7 +68,7 @@ public class Casilla {
                 this.colorCasilla=Valor.ReprColor.ANSI_PURPLE_BOLD;
                 this.valorServicio=Valor.VALOR_TRANSPORTE;
                 break;
-            case SERVICIO:
+            case SERVIZO:
                 this.colorCasilla=Valor.ReprColor.ANSI_BLUE_BOLD;
                 this.valorServicio=Valor.VALOR_SERVICIO;
                 break;
@@ -138,7 +144,7 @@ public class Casilla {
      * @return Este metodo permite saber se unha casilla se pode comprar ou non.
      */
     public boolean podeseComprar(){
-        return (this.tipoCasilla== Casilla.TipoCasilla.SOLAR || this.tipoCasilla == Casilla.TipoCasilla.SERVICIO || this.tipoCasilla== Casilla.TipoCasilla.TRANSPORTE);
+        return (this.tipoCasilla== Casilla.TipoCasilla.SOLAR || this.tipoCasilla == Casilla.TipoCasilla.SERVIZO || this.tipoCasilla== Casilla.TipoCasilla.TRANSPORTE);
     }
 
     /**
@@ -154,7 +160,7 @@ public class Casilla {
      * @param valorServicio
      */
     public void setValorServicio(float valorServicio) {
-        if(this.getTipoCasilla()==TipoCasilla.SERVICIO)this.valorServicio = valorServicio;
+        if(this.getTipoCasilla()==TipoCasilla.SERVIZO)this.valorServicio = valorServicio;
     }
 
     /**
@@ -363,7 +369,7 @@ public class Casilla {
                             "Pagar:"+ getImposto() +
                         "\n}";
                 break;
-            case SERVICIO:
+            case SERVIZO:
             case TRANSPORTE:
                 texto="{"+
                             "\n\tNome: "+this.nome+((this.estaHipotecada)?"(Hipotecada)":"")+"\n\t" +

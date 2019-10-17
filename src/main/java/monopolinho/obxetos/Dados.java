@@ -77,6 +77,7 @@ public class Dados {
         this.dado1 = dado1;
     }
 
+
     /**
      * Permite establecer o valor do dado 1
      * @param dado2 valor do dado1

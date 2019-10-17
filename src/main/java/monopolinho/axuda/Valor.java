@@ -64,10 +64,6 @@ public class Valor {
      */
     public static final float USO_SERVICIO=VOLTA_COMPLETA*0.002f;
 
-
-
-
-
     //CORES ASCII
     public enum ReprColor{
         ANSI_RESET,

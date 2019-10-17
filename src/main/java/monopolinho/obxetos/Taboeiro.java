@@ -147,7 +147,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("HIDROAVION",Casilla.TipoCasilla.TRANSPORTE,1000));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("ALLARIZ",grupo_blanco));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CANGAS",grupo_blanco));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.SERVICIO));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.SERVIZO));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("FENE",grupo_blanco));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("IR_CARCEL",Casilla.TipoCasilla.IRCARCEL));
 
@@ -163,7 +163,7 @@ public class Taboeiro {
 
 
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("FRADES",grupo_violeta));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MEIRAMA", Casilla.TipoCasilla.SERVICIO));//servicio
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MEIRAMA", Casilla.TipoCasilla.SERVIZO));//servicio
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MONELOS",grupo_violeta));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("LOURO",grupo_violeta));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("CATAMARAN", Casilla.TipoCasilla.TRANSPORTE));//servicio

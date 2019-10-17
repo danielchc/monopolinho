@@ -27,12 +27,15 @@ public class ReprTab {
             re=Valor.Cores[Valor.ReprColor.ANSI_WHITE.ordinal()]+re+Valor.Cores[Valor.ReprColor.ANSI_RESET.ordinal()];
         return re;
     }
+
     public static void unirCasilla(String[] casillas, Casilla casilla){
         for (int i=0;i<casillas.length;i++)casillas[i]+=casilla.getRepresentacion()[i];
     }
+
     public static void engadirCasillaVacia(String[] casillas){
         for (int i=0;i<casillas.length;i++)casillas[i]+=centrarTexto("",WIDTH);
     }
+
     public static void debuxoMonopolinho(String[] casillas,int parte) {
         int nw=(WIDTH * 9) - 8;
         if (parte == 0) {

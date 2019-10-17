@@ -1,6 +1,8 @@
-package monopolinho.obxetos;
+package monopolinho.interfaz;
 
 import monopolinho.axuda.ReprTab;
+import monopolinho.obxetos.Avatar;
+import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
 import java.util.Scanner;

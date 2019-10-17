@@ -112,7 +112,6 @@ public class Avatar {
         return voltasTaboeiro;
     }
 
-
     /**
      * Establece a posicion dun avatar
      * @param posicion casilla na que se vai colocar o avatar
@@ -124,7 +123,6 @@ public class Avatar {
             posicion.engadirAvatar(this);
         }
     }
-
 
     /**
      * Establece o xogador dun avatar
@@ -138,7 +136,6 @@ public class Avatar {
         }
     }
 
-
     /**
      * Establece o tipo de movemento dun avatar
      * @param tipo tipo de movemento
@@ -148,7 +145,6 @@ public class Avatar {
             this.tipo = tipo;
         }
     }
-
 
     /**
      * Establece o identificador dun avatar
@@ -160,7 +156,6 @@ public class Avatar {
         }
     }
 
-
     /**
      * Estable as voltas ao taboeiro
      * @param voltasTaboeiro voltas ao taboeiro
@@ -168,8 +163,6 @@ public class Avatar {
     public void setVoltasTaboeiro(int voltasTaboeiro) {
         this.voltasTaboeiro = voltasTaboeiro;
     }
-
-
 
     /**
      * Permite comparar se dous avatares son iguais en funcion de se os seus id son os memos
@@ -183,7 +176,6 @@ public class Avatar {
         }
         return false;
     }
-
 
     /**
      * Permite imprimir a información dun avatar en formato textual

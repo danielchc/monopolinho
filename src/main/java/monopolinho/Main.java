@@ -1,10 +1,8 @@
 package monopolinho;
 
-import monopolinho.obxetos.Menu;
-import monopolinho.obxetos.Xogo;
+import monopolinho.interfaz.Menu;
 
 /**
- *
  * @author Daniel Chenel
  * @author David Carracedo
  */

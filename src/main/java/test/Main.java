@@ -1,9 +1,8 @@
 package test;
-import monopolinho.axuda.Valor;
+import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.*;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 public class Main {
 

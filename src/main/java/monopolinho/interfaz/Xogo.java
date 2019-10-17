@@ -1,6 +1,10 @@
-package monopolinho.obxetos;
+package monopolinho.interfaz;
 
 import monopolinho.axuda.Valor;
+import monopolinho.obxetos.Casilla;
+import monopolinho.obxetos.Dados;
+import monopolinho.obxetos.Taboeiro;
+import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -157,7 +161,7 @@ public class Xogo {
                 break;
             case "mov": //BORRAR ISTOOOO!!!!
                 Casilla current=turno.getPosicion();
-                System.out.println(interpretarAccion(current,Integer.parseInt(cmds[1])));
+                interpretarAccion(current,Integer.parseInt(cmds[1]));
                 break;
             default:
                 System.out.println("Comando non recoñecido");
@@ -214,10 +218,9 @@ public class Xogo {
                 turno.setPodeLanzar(false);
             }
         }
-        mensaxe+=interpretarAccion(turno.getPosicion(),dados.valorLanzar());
         System.out.println(mensaxe);
+        interpretarAccion(turno.getPosicion(),dados.valorLanzar());
     }
-
 
     /**
      * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
@@ -225,7 +228,7 @@ public class Xogo {
      * @param newPos Movemento no taboeiro respecto a casilla actual
      * @return Mensaxe da acción interpretada
      */
-    private String interpretarAccion(Casilla current,int newPos){
+    private void interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
 
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
@@ -261,28 +264,36 @@ public class Xogo {
                 case CARCEL:
                     mensaxe+="So de visita...";
                     break;
+                case SERVIZO:
+                case TRANSPORTE:
+                    if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
+                        if(turno.quitarDinheiro(Valor.VALOR_SERVICIO)){
+                            mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+                        }else{
+                            System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
+                            return;
+                        }
+                    }
+                    break;
                 case SOLAR:
                     if(next.getEstaHipotecada()){
                         mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
-                    }
-                    else{
+                    }else{
                         if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
                             if(turno.quitarDinheiro(next.getAlquiler())){
                                 mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome();
                             }else{
                                 System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                                return "";
+                                return;
                             }
                         }
                     }
-
                     break;
             }
             turno.setPosicion(next);
         }
-
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
-        return "\n"+mensaxe;
+        System.out.println(mensaxe);
     }
 
     /**
@@ -318,7 +329,6 @@ public class Xogo {
         }
         System.out.println("Non se atopou o xogador "+nome);
     }
-
 
     /**
      * Este metodo imprime a info dun avatar.
@@ -359,7 +369,6 @@ public class Xogo {
                 if(c.podeseComprar())
                     System.out.println(c);
     }
-
 
     /**
      * Este metodo acaba o turno e pasallo ao seguinte.
