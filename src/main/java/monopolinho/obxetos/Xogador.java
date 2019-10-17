@@ -21,6 +21,7 @@ public class Xogador {
     private int vecesTiradas;
     private boolean enBancarrota;
 
+
     /**
      *  Constructor sen argumentos crea a banca.
      */
