@@ -151,8 +151,9 @@ public class Casilla {
      * @return Devolve o valor dunha casilla
      */
     public float getValor() {
-        if(this.grupo!=null)return (float) Math.ceil((this.grupo.getValor()/this.grupo.getSolares().size()));
-        else return valorServicio;
+        if(this.getTipoCasilla()==TipoCasilla.SOLAR) return (float) Math.ceil((this.grupo.getValor()/this.grupo.getSolares().size()));
+        else if(this.getTipoCasilla()==TipoCasilla.TRANSPORTE || this.getTipoCasilla()==TipoCasilla.SERVIZO) return valorServicio;
+        else return -1f;
     }
 
     /**
