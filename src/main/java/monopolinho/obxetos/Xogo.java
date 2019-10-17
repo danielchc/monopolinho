@@ -5,22 +5,27 @@ import monopolinho.axuda.Valor;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Xogo {
 
-    private ArrayList<Xogador> xogadores;   //lista dos xogadores da partida
+    private ArrayList<Xogador> xogadores;
     private Taboeiro taboeiro;
     private Xogador turno;
     private Dados dados;
     private Xogador banca;
 
-    /*
-        Constructor da clase Xogo.
-        Determina o turno.
-        Instancia o taboeiro.
-        Instancia a banca.
-        Instancia os dados.
-        Engade as todas as casillas a banca.
-        Coloca todos os avatares na salida.
+    /**
+     * Constructor da clase Xogo.
+     * Determina o turno.
+     * Instancia o taboeiro.
+     * Instancia a banca.
+     * Instancia os dados.
+     * Engade as todas as casillas a banca.
+     * Coloca todos os avatares na salida.
+     * @param xogadores Xogadores para iniciar a partida
      */
     public Xogo(ArrayList<Xogador> xogadores){
         this.xogadores=xogadores;
@@ -32,12 +37,8 @@ public class Xogo {
         for (Xogador t:this.xogadores) t.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
     }
 
-
-
-    ///////////////////////METODOS////////////////////////
-
-    /*
-        Este metodo sirve como consola de comandos.
+    /**
+     * Este metodo sirve como consola de comandos.
      */
     public void consola(){
         mostrarComandos();
@@ -48,21 +49,22 @@ public class Xogo {
         }
     }
 
-
-    /*
-        Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
+    /**
+     * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
+     * @param comando
      */
     private void interpretarComando(String comando) {
-
         String[] cmds=comando.split(" ");
         switch (cmds[0].toLowerCase()){
             case "xogador":
+            case "jugador":
                 if (turno!=null)System.out.println(turno);
                 else System.err.println("Non hai xogadores");
                 break;
             case "listar":
                 switch (cmds[1].toLowerCase()){
                     case "xogadores":
+                    case "jugadores":
                         listarXogadores();
                         break;
                     case "avatares":
@@ -76,7 +78,7 @@ public class Xogo {
                         break;
                 }
                 break;
-            case "lanzar":  //falta acabalo
+            case "lanzar":
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: lanzar dados");
                     return;
@@ -92,11 +94,16 @@ public class Xogo {
                 pasarTurno();
                 break;
             case "salir":
-                if(cmds.length!=2){
-                    System.out.println("Sintaxe: salir carcel");
+            case "sair":
+                if(cmds.length==1){
+                    System.out.println("Saindo...");
+                    System.exit(0);
+                }else if (cmds.length==2){
+                    salirCarcel();
+                }else{
+                    System.out.println("Sintaxe: salir carcel\nsalir");
                     return;
                 }
-                salirCarcel();
                 break;
             case "describir":
                 if(cmds.length<2){
@@ -111,17 +118,17 @@ public class Xogo {
                             System.out.println("Sintaxe: describir xogador <nome>");
                             return;
                         }
-                        describirXogador(cmds);
+                        describirXogador(cmds[2]);
                         break;
                     case "avatar":
                         if(cmds.length!=3){
                             System.out.println("Sintaxe: describir avatar <id>");
                             return;
                         }
-                        describirAvatar(cmds);
+                        describirAvatar(cmds[2]);
                         break;
                     default:
-                        describirCasilla(cmds);
+                        describirCasilla(cmds[1]);
                         break;
                 }
                 break;
@@ -140,17 +147,13 @@ public class Xogo {
                 break;
             case "ver":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: ver tableiro");
+                    System.out.println("Sintaxe: ver taboeiro/tableiro");
                     return;
                 }
                 mostrarTaboeiro();
                 break;
             case "comandos":
                 mostrarComandos();
-                break;
-            case "exit":
-                System.out.println("Saindo...");
-                System.exit(0);
                 break;
             case "mov": //BORRAR ISTOOOO!!!!
                 Casilla current=turno.getPosicion();
@@ -162,40 +165,8 @@ public class Xogo {
 
     }
 
-    //METODOS AUXILIARES
-
-
-    /*
-    Meteodo hipotecar casilla.
-     */
-    private void hipotecarCasilla(String nome){
-        Casilla c=this.taboeiro.buscarCasilla(nome);
-        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno)){
-            c.setEstaHipotecada(true);
-            c.getDono().engadirDinheiro(c.getHipoteca());
-            System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
-        }
-        else System.err.println("Non se pode hipotecar esa casilla");
-    }
-    /*
-        Metodo bancarrota.
-     */
-
-    private void declararBancarrota(){
-        this.turno.setEnBancarrota(true);
-        for(Casilla c:this.turno.getPropiedades()){
-            c.setDono(this.banca);
-        }
-        System.err.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
-        pasarTurno();
-
-
-    }
-
-
-
-    /*
-        Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
+    /**
+     * Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
      */
     private void engadirCasillasBanca(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
@@ -204,12 +175,11 @@ public class Xogo {
         }
     }
 
-
-    /*
-        Este metodo lanza os dados.
-        Se saen dobles permite volver a tirar.
-        Se volven sair dobles permite volver tirar.
-        Se saen triples manda ao xogador para a carcere.
+    /**
+     * Este metodo lanza os dados.
+     * - Se saen dobles permite volver a tirar.
+     * - Se volven sair dobles permite volver tirar.
+     * - Se saen triples manda ao xogador para a carcere.
      */
     private void lanzarDados(){
         if(!turno.getPodeLanzar()){
@@ -249,8 +219,11 @@ public class Xogo {
     }
 
 
-    /*
-        Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
+    /**
+     * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
+     * @param current Casilla actual
+     * @param newPos Movemento no taboeiro respecto a casilla actual
+     * @return Mensaxe da acción interpretada
      */
     private String interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
@@ -312,9 +285,8 @@ public class Xogo {
         return "\n"+mensaxe;
     }
 
-
-    /*
-        Este metodo mostra por pantalla todos os comandos dispoñibles.
+    /**
+     * Este metodo mostra por pantalla todos os comandos dispoñibles.
      */
     private void mostrarComandos(){
         String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa>\n\t+ lanzar dados"+
@@ -323,59 +295,63 @@ public class Xogo {
         System.out.println(comandos);
     }
 
-    /*
-        Este metdo imprime a info dunha casilla.
+    /**
+     * Este metdo imprime a info dunha casilla.
+     * @param nome Nome da casilla
      */
-    private void describirCasilla(String[] cmds){
-        Casilla c=this.taboeiro.buscarCasilla(cmds[1]);
+    private void describirCasilla(String nome){
+        Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null)System.out.println(c);
         else System.out.println("Non existe esta casilla");
     }
 
-    /*
-        Este metodo imprime a info dun xogador.
+    /**
+     * Este metodo imprime a info dun xogador.
+     * @param nome Nome do xogador
      */
-    private void describirXogador(String[] cmds){
+    private void describirXogador(String nome){
         for(Xogador x:this.xogadores){
-            if(x.getNome().toLowerCase().equals(cmds[2].toLowerCase())){
+            if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
                 System.out.println(x.describir());
                 return;
             }
         }
-        System.out.println("Non se atopou o xogador "+cmds[2]);
+        System.out.println("Non se atopou o xogador "+nome);
     }
 
-    /*
-        Este metodo imprime a info dun avatar.
+
+    /**
+     * Este metodo imprime a info dun avatar.
+     * @param avatarId Argumentos do usuario
      */
-    private void describirAvatar(String[] cmds){
+    private void describirAvatar(String avatarId){
         for(Xogador x:this.xogadores){
-            if(x.getAvatar().getId().equals(cmds[2])){
+            if(x.getAvatar().getId().equals(avatarId)){
                 System.out.println(x.getAvatar());
                 return;
             }
         }
-        System.out.println("Non se atopou o avatar "+ cmds[2]);
+        System.out.println("Non se atopou o avatar "+ avatarId);
     }
 
-    /*
-        Este metodo imprime todos os avatares.
+    /**
+     * Este metodo imprime todos os avatares.
      */
     private void listarAvatares(){
         for(Xogador x:this.xogadores)
             System.out.println(x.getAvatar());
     }
 
-    /*
-        Este metodo imprime todos os xogadores.
+    /**
+     * Este metodo imprime todos os xogadores.
      */
     private void listarXogadores(){
         for(Xogador x:this.xogadores)
             System.out.println(x.describir());
     }
 
-    /*
-        Este metodo imprime todas as casillas en venta.
+    /**
+     * Este metodo imprime todas as casillas en venta.
      */
     private void listarCasillaEnVenta(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
@@ -385,8 +361,8 @@ public class Xogo {
     }
 
 
-    /*
-        Este metodo acaba o turno e pasallo ao seguinte.
+    /**
+     * Este metodo acaba o turno e pasallo ao seguinte.
      */
     private void pasarTurno(){
         Xogador actual=turno;
@@ -399,16 +375,13 @@ public class Xogo {
             novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
             turno=this.xogadores.get(novoTurno);
         }while(turno.getEnBancarrota());
-        if(novoTurno==0){
-            //RESTAR CARCEL VOLTAS
-        }
         actual.setVecesTiradas(0);
         actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
     }
 
-    /*
-        Este metodo saca a un xogador da carcere.
+    /**
+     * Este metodo saca a un xogador da carcere.
      */
     private void salirCarcel(){
         if (!turno.estaNaCarcel()){
@@ -422,8 +395,9 @@ public class Xogo {
         }
     }
 
-    /*
-        Este metodo engade unha casilla as propiedades do xogador.
+    /**
+     * Este metodo engade unha casilla as propiedades do xogador.
+     * @param cmds Argumentos da función
      */
     private void comprarCasilla(String[] cmds){
         Casilla comprar=turno.getPosicion();
@@ -445,10 +419,38 @@ public class Xogo {
         System.out.println("O usuario "+turno.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
 
-    /*
-        Este metodo imprime o tableiro.
+
+    /**
+     * Este metodo imprime o tableiro.
      */
     private void mostrarTaboeiro(){
         System.out.println(taboeiro);
     }
+
+    /**
+     * Metodo que hipoteca unha casilla.
+     * @param nome Nome casilla
+     */
+    private void hipotecarCasilla(String nome){
+        Casilla c=this.taboeiro.buscarCasilla(nome);
+        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno)){
+            c.setEstaHipotecada(true);
+            c.getDono().engadirDinheiro(c.getHipoteca());
+            System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
+        }
+        else System.err.println("Non se pode hipotecar esa casilla");
+    }
+
+    /**
+     * Metodo bancarrota.
+     */
+    private void declararBancarrota(){
+        this.turno.setEnBancarrota(true);
+        for(Casilla c:this.turno.getPropiedades()){
+            c.setDono(this.banca);
+        }
+        System.err.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
+        pasarTurno();
+    }
+
 }
