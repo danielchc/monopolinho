@@ -5,11 +5,11 @@ import monopolinho.axuda.Valor;
 
 import java.util.ArrayList;
 
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public class Taboeiro {
-
-    /*
-        Atributos do taboeiro.
-     */
     public enum Zona{
         SUR,
         OESTE,
@@ -17,25 +17,23 @@ public class Taboeiro {
         ESTE
     }
     private ArrayList<ArrayList<Casilla>> casillas;
-    private float bote=0.0f;    //bote que hai no parking
+    private float bote=0.0f;
 
-
-    /*
-        Constructor de Taboeiro.
-        Instancia o arraylist para as zonas e cada arraylist de cada zona.
-        Xera as casillas do taboeiro.
+    /**
+     * - Constructor de Taboeiro.
+     * - Instancia o arraylist para as zonas e cada arraylist de cada zona.
+     * - Xera as casillas do taboeiro.
      */
     public Taboeiro(){
         this.casillas=new ArrayList<>();
-        for(int i=0;i<4;i++)this.casillas.add(new ArrayList<>()); //AÑADIR ZONAS
+        for(int i=0;i<4;i++)this.casillas.add(new ArrayList<>());
         xerarCasillas();
     }
 
-
-    ////////////METODOS///////////////////////
-
-    /*
-        Este metodo engade unha casilla a unha zona do taboeiro.
+    /**
+     * Este metodo engade unha casilla a unha zona do taboeiro.
+     * @param z Zona donde engadir a casilla
+     * @param casilla Casilla a engadir
      */
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
@@ -48,8 +46,10 @@ public class Taboeiro {
         }
     }
 
-    /*
-        Este metodo busca unha casilla do taboeiro e devolvea.
+    /**
+     * Este metodo busca unha casilla
+     * @param nome Nome da casilla
+     * @return Casilla do taboeiro
      */
     public Casilla buscarCasilla(String nome){
         for(ArrayList<Casilla> ac:this.casillas){
@@ -60,9 +60,60 @@ public class Taboeiro {
         return null;
     }
 
+    /**
+     * Sobrecarga de métodos
+     * @return Devolve todas as casillas
+     */
 
-    /*
-        Este metodo instancia todas as casillas do taboeiro e engadeas a zona que lles corresponde.
+    public ArrayList<ArrayList<Casilla>> getCasillas() {
+        return casillas;
+    }
+
+    /**
+     * @param z Zona donde se atopa a casilla
+     * @return
+     */
+    public ArrayList<Casilla> getCasillas(Zona z) {
+        return casillas.get(z.ordinal());
+    }
+
+    /**
+     * Accede a unha casilla por un index(0,39)
+     * @param posicion Indice
+     * @return Casilla no taboeiro
+     */
+    public Casilla getCasilla(int posicion){
+        if((posicion>=0)&&(posicion<11)) return getCasillas(Zona.SUR).get(posicion);
+        else if((posicion>=11)&&(posicion<20)) return getCasillas(Zona.OESTE).get(posicion-11);
+        else if((posicion>=20)&&(posicion<31)) return getCasillas(Zona.NORTE).get(posicion-20);
+        else return getCasillas(Zona.ESTE).get(posicion-31);
+    }
+
+    /**
+     * @return Devolve o bote do taboeiro
+     */
+    public float getBote() {
+        return bote;
+    }
+
+    /**
+     * Establece o bote do Taboeiro
+     * @param bote
+     */
+    public void setBote(float bote) {
+        this.bote = bote;
+    }
+
+    /**
+     * Engade cartos o bote da casilla
+     * @param imposto Cartos a engadir
+     */
+    public void engadirBote(float imposto) {
+        this.bote += imposto;
+    }
+
+    /**
+     * Este metodo instancia todas as casillas do taboeiro e engadeas a zona que lles corresponde.
      */
     public void xerarCasillas(){
 
@@ -123,43 +174,9 @@ public class Taboeiro {
 
     }
 
-
-
-
-
-    /////////////////////getters e setters////////////////////////
-
-    //Sobrecarga de métodos
-    public ArrayList<ArrayList<Casilla>> getCasillas() {
-        return casillas;
-    }
-
-    public ArrayList<Casilla> getCasillas(Zona z) {
-        return casillas.get(z.ordinal());
-    }
-
-    public Casilla getCasilla(int posicion){
-        if((posicion>=0)&&(posicion<11)) return getCasillas(Zona.SUR).get(posicion);
-        else if((posicion>=11)&&(posicion<20)) return getCasillas(Zona.OESTE).get(posicion-11);
-        else if((posicion>=20)&&(posicion<31)) return getCasillas(Zona.NORTE).get(posicion-20);
-        else return getCasillas(Zona.ESTE).get(posicion-31);
-    }
-
-
-
-    public float getBote() {
-        return bote;
-    }
-
-    public void setBote(float bote) {
-        this.bote = bote;
-    }
-
-    public void engadirBote(float imposto) {
-        this.bote += imposto;
-    }
-
-
+    /**
+     * @return Devolve a representación do taboeiro en ASCII
+     */
     @Override
     public String toString(){
         String taboeiro="";
@@ -196,6 +213,4 @@ public class Taboeiro {
 
         return taboeiro;
     }
-
-
 }

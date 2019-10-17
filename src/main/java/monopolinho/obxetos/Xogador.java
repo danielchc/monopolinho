@@ -50,7 +50,7 @@ public class Xogador {
         this.vecesTiradas=0;
         this.enBancarrota=false;
     }
-    
+
     /**
      * Este metodo saca a un xogador da carcere pagando.
      * @return Se ten cartos para pagar para salir do cárcere
