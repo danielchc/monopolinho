@@ -154,7 +154,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("CORUNA",grupo_verde));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("LUGO",grupo_verde));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("COMUNIDADE",Casilla.TipoCasilla.COMUNIDADE));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("ORENSE",grupo_verde));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("OURENSE",grupo_verde));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRACTOR",Casilla.TipoCasilla.TRANSPORTE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("VIGO",grupo_azul));
