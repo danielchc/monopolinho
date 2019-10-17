@@ -244,7 +244,7 @@ public class Xogador {
     /**
      * @return Comproba se o xogador pode lanzar
      */
-    public boolean isPodeLanzar() {
+    public boolean podeLanzar() {
         return podeLanzar;
     }
 
@@ -316,7 +316,7 @@ public class Xogador {
     /**
      * Compara se os obxetos son iguais
      * @param obj Obxeto a comparar
-     * @return Son iguais os proxectos
+     * @return Son iguais os obxectos
      */
     public boolean equals(Object obj){
         if(obj instanceof Xogador){

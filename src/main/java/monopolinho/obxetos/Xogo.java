@@ -182,7 +182,7 @@ public class Xogo {
      * - Se saen triples manda ao xogador para a carcere.
      */
     private void lanzarDados(){
-        if(!turno.isPodeLanzar()){
+        if(!turno.podeLanzar()){
             System.err.println("O xogador xa lanzou os dados. Non se poden lanzar de novo");
             return;
         }
@@ -280,7 +280,7 @@ public class Xogo {
             }
             turno.setPosicion(next);
         }
-        
+
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         return "\n"+mensaxe;
     }
