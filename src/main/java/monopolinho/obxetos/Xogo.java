@@ -182,7 +182,7 @@ public class Xogo {
      * - Se saen triples manda ao xogador para a carcere.
      */
     private void lanzarDados(){
-        if(!turno.getPodeLanzar()){
+        if(!turno.isPodeLanzar()){
             System.err.println("O xogador xa lanzou os dados. Non se poden lanzar de novo");
             return;
         }
@@ -374,7 +374,7 @@ public class Xogo {
         do{
             novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
             turno=this.xogadores.get(novoTurno);
-        }while(turno.getEnBancarrota());
+        }while(turno.isEnBancarrota());
         actual.setVecesTiradas(0);
         actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());

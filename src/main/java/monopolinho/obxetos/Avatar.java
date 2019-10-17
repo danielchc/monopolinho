@@ -4,6 +4,12 @@ import monopolinho.axuda.Valor;
 
 import java.util.Random;
 
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
+
+
 public class Avatar {
     public enum TipoMovemento {
         PELOTA,
@@ -17,10 +23,12 @@ public class Avatar {
     private Casilla posicion; //CASILLA na que esta
     private int voltasTaboeiro=0;
 
-    /*
-        Constructor de avatar.
-        Parametros: tipo de movemento e xogador ao que representa
-        Xera un id aleatorio para o avatar.
+
+
+    /**
+     * Constructor da clase Avatar
+     * @param tipo tipo de movemento do xogador
+     * @param xogador xogador que ten o avatar
      */
     public Avatar(TipoMovemento tipo, Xogador xogador){
 
@@ -35,50 +43,80 @@ public class Avatar {
         }
     }
 
+
+    /**
+     * Constructor para a clase Avatar
+     * @param tipo tipo de movemento
+     * @param xogador xogador que ten o avatar
+     * @param id identificador do avatar
+     */
     public Avatar(TipoMovemento tipo, Xogador xogador,String id){
         this(tipo,xogador);
         this.id=id;
     }
-    ////////// Metodos//////////////
 
-    /*
-        Este metodo engade 1 ao contador de voltas do xogador
+
+    /**
+     * Este método engade 1 ás voltas ao taboeiro.
      */
     public void voltaTaboeiro(){
         this.voltasTaboeiro++;
     }
 
-    /*
-        Este metodo xera un id para o avatar de forma aleatoria
-     */
 
+    /**
+     * Este método xera un identificador aleatorio
+     */
     private void xerarId(){
         Random aleatorio=new Random(System.nanoTime());
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }
 
-    ///////// Getters e setters//////////////
 
+    /**
+     * @return posicion do avatar
+     */
     public Casilla getPosicion() {
         return posicion;
     }
 
+
+    /**
+     * @return tipo de movemento do avatar
+     */
     public TipoMovemento getTipo() {
         return tipo;
     }
 
+
+    /**
+     * @return xogador que ten o avatar
+     */
     public Xogador getXogador() {
         return xogador;
     }
 
+
+    /**
+     * @return identificador do avatar
+     */
     public String getId() {
         return id;
     }
 
+
+    /**
+     * @return voltas dadas ao taboeiro
+     */
     public int getVoltasTaboeiro() {
         return voltasTaboeiro;
     }
 
+
+    /**
+     * Establece a posicion dun avatar
+     * @param posicion casilla na que se vai colocar o avatar
+     */
     public void setPosicion(Casilla posicion) {
         if(posicion!=null){
             if (this.posicion!=null)this.posicion.eliminarAvatar(this);
@@ -87,6 +125,11 @@ public class Avatar {
         }
     }
 
+
+    /**
+     * Establece o xogador dun avatar
+     * @param xogador xogador que vai ter o avatar
+     */
     public void setXogador(Xogador xogador) {
         if(xogador!=null)this.xogador = xogador;
         else{
@@ -95,6 +138,44 @@ public class Avatar {
         }
     }
 
+
+    /**
+     * Establece o tipo de movemento dun avatar
+     * @param tipo tipo de movemento
+     */
+    public void setTipo(TipoMovemento tipo) {
+        if(tipo!=null){
+            this.tipo = tipo;
+        }
+    }
+
+
+    /**
+     * Establece o identificador dun avatar
+     * @param id identificador do avatar
+     */
+    public void setId(String id) {
+        if(id!=null){
+            this.id = id;
+        }
+    }
+
+
+    /**
+     * Estable as voltas ao taboeiro
+     * @param voltasTaboeiro voltas ao taboeiro
+     */
+    public void setVoltasTaboeiro(int voltasTaboeiro) {
+        this.voltasTaboeiro = voltasTaboeiro;
+    }
+
+
+
+    /**
+     * Permite comparar se dous avatares son iguais en funcion de se os seus id son os memos
+     * @param obj avatar
+     * @return devolve verdadeiro ou falso
+     */
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Avatar){
@@ -102,6 +183,12 @@ public class Avatar {
         }
         return false;
     }
+
+
+    /**
+     * Permite imprimir a información dun avatar en formato textual
+     * @return devolve a información dun avatar nun String
+     */
     @Override
     public String toString(){
         String texto="{"+"\n\t" +
