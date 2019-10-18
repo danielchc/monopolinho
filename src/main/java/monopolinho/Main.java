@@ -12,6 +12,9 @@ public class Main {
      */
     public static void main(String[] args) {
         Menu menu=new Menu();
-        menu.iniciar();
+        //SE COMENTAS ESTO TES QUE USAR O COMANDO CREAR XOGADOR
+        //Se o comentas so podes crear xogadores o principio, cando executes un comando que non sexa crear xogador empeza a partida
+        //menu.preguntarXogadores();
+        menu.consola();
     }
 }

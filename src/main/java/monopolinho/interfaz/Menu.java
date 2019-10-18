@@ -2,6 +2,7 @@ package monopolinho.interfaz;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.obxetos.Avatar;
+import monopolinho.obxetos.Casilla;
 import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import java.util.Scanner;
 
 
 public class Menu {
-    Xogo xogo;
-    ArrayList<Xogador> xogadores;
+    private Xogo xogo;
+    private ArrayList<Xogador> xogadores;
 
 
     /**
@@ -26,6 +27,8 @@ public class Menu {
      */
     public Menu(){
         xogadores=new ArrayList<>();
+        System.out.println(ReprTab.debuxoSimple());
+        xogo=new Xogo();
     }
 
 
@@ -33,18 +36,11 @@ public class Menu {
      * Este metodo inicia a partida.
      * Pregunta polos xogadores, crea o xogo e a consola de comandos.
      */
-    public void iniciar(){
-        System.out.println(ReprTab.debuxoSimple());
-        preguntarXogadores();
-        xogo=new Xogo(this.xogadores);
-        xogo.consola();
-    }
-
 
     /**
      * Este metodo permite preguntar o numero de xogadores e crealos.
      */
-    private void preguntarXogadores(){
+    public void preguntarXogadores(){
         System.out.print("\n\nInserta o numero de xogadores: ");
         Scanner input=new Scanner(System.in);
         while (!input.hasNextInt()) input.next();
@@ -56,11 +52,12 @@ public class Menu {
                 String nome=input.nextLine();
                 System.out.println("Introduce o tipo de movemento do xogador <coche/sombreiro/esfinxe/pelota> "+i+": ");
                 String mov=input.nextLine();
-                if((nome.toLowerCase().equals("banca"))||!crearXogador(nome,interpretarMov(mov))){
+                if((nome.toLowerCase().equals("banca"))||!xogo.crearXogador(nome,interpretarMov(mov))){
                     System.err.println("Xa existe un usuario que se chama así");
                     i--;
                 }
             }
+            xogo.comezarPartida();
         }else {
             System.err.println("Debe haber polo menos dous xogadores");
             System.exit(1);
@@ -82,26 +79,156 @@ public class Menu {
             case "sombreiro":
                 return Avatar.TipoMovemento.SOMBREIRO;
             case "coche":
+                return Avatar.TipoMovemento.COCHE;
             default:
                 System.out.println("\nAvatar inválido, asignouseche o coche por defecto.");
                 return Avatar.TipoMovemento.COCHE;
         }
     }
 
+    /**
+     * Este metodo sirve como consola de comandos.
+     */
+    public void consola(){
+        xogo.mostrarComandos();
+        Scanner scanner= new Scanner(System.in);
+        while(true){
+            System.out.print("$> ");
+            interpretarComando(scanner.nextLine());
+        }
+    }
 
     /**
-     * Este metodo permite crear un xogador
-     * @param nombre nome do xogador
-     * @param tipoMov tipo de movemento do avatar do xogador
-     * @return true si se creou o xogador ou false se o xogador xa existe
+     * IMPLEMENTAR AQUI A FUNCION QUE LEE OS ARQUIVOS
+     * @param nome Nome do ficheiro a abrir
      */
-    private boolean crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
-        Xogador xogador=new Xogador(nombre, tipoMov);
-        if(this.xogadores.contains(xogador)){
-            return false; //Comproba se existe o usuario o método equal compara nomes!
+    public void FUNCION(String nome){
+
+
+    }
+
+    /**
+     * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
+     * @param comando
+     */
+    private void interpretarComando(String comando) {
+        String[] cmds=comando.split(" ");
+        if (cmds[0].toLowerCase().equals("crear")){
+            if(cmds.length!=4){
+                System.out.println("Sintaxe: crear xogador <nome> <avatar>");
+                return;
+            }
+            xogo.crearXogador(cmds[2],interpretarMov(cmds[3]));
+            return;
         }
-        this.xogadores.add(xogador);
-        System.out.println(xogador);
-        return true;
+        if(!xogo.partidaComezada()){
+            if(xogo.getNumeroXogadores()>=2)xogo.comezarPartida();
+            else {
+                System.err.println("Non hai suficientes xogadores");
+                return;
+            }
+        }
+        switch (cmds[0].toLowerCase()){
+            case "xogador":
+            case "jugador":
+                xogo.mostrarTurno();
+                break;
+            case "listar":
+                switch (cmds[1].toLowerCase()){
+                    case "xogadores":
+                    case "jugadores":
+                        xogo.listarXogadores();
+                        break;
+                    case "avatares":
+                        xogo.listarAvatares();
+                        break;
+                    case "enventa":
+                        xogo.listarCasillaEnVenta();
+                        break;
+                    default:
+                        System.out.println("\nOpción de listaxe non válida");
+                        break;
+                }
+                break;
+            case "lanzar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: lanzar dados");
+                    return;
+                }
+                xogo.lanzarDados();
+                break;
+
+            case "acabar":
+                if(cmds.length!=2) {
+                    System.out.println("Sintaxe: acabar turno");
+                    return;
+                }
+                xogo.pasarTurno();
+                break;
+            case "salir":
+            case "sair":
+                if(cmds.length==1){
+                    System.out.println("Saindo...");
+                    System.exit(0);
+                }else if (cmds.length==2){
+                    xogo.salirCarcel();
+                }else{
+                    System.out.println("Sintaxe: salir carcel\nsalir");
+                    return;
+                }
+                break;
+            case "describir":
+                if(cmds.length<2){
+                    System.out.println("Sintaxe describir <xogador/avatar> <nome>");
+                    System.out.println("Sintaxe describir <casilla>");
+                    return;
+                }
+                switch (cmds[1]){
+                    case "xogador":
+                    case "jugador":
+                        if(cmds.length!=3){
+                            System.out.println("Sintaxe: describir xogador <nome>");
+                            return;
+                        }
+                        xogo.describirXogador(cmds[2]);
+                        break;
+                    case "avatar":
+                        if(cmds.length!=3){
+                            System.out.println("Sintaxe: describir avatar <id>");
+                            return;
+                        }
+                        xogo.describirAvatar(cmds[2]);
+                        break;
+                    default:
+                        xogo.describirCasilla(cmds[1]);
+                        break;
+                }
+                break;
+            case "comprar":
+                xogo.comprarCasilla(cmds);
+                break;
+            case "bancarrota":
+                xogo.declararBancarrota();
+                break;
+            case "hipotecar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: hipotecar <casilla>");
+                    return;
+                }
+                xogo.hipotecarCasilla(cmds[1]);
+                break;
+            case "ver":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: ver taboeiro/tableiro");
+                    return;
+                }
+                xogo.mostrarTaboeiro();
+                break;
+            case "comandos":
+                xogo.mostrarComandos();
+                break;
+            default:
+                System.out.println("Comando non recoñecido");
+        }
     }
 }
