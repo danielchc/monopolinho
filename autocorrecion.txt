@@ -1,0 +1,19 @@
+ver tablero
+stop
+crear jugador Pedro pelota
+crear jugador Manuel sombrero
+stop
+listar jugadores
+stop
+listar avatares
+stop
+jugador
+lanzar dados
+stop
+describir Santiago
+stop
+describir Pedro
+stop
+acabar turno
+stop
+salir
