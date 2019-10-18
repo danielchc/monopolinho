@@ -42,6 +42,16 @@ public class Xogo {
         for (Xogador t:this.xogadores) t.getAvatar().setPosicion(this.taboeiro.getCasilla(0));
     }
 
+
+    //////// PARTE PARA CORRECCION , METEA ONDE QUEIRAS DESPOIS//////////////////////7
+    
+
+
+
+
+
+
+
     /**
      * Este metodo sirve como consola de comandos.
      */
