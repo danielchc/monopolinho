@@ -16,5 +16,11 @@ public class Main {
         //Se o comentas so podes crear xogadores o principio, cando executes un comando que non sexa crear xogador empeza a partida
         //menu.preguntarXogadores();
         menu.consola();
+
+        //PA CORRECION SERIA
+        /*
+        * Menu menu=new Menu();
+        * menu.archivo("archivo.txt")......
+        * */
     }
 }
