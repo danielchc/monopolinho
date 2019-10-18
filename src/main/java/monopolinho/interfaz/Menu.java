@@ -5,6 +5,10 @@ import monopolinho.obxetos.Avatar;
 import monopolinho.obxetos.Casilla;
 import monopolinho.obxetos.Xogador;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -96,13 +100,35 @@ public class Menu {
     }
 
     /**
-     * IMPLEMENTAR AQUI A FUNCION QUE LEE OS ARQUIVOS
-     * @param nome Nome do ficheiro a abrir
+     *
+     *
      */
-    public void FUNCION(String nome){
+    public void leerComandosArchivo() throws IOException {
+        BufferedReader buffRead = null;
+        try{
+            String directorio = System.getProperty("user.dir")+"/autocorrecion.txt";
+            FileReader fileRead = new FileReader(directorio);
+            buffRead = new BufferedReader(fileRead);
+        } catch (FileNotFoundException notFound) {
+            System.out.println(notFound.getMessage());
+            System.exit(0);
+        }
 
-
+        String leido = null ;
+        while ( !(leido=buffRead.readLine()).equals("salir")){
+            if (leido.equals("stop")){
+                new Scanner(System.in).nextLine();
+            }
+            else{
+                interpretarComando(leido);
+            }
+        }
     }
+
+
+
+
+
 
     /**
      * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
