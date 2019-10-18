@@ -1,6 +1,7 @@
 package monopolinho.interfaz;
 
 import monopolinho.axuda.ReprTab;
+import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Avatar;
 import monopolinho.obxetos.Casilla;
 import monopolinho.obxetos.Xogador;
@@ -76,8 +77,10 @@ public class Menu {
             case "pelota":
                 return Avatar.TipoMovemento.PELOTA;
             case "esfinxe":
+            case "esfinge":
                 return Avatar.TipoMovemento.ESFINXE;
             case "sombreiro":
+            case "sombrero":
                 return Avatar.TipoMovemento.SOMBREIRO;
             case "coche":
                 return Avatar.TipoMovemento.COCHE;
@@ -91,7 +94,7 @@ public class Menu {
      * Este metodo sirve como consola de comandos.
      */
     public void consola(){
-        xogo.mostrarComandos();
+        mostrarComandos();
         Scanner scanner= new Scanner(System.in);
         while(true){
             System.out.print("$> ");
@@ -100,8 +103,7 @@ public class Menu {
     }
 
     /**
-     *
-     *
+     * Lee os comando dun arquvio
      */
     public void leerComandosArchivo() throws IOException {
         BufferedReader buffRead = null;
@@ -113,22 +115,29 @@ public class Menu {
             System.out.println(notFound.getMessage());
             System.exit(0);
         }
-
-        String leido = null ;
-        while ( !(leido=buffRead.readLine()).equals("salir")){
+        String leido = null;
+        while ((leido = buffRead.readLine()) != null) {
             if (leido.equals("stop")){
+                System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,"Esperando a entrada para continuar..."));
                 new Scanner(System.in).nextLine();
-            }
-            else{
+            }else{
+                System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,leido));
                 interpretarComando(leido);
             }
         }
+        System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,"Volvendo o modo consola..."));
+        consola();
     }
 
-
-
-
-
+    /**
+     * Este metodo mostra por pantalla todos os comandos dispoñibles.
+     */
+    private void mostrarComandos(){
+        String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa>\n\t+ lanzar dados"+
+                "\n\t+ acabar turno\n\t+ salir carcel\n\t+ describir <casilla>\n\t+ describir xogador <nome>\n\t+ describir avatar <avatar>"+
+                "\n\t+ comprar <casilla>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
+        System.out.println(comandos);
+    }
 
     /**
      * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
@@ -136,7 +145,7 @@ public class Menu {
      */
     private void interpretarComando(String comando) {
         String[] cmds=comando.split(" ");
-        if (cmds[0].toLowerCase().equals("crear")){
+        if ((!xogo.partidaComezada())&&(cmds[0].toLowerCase().equals("crear"))){
             if(cmds.length!=4){
                 System.out.println("Sintaxe: crear xogador <nome> <avatar>");
                 return;
@@ -190,6 +199,7 @@ public class Menu {
                 break;
             case "salir":
             case "sair":
+            case "exit":
                 if(cmds.length==1){
                     System.out.println("Saindo...");
                     System.exit(0);
@@ -248,7 +258,7 @@ public class Menu {
                 xogo.mostrarTaboeiro();
                 break;
             case "comandos":
-                xogo.mostrarComandos();
+                mostrarComandos();
                 break;
             default:
                 System.out.println("Comando non recoñecido");

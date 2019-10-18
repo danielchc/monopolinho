@@ -1,7 +1,7 @@
-ver tablero
-stop
 crear jugador Pedro pelota
 crear jugador Manuel sombrero
+stop
+ver tablero
 stop
 listar jugadores
 stop
@@ -12,8 +12,7 @@ lanzar dados
 stop
 describir Santiago
 stop
-describir Pedro
+describir jugador Pedro
 stop
 acabar turno
 stop
-salir
