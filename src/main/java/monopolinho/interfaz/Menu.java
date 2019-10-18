@@ -14,12 +14,9 @@ import java.util.Scanner;
  * @author David Carracedo
  */
 
-
-
 public class Menu {
     private Xogo xogo;
     private ArrayList<Xogador> xogadores;
-
 
     /**
      * Este é o constructor da clase Menu.
