@@ -105,10 +105,9 @@ public class Menu {
     /**
      * Lee os comando dun arquvio
      */
-    public void leerComandosArchivo() throws IOException {
+    public void leerComandosArchivo(String directorio) throws IOException {
         BufferedReader buffRead = null;
         try{
-            String directorio = System.getProperty("user.dir")+"/autocorrecion.txt";
             FileReader fileRead = new FileReader(directorio);
             buffRead = new BufferedReader(fileRead);
         } catch (FileNotFoundException notFound) {
