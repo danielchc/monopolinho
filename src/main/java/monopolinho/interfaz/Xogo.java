@@ -57,6 +57,7 @@ public class Xogo {
         System.out.println(xogador);
         return true;
     }
+
     /**
      * Este metodo lanza os dados.
      * - Se saen dobles permite volver a tirar.
@@ -116,7 +117,8 @@ public class Xogo {
             mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
             turno.setTurnosNaCarcel(3);
             turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
-        }else{
+        }
+        else{
             if((current.getPosicionIndex()+newPos)>39) {
                 mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getAvatar().voltaTaboeiro();
@@ -144,8 +146,9 @@ public class Xogo {
                     break;
                 case SERVIZO:
                 case TRANSPORTE:
-                    if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
-                        if(turno.quitarDinheiro(Valor.VALOR_SERVICIO)){
+                    if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
+                        if(turno.quitarDinheiro(Valor.USO_SERVICIO)){
+                            next.getDono().engadirDinheiro(Valor.USO_SERVICIO);
                             mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome() +" por usar "+next.getNome();
                         }else{
                             System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
@@ -159,6 +162,7 @@ public class Xogo {
                     }else{
                         if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
                             if(turno.quitarDinheiro(next.getAlquiler())){
+                                next.getDono().engadirDinheiro(next.getAlquiler());
                                 mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome();
                             }else{
                                 System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");

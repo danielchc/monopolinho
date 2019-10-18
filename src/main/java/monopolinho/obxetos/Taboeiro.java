@@ -60,6 +60,7 @@ public class Taboeiro {
         return null;
     }
 
+
     /**
      * Sobrecarga de métodos
      * @return Devolve todas as casillas
@@ -69,6 +70,7 @@ public class Taboeiro {
         return casillas;
     }
 
+
     /**
      * @param z Zona donde se atopa a casilla
      * @return
@@ -76,6 +78,7 @@ public class Taboeiro {
     public ArrayList<Casilla> getCasillas(Zona z) {
         return casillas.get(z.ordinal());
     }
+
 
     /**
      * Accede a unha casilla por un index(0,39)
@@ -89,12 +92,14 @@ public class Taboeiro {
         else return getCasillas(Zona.ESTE).get(posicion-31);
     }
 
+
     /**
      * @return Devolve o bote do taboeiro
      */
     public float getBote() {
         return bote;
     }
+
 
     /**
      * Establece o bote do Taboeiro
@@ -104,6 +109,7 @@ public class Taboeiro {
         this.bote = bote;
     }
 
+
     /**
      * Engade cartos o bote da casilla
      * @param imposto Cartos a engadir
@@ -111,6 +117,7 @@ public class Taboeiro {
     public void engadirBote(float imposto) {
         this.bote += imposto;
     }
+
 
     /**
      * Este metodo instancia todas as casillas do taboeiro e engadeas a zona que lles corresponde.
