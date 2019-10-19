@@ -26,6 +26,7 @@ public class Casilla {
     private String nome;
     private Grupo grupo;
     private float valorServicio;
+    private float usoServizo;
     private float imposto;
     private int posicion=-1;
     private Xogador dono;
@@ -51,6 +52,8 @@ public class Casilla {
         this.avatares=new ArrayList<Avatar>();
         this.grupo=null;
         this.estaHipotecada=false;
+        this.valorServicio=0;
+        this.usoServizo=0;
         switch (tipoCasilla){
             case SORTE:
                 this.colorCasilla= Valor.ReprColor.ANSI_RED_BOLD;
@@ -66,11 +69,9 @@ public class Casilla {
                 break;
             case TRANSPORTE:
                 this.colorCasilla=Valor.ReprColor.ANSI_PURPLE_BOLD;
-                this.valorServicio=Valor.VALOR_TRANSPORTE;
                 break;
             case SERVIZO:
                 this.colorCasilla=Valor.ReprColor.ANSI_BLUE_BOLD;
-                this.valorServicio=Valor.VALOR_SERVICIO;
                 break;
             default:
                 this.colorCasilla=Valor.ReprColor.ANSI_BLACK;
@@ -94,11 +95,26 @@ public class Casilla {
      * Crea unha nova casilla de IMPOSTO
      * @param nome Nome da casilla
      * @param tipoCasilla Tipo de Casilla(preterminado IMPOSTO neste constructor)
-     * @param imposto Imposto a pagar o pasar pola casilla
+     * @param valor Imposto da casilla IMPOSTO ou Valor da Casilla SERVIZO ou TRANSPORTE
      */
-    public Casilla(String nome,TipoCasilla tipoCasilla,float imposto){
+    public Casilla(String nome,TipoCasilla tipoCasilla,float valor){
         this(nome,tipoCasilla);
-        if (this.getTipoCasilla()==TipoCasilla.IMPOSTO)this.imposto=imposto;
+        if (this.tipoCasilla==TipoCasilla.IMPOSTO)this.imposto=valor;
+    }
+
+    /**
+     * Contructor para casilla TRANSPORTE OU SERVIZO
+     * @param nome Nome transporte
+     * @param tipoCasilla Tipo de Casilla
+     * @param valorServicio Valor de compra do servizo
+     * @param usoServizo
+     */
+    public Casilla(String nome,TipoCasilla tipoCasilla,float valorServicio,float usoServizo){
+        this(nome,tipoCasilla);
+        if (this.tipoCasilla==TipoCasilla.SERVIZO || this.tipoCasilla==TipoCasilla.TRANSPORTE){
+            this.valorServicio=valorServicio;
+            this.usoServizo=usoServizo;
+        }
     }
 
     /**
@@ -195,6 +211,21 @@ public class Casilla {
      */
     public float getAlquiler() {
         return getValor()*Valor.FACTOR_ALQUILER;
+    }
+
+    /**
+     * @return Valor uso servizo
+     */
+    public float getUsoServizo() {
+        return usoServizo;
+    }
+
+    /**
+     * Establece o valor de uso dun SERVIZO ou TRANSPORTE
+     * @param usoServizo
+     */
+    public void setUsoServizo(float usoServizo) {
+        this.usoServizo = usoServizo;
     }
 
     /**
@@ -378,6 +409,12 @@ public class Casilla {
                             "Precio: "+this.getValor()+
                             ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
                         "\n}";
+                break;
+            case COMUNIDADE:
+                texto="SEN IMPLEMENTAR: CAIXA COMUNIDADE";
+                break;
+            case SORTE:
+                texto="SEN IMPLEMENTAR: SORTE";
                 break;
             default:
                 texto="{"+

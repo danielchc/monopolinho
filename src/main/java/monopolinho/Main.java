@@ -20,7 +20,7 @@ public class Main {
             menu.preguntarXogadores();
             menu.consola();
         }else{
-            menu.leerComandosArchivo(System.getProperty("user.dir")+"/autocorrecion.txt");
+            menu.leerComandosArchivo(System.getProperty("user.dir")+"/usuarios.txt");
         }
     }
 }

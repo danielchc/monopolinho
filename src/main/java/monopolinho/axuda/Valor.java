@@ -53,7 +53,7 @@ public class Valor {
     /**
      * Valor das casillas de servicio
      */
-    public static final float VALOR_SERVICIO=VOLTA_COMPLETA*0.75f;
+    public static final float VALOR_SERVIZO =VOLTA_COMPLETA*0.75f;
 
 
     /**
@@ -76,7 +76,12 @@ public class Valor {
     /**
      * Cantidade a pagar ao caer nun servicio
      */
-    public static final float USO_SERVICIO=VOLTA_COMPLETA*0.002f;
+    public static final float USO_SERVIZO=VOLTA_COMPLETA*0.002f;
+
+    /**
+     * Cantidade a pagar ao caer nun transporte
+     */
+    //public static final float USO_TRANSPORTE=VOLTA_COMPLETA;
 
 
 

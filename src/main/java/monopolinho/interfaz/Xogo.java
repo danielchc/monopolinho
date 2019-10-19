@@ -4,7 +4,6 @@ import monopolinho.axuda.Valor;
 import monopolinho.obxetos.*;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Daniel Chenel
@@ -107,7 +106,7 @@ public class Xogo {
      * @param newPos Movemento no taboeiro respecto a casilla actual
      * @return Mensaxe da acción interpretada
      */
-    public void interpretarAccion(Casilla current,int newPos){
+    private void interpretarAccion(Casilla current,int newPos){
         String mensaxe="";
 
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
@@ -147,9 +146,9 @@ public class Xogo {
                 case SERVIZO:
                 case TRANSPORTE:
                     if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
-                        if(turno.quitarDinheiro(Valor.USO_SERVICIO)){
-                            next.getDono().engadirDinheiro(Valor.USO_SERVICIO);
-                            mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+                        if(turno.quitarDinheiro(next.getUsoServizo())){
+                            next.getDono().engadirDinheiro(next.getUsoServizo());
+                            mensaxe+="Tes que pagarlle "+next.getUsoServizo()+" a "+next.getDono().getNome() +" por usar "+next.getNome();
                         }else{
                             System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                             return;

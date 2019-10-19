@@ -136,10 +136,10 @@ public class Taboeiro {
 
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SALIDA",Casilla.TipoCasilla.SALIDA));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("GOIRIZ",grupo_ocre));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("CAIXA",Casilla.TipoCasilla.COMUNIDADE));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("COMUNIDADE",Casilla.TipoCasilla.COMUNIDADE));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SADA",grupo_ocre));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("I.CATASTRO",Casilla.TipoCasilla.IMPOSTO, Valor.IMPOSTO_BARATO));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("AVE",Casilla.TipoCasilla.TRANSPORTE));
+        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("AVE",Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_SERVIZO));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BOIMORTO",grupo_cyan));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
         engadirCasilla(Taboeiro.Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan));
@@ -151,10 +151,10 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MUIMENTA",grupo_rojo));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("GUITIRIZ",grupo_rojo));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("HIDROAVION",Casilla.TipoCasilla.TRANSPORTE,1000));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("HIDROAVION",Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_SERVIZO));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("ALLARIZ",grupo_blanco));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CANGAS",grupo_blanco));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.SERVIZO));
+        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.SERVIZO,Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("FENE",grupo_blanco));
         engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("IR_CARCEL",Casilla.TipoCasilla.IRCARCEL));
 
@@ -162,7 +162,7 @@ public class Taboeiro {
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("LUGO",grupo_verde));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("COMUNIDADE",Casilla.TipoCasilla.COMUNIDADE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("OURENSE",grupo_verde));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRACTOR",Casilla.TipoCasilla.TRANSPORTE));
+        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRACTOR",Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_SERVIZO));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("VIGO",grupo_azul));
         engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("I.SUCESIONS",Casilla.TipoCasilla.IMPOSTO, Valor.IMPOSTO_CARO));
@@ -170,12 +170,12 @@ public class Taboeiro {
 
 
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("FRADES",grupo_violeta));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MEIRAMA", Casilla.TipoCasilla.SERVIZO));//servicio
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MEIRAMA", Casilla.TipoCasilla.SERVIZO, Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MONELOS",grupo_violeta));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("LOURO",grupo_violeta));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("CATAMARAN", Casilla.TipoCasilla.TRANSPORTE));//servicio
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("CATAMARAN", Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_SERVIZO));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SANTISO",grupo_amarillo));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("COMUNIDADE", Casilla.TipoCasilla.COMUNIDADE));//servicio
+        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("COMUNIDADE", Casilla.TipoCasilla.COMUNIDADE));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MELIDE",grupo_amarillo));
         engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SARRIA",grupo_amarillo));
 
