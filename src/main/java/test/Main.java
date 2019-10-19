@@ -1,13 +1,17 @@
 package test;
+import monopolinho.interfaz.Menu;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        Menu menu=new Menu();
+        menu.leerComandosArchivo(System.getProperty("user.dir")+"/usuarios.txt");
+        //menu.leerComandosArchivo(System.getProperty("user.dir")+"/autocorrecion.txt");
     }
 }
