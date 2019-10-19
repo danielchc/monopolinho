@@ -30,9 +30,13 @@ public class Xogo {
         taboeiro=new Taboeiro();
         banca=new Xogador();
         dados=new Dados();
-        xogadores=new ArrayList<Xogador>();
         engadirCasillasBanca();
         partidaComezada=false;
+        xogadores=new ArrayList<Xogador>();
+    }
+    public Xogo(ArrayList<Xogador> xogadores){
+        this();
+        this.xogadores=xogadores;
     }
 
     /**
