@@ -256,6 +256,10 @@ public class Menu {
                 }
                 xogo.mostrarTaboeiro();
                 break;
+            case "mov":
+                //BORRARR
+                xogo.mov(Integer.parseInt(cmds[1]));
+                break;
             case "comandos":
                 mostrarComandos();
                 break;

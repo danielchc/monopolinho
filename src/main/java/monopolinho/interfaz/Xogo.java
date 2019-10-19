@@ -375,4 +375,10 @@ public class Xogo {
     public void comezarPartida() {
         this.partidaComezada = true;
     }
+
+    //BORRAR
+    public void mov(int i){
+        interpretarAccion(turno.getPosicion(),i);
+        turno.aumentarVecesTiradas();
+    }
 }
