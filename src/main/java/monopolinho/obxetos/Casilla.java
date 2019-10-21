@@ -25,7 +25,8 @@ public class Casilla {
     }
     private String nome;
     private Grupo grupo;
-    private float valorServicio;
+    private float valor;
+    private float alquiler;
     private float usoServizo;
     private float imposto;
     private int posicion=-1;
@@ -52,7 +53,7 @@ public class Casilla {
         this.avatares=new ArrayList<Avatar>();
         this.grupo=null;
         this.estaHipotecada=false;
-        this.valorServicio=0;
+        this.valor =0;
         this.usoServizo=0;
         switch (tipoCasilla){
             case SORTE:
@@ -88,6 +89,8 @@ public class Casilla {
         this(nome,TipoCasilla.SOLAR);
         this.grupo=grupo;
         this.grupo.engadirSolar(this);
+        this.valor= (float) Math.ceil((this.grupo.getValor()/this.grupo.getNumeroSolares()));
+        this.alquiler=valor*Valor.FACTOR_ALQUILER;
         this.colorCasilla=this.getGrupo().getColor();
     }
 
@@ -106,13 +109,13 @@ public class Casilla {
      * Contructor para casilla TRANSPORTE OU SERVIZO
      * @param nome Nome transporte
      * @param tipoCasilla Tipo de Casilla
-     * @param valorServicio Valor de compra do servizo
+     * @param valor Valor de compra do servizo
      * @param usoServizo
      */
-    public Casilla(String nome,TipoCasilla tipoCasilla,float valorServicio,float usoServizo){
+    public Casilla(String nome, TipoCasilla tipoCasilla, float valor, float usoServizo){
         this(nome,tipoCasilla);
         if (this.tipoCasilla==TipoCasilla.SERVIZO || this.tipoCasilla==TipoCasilla.TRANSPORTE){
-            this.valorServicio=valorServicio;
+            this.valor = valor;
             this.usoServizo=usoServizo;
         }
     }
@@ -167,17 +170,15 @@ public class Casilla {
      * @return Devolve o valor dunha casilla
      */
     public float getValor() {
-        if(this.getTipoCasilla()==TipoCasilla.SOLAR) return (float) Math.ceil((this.grupo.getValor()/this.grupo.getSolares().size()));
-        else if(this.getTipoCasilla()==TipoCasilla.TRANSPORTE || this.getTipoCasilla()==TipoCasilla.SERVIZO) return valorServicio;
-        else return -1f;
+        return valor;
     }
 
     /**
      * Establece o valor dun servicio se a casilla é un servicio
-     * @param valorServicio
+     * @param valor
      */
-    public void setValorServicio(float valorServicio) {
-        if(this.getTipoCasilla()==TipoCasilla.SERVIZO)this.valorServicio = valorServicio;
+    public void setValor(float valor) {
+        this.valor = valor;
     }
 
     /**
@@ -210,7 +211,15 @@ public class Casilla {
      * @return Devolve o valor a pagar polo alquiler da casilla
      */
     public float getAlquiler() {
-        return getValor()*Valor.FACTOR_ALQUILER;
+        return alquiler;
+    }
+
+
+    /**
+     * @param alquiler Establece o valor do alquiler
+     */
+    public void setAlquiler(float alquiler) {
+        this.alquiler = alquiler;
     }
 
     /**
@@ -422,7 +431,8 @@ public class Casilla {
                             "Tipo: "+this.tipoCasilla+"\n\t" +
                             "Grupo: "+this.getGrupo().getNome()+"\n\t" +
                             "Valor: "+this.getValor()+"\n\t" +
-                            "Alquiler: "+this.getAlquiler()+
+                            "Alquiler: "+this.getAlquiler()+"\n\t"+
+                            "Edificios: []"+
                             ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
                         "\n}";
                 break;
