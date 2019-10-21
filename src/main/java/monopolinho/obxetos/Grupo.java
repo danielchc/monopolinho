@@ -17,7 +17,7 @@ public class Grupo {
     private float valor;
     private Valor.ReprColor color;
     private ArrayList<Casilla> solares;
-
+    private int numeroSolares;
 
     /**
      * Constructor para a clase Grupo de parámetros vacíos.
@@ -34,7 +34,7 @@ public class Grupo {
      * @param color color para a representación no taboeiro do grupo
      * @param valor valor total dos solares do grupo
      */
-    public Grupo(String grupo_nome, Valor.ReprColor color,float valor){
+    public Grupo(String grupo_nome, Valor.ReprColor color,float valor,int numeroSolares){
         if(grupo_nome==null || color==null){
             System.err.println("Error: algun elemento non inicializado");
             return;
@@ -43,6 +43,7 @@ public class Grupo {
         this.grupo_nome=grupo_nome;
         this.color=color;
         this.valor=valor;
+        this.numeroSolares=numeroSolares;
     }
 
 
@@ -150,6 +151,20 @@ public class Grupo {
         }
     }
 
+    /**
+     * @return numero de solares do grupo
+     */
+    public int getNumeroSolares() {
+        return numeroSolares;
+    }
+
+
+    /**
+     * @param numeroSolares establece o numero de solares
+     */
+    public void setNumeroSolares(int numeroSolares) {
+        this.numeroSolares = numeroSolares;
+    }
 
     /**
      * Permite representar en texto a informacion dun grupo

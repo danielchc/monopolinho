@@ -204,6 +204,10 @@ public class Xogo {
         }
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         System.out.println(mensaxe);
+        if(deronTodosCatroVoltas()){
+            aumentarPrecioCasillas();
+            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
+        }
     }
 
     /**
@@ -287,7 +291,10 @@ public class Xogo {
         actual.setVecesTiradas(0);
         actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
+
+
     }
+
 
     /**
      * Este metodo saca a un xogador da carcere.
@@ -405,5 +412,24 @@ public class Xogo {
     public void mov(int i){
         interpretarAccion(turno.getPosicion(),i);
         turno.aumentarVecesTiradas();
+    }
+
+    private boolean deronTodosCatroVoltas(){
+        for(Xogador x:this.xogadores){
+            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void aumentarPrecioCasillas(){
+        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
+            for(Casilla c:zona){
+                if(c.getDono().equals(banca) && c.getTipoCasilla()== Casilla.TipoCasilla.SOLAR){
+                    c.setValor(c.getValor()*1.05f);
+                }
+            }
+        }
     }
 }
