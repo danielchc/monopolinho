@@ -107,13 +107,13 @@ public class Xogo {
     /**
      * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
      * @param current Casilla actual
-     * @param newPos Movemento no taboeiro respecto a casilla actual
+     * @param valorDados Movemento no taboeiro respecto a casilla actual
      * @return Mensaxe da acción interpretada
      */
-    private void interpretarAccion(Casilla current,int newPos){
+    private void interpretarAccion(Casilla current,int valorDados){
         String mensaxe="";
 
-        Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+newPos)%40);
+        Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+valorDados)%40);
 
         //Mover avatar
         if(next.getTipoCasilla()==Casilla.TipoCasilla.IRCARCEL) {
@@ -122,7 +122,7 @@ public class Xogo {
             turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
         }
         else{
-            if((current.getPosicionIndex()+newPos)>39) {
+            if((current.getPosicionIndex()+valorDados)>39) {
                 mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getAvatar().voltaTaboeiro();
                 turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
@@ -148,11 +148,29 @@ public class Xogo {
                     mensaxe+="So de visita...";
                     break;
                 case SERVIZO:
+                    if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
+                        float aPagar=valorDados*next.getUsoServizo();
+                        if(turno.numTipoCasillaPosesion(Casilla.TipoCasilla.TRANSPORTE) == 1){
+                            aPagar*=4.0f;
+                        }else if(turno.numTipoCasillaPosesion(Casilla.TipoCasilla.TRANSPORTE) == 2){
+                            aPagar*=10.0f;
+                        }
+                        if(turno.quitarDinheiro(aPagar)){
+                            next.getDono().engadirDinheiro(aPagar);
+                            mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+                        }else{
+                            System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
+                            return;
+                        }
+                    }
+                    break;
                 case TRANSPORTE:
                     if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
-                        if(turno.quitarDinheiro(next.getUsoServizo())){
-                            next.getDono().engadirDinheiro(next.getUsoServizo());
-                            mensaxe+="Tes que pagarlle "+next.getUsoServizo()+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+                        float aPagar=0;
+                        aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(Casilla.TipoCasilla.TRANSPORTE)/4.0f);
+                        if(turno.quitarDinheiro(aPagar)){
+                            next.getDono().engadirDinheiro(aPagar);
+                            mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
                         }else{
                             System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                             return;
@@ -184,7 +202,7 @@ public class Xogo {
             }
             turno.setPosicion(next);
         }
-        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +newPos+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
+        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         System.out.println(mensaxe);
     }
 
