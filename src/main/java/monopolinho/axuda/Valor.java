@@ -81,7 +81,7 @@ public class Valor {
     /**
      * Cantidade a pagar ao caer nun transporte
      */
-    //public static final float USO_TRANSPORTE=VOLTA_COMPLETA;
+    public static final float USO_TRANSPORTE=VOLTA_COMPLETA;
 
 
 

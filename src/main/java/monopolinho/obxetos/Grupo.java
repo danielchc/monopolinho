@@ -56,6 +56,22 @@ public class Grupo {
 
 
     /**
+     * Este método comproba se un xogador ten todo o grupo
+     * @param x Xogador que propietario
+     * @return Devolve se o xogador ten todo o solar ou non
+     */
+    public boolean tenTodoGrupo(Xogador x){
+        for(Casilla c:this.solares){
+            if(!c.getDono().equals(x)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    /**
      * @return solares pertencentes a un grupo
      */
     public ArrayList<Casilla> getSolares() {

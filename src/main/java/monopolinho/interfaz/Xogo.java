@@ -164,9 +164,16 @@ public class Xogo {
                         mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
                     }else{
                         if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
-                            if(turno.quitarDinheiro(next.getAlquiler())){
-                                next.getDono().engadirDinheiro(next.getAlquiler());
-                                mensaxe+="Tes que pagarlle "+next.getAlquiler()+" a "+next.getDono().getNome();
+                            float aPagar;
+                            if(next.getGrupo().tenTodoGrupo(next.getDono())){
+                                aPagar=next.getAlquiler()*Valor.FACTOR_PAGO_ALQUILER;
+                            }else{
+                                aPagar=next.getAlquiler();
+                            }
+
+                            if(turno.quitarDinheiro(aPagar)){
+                                next.getDono().engadirDinheiro(aPagar);
+                                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
                             }else{
                                 System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                                 return;
