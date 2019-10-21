@@ -414,6 +414,11 @@ public class Xogo {
         turno.aumentarVecesTiradas();
     }
 
+
+    /**
+     * Este método permite saber si todos os xogadores deron un número de voltas múltiplo de 4
+     * @return true si deron todos un múltiplo de 4 voltas, false se non.
+     */
     private boolean deronTodosCatroVoltas(){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 != 0){
@@ -423,6 +428,10 @@ public class Xogo {
         return true;
     }
 
+
+    /**
+     * Este método aumenta o precio das casillas que están en venta nun 5%
+     */
     private void aumentarPrecioCasillas(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona){
