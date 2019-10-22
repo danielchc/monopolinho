@@ -53,18 +53,6 @@ public class Xogador {
     }
 
     /**
-     * Este metodo saca a un xogador da carcere pagando.
-     * @return Se ten cartos para pagar para salir do cárcere
-     */
-    public boolean salirCarcel(){
-        if(this.quitarDinheiro(Valor.SAIR_CARCERE)){
-            setTurnosNaCarcel(0);
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * @return Saber se un xogador esta no carcere.
      */
     public boolean estaNaCarcel(){

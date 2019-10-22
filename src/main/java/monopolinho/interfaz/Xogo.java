@@ -304,8 +304,10 @@ public class Xogo {
             System.out.println("O xogador non está no cárcere");
             return;
         }
-        if(turno.salirCarcel()){
+        if(turno.quitarDinheiro(Valor.SAIR_CARCERE)){
             System.out.println(turno.getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
+            turno.setTurnosNaCarcel(0);
+            taboeiro.engadirBote(Valor.SAIR_CARCERE);
         }else{
             System.err.println("Non tes o suficiente diñeiro para saír do cárcere");
         }
