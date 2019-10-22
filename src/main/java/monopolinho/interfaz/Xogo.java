@@ -70,11 +70,11 @@ public class Xogo {
          Hai que comprobar todos o requisitos de contrucción que aparecen no pdf do cv.
          */
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(edificio,actual))){
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(tipo,actual))){
             System.err.println("Non tes suficiente diñeiro");
             return ;
         }
-        Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(edificio,actual),actual);
+        Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(tipo,actual),actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+". A súa fortuna redúcese en "+e.getPrecio());
@@ -105,19 +105,19 @@ public class Xogo {
      * @param tipo Input do usuario
      * @return Precio do edificio.
      */
-    private float interpretarPrecioEdif(String tipo,Casilla c){
+    private float interpretarPrecioEdif(Edificio.TipoEdificio tipo,Casilla c){
         float precio=0;
         switch (tipo){
-            case "hotel":
+            case HOTEL:
                 precio=Valor.FACTOR_VALOR_HOTEL*c.getValor();
                 break;
-            case "casa":
+            case CASA:
                 precio=Valor.FACTOR_VALOR_CASA*c.getValor();
                 break;
-            case "piscina":
+            case PISCINA:
                 precio=Valor.FACTOR_VALOR_PISCINA*c.getValor();
                 break;
-            case "pista":
+            case PISTA_DEPORTES:
                 precio=Valor.FACTOR_VALOR_PISTADEPORTES*c.getValor();
                 break;
         }
