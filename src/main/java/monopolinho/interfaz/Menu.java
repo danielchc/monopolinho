@@ -237,6 +237,10 @@ public class Menu {
                 }
                 break;
             case "comprar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: comprar <casilla>");
+                    return;
+                }
                 xogo.comprarCasilla(cmds);
                 break;
             case "edificar":
