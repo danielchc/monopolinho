@@ -45,13 +45,13 @@ public class Xogo {
      * Este método permite edificar nunha casilla
      */
     public void edificar(){
-        Casilla cas=turno.getPosicion();
-        if(cas.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+        Casilla actual=turno.getPosicion();
+        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return;
         }
 
-        if(!cas.getDono().equals(turno)){
+        if(!actual.getDono().equals(turno)){
             System.err.println("Esta casilla non é túa, non a podes edificar.");
             return;
         }
@@ -70,14 +70,14 @@ public class Xogo {
          Hai que comprobar todos o requisitos de contrucción que aparecen no pdf do cv.
          */
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(edificio))){
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(edificio,actual))){
             System.err.println("Non tes suficiente diñeiro");
             return ;
         }
-        Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(edificio),cas);
-        cas.engadirEdificio(e);
+        Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(edificio,actual),actual);
+        actual.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+cas.getNome()+". A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+". A súa fortuna redúcese en "+e.getPrecio());
     }
 
     /**
@@ -105,21 +105,21 @@ public class Xogo {
      * @param tipo Input do usuario
      * @return Precio do edificio.
      */
-
-    /*
-        Falta determinar os precios
-     */
-    private float interpretarPrecioEdif(String tipo){
+    private float interpretarPrecioEdif(String tipo,Casilla c){
         float precio=0;
         switch (tipo){
             case "hotel":
-                precio=1000;    //cambiar estos precios por constantes
+                precio=Valor.FACTOR_VALOR_HOTEL*c.getValor();
+                break;
             case "casa":
-                precio=2000;
+                precio=Valor.FACTOR_VALOR_CASA*c.getValor();
+                break;
             case "piscina":
-                precio=3000;
+                precio=Valor.FACTOR_VALOR_PISCINA*c.getValor();
+                break;
             case "pista":
-                precio=4000;
+                precio=Valor.FACTOR_VALOR_PISTADEPORTES*c.getValor();
+                break;
         }
         return precio;
     }
