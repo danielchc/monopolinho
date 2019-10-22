@@ -295,7 +295,6 @@ public class Xogo {
 
     }
 
-
     /**
      * Este metodo saca a un xogador da carcere.
      */
@@ -319,6 +318,10 @@ public class Xogo {
      */
     public void comprarCasilla(String[] cmds){
         Casilla comprar=turno.getPosicion();
+        if(!comprar.equals(this.taboeiro.buscarCasilla(cmds[1]))){
+            System.err.println("Non te atopas nesta casilla");
+            return;
+        }
         if(!comprar.podeseComprar()){
             System.err.println("Non podes comprar esta casilla");
             return;
