@@ -5,7 +5,8 @@ public class Edificio {
         CASA,
         HOTEL,
         PISCINA,
-        PISTA_DEPORTES
+        PISTA_DEPORTES,
+        DEFAULT
     }
     private TipoEdificio tipoEdificio;
     private Xogador propietario;
@@ -101,5 +102,12 @@ public class Edificio {
         if(posicion!= null){
             this.posicion = posicion;
         }
+    }
+
+
+    @Override
+    public String toString(){
+        String rep=this.tipoEdificio.toString();
+        return rep;
     }
 }

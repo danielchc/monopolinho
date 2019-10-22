@@ -239,6 +239,9 @@ public class Menu {
             case "comprar":
                 xogo.comprarCasilla(cmds);
                 break;
+            case "edificar":
+                xogo.edificar();
+                break;
             case "bancarrota":
                 xogo.declararBancarrota();
                 break;

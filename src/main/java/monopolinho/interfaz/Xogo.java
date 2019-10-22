@@ -4,6 +4,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.obxetos.*;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * @author Daniel Chenel
@@ -38,6 +39,82 @@ public class Xogo {
         this();
         this.xogadores=xogadores;
     }
+
+
+    /**
+     * Este método permite edificar nunha casilla
+     */
+    public void edificar(){
+        Casilla cas=turno.getPosicion();
+        if(cas.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+            System.err.println("Non podes edificar esta casilla");
+            return;
+        }
+
+        if(!cas.getDono().equals(turno)){
+            System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return;
+        }
+
+        System.out.println("Introduce o tipo de edificio a construir <casa,hotel,piscina,pista>: ");
+        Scanner input=new Scanner(System.in);
+        String edificio=input.nextLine();
+
+        Edificio.TipoEdificio tipo=interpretarEdif(edificio);
+        if(tipo==Edificio.TipoEdificio.DEFAULT){
+            System.err.println("Tipo de edificiación inválido. Non se construiu nada.");
+            return;
+        }
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(edificio))){
+            System.err.println("Non tes suficiente diñeiro");
+            return ;
+        }
+        Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(edificio),cas);
+        cas.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+cas.getNome()". A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+    /**
+     * Este método interpreta un string para traducilo a un tipo de edificio
+     * @param tipoedif Input do usuario
+     * @return TipoEdificio
+     */
+    private Edificio.TipoEdificio interpretarEdif(String tipoedif){
+        switch (tipoedif.toLowerCase()){
+            case "hotel":
+                return Edificio.TipoEdificio.HOTEL;
+            case "casa":
+                return Edificio.TipoEdificio.CASA;
+            case "piscina":
+                return Edificio.TipoEdificio.PISCINA;
+            case "pista":
+                return Edificio.TipoEdificio.PISTA_DEPORTES;
+            default:
+                return Edificio.TipoEdificio.DEFAULT;
+        }
+    }
+
+    /**
+     * Este metodo permite saber o precio según o tipo de edificio
+     * @param tipo Input do usuario
+     * @return Precio do edificio.
+     */
+    private float interpretarPrecioEdif(String tipo){
+        float precio=0;
+        switch (tipo){
+            case "hotel":
+                precio=1000;    //cambiar estos precios por constantes
+            case "casa":
+                precio=2000;
+            case "piscina":
+                precio=3000;
+            case "pista":
+                precio=4000;
+        }
+        return precio;
+    }
+
 
     /**
      * Este metodo permite crear un xogador
