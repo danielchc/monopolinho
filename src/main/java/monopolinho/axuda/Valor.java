@@ -84,6 +84,20 @@ public class Valor {
     public static final float USO_TRANSPORTE=VOLTA_COMPLETA;
 
 
+    /**
+     * Factores dos edificios.
+     * O precio de cada edificio é o factor polo precio do solar no que se edifica.
+     */
+    public static final float FACTOR_VALOR_CASA=0.6f;
+
+    public static final float FACTOR_VALOR_HOTEL=0.6f;
+
+    public static final float FACTOR_VALOR_PISCINA=0.4f;
+
+    public static final float FACTOR_VALOR_PISTADEPORTES=1.25f;
+
+    
+
 
     /**
      * Cores ascii

@@ -65,6 +65,11 @@ public class Xogo {
             System.err.println("Tipo de edificiación inválido. Non se construiu nada.");
             return;
         }
+
+        /*
+         Hai que comprobar todos o requisitos de contrucción que aparecen no pdf do cv.
+         */
+
         if(!turno.quitarDinheiro(interpretarPrecioEdif(edificio))){
             System.err.println("Non tes suficiente diñeiro");
             return ;
@@ -72,7 +77,7 @@ public class Xogo {
         Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(edificio),cas);
         cas.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+cas.getNome()". A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+cas.getNome()+". A súa fortuna redúcese en "+e.getPrecio());
     }
 
     /**
@@ -99,6 +104,10 @@ public class Xogo {
      * Este metodo permite saber o precio según o tipo de edificio
      * @param tipo Input do usuario
      * @return Precio do edificio.
+     */
+
+    /*
+        Falta determinar os precios
      */
     private float interpretarPrecioEdif(String tipo){
         float precio=0;
