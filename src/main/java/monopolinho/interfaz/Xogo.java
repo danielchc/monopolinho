@@ -82,7 +82,7 @@ public class Xogo {
                 System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
                 return;
             }else{
-                turno.salirCarcel();
+                turno.setTurnosNaCarcel(0);
                 mensaxe+=". Sacasches dados dobles, podes xogar";
             }
         }else{
