@@ -12,7 +12,7 @@ public class Edificio {
     private Xogador propietario;
     private float precio;
     private Casilla posicion;
-
+    private String id;
 
     /**
      * Constructor da clase Edificio
@@ -27,12 +27,30 @@ public class Edificio {
             this.propietario=propietario;
             this.precio=precio;
             this.posicion=posicion;
+            this.id= this.tipoEdificio + String.valueOf(this.posicion.numeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
 
 
 
 
+    /**
+     * Devolve o id dun edificio
+     * @return Identificador do edificio
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Establece o id dun edificio
+     * @param id Identificador
+     */
+    public void setId(String id) {
+        if(id!=null){
+            this.id = id;
+        }
+    }
 
     /**
      * Devolve o tipo de edificio
@@ -107,8 +125,7 @@ public class Edificio {
 
     @Override
     public String toString(){
-        String rep=this.tipoEdificio.toString();
-        return rep;
+        return this.id;
     }
 
     @Override
@@ -119,7 +136,7 @@ public class Edificio {
      */
     public boolean equals(Object obj){
         if(obj instanceof Edificio){
-            if(this.tipoEdificio==((Edificio) obj).tipoEdificio)return true;  //esto vai haber que compara polo id do edificio que hai que implementar
+            if(this.id==((Edificio) obj).id)return true;
         }
         return false;
     }

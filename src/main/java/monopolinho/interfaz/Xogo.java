@@ -97,7 +97,7 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroCasas()<4){
+        if(actual.numeroEdificiosTipo(Edificio.TipoEdificio.CASA)<4){
             System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
             return;
         }
@@ -142,7 +142,7 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroCasas()<2 && actual.numeroHoteles()<1){
+        if(actual.numeroEdificiosTipo(Edificio.TipoEdificio.CASA)<2 && actual.numeroEdificiosTipo(Edificio.TipoEdificio.HOTEL)<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
             return;
         }
@@ -177,7 +177,7 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroHoteles()<2){
+        if(actual.numeroEdificiosTipo(Edificio.TipoEdificio.HOTEL)<2){
             System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
             return;
         }

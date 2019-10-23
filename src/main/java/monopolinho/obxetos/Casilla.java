@@ -182,56 +182,10 @@ public class Casilla {
     }
 
 
-    /**
-     * Este método devolve o número de casas nunha casilla.
-     * @return Número de casas nuna casilla
-     */
-    public int numeroCasas(){
+    public int numeroEdificiosTipo(Edificio.TipoEdificio tipo){
         int num=0;
         for(Edificio e:this.edificios){
-            if(e.getTipoEdificio()== Edificio.TipoEdificio.CASA){
-                num++;
-            }
-        }
-        return num;
-    }
-
-    /**
-     * Este método devolve o número de hoteles nunha casilla.
-     * @return Número de hoteles nuna casilla
-     */
-    public int numeroHoteles(){
-        int num=0;
-        for(Edificio e:this.edificios){
-            if(e.getTipoEdificio()== Edificio.TipoEdificio.HOTEL){
-                num++;
-            }
-        }
-        return num;
-    }
-
-    /**
-     * Este método devolve o número de piscinas nunha casilla.
-     * @return Número de hoteles nuna casilla
-     */
-    public int numeroPiscinas(){
-        int num=0;
-        for(Edificio e:this.edificios){
-            if(e.getTipoEdificio()== Edificio.TipoEdificio.PISCINA){
-                num++;
-            }
-        }
-        return num;
-    }
-
-    /**
-     * Este método devolve o número de pistas de deporte nunha casilla.
-     * @return Número de hoteles nuna casilla
-     */
-    public int numeroPistasDeporte(){
-        int num=0;
-        for(Edificio e:this.edificios){
-            if(e.getTipoEdificio()== Edificio.TipoEdificio.PISTA_DEPORTES){
+            if(e.getTipoEdificio()==tipo){
                 num++;
             }
         }
