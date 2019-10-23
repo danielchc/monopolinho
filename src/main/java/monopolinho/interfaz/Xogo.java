@@ -42,9 +42,9 @@ public class Xogo {
 
 
     /**
-     * Este método permite edificar nunha casilla
+     * Este metodo permite construir unha casa nun solar.
      */
-    public void edificar(){
+    public void edificarCasa(){
         Casilla actual=turno.getPosicion();
         if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
@@ -56,49 +56,121 @@ public class Xogo {
             return;
         }
 
-        System.out.println("Introduce o tipo de edificio a construir <casa,hotel,piscina,pista>: ");
-        Scanner input=new Scanner(System.in);
-        String edificio=input.nextLine();
-
-        Edificio.TipoEdificio tipo=interpretarEdif(edificio);
-        if(tipo==Edificio.TipoEdificio.DEFAULT){
-            System.err.println("Tipo de edificiación inválido. Non se construiu nada.");
+        if(!actual.getGrupo().tenTodoGrupo(turno)){  // FALTA COMPROBAR QUE SE CAERA POLO MENOS DUAS VECES NA CASILLA
+            System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
             return;
         }
 
-        /*
-         Hai que comprobar todos o requisitos de contrucción que aparecen no pdf do cv.
-         */
-
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(tipo,actual))){
-            System.err.println("Non tes suficiente diñeiro");
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.CASA,actual))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(tipo,turno,interpretarPrecioEdif(tipo,actual),actual);
+        Edificio e=new Edificio(Edificio.TipoEdificio.CASA,turno,interpretarPrecioEdif(Edificio.TipoEdificio.CASA,actual),actual);
         actual.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+". A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+
+    /**
+     * Este metodo permite construir un hotel nun solar.
+     */
+    public void edificarHotel(){
+        Casilla actual=turno.getPosicion();
+        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+            System.err.println("Non podes edificar esta casilla");
+            return;
+        }
+
+        if(!actual.getDono().equals(turno)){
+            System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return;
+        }
+
+        if(actual.numeroCasas()<4){
+            System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
+            return;
+        }
+        else{
+            int casasEliminadas=0;
+            for(int i=0;i<actual.getEdificios().size();i++){    //ta asi porque o equals de edificio ainda ta pocho
+                if((actual.getEdificios().get(i).getTipoEdificio() == Edificio.TipoEdificio.CASA) && (casasEliminadas<4)){ //elimino 4 casas e poño o edificio
+                    //actual.getEdificios().remove(i);
+                    actual.eliminarEdificio(actual.getEdificios().get(i)); //esto non elimna ben as casas
+                    casasEliminadas++;
+                }
+            }
+        }
+
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.HOTEL,actual))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(Edificio.TipoEdificio.HOTEL,turno,interpretarPrecioEdif(Edificio.TipoEdificio.HOTEL,actual),actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
     }
 
     /**
-     * Este método interpreta un string para traducilo a un tipo de edificio
-     * @param tipoedif Input do usuario
-     * @return TipoEdificio
+     * Este metodo permite construir unha piscina nun solar.
      */
-    private Edificio.TipoEdificio interpretarEdif(String tipoedif){
-        switch (tipoedif.toLowerCase()){
-            case "hotel":
-                return Edificio.TipoEdificio.HOTEL;
-            case "casa":
-                return Edificio.TipoEdificio.CASA;
-            case "piscina":
-                return Edificio.TipoEdificio.PISCINA;
-            case "pista":
-                return Edificio.TipoEdificio.PISTA_DEPORTES;
-            default:
-                return Edificio.TipoEdificio.DEFAULT;
+    public void edificarPiscina(){
+        Casilla actual=turno.getPosicion();
+        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+            System.err.println("Non podes edificar esta casilla");
+            return;
         }
+
+        if(!actual.getDono().equals(turno)){
+            System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return;
+        }
+
+        if(actual.numeroCasas()<2 && actual.numeroHoteles()<1){
+            System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
+            return;
+        }
+
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.PISCINA,actual))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(Edificio.TipoEdificio.PISCINA,turno,interpretarPrecioEdif(Edificio.TipoEdificio.PISCINA,actual),actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
     }
+
+    /**
+     * Este metodo permite construir unha pista de deportes nun solar.
+     */
+    public void edificarPistaDeportes(){
+        Casilla actual=turno.getPosicion();
+        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+            System.err.println("Non podes edificar esta casilla");
+            return;
+        }
+
+        if(!actual.getDono().equals(turno)){
+            System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return;
+        }
+        /*
+         Hai que comprobar todos o requisitos de contrucción que aparecen no pdf do cv.
+        */
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.PISTA_DEPORTES,actual))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(Edificio.TipoEdificio.PISTA_DEPORTES,turno,interpretarPrecioEdif(Edificio.TipoEdificio.PISTA_DEPORTES,actual),actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+
+
 
     /**
      * Este metodo permite saber o precio según o tipo de edificio

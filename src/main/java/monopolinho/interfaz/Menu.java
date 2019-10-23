@@ -134,7 +134,7 @@ public class Menu {
     private void mostrarComandos(){
         String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa>\n\t+ lanzar dados"+
                 "\n\t+ acabar turno\n\t+ salir carcel\n\t+ describir <casilla>\n\t+ describir xogador <nome>\n\t+ describir avatar <avatar>"+
-                "\n\t+ comprar <casilla>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
+                "\n\t+ comprar <casilla>\n\t+ edificar <casa/hotel/piscina/pista>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
         System.out.println(comandos);
     }
 
@@ -244,7 +244,27 @@ public class Menu {
                 xogo.comprarCasilla(cmds);
                 break;
             case "edificar":
-                xogo.edificar();
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: edificar <casa/hotel/piscina/pista>");
+                }
+                else{
+                    switch (cmds[1]){
+                        case "casa":
+                            xogo.edificarCasa();
+                            break;
+                        case "hotel":
+                            xogo.edificarHotel();
+                            break;
+                        case "piscina":
+                            xogo.edificarPiscina();
+                            break;
+                        case "pista":
+                            xogo.edificarPistaDeportes();
+                            break;
+                        default:
+                            System.out.println("Opción de edificar inválida.");
+                    }
+                }
                 break;
             case "bancarrota":
                 xogo.declararBancarrota();

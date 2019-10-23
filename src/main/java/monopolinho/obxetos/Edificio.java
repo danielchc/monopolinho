@@ -110,4 +110,17 @@ public class Edificio {
         String rep=this.tipoEdificio.toString();
         return rep;
     }
+
+    @Override
+    /**
+     * Compara se os obxetos son iguais
+     * @param obj Obxeto a comparar
+     * @return Son iguais os obxectos
+     */
+    public boolean equals(Object obj){
+        if(obj instanceof Edificio){
+            if(this.tipoEdificio==((Edificio) obj).tipoEdificio)return true;  //esto vai haber que compara polo id do edificio que hai que implementar
+        }
+        return false;
+    }
 }
