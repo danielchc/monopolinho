@@ -211,6 +211,59 @@ public class Casilla {
     }
 
     /**
+     * Este método devolve o número de piscinas nunha casilla.
+     * @return Número de hoteles nuna casilla
+     */
+    public int numeroPiscinas(){
+        int num=0;
+        for(Edificio e:this.edificios){
+            if(e.getTipoEdificio()== Edificio.TipoEdificio.PISCINA){
+                num++;
+            }
+        }
+        return num;
+    }
+
+    /**
+     * Este método devolve o número de pistas de deporte nunha casilla.
+     * @return Número de hoteles nuna casilla
+     */
+    public int numeroPistasDeporte(){
+        int num=0;
+        for(Edificio e:this.edificios){
+            if(e.getTipoEdificio()== Edificio.TipoEdificio.PISTA_DEPORTES){
+                num++;
+            }
+        }
+        return num;
+    }
+
+
+    /**
+     * Este método permite saber si se pode seguir edificando nun solar
+     * @return True si de pode seguir edificando e false se non.
+     */
+    public boolean podeseEdificarMais(){
+
+        /// MEO DEOS NON SEI COMO CARALLO COMPROBAR ESTO :(
+
+        /*if(this.getGrupo().getNumeroSolares()==2){
+            if(this.numeroCasas()<2 && this.numeroHoteles()<2 && this.numeroPiscinas()<2 && this.numeroPistasDeporte()<2){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(this.numeroCasas()!=3 && this.numeroHoteles()!=3 && this.numeroPiscinas()!=3 && this.numeroPistasDeporte()!=3){
+                return true;
+            }
+        }*/
+        return true;
+    }
+
+    /**
      * Devolve os edificios dunha casilla
      * @return Edificaciones da casilla
      */

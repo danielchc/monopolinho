@@ -56,6 +56,11 @@ public class Xogo {
             return;
         }
 
+        if(!actual.podeseEdificarMais()){
+            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+            return;
+        }
+
         if(!actual.getGrupo().tenTodoGrupo(turno)){  // FALTA COMPROBAR QUE SE CAERA POLO MENOS DUAS VECES NA CASILLA
             System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
             return;
@@ -84,6 +89,11 @@ public class Xogo {
 
         if(!actual.getDono().equals(turno)){
             System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return;
+        }
+
+        if(!actual.podeseEdificarMais()){
+            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
             return;
         }
 
@@ -127,6 +137,11 @@ public class Xogo {
             return;
         }
 
+        if(!actual.podeseEdificarMais()){
+            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+            return;
+        }
+
         if(actual.numeroCasas()<2 && actual.numeroHoteles()<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
             return;
@@ -154,6 +169,11 @@ public class Xogo {
 
         if(!actual.getDono().equals(turno)){
             System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return;
+        }
+
+        if(!actual.podeseEdificarMais()){
+            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
             return;
         }
 
