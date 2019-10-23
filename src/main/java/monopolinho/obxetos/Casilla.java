@@ -2,6 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.interfaz.Xogo;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
@@ -133,7 +134,9 @@ public class Casilla {
             avatares.remove(a);
         }
     }
-
+     public String interpretarCasilla(Xogo xogo, int valorDados){
+         return tipoCasilla.interpretarCasilla(xogo,this,valorDados);
+     }
     /**
      * @return Devolve as liñas que representan unha casilla
      */

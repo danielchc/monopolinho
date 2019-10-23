@@ -296,43 +296,16 @@ public class Xogo {
         String mensaxe="";
 
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+valorDados)%40);
-
-        //Mover avatar
-        if(next.getTipoCasilla()==TipoCasilla.IRCARCEL) {
-            mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
-            turno.setTurnosNaCarcel(3);
-            turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
-        }
-        else{
+        if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
             if((current.getPosicionIndex()+valorDados)>39) {
                 mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getAvatar().voltaTaboeiro();
                 turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
             }
-            switch (next.getTipoCasilla()){
-                case IMPOSTO:
-                    mensaxe+=interpretarIMPOSTO(turno,next);
-                    break;
-                case SORTE:
-                    break;
-                case PARKING:
-                    mensaxe+=interpretarPARKING(turno,next);
-                    break;
-                case CARCEL:
-                    mensaxe+="So de visita...";
-                    break;
-                case SERVIZO:
-                    mensaxe+=interpretarSERVIZO(turno,next,valorDados);
-                    break;
-                case TRANSPORTE:
-                    mensaxe+=interpretarTRANSPORTE(turno,next);
-                    break;
-                case SOLAR:
-                    mensaxe+=interpretarSOLAR(turno,next);
-                    break;
-            }
-            turno.setPosicion(next);
         }
+
+        mensaxe+=next.interpretarCasilla(this,valorDados);
+
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         System.out.println(mensaxe);
         if(deronTodosCatroVoltas()){
@@ -372,128 +345,9 @@ public class Xogo {
         }
     }
 
-    ////FUNCIÓNS INTERPRETAR SEGUN TIPO CASILLA
-
-    /**
-     * Este método realiza a acción correspondente a caer nun imposto
-     * @param turno Xogador que ten turno
-     * @param next Casilla na que cae
-     * @return Mensaxe coa accion realizada
-     */
-    private String interpretarIMPOSTO(Xogador turno,Casilla next){
-        String mensaxe="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
-        if(turno.quitarDinheiro(next.getImposto())){
-            taboeiro.engadirBote(next.getImposto());
-        }else{
-            System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-            //E QUE PASA SE NON TEN CARTOS????????????????????
-        }
-        return mensaxe;
-    }
-
-    /**
-     * Este método realiza a acción correspondente a caer en PARKING
-     * @param turno Xogador que ten turno
-     * @param next Casilla na que cae
-     * @return Mensaxe coa accion realizada
-     */
-    private String interpretarPARKING(Xogador turno,Casilla next){
-        turno.engadirDinheiro(this.taboeiro.getBote());
-        String mensaxe="O xogador "+ turno.getNome() + " recibe "+this.taboeiro.getBote()+", do bote.";
-        taboeiro.setBote(0);
-        return mensaxe;
-    }
-
-    /**
-     * Este método realiza a acción correspondente a caer nun servicio
-     * @param turno Xogador que ten turno
-     * @param next Casilla na que cae
-     * @param valorDados Valor que saiu nos dados
-     * @return Mensaxe coa accion realizada
-     */
-    private String interpretarSERVIZO(Xogador turno,Casilla next,int valorDados){
-        String mensaxe="";
-        if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
-            float aPagar=valorDados*next.getUsoServizo();
-            if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1){
-                aPagar*=4.0f;
-            }else if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
-                aPagar*=10.0f;
-            }
-            if(turno.quitarDinheiro(aPagar)){
-                next.getDono().engadirDinheiro(aPagar);
-                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
-            }else{
-                //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                return mensaxe;
-            }
-        }
-        return mensaxe;
-    }
-
-    /**
-     * Este método realiza a acción correspondente a caer nun transporte
-     * @param turno Xogador que ten turno
-     * @param next Casilla na que cae
-     * @return Mensaxe coa accion realizada
-     */
-    private String interpretarTRANSPORTE(Xogador turno,Casilla next){
-        String mensaxe="";
-        if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
-            float aPagar=0;
-            aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
-            if(turno.quitarDinheiro(aPagar)){
-                next.getDono().engadirDinheiro(aPagar);
-                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
-            }else{
-                //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                return mensaxe;
-            }
-        }
-        return mensaxe;
-    }
-
-    /**
-     * Este método realiza a acción correspondente a caer nun solar
-     * @param turno Xogador que ten turno
-     * @param next Casilla na que cae
-     * @return Mensaxe coa accion realizada
-     */
-    private String interpretarSOLAR(Xogador turno,Casilla next){
-        String mensaxe="";
-        if(next.getEstaHipotecada()){
-            mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
-            return mensaxe;
-        }else{
-            if((!next.getDono().equals(turno))&&(!next.getDono().equals(banca))){
-                float aPagar;
-                if(next.getGrupo().tenTodoGrupo(next.getDono())){
-                    aPagar=next.getAlquiler()*Valor.FACTOR_PAGO_ALQUILER;
-                }else{
-                    aPagar=next.getAlquiler();
-                }
-
-                if(turno.quitarDinheiro(aPagar)){
-                    next.getDono().engadirDinheiro(aPagar);
-                    mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
-                    return mensaxe;
-                }else{
-                    //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                    mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                    return mensaxe;
-                }
-            }
-        }
-        return mensaxe;
-    }
-
-
     /**
      * Funcións públicas.
      */
-
 
     /**
      * Este metdo imprime a info dunha casilla.
