@@ -172,7 +172,7 @@ public class Casilla {
     }
 
 
-    public int numeroEdificiosTipo(TipoEdificio tipo){
+    public int getNumeroEdificiosTipo(TipoEdificio tipo){
         int num=0;
         for(Edificio e:this.edificios)
             if(e.getTipoEdificio()==tipo)

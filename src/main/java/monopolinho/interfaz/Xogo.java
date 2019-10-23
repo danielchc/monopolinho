@@ -97,7 +97,7 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroEdificiosTipo(TipoEdificio.CASA)<4){
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
             System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
             return;
         }
@@ -142,7 +142,7 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroEdificiosTipo(TipoEdificio.CASA)<2 && actual.numeroEdificiosTipo(TipoEdificio.HOTEL)<1){
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 && actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
             return;
         }
@@ -177,7 +177,7 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroEdificiosTipo(TipoEdificio.HOTEL)<2){
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
             System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
             return;
         }
@@ -292,7 +292,7 @@ public class Xogo {
      * @param valorDados Movemento no taboeiro respecto a casilla actual
      * @return Mensaxe da acción interpretada
      */
-    private void interpretarAccion(Casilla current,int valorDados){
+    public void interpretarAccion(Casilla current,int valorDados){
         String mensaxe="";
 
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+valorDados)%40);
@@ -490,9 +490,6 @@ public class Xogo {
     }
 
 
-
-
-
     /**
      * Funcións públicas.
      */
@@ -678,6 +675,22 @@ public class Xogo {
             for(Casilla c:zona)
                 c.setDono(banca);
         }
+    }
+
+    public Taboeiro getTaboeiro() {
+        return taboeiro;
+    }
+
+    public Dados getDados() {
+        return dados;
+    }
+
+    public Xogador getBanca() {
+        return banca;
+    }
+
+    public ArrayList<Xogador> getXogadores() {
+        return xogadores;
     }
 
     /**

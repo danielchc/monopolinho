@@ -23,7 +23,7 @@ public class Edificio {
             this.propietario=propietario;
             this.precio=precio;
             this.posicion=posicion;
-            this.id= this.tipoEdificio + String.valueOf(this.posicion.numeroEdificiosTipo(this.tipoEdificio) + 1);
+            this.id= this.tipoEdificio + String.valueOf(this.posicion.getNumeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
 
