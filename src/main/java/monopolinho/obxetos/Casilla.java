@@ -36,6 +36,7 @@ public class Casilla {
     private ArrayList<Avatar> avatares;
     private Taboeiro taboeiro;
     private boolean estaHipotecada;
+    private ArrayList<Edificio> edificios;
 
 
     /**
@@ -51,6 +52,7 @@ public class Casilla {
         this.nome=nome;
         this.tipoCasilla=tipoCasilla;
         this.avatares=new ArrayList<Avatar>();
+        this.edificios=new ArrayList<>();
         this.grupo=null;
         this.estaHipotecada=false;
         this.valor =0;
@@ -158,6 +160,46 @@ public class Casilla {
         };
     }
 
+
+    /**
+     * Engade un edificio a unha casilla
+     * @param e Edificio a engadir á casilla
+     */
+    public void engadirEdificio(Edificio e){
+        if(e!=null){
+            this.edificios.add(e);
+        }
+    }
+
+    /**
+     * Elimina un edificio dunha casilla
+     * @param e Edificio a eliminar
+     */
+    public void eliminarEdificio(Edificio e){
+        if(e!=null){
+            this.edificios.remove(e);
+        }
+    }
+
+
+
+    /**
+     * Devolve os edificios dunha casilla
+     * @return Edificaciones da casilla
+     */
+    public ArrayList<Edificio> getEdificios() {
+        return edificios;
+    }
+
+    /**
+     * Estabelce os edificios dunha casilla
+     * @param edificios Edificaciones na casilla
+     */
+    public void setEdificios(ArrayList<Edificio> edificios) {
+        if(edificios!=null){
+            this.edificios = edificios;
+        }
+    }
 
     /**
      * @return Este metodo permite saber se unha casilla se pode comprar ou non.
@@ -383,6 +425,13 @@ public class Casilla {
     public String toString(){
         String xogadores="";
         String xogadoresCarcel="";
+        String edificios="[";
+
+        for(Edificio e:this.edificios){
+            edificios+=e+", ";
+        }
+        edificios+="]";
+
         if(this.avatares!=null) {
             for (Avatar a : this.avatares){
                 xogadores += "\n\t\t" + a.getXogador().getNome() + ",";
@@ -435,7 +484,7 @@ public class Casilla {
                             "Grupo: "+this.getGrupo().getNome()+"\n\t" +
                             "Valor: "+this.getValor()+"\n\t" +
                             "Alquiler: "+this.getAlquiler()+"\n\t"+
-                            "Edificios: []"+
+                            "Edificios: "+edificios+"\n\t"+
                             ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
                         "\n}";
                 break;

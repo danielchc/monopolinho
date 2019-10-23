@@ -243,6 +243,9 @@ public class Menu {
                 }
                 xogo.comprarCasilla(cmds);
                 break;
+            case "edificar":
+                xogo.edificar();
+                break;
             case "bancarrota":
                 xogo.declararBancarrota();
                 break;

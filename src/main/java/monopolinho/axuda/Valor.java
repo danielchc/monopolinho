@@ -25,6 +25,7 @@ public class Valor {
     /**
      * Fortuna inicial de cada xogador
      */
+  
     public static final float FORTUNA_INCIAL=(VALOR_GRUPO_OCRE+VALOR_GRUPO_CYAN+VALOR_GRUPO_VIOLETA+VALOR_GRUPO_AMARILLO+VALOR_GRUPO_ROJO+VALOR_GRUPO_BLANCO+VALOR_GRUPO_VERDE+VALOR_GRUPO_AZUL)/3.0f;;
 
 
@@ -82,6 +83,20 @@ public class Valor {
      * Cantidade a pagar ao caer nun transporte
      */
     public static final float USO_TRANSPORTE=VOLTA_COMPLETA;
+
+
+    /**
+     * Factores dos edificios.
+     * O precio de cada edificio é o factor polo precio do solar no que se edifica.
+     */
+    public static final float FACTOR_VALOR_CASA=0.6f;
+
+    public static final float FACTOR_VALOR_HOTEL=0.6f;
+
+    public static final float FACTOR_VALOR_PISCINA=0.4f;
+
+    public static final float FACTOR_VALOR_PISTADEPORTES=1.25f;
+
 
 
 
