@@ -2,6 +2,8 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.Zona;
 
 import java.util.ArrayList;
 
@@ -10,12 +12,6 @@ import java.util.ArrayList;
  * @author Daniel Chenel
  */
 public class Taboeiro {
-    public enum Zona{
-        SUR,
-        OESTE,
-        NORTE,
-        ESTE
-    }
     private ArrayList<ArrayList<Casilla>> casillas;
     private float bote=0.0f;
 
@@ -38,7 +34,7 @@ public class Taboeiro {
     public void engadirCasilla(Zona z,Casilla casilla){
         if(casilla!=null){
             this.casillas.get(z.ordinal()).add(casilla);
-            if(z==Zona.SUR) casilla.setPosicionIndex(this.casillas.get(z.ordinal()).indexOf(casilla));
+            if(z== Zona.SUR) casilla.setPosicionIndex(this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.OESTE) casilla.setPosicionIndex(11+this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.NORTE) casilla.setPosicionIndex(20+this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.ESTE) casilla.setPosicionIndex(31+this.casillas.get(z.ordinal()).indexOf(casilla));
@@ -134,50 +130,50 @@ public class Taboeiro {
         Grupo grupo_azul=new Grupo("AZUL", Valor.ReprColor.ANSI_BLUE_BACKGROUND,Valor.VALOR_GRUPO_AZUL,2);
 
 
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SALIDA",Casilla.TipoCasilla.SALIDA));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("GOIRIZ",grupo_ocre));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("COMUNIDADE",Casilla.TipoCasilla.COMUNIDADE));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SADA",grupo_ocre));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("I.CATASTRO",Casilla.TipoCasilla.IMPOSTO, Valor.IMPOSTO_BARATO));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("AVE",Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BOIMORTO",grupo_cyan));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("BALDAIO",grupo_cyan));
-        engadirCasilla(Taboeiro.Zona.SUR,new Casilla("CARCEL_TEIXEIRO", Casilla.TipoCasilla.CARCEL));
+        engadirCasilla(Zona.SUR,new Casilla("SALIDA",TipoCasilla.SALIDA));
+        engadirCasilla(Zona.SUR,new Casilla("GOIRIZ",grupo_ocre));
+        engadirCasilla(Zona.SUR,new Casilla("COMUNIDADE", TipoCasilla.COMUNIDADE));
+        engadirCasilla(Zona.SUR,new Casilla("SADA",grupo_ocre));
+        engadirCasilla(Zona.SUR,new Casilla("I.CATASTRO",TipoCasilla.IMPOSTO, Valor.IMPOSTO_BARATO));
+        engadirCasilla(Zona.SUR,new Casilla("AVE",TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.SUR,new Casilla("BOIMORTO",grupo_cyan));
+        engadirCasilla(Zona.SUR,new Casilla("SORTE",TipoCasilla.SORTE));
+        engadirCasilla(Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan));
+        engadirCasilla(Zona.SUR,new Casilla("BALDAIO",grupo_cyan));
+        engadirCasilla(Zona.SUR,new Casilla("CARCEL_TEIXEIRO", TipoCasilla.CARCEL));
 
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("PARKING",Casilla.TipoCasilla.PARKING));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CASTROVERDE",grupo_rojo));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("MUIMENTA",grupo_rojo));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("GUITIRIZ",grupo_rojo));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("HIDROAVION",Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("ALLARIZ",grupo_blanco));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("CANGAS",grupo_blanco));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("AS_PONTES",Casilla.TipoCasilla.SERVIZO,Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("FENE",grupo_blanco));
-        engadirCasilla(Taboeiro.Zona.NORTE,new Casilla("IR_CARCEL",Casilla.TipoCasilla.IRCARCEL));
+        engadirCasilla(Zona.NORTE,new Casilla("PARKING",TipoCasilla.PARKING));
+        engadirCasilla(Zona.NORTE,new Casilla("CASTROVERDE",grupo_rojo));
+        engadirCasilla(Zona.NORTE,new Casilla("SORTE",TipoCasilla.SORTE));
+        engadirCasilla(Zona.NORTE,new Casilla("MUIMENTA",grupo_rojo));
+        engadirCasilla(Zona.NORTE,new Casilla("GUITIRIZ",grupo_rojo));
+        engadirCasilla(Zona.NORTE,new Casilla("HIDROAVION",TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.NORTE,new Casilla("ALLARIZ",grupo_blanco));
+        engadirCasilla(Zona.NORTE,new Casilla("CANGAS",grupo_blanco));
+        engadirCasilla(Zona.NORTE,new Casilla("AS_PONTES",TipoCasilla.SERVIZO,Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
+        engadirCasilla(Zona.NORTE,new Casilla("FENE",grupo_blanco));
+        engadirCasilla(Zona.NORTE,new Casilla("IR_CARCEL",TipoCasilla.IRCARCEL));
 
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("CORUNA",grupo_verde));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("LUGO",grupo_verde));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("COMUNIDADE",Casilla.TipoCasilla.COMUNIDADE));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("OURENSE",grupo_verde));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("TRACTOR",Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SORTE",Casilla.TipoCasilla.SORTE));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("VIGO",grupo_azul));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("I.SUCESIONS",Casilla.TipoCasilla.IMPOSTO, Valor.IMPOSTO_CARO));
-        engadirCasilla(Taboeiro.Zona.ESTE,new Casilla("SANTIAGO",grupo_azul));
+        engadirCasilla(Zona.ESTE,new Casilla("CORUNA",grupo_verde));
+        engadirCasilla(Zona.ESTE,new Casilla("LUGO",grupo_verde));
+        engadirCasilla(Zona.ESTE,new Casilla("COMUNIDADE",TipoCasilla.COMUNIDADE));
+        engadirCasilla(Zona.ESTE,new Casilla("OURENSE",grupo_verde));
+        engadirCasilla(Zona.ESTE,new Casilla("TRACTOR",TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.ESTE,new Casilla("SORTE",TipoCasilla.SORTE));
+        engadirCasilla(Zona.ESTE,new Casilla("VIGO",grupo_azul));
+        engadirCasilla(Zona.ESTE,new Casilla("I.SUCESIONS",TipoCasilla.IMPOSTO, Valor.IMPOSTO_CARO));
+        engadirCasilla(Zona.ESTE,new Casilla("SANTIAGO",grupo_azul));
 
 
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("FRADES",grupo_violeta));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MEIRAMA", Casilla.TipoCasilla.SERVIZO, Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MONELOS",grupo_violeta));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("LOURO",grupo_violeta));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("CATAMARAN", Casilla.TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SANTISO",grupo_amarillo));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("COMUNIDADE", Casilla.TipoCasilla.COMUNIDADE));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("MELIDE",grupo_amarillo));
-        engadirCasilla(Taboeiro.Zona.OESTE,new Casilla("SARRIA",grupo_amarillo));
+        engadirCasilla(Zona.OESTE,new Casilla("FRADES",grupo_violeta));
+        engadirCasilla(Zona.OESTE,new Casilla("MEIRAMA", TipoCasilla.SERVIZO, Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
+        engadirCasilla(Zona.OESTE,new Casilla("MONELOS",grupo_violeta));
+        engadirCasilla(Zona.OESTE,new Casilla("LOURO",grupo_violeta));
+        engadirCasilla(Zona.OESTE,new Casilla("CATAMARAN", TipoCasilla.TRANSPORTE, Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.OESTE,new Casilla("SANTISO",grupo_amarillo));
+        engadirCasilla(Zona.OESTE,new Casilla("COMUNIDADE", TipoCasilla.COMUNIDADE));
+        engadirCasilla(Zona.OESTE,new Casilla("MELIDE",grupo_amarillo));
+        engadirCasilla(Zona.OESTE,new Casilla("SARRIA",grupo_amarillo));
 
     }
 

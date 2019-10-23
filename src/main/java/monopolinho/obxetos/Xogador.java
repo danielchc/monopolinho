@@ -1,6 +1,8 @@
 package monopolinho.obxetos;
 
 import monopolinho.axuda.Valor;
+import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.TipoMovemento;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class Xogador {
      * @param nome Nome usuario
      * @param tipoMovemento Tipo de movemento no taboeiro
      */
-    public Xogador(String nome, Avatar.TipoMovemento tipoMovemento){
+    public Xogador(String nome, TipoMovemento tipoMovemento){
         this.nome=nome;
         this.fortuna= Valor.FORTUNA_INCIAL;
         this.dineroGastado=0;
@@ -130,14 +132,12 @@ public class Xogador {
      * Este metodo permite saber o número de casillas do tipo @tipo en propiedade
      * @return Retorna o numero de propiedades de tipo @tipo en propiedade do xogador
      */
-    public int numTipoCasillaPosesion(Casilla.TipoCasilla tipo){
-        int numTrans=0;
-        for(Casilla c:this.propiedades){
-            if(c.getTipoCasilla() == tipo){
-                numTrans++;
-            }
-        }
-        return numTrans;
+    public int numTipoCasillaPosesion(TipoCasilla tipo){
+        int numCasillas=0;
+        for(Casilla c:this.propiedades)
+            if(c.getTipoCasilla() == tipo)
+                numCasillas++;
+        return numCasillas;
     }
 
     /**

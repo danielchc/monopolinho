@@ -2,9 +2,9 @@ package monopolinho.interfaz;
 
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.*;
+import monopolinho.tipos.*;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Daniel Chenel
@@ -46,7 +46,7 @@ public class Xogo {
      */
     public void edificarCasa(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return;
         }
@@ -66,11 +66,11 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.CASA,actual))){
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.CASA,actual))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(Edificio.TipoEdificio.CASA,turno,interpretarPrecioEdif(Edificio.TipoEdificio.CASA,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.CASA,turno,interpretarPrecioEdif(TipoEdificio.CASA,actual),actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
@@ -82,7 +82,7 @@ public class Xogo {
      */
     public void edificarHotel(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return;
         }
@@ -97,14 +97,14 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroEdificiosTipo(Edificio.TipoEdificio.CASA)<4){
+        if(actual.numeroEdificiosTipo(TipoEdificio.CASA)<4){
             System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
             return;
         }
         else{
             int casasEliminadas=0;
             for(int i=0;i<actual.getEdificios().size();i++){    //ta asi porque o equals de edificio ainda ta pocho
-                if((actual.getEdificios().get(i).getTipoEdificio() == Edificio.TipoEdificio.CASA) && (casasEliminadas<4)){ //elimino 4 casas e poño o edificio
+                if((actual.getEdificios().get(i).getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){ //elimino 4 casas e poño o edificio
                     //actual.getEdificios().remove(i);
                     actual.eliminarEdificio(actual.getEdificios().get(i)); //esto non elimna ben as casas
                     casasEliminadas++;
@@ -112,11 +112,11 @@ public class Xogo {
             }
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.HOTEL,actual))){
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.HOTEL,actual))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(Edificio.TipoEdificio.HOTEL,turno,interpretarPrecioEdif(Edificio.TipoEdificio.HOTEL,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.HOTEL,turno,interpretarPrecioEdif(TipoEdificio.HOTEL,actual),actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
@@ -127,7 +127,7 @@ public class Xogo {
      */
     public void edificarPiscina(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return;
         }
@@ -142,16 +142,16 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroEdificiosTipo(Edificio.TipoEdificio.CASA)<2 && actual.numeroEdificiosTipo(Edificio.TipoEdificio.HOTEL)<1){
+        if(actual.numeroEdificiosTipo(TipoEdificio.CASA)<2 && actual.numeroEdificiosTipo(TipoEdificio.HOTEL)<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
             return;
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.PISCINA,actual))){
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.PISCINA,actual))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(Edificio.TipoEdificio.PISCINA,turno,interpretarPrecioEdif(Edificio.TipoEdificio.PISCINA,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.PISCINA,turno,interpretarPrecioEdif(TipoEdificio.PISCINA,actual),actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
@@ -162,7 +162,7 @@ public class Xogo {
      */
     public void edificarPistaDeportes(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= Casilla.TipoCasilla.SOLAR){
+        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return;
         }
@@ -177,21 +177,20 @@ public class Xogo {
             return;
         }
 
-        if(actual.numeroEdificiosTipo(Edificio.TipoEdificio.HOTEL)<2){
+        if(actual.numeroEdificiosTipo(TipoEdificio.HOTEL)<2){
             System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
             return;
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.PISTA_DEPORTES,actual))){
+        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.PISTA_DEPORTES,actual))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(Edificio.TipoEdificio.PISTA_DEPORTES,turno,interpretarPrecioEdif(Edificio.TipoEdificio.PISTA_DEPORTES,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno,interpretarPrecioEdif(TipoEdificio.PISTA_DEPORTES,actual),actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
     }
-
 
 
 
@@ -200,7 +199,7 @@ public class Xogo {
      * @param tipo Input do usuario
      * @return Precio do edificio.
      */
-    private float interpretarPrecioEdif(Edificio.TipoEdificio tipo,Casilla c){
+    private float interpretarPrecioEdif(TipoEdificio tipo,Casilla c){
         float precio=0;
         switch (tipo){
             case HOTEL:
@@ -226,7 +225,7 @@ public class Xogo {
      * @param tipoMov tipoMov tipo de movemento do avatar do xogador
      * @return true si se creou o xogador ou false se o xogador xa existe
      */
-    public boolean crearXogador(String nombre, Avatar.TipoMovemento tipoMov){
+    public boolean crearXogador(String nombre, TipoMovemento tipoMov){
         if(this.partidaComezada){
             System.err.println("Non se pode crear un xogador durante a partida");
             return false;
@@ -299,7 +298,7 @@ public class Xogo {
         Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+valorDados)%40);
 
         //Mover avatar
-        if(next.getTipoCasilla()==Casilla.TipoCasilla.IRCARCEL) {
+        if(next.getTipoCasilla()==TipoCasilla.IRCARCEL) {
             mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
             turno.setTurnosNaCarcel(3);
             turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
@@ -366,7 +365,7 @@ public class Xogo {
     private void aumentarPrecioCasillas(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona){
-                if(c.getDono().equals(banca) && c.getTipoCasilla()== Casilla.TipoCasilla.SOLAR){
+                if(c.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
                     c.setValor(c.getValor()*1.05f);
                 }
             }
@@ -416,9 +415,9 @@ public class Xogo {
         String mensaxe="";
         if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
             float aPagar=valorDados*next.getUsoServizo();
-            if(turno.numTipoCasillaPosesion(Casilla.TipoCasilla.SERVIZO) == 1){
+            if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1){
                 aPagar*=4.0f;
-            }else if(turno.numTipoCasillaPosesion(Casilla.TipoCasilla.SERVIZO) == 2){
+            }else if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
                 aPagar*=10.0f;
             }
             if(turno.quitarDinheiro(aPagar)){
@@ -443,7 +442,7 @@ public class Xogo {
         String mensaxe="";
         if((!next.getDono().equals(turno)) && (!next.getDono().equals(banca))){
             float aPagar=0;
-            aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(Casilla.TipoCasilla.TRANSPORTE)/4.0f);
+            aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
             if(turno.quitarDinheiro(aPagar)){
                 next.getDono().engadirDinheiro(aPagar);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();

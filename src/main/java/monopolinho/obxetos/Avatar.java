@@ -1,6 +1,6 @@
 package monopolinho.obxetos;
 
-import monopolinho.axuda.Valor;
+import monopolinho.tipos.TipoMovemento;
 
 import java.util.Random;
 
@@ -11,12 +11,6 @@ import java.util.Random;
 
 
 public class Avatar {
-    public enum TipoMovemento {
-        PELOTA,
-        COCHE,
-        ESFINXE,
-        SOMBREIRO,
-    }
     private Xogador xogador;
     private TipoMovemento tipo; //String tipo;
     private String id;
@@ -50,7 +44,7 @@ public class Avatar {
      * @param xogador xogador que ten o avatar
      * @param id identificador do avatar
      */
-    public Avatar(TipoMovemento tipo, Xogador xogador,String id){
+    public Avatar(TipoMovemento tipo, Xogador xogador, String id){
         this(tipo,xogador);
         this.id=id;
     }

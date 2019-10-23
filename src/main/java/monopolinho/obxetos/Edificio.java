@@ -1,13 +1,9 @@
 package monopolinho.obxetos;
 
+import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.TipoEdificio;
+
 public class Edificio {
-    public enum TipoEdificio{
-        CASA,
-        HOTEL,
-        PISCINA,
-        PISTA_DEPORTES,
-        DEFAULT
-    }
     private TipoEdificio tipoEdificio;
     private Xogador propietario;
     private float precio;
@@ -22,7 +18,7 @@ public class Edificio {
      * @param posicion Casilla na que se vai colocar o edificio
      */
     public Edificio(TipoEdificio tipoEdificio,Xogador propietario,float precio,Casilla posicion){
-        if(propietario!=null && posicion!=null && posicion.getTipoCasilla()== Casilla.TipoCasilla.SOLAR){
+        if(propietario!=null && posicion!=null && posicion.getTipoCasilla()== TipoCasilla.SOLAR){
             this.tipoEdificio=tipoEdificio;
             this.propietario=propietario;
             this.precio=precio;
@@ -30,9 +26,6 @@ public class Edificio {
             this.id= this.tipoEdificio + String.valueOf(this.posicion.numeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
-
-
-
 
     /**
      * Devolve o id dun edificio

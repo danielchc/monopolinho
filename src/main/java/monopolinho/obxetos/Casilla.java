@@ -2,6 +2,8 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.TipoEdificio;
 
 import java.util.ArrayList;
 
@@ -11,18 +13,6 @@ import java.util.ArrayList;
  * @author Daniel Chenel
  */
 public class Casilla {
-    public enum TipoCasilla{
-        SOLAR,
-        CARCEL,
-        IRCARCEL,
-        PARKING,
-        SALIDA,
-        IMPOSTO,
-        SORTE,
-        SERVIZO,
-        COMUNIDADE,
-        TRANSPORTE
-    }
     private String nome;
     private Grupo grupo;
     private float valor;
@@ -182,13 +172,11 @@ public class Casilla {
     }
 
 
-    public int numeroEdificiosTipo(Edificio.TipoEdificio tipo){
+    public int numeroEdificiosTipo(TipoEdificio tipo){
         int num=0;
-        for(Edificio e:this.edificios){
-            if(e.getTipoEdificio()==tipo){
+        for(Edificio e:this.edificios)
+            if(e.getTipoEdificio()==tipo)
                 num++;
-            }
-        }
         return num;
     }
 
@@ -239,7 +227,7 @@ public class Casilla {
      * @return Este metodo permite saber se unha casilla se pode comprar ou non.
      */
     public boolean podeseComprar(){
-        return (this.tipoCasilla== Casilla.TipoCasilla.SOLAR || this.tipoCasilla == Casilla.TipoCasilla.SERVIZO || this.tipoCasilla== Casilla.TipoCasilla.TRANSPORTE);
+        return (this.tipoCasilla== TipoCasilla.SOLAR || this.tipoCasilla == TipoCasilla.SERVIZO || this.tipoCasilla== TipoCasilla.TRANSPORTE);
     }
 
     /**

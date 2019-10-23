@@ -2,9 +2,8 @@ package monopolinho.interfaz;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
-import monopolinho.obxetos.Avatar;
-import monopolinho.obxetos.Casilla;
 import monopolinho.obxetos.Xogador;
+import monopolinho.tipos.TipoMovemento;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -72,21 +71,21 @@ public class Menu {
      * @param tipomov tipo de movemento do avatar
      * @return TipoMovemento dun avatar
      */
-    private Avatar.TipoMovemento interpretarMov(String tipomov){
+    private TipoMovemento interpretarMov(String tipomov){
         switch (tipomov.toLowerCase()){
             case "pelota":
-                return Avatar.TipoMovemento.PELOTA;
+                return TipoMovemento.PELOTA;
             case "esfinxe":
             case "esfinge":
-                return Avatar.TipoMovemento.ESFINXE;
+                return TipoMovemento.ESFINXE;
             case "sombreiro":
             case "sombrero":
-                return Avatar.TipoMovemento.SOMBREIRO;
+                return TipoMovemento.SOMBREIRO;
             case "coche":
-                return Avatar.TipoMovemento.COCHE;
+                return TipoMovemento.COCHE;
             default:
                 System.out.println("\nAvatar inválido, asignouseche o coche por defecto.");
-                return Avatar.TipoMovemento.COCHE;
+                return TipoMovemento.COCHE;
         }
     }
 

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * @author David Carracedo
  */
 
-
 public class Grupo {
 
     private String grupo_nome;
