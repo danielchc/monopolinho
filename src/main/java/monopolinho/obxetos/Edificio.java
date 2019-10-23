@@ -26,6 +26,15 @@ public class Edificio {
             this.id= this.tipoEdificio + String.valueOf(this.posicion.getNumeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
+    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,Casilla posicion){
+        if(propietario!=null && posicion!=null && posicion.getTipoCasilla()== TipoCasilla.SOLAR){
+            this.tipoEdificio=tipoEdificio;
+            this.propietario=propietario;
+            this.precio=posicion.getPrecioEdificio(tipoEdificio);
+            this.posicion=posicion;
+            this.id= this.tipoEdificio + String.valueOf(this.posicion.getNumeroEdificiosTipo(this.tipoEdificio) + 1);
+        }
+    }
 
     /**
      * Devolve o id dun edificio

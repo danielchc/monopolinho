@@ -66,11 +66,11 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.CASA,actual))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.CASA,turno,interpretarPrecioEdif(TipoEdificio.CASA,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.CASA,turno,actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
@@ -103,20 +103,23 @@ public class Xogo {
         }
         else{
             int casasEliminadas=0;
-            for(int i=0;i<actual.getEdificios().size();i++){    //ta asi porque o equals de edificio ainda ta pocho
-                if((actual.getEdificios().get(i).getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){ //elimino 4 casas e poño o edificio
-                    //actual.getEdificios().remove(i);
-                    actual.eliminarEdificio(actual.getEdificios().get(i)); //esto non elimna ben as casas
+            ArrayList<Edificio> aBorrar=new ArrayList<>();
+            for(Edificio e:actual.getEdificios()){    //ta asi porque o equals de edificio ainda ta pocho
+                if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){ //elimino 4 casas e poño o edificio
+                    aBorrar.add(e);
                     casasEliminadas++;
                 }
             }
+            for(Edificio e:aBorrar){
+                actual.eliminarEdificio(e);
+            }
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.HOTEL,actual))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.HOTEL,turno,interpretarPrecioEdif(TipoEdificio.HOTEL,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.HOTEL,turno,actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
@@ -147,11 +150,11 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.PISCINA,actual))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.PISCINA,turno,interpretarPrecioEdif(TipoEdificio.PISCINA,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.PISCINA,turno,actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
@@ -182,40 +185,14 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(interpretarPrecioEdif(TipoEdificio.PISTA_DEPORTES,actual))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno,interpretarPrecioEdif(TipoEdificio.PISTA_DEPORTES,actual),actual);
+        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno,actual);
         actual.engadirEdificio(e);
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-
-
-    /**
-     * Este metodo permite saber o precio según o tipo de edificio
-     * @param tipo Input do usuario
-     * @return Precio do edificio.
-     */
-    private float interpretarPrecioEdif(TipoEdificio tipo,Casilla c){
-        float precio=0;
-        switch (tipo){
-            case HOTEL:
-                precio=Valor.FACTOR_VALOR_HOTEL*c.getValor();
-                break;
-            case CASA:
-                precio=Valor.FACTOR_VALOR_CASA*c.getValor();
-                break;
-            case PISCINA:
-                precio=Valor.FACTOR_VALOR_PISCINA*c.getValor();
-                break;
-            case PISTA_DEPORTES:
-                precio=Valor.FACTOR_VALOR_PISTADEPORTES*c.getValor();
-                break;
-        }
-        return precio;
     }
 
 

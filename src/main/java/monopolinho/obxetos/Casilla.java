@@ -209,6 +209,32 @@ public class Casilla {
     }
 
     /**
+     * Este metodo permite saber o precio según o tipo de edificio
+     * @param tipo Input do usuario
+     * @return Precio do edificio.
+     */
+    public float getPrecioEdificio(TipoEdificio tipo){
+        if(this.tipoCasilla!=TipoCasilla.SOLAR)
+            return -1f;
+        float precio=0;
+        switch (tipo){
+            case HOTEL:
+                precio=Valor.FACTOR_VALOR_HOTEL*this.getValor();
+                break;
+            case CASA:
+                precio=Valor.FACTOR_VALOR_CASA*this.getValor();
+                break;
+            case PISCINA:
+                precio=Valor.FACTOR_VALOR_PISCINA*this.getValor();
+                break;
+            case PISTA_DEPORTES:
+                precio=Valor.FACTOR_VALOR_PISTADEPORTES*this.getValor();
+                break;
+        }
+        return precio;
+    }
+
+    /**
      * Devolve os edificios dunha casilla
      * @return Edificaciones da casilla
      */
