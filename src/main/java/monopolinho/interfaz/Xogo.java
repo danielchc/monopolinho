@@ -169,7 +169,9 @@ public class Xogo {
                 return;
             }else{
                 turno.setTurnosNaCarcel(0);
-                mensaxe+=". Sacasches dados dobles, podes xogar";
+                turno.setVecesTiradas(0);
+                System.out.println("Sacasches dados dobles. Tes que volver a lanzar.");
+                return;
             }
         }else{
             if (dados.sonDobles() && turno.getVecesTiradas()<3){

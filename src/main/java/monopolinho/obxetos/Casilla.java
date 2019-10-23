@@ -469,10 +469,13 @@ public class Casilla {
                         "\n}";
                 break;
             case COMUNIDADE:
-                texto="SEN IMPLEMENTAR: CAIXA COMUNIDADE";
+                texto="";
                 break;
             case SORTE:
-                texto="SEN IMPLEMENTAR: SORTE";
+                texto="";
+                break;
+            case SALIDA:
+                texto="";
                 break;
             default:
                 texto="{"+
