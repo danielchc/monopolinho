@@ -156,9 +156,12 @@ public class Xogo {
             System.err.println("Esta casilla non é túa, non a podes edificar.");
             return;
         }
-        /*
-         Hai que comprobar todos o requisitos de contrucción que aparecen no pdf do cv.
-        */
+
+        if(actual.numeroHoteles()<2){
+            System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
+            return;
+        }
+
         if(!turno.quitarDinheiro(interpretarPrecioEdif(Edificio.TipoEdificio.PISTA_DEPORTES,actual))){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
