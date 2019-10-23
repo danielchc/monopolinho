@@ -693,6 +693,10 @@ public class Xogo {
         return xogadores;
     }
 
+    public Xogador getTurno() {
+        return turno;
+    }
+
     /**
      * @return Devolve o número de xogadores
      */
