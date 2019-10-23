@@ -192,14 +192,28 @@ public class Casilla {
 
         /// MEO DEOS NON SEI COMO CARALLO COMPROBAR ESTO :(
 
+        //
+        // Teño que facer unha funcion que lle pase o tipo de edificio e me comprobe si xa hai o maximo de edificios dese tipo
+        // P
+        //
+        //
+
         /*if(this.getGrupo().getNumeroSolares()==2){
-            if(this.numeroCasas()<2 && this.numeroHoteles()<2 && this.numeroPiscinas()<2 && this.numeroPistasDeporte()<2){
-                return true;
-            }
-            else{
+            if(this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)==2) {
                 return false;
             }
-        }
+            if(this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)==2) {
+                return false;
+            }
+            if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)==2) {
+                return false;
+            }
+            if(this.edificios.size()==8){ //casas
+                return false;
+            }
+            return true;
+        }*/
+        /*
         else{
             if(this.numeroCasas()!=3 && this.numeroHoteles()!=3 && this.numeroPiscinas()!=3 && this.numeroPistasDeporte()!=3){
                 return true;

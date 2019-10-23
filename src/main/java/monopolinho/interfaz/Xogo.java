@@ -42,22 +42,35 @@ public class Xogo {
 
 
     /**
+     * Este método comproba se se cumplen as condicións básicas de edificación.
+     * @param c Casilla
+     * @return True si se pode edificar, false se non
+     */
+    private boolean comprobarConstruir(Casilla c){
+        if(c.getTipoCasilla()!= TipoCasilla.SOLAR){
+            System.err.println("Non podes edificar esta casilla");
+            return false;
+        }
+
+        if(!c.getDono().equals(turno)){
+            System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return false;
+        }
+
+        if(!c.podeseEdificarMais()){
+            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Este metodo permite construir unha casa nun solar.
      */
     public void edificarCasa(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
-            System.err.println("Non podes edificar esta casilla");
-            return;
-        }
 
-        if(!actual.getDono().equals(turno)){
-            System.err.println("Esta casilla non é túa, non a podes edificar.");
-            return;
-        }
-
-        if(!actual.podeseEdificarMais()){
-            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+        if(!comprobarConstruir(actual)){
             return;
         }
 
@@ -82,18 +95,8 @@ public class Xogo {
      */
     public void edificarHotel(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
-            System.err.println("Non podes edificar esta casilla");
-            return;
-        }
 
-        if(!actual.getDono().equals(turno)){
-            System.err.println("Esta casilla non é túa, non a podes edificar.");
-            return;
-        }
-
-        if(!actual.podeseEdificarMais()){
-            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+        if(!comprobarConstruir(actual)){
             return;
         }
 
@@ -104,8 +107,8 @@ public class Xogo {
         else{
             int casasEliminadas=0;
             ArrayList<Edificio> aBorrar=new ArrayList<>();
-            for(Edificio e:actual.getEdificios()){    //ta asi porque o equals de edificio ainda ta pocho
-                if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){ //elimino 4 casas e poño o edificio
+            for(Edificio e:actual.getEdificios()){
+                if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){
                     aBorrar.add(e);
                     casasEliminadas++;
                 }
@@ -130,18 +133,8 @@ public class Xogo {
      */
     public void edificarPiscina(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
-            System.err.println("Non podes edificar esta casilla");
-            return;
-        }
 
-        if(!actual.getDono().equals(turno)){
-            System.err.println("Esta casilla non é túa, non a podes edificar.");
-            return;
-        }
-
-        if(!actual.podeseEdificarMais()){
-            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+        if(!comprobarConstruir(actual)){
             return;
         }
 
@@ -165,18 +158,8 @@ public class Xogo {
      */
     public void edificarPistaDeportes(){
         Casilla actual=turno.getPosicion();
-        if(actual.getTipoCasilla()!= TipoCasilla.SOLAR){
-            System.err.println("Non podes edificar esta casilla");
-            return;
-        }
 
-        if(!actual.getDono().equals(turno)){
-            System.err.println("Esta casilla non é túa, non a podes edificar.");
-            return;
-        }
-
-        if(!actual.podeseEdificarMais()){
-            System.err.println("Alcanzache o numero maximo de edificios neste solar.");
+        if(!comprobarConstruir(actual)){
             return;
         }
 
