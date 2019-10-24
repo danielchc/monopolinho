@@ -268,6 +268,21 @@ public class Xogo {
         }
     }
 
+    /**
+     * Este metodo lista todos os edificios dun grupo
+     */
+    public void listarEdificiosGrupo(String cmds){
+        for(ArrayList<Casilla> zona:taboeiro.getCasillas()){
+            for(Casilla c:zona){
+                if(c.getGrupo().getNome().toLowerCase().equals(cmds)){
+                    for (Edificio e:c.getEdificios()){
+                        System.out.println(e.describirEdificio());
+                    }
+                }
+            }
+        }
+    }
+
 
     /**
      * Este metodo imprime todos os avatares.
@@ -377,6 +392,12 @@ public class Xogo {
      */
     public void hipotecarCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
+
+        if(c.getEdificios().size()!=0){
+            System.err.println(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
+            return;
+        }
+
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno)){
             c.setEstaHipotecada(true);
             c.getDono().engadirDinheiro(c.getHipoteca());
