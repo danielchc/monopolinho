@@ -24,15 +24,18 @@ public class Baralla {
     public void barallar(){
         Collections.shuffle(cartas);
     }
-    public void crearCartasSorte(){
-        cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_VIAXE_PLACER,""));
+    public Carta getCarta(int i){
+        return cartas.get(i);
+    }
+    private void crearCartasSorte(){
+        cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_VIAXE_PLACER,"Viaxe de placer a "));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_AUMENTO_BENS_IMUEBLES,""));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_PRESIDENTE,""));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_VENDER_BILLETE,""));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_RETROCEDER3,""));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_BOTE,""));
     }
-    public void crearCartasComunidade(){
+    private void crearCartasComunidade(){
 
     }
 }

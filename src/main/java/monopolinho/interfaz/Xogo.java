@@ -220,6 +220,7 @@ public class Xogo {
         if(turno.estaNaCarcel()){
             if(!dados.sonDobles()){
                 System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
+                turno.setPodeLanzar(false);
                 return;
             }else{
                 turno.setTurnosNaCarcel(0);
@@ -539,5 +540,9 @@ public class Xogo {
     }
 
 
+    public void carta(int i) {
+        Baralla n=new Baralla(TipoCarta.SORTE);
+        System.out.println(n.getCarta(i).interpretarCarta(this));
 
+    }
 }
