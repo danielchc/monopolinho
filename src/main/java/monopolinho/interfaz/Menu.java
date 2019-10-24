@@ -131,7 +131,7 @@ public class Menu {
      * Este metodo mostra por pantalla todos os comandos dispoñibles.
      */
     private void mostrarComandos(){
-        String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa>\n\t+ lanzar dados"+
+        String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa/edificios>\n\t+ lanzar dados"+
                 "\n\t+ acabar turno\n\t+ salir carcel\n\t+ describir <casilla>\n\t+ describir xogador <nome>\n\t+ describir avatar <avatar>"+
                 "\n\t+ comprar <casilla>\n\t+ edificar <casa/hotel/piscina/pista>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
         System.out.println(comandos);
