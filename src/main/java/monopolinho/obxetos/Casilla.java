@@ -239,6 +239,7 @@ public class Casilla {
              case SORTE:
              case SALIDA:
              case COMUNIDADE:
+                 turno.setPosicion(next);
                  return "";
         }
         return "";
