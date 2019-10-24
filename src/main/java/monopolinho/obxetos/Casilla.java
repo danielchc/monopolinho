@@ -175,6 +175,11 @@ public class Casilla {
     }
 
 
+    /**
+     * Este metodo devolve o número de edificios dun determinado tipo dunha casilla.
+     * @param tipo Tipo de edificio
+     * @return Número de edificios
+     */
     public int getNumeroEdificiosTipo(TipoEdificio tipo){
         int num=0;
         for(Edificio e:this.edificios)
@@ -188,38 +193,46 @@ public class Casilla {
      * Este método permite saber si se pode seguir edificando nun solar
      * @return True si de pode seguir edificando e false se non.
      */
-    public boolean podeseEdificarMais(){
+    public boolean podeseEdificarMais(TipoEdificio tipo){
 
-        /// MEO DEOS NON SEI COMO CARALLO COMPROBAR ESTO :(
+        if(this.getGrupo().getNumeroSolares()==2){
+            if(tipo==TipoEdificio.CASA){
+                if(this.edificios.size()==8){
+                    System.err.println("Non podes construir máis do tipo "+tipo+" en "+this.nome);
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
 
-        //
-        // Teño que facer unha funcion que lle pase o tipo de edificio e me comprobe si xa hai o maximo de edificios dese tipo
-        // P
-        //
-        //
-
-        /*if(this.getGrupo().getNumeroSolares()==2){
-            if(this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)==2) {
+            if(this.getNumeroEdificiosTipo(tipo)==2){
+                System.err.println("Non podes construir máis do tipo "+tipo+" en "+this.nome);
                 return false;
             }
-            if(this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)==2) {
-                return false;
-            }
-            if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)==2) {
-                return false;
-            }
-            if(this.edificios.size()==8){ //casas
-                return false;
-            }
-            return true;
-        }*/
-        /*
-        else{
-            if(this.numeroCasas()!=3 && this.numeroHoteles()!=3 && this.numeroPiscinas()!=3 && this.numeroPistasDeporte()!=3){
+            else{
                 return true;
             }
-        }*/
-        return true;
+        }
+        else{
+            if(tipo==TipoEdificio.CASA){
+                if(this.edificios.size()==12){
+                    System.err.println("Non podes construir máis do tipo "+tipo+" en "+this.nome);
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+
+            if(this.getNumeroEdificiosTipo(tipo)==3){
+                System.err.println("Non podes construir máis do tipo "+tipo+" en "+this.nome);
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
     }
 
     /**
