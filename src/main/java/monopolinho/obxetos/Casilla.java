@@ -8,6 +8,7 @@ import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Clase casilla
@@ -154,7 +155,7 @@ public class Casilla {
                  return interpretarSERVIZO(next,turno,xogo,valorDados);
              case CARCEL:
                  turno.setPosicion(next);
-                 return "So de visita...";
+                 return "Só de visita...";
              case IRCARCEL:
                  return interpretarIRCARCEL(turno,xogo);
              case PARKING:
@@ -353,11 +354,7 @@ public class Casilla {
      * @return Número de edificios
      */
     public int getNumeroEdificiosTipo(TipoEdificio tipo){
-        int num=0;
-        for(Edificio e:this.edificios)
-            if(e.getTipoEdificio()==tipo)
-                num++;
-        return num;
+        return (int)this.edificios.stream().filter(t->t.getTipoEdificio()==tipo).count();
     }
 
 
@@ -377,7 +374,6 @@ public class Casilla {
                     return true;
                 }
             }
-
             if(this.getNumeroEdificiosTipo(tipo)==2){
                 System.err.println("Non podes construir máis do tipo "+tipo+" en "+this.nome);
                 return false;
@@ -440,22 +436,11 @@ public class Casilla {
      */
     private float totalPagoAlquiler(){
         float aPagar=0;
+        int[] factores={0,5,15,35,50};
         if(this.edificios.size()==0){
             aPagar=this.alquiler;
-        }
-        else{
-            if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==1){
-                aPagar+=5*this.alquiler;
-            }
-            else if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==2){
-                aPagar+=15*this.alquiler;
-            }
-            else if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==3){
-                aPagar+=35*this.alquiler;
-            }
-            else if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==4){
-                aPagar+=50*this.alquiler;
-            }
+        }else{
+            aPagar+=factores[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*this.alquiler;
             aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*this.alquiler*70;
             aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*this.alquiler*25;
             aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*this.alquiler*25;
@@ -777,7 +762,7 @@ public class Casilla {
                             "Alquiler pista de deportes: "+this.alquiler*25+"\n\t"+
                             "Total a pagar de alquiler actualmente: "+((this.getGrupo().tenTodoGrupo(this.dono) && !this.dono.getNome().equals("Banca"))?this.totalPagoAlquiler()*Valor.FACTOR_PAGO_ALQUILER:this.totalPagoAlquiler())+"\n\t"+
                             "Edificios: "+edificios+"\n\t"+
-                            ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
+                            ((!this.dono.getNome().equals("Banca"))?"Propietario: "+this.dono.getNome():"") +
                         "\n}";
                 break;
 

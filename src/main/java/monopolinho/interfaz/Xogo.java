@@ -559,7 +559,7 @@ public class Xogo {
 
     public void carta(int i) {
         Baralla n=new Baralla(TipoCarta.SORTE);
-        n.barallar();
+        //n.barallar();
         n.listarCartas();
         System.out.println(n.getCarta(i).interpretarCarta(this));
 
