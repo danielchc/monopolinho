@@ -31,6 +31,14 @@ public class Edificio {
         this.precio=posicion.getPrecioEdificio(tipoEdificio);
     }
 
+    public String describirEdificio(){
+        String texto="{\n";
+        texto+="\tID: "+this.id+"\n\tPropietario: "+this.propietario.getNome()+
+                "\n\tCasilla: "+this.posicion.getNome()+"\n\tGrupo: "+this.posicion.getGrupo().getNome()+
+                "\n\tCoste: "+this.precio+"\n}";
+        return texto;
+    }
+
     /**
      * Devolve o id dun edificio
      * @return Identificador do edificio

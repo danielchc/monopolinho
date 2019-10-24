@@ -267,6 +267,18 @@ public class Xogo {
             System.out.println(x.describir());
     }
 
+    public void listarEdificios(){
+        for(ArrayList<Casilla> zona:taboeiro.getCasillas()){
+            for(Casilla c:zona){
+                if(c.getTipoCasilla()==TipoCasilla.SOLAR){
+                    for (Edificio e:c.getEdificios()){
+                        System.out.println(e.describirEdificio());
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Este metodo imprime todas as casillas en venta.
      */

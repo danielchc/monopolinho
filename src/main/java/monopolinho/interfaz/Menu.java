@@ -164,6 +164,9 @@ public class Menu {
                 xogo.mostrarTurno();
                 break;
             case "listar":
+                if(cmds.length!=2){
+                    return;
+                }
                 switch (cmds[1].toLowerCase()){
                     case "xogadores":
                     case "jugadores":
@@ -174,6 +177,9 @@ public class Menu {
                         break;
                     case "enventa":
                         xogo.listarCasillaEnVenta();
+                        break;
+                    case "edificios":
+                        xogo.listarEdificios();
                         break;
                     default:
                         System.out.println("\nOpción de listaxe non válida");
