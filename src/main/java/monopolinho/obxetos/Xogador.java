@@ -118,12 +118,20 @@ public class Xogador {
                 else listaHipotecas+="\n\t\t"+c.getNome()+",";
         listaprop+="\n\t]";
         listaHipotecas+="\n\t]";
+        String edificios="[";
+        for(Casilla c:this.propiedades){
+            for(Edificio e:c.getEdificios()){
+                edificios+=e+" ("+e.getPosicion().getNome()+"), ";
+            }
+        }
+        edificios+="]";
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
                 "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna)+ ",\n"+
                 "\tGastos:"+  this.dineroGastado +",\n"+
                 "\tPropiedades:"+listaprop+"\n"+
                 "\tHipotecas:"+listaHipotecas+"\n"+
+                "\tEdificios:"+edificios+"\n"+
                 "}";
     }
 
@@ -311,6 +319,7 @@ public class Xogador {
      */
     @Override
     public String toString(){
+
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
                 "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna) + ",\n"+
