@@ -147,94 +147,26 @@ public class Casilla {
         String mensaxe="";
          switch (tipoCasilla){
              case SOLAR:
-                 if(next.getEstaHipotecada()){
-                     mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
-                     return mensaxe;
-                 }else{
-                     if((!next.getDono().equals(turno))&&(!next.getDono().equals(xogo.getBanca()))){
-                         float aPagar;
-                         if(next.getGrupo().tenTodoGrupo(next.getDono())){
-                             aPagar=next.getAlquiler()* Valor.FACTOR_PAGO_ALQUILER;
-                         }else{
-                             aPagar=next.getAlquiler();
-                         }
-                         if(turno.quitarDinheiro(aPagar)){
-                             next.getDono().engadirDinheiro(aPagar);
-                             mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
-                             return mensaxe;
-                         }else{
-                             //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                             mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                             return mensaxe;
-                         }
-                     }
-                 }
-                 turno.setPosicion(next);
-                 return mensaxe;
+                 return mensaxe=interpretarSOLAR(next,turno,xogo);
 
              case TRANSPORTE:
-                 if((!next.getDono().equals(turno)) && (!next.getDono().equals(xogo.getBanca()))){
-                     float aPagar=0;
-                     aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
-                     if(turno.quitarDinheiro(aPagar)){
-                         next.getDono().engadirDinheiro(aPagar);
-                         mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
-                     }else{
-                         //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                         mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                         return mensaxe;
-                     }
-                 }
-                 turno.setPosicion(next);
-                 return mensaxe;
+                 return mensaxe=interpretarTRANSPORTE(next,turno,xogo);
 
              case SERVIZO:
-                 if((!next.getDono().equals(turno)) && (!next.getDono().equals(xogo.getBanca()))){
-                     float aPagar=valorDados*next.getUsoServizo();
-                     if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1){
-                         aPagar*=4.0f;
-                     }else if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
-                         aPagar*=10.0f;
-                     }
-                     if(turno.quitarDinheiro(aPagar)){
-                         next.getDono().engadirDinheiro(aPagar);
-                         mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
-                     }else{
-                         //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
-                         mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                         return mensaxe;
-                     }
-                 }
-                 turno.setPosicion(next);
-                 return mensaxe;
+                 return mensaxe=interpretarSERVIZO(next,turno,xogo,valorDados);
 
              case CARCEL:
                  turno.setPosicion(next);
                  return "So de visita...";
 
              case IRCARCEL:
-                 mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
-                 turno.setTurnosNaCarcel(3);
-                 turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
-                 return mensaxe;
+                 return mensaxe=interpretarIRCARCEL(turno,xogo);
 
              case PARKING:
-                 mensaxe="O xogador "+ turno.getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
-                 turno.engadirDinheiro(xogo.getTaboeiro().getBote());
-                 xogo.getTaboeiro().setBote(0);
-                 turno.setPosicion(next);
-                 return mensaxe;
+                 return mensaxe=interpretarPARKING(turno,next,xogo);
 
              case IMPOSTO:
-                 mensaxe="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
-                 if(turno.quitarDinheiro(next.getImposto())){
-                     xogo.getTaboeiro().engadirBote(next.getImposto());
-                 }else{
-                     System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-                     //E QUE PASA SE NON TEN CARTOS????????????????????
-                 }
-                 turno.setPosicion(next);
-                 return mensaxe;
+                 return mensaxe=interpretarIMPOSTO(turno,next,xogo);
 
              case SORTE:
              case SALIDA:
@@ -244,6 +176,144 @@ public class Casilla {
         }
         return "";
      }
+
+
+    /**
+     * Este metodo interpreta as accions a realizar ao caer nun solar
+     * @param next Casilla na que se cae
+     * @param turno Xogador que cae
+     * @return String co mensaxe
+     */
+     private String interpretarSOLAR(Casilla next,Xogador turno,Xogo xogo){
+         String mensaxe="";
+         if(next.getEstaHipotecada()){
+             mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
+             return mensaxe;
+         }else{
+             if((!next.getDono().equals(turno))&&(!next.getDono().equals(xogo.getBanca()))){
+                 float aPagar;
+                 if(next.getGrupo().tenTodoGrupo(next.getDono())){
+                     aPagar=next.getAlquiler()* Valor.FACTOR_PAGO_ALQUILER;
+                 }else{
+                     aPagar=next.getAlquiler();
+                 }
+                 if(turno.quitarDinheiro(aPagar)){
+                     next.getDono().engadirDinheiro(aPagar);
+                     mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
+                     return mensaxe;
+                 }else{
+                     //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
+                     mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                     return mensaxe;
+                 }
+             }
+         }
+         turno.setPosicion(next);
+         return mensaxe;
+     }
+
+    /**
+     * Este metodo interpreta as accions a realizar ao caer nun servizo
+     * @param next Casilla na que se cae
+     * @param turno Xogador que cae
+     * @return String co mensaxe
+     */
+    private String interpretarSERVIZO(Casilla next,Xogador turno,Xogo xogo,int valorDados){
+        String mensaxe="";
+        if((!next.getDono().equals(turno)) && (!next.getDono().equals(xogo.getBanca()))){
+            float aPagar=valorDados*next.getUsoServizo();
+            if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1){
+                aPagar*=4.0f;
+            }else if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
+                aPagar*=10.0f;
+            }
+            if(turno.quitarDinheiro(aPagar)){
+                next.getDono().engadirDinheiro(aPagar);
+                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+            }else{
+                //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
+                mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                return mensaxe;
+            }
+        }
+        turno.setPosicion(next);
+        return mensaxe;
+    }
+
+
+    /**
+     * Este metodo interpreta as accions a realizar ao caer nun transporte
+     * @param next Casilla na que se cae
+     * @param turno Xogador que cae
+     * @return String co mensaxe
+     */
+    private String interpretarTRANSPORTE(Casilla next,Xogador turno,Xogo xogo){
+        String mensaxe="";
+        if((!next.getDono().equals(turno)) && (!next.getDono().equals(xogo.getBanca()))){
+            float aPagar=0;
+            aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
+            if(turno.quitarDinheiro(aPagar)){
+                next.getDono().engadirDinheiro(aPagar);
+                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+            }else{
+                //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
+                mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                return mensaxe;
+            }
+        }
+        turno.setPosicion(next);
+        return mensaxe;
+    }
+
+
+    /**
+     * Este metodo interpreta as accions a realizar ao caer en ir carcel
+     * @param turno Xogador que cae
+     * @return String co mensaxe
+     */
+    private String interpretarIRCARCEL(Xogador turno,Xogo xogo){
+        String mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
+        turno.setTurnosNaCarcel(3);
+        turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
+        return mensaxe;
+    }
+
+
+    /**
+     * Este metodo interpreta as accions a realizar ao caer en parking
+     * @param turno Xogador que cae
+     * @return String co mensaxe
+     */
+    private String interpretarPARKING(Xogador turno,Casilla next,Xogo xogo){
+        String mensaxe="";
+        mensaxe="O xogador "+ turno.getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
+        turno.engadirDinheiro(xogo.getTaboeiro().getBote());
+        xogo.getTaboeiro().setBote(0);
+        turno.setPosicion(next);
+        return mensaxe;
+    }
+
+
+
+    /**
+     * Este metodo interpreta as accions a realizar ao caer nun imposto
+     * @param turno Xogador que cae
+     * @return String co mensaxe
+     */
+    private String interpretarIMPOSTO(Xogador turno,Casilla next,Xogo xogo){
+        String mensaxe="";
+        mensaxe="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
+        if(turno.quitarDinheiro(next.getImposto())){
+            xogo.getTaboeiro().engadirBote(next.getImposto());
+        }else{
+            System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+            //E QUE PASA SE NON TEN CARTOS????????????????????
+        }
+        turno.setPosicion(next);
+        return mensaxe;
+    }
+
+
     /**
      * @return Devolve as liñas que representan unha casilla
      */
@@ -366,6 +436,11 @@ public class Casilla {
                 break;
         }
         return precio;
+    }
+
+
+    private float totalPagoAlquiler(){
+        
     }
 
     /**
