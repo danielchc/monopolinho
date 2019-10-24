@@ -193,9 +193,9 @@ public class Casilla {
              if((!next.getDono().equals(turno))&&(!next.getDono().equals(xogo.getBanca()))){
                  float aPagar;
                  if(next.getGrupo().tenTodoGrupo(next.getDono())){
-                     aPagar=next.getAlquiler()* Valor.FACTOR_PAGO_ALQUILER;
+                     aPagar=next.totalPagoAlquiler()* Valor.FACTOR_PAGO_ALQUILER;
                  }else{
-                     aPagar=next.getAlquiler();
+                     aPagar=next.totalPagoAlquiler();
                  }
                  if(turno.quitarDinheiro(aPagar)){
                      next.getDono().engadirDinheiro(aPagar);
@@ -439,8 +439,33 @@ public class Casilla {
     }
 
 
+    /**
+     * Este metodo permite calcular o total a pagar de alquiler
+     * @return Total alquiler a pagar
+     */
     private float totalPagoAlquiler(){
-        
+        float aPagar=0;
+        if(this.edificios.size()==0){
+            aPagar=this.alquiler;
+        }
+        else{
+            if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==1){
+                aPagar+=5*this.alquiler;
+            }
+            else if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==2){
+                aPagar+=15*this.alquiler;
+            }
+            else if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==3){
+                aPagar+=35*this.alquiler;
+            }
+            else if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)==4){
+                aPagar+=50*this.alquiler;
+            }
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*this.alquiler*70;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*this.alquiler*25;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*this.alquiler*25;
+        }
+        return aPagar;
     }
 
     /**
