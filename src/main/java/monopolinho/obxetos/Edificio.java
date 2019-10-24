@@ -31,6 +31,11 @@ public class Edificio {
         this.precio=posicion.getPrecioEdificio(tipoEdificio);
     }
 
+
+    /**
+     * Este metodo permite describir a info dun edificio.
+     * @return Descripcion do edificio
+     */
     public String describirEdificio(){
         String texto="{\n";
         texto+="\tID: "+this.id+"\n\tPropietario: "+this.propietario.getNome()+

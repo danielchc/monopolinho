@@ -138,6 +138,7 @@ public class Xogo {
         }
         System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.CASA));
         System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL));
+
         if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
             return;
@@ -251,6 +252,23 @@ public class Xogo {
         System.out.println("Non se atopou o avatar "+ avatarId);
     }
 
+
+    /**
+     * Este metodo lista todos os edificios
+     */
+    public void listarEdificios(){
+        for(ArrayList<Casilla> zona:taboeiro.getCasillas()){
+            for(Casilla c:zona){
+                if(c.getTipoCasilla()==TipoCasilla.SOLAR){
+                    for (Edificio e:c.getEdificios()){
+                        System.out.println(e.describirEdificio());
+                    }
+                }
+            }
+        }
+    }
+
+
     /**
      * Este metodo imprime todos os avatares.
      */
@@ -267,17 +285,7 @@ public class Xogo {
             System.out.println(x.describir());
     }
 
-    public void listarEdificios(){
-        for(ArrayList<Casilla> zona:taboeiro.getCasillas()){
-            for(Casilla c:zona){
-                if(c.getTipoCasilla()==TipoCasilla.SOLAR){
-                    for (Edificio e:c.getEdificios()){
-                        System.out.println(e.describirEdificio());
-                    }
-                }
-            }
-        }
-    }
+
 
     /**
      * Este metodo imprime todas as casillas en venta.
