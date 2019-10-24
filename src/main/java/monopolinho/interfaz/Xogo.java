@@ -47,6 +47,11 @@ public class Xogo {
      * @return True si se pode edificar, false se non
      */
     private boolean comprobarConstruir(Casilla c,TipoEdificio tipo){
+        if(c.getEstaHipotecada()){
+            System.err.println("Non podes construir nunha casilla hipotecada");
+            return false;
+        }
+
         if(c.getTipoCasilla()!= TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return false;
@@ -398,12 +403,33 @@ public class Xogo {
             return;
         }
 
-        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno)){
+        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno) && !c.getEstaHipotecada()){
             c.setEstaHipotecada(true);
             c.getDono().engadirDinheiro(c.getHipoteca());
             System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
         }
-        else System.err.println("Non se pode hipotecar esa casilla");
+        else{
+            System.err.println("Non se pode hipotecar esa casilla");
+        }
+    }
+
+
+    /**
+     * Metodo que deshipoteca unha casilla.
+     * @param nome Nome casilla
+     */
+    public void deshipotecarCasilla(String nome){
+        Casilla c=this.taboeiro.buscarCasilla(nome);
+
+
+        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno) && c.getEstaHipotecada()){
+            c.setEstaHipotecada(false);
+            c.getDono().quitarDinheiro(c.getHipoteca());
+            System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Recibes "+c.getHipoteca());
+        }
+        else{
+            System.err.println("Non se pode deshipotecar esa casilla");
+        }
     }
 
     /**

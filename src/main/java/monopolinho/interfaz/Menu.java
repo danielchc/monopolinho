@@ -133,7 +133,7 @@ public class Menu {
     private void mostrarComandos(){
         String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa/edificios/edificios <grupo>>\n\t+ lanzar dados"+
                 "\n\t+ acabar turno\n\t+ salir carcel\n\t+ describir <casilla>\n\t+ describir xogador <nome>\n\t+ describir avatar <avatar>"+
-                "\n\t+ comprar <casilla>\n\t+ edificar <casa/hotel/piscina/pista>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
+                "\n\t+ comprar <casilla>\n\t+ edificar <casa/hotel/piscina/pista>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ deshipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
         System.out.println(comandos);
     }
 
@@ -287,6 +287,13 @@ public class Menu {
                     return;
                 }
                 xogo.hipotecarCasilla(cmds[1]);
+                break;
+            case "deshipotecar":
+                if(cmds.length!=2){
+                    System.out.println("Sintaxe: deshipotecar <casilla>");
+                    return;
+                }
+                xogo.deshipotecarCasilla(cmds[1]);
                 break;
             case "ver":
                 if(cmds.length!=2){
