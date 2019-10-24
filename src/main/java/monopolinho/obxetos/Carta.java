@@ -22,7 +22,7 @@ public class Carta {
         switch (this.tipoCartaAccion){
             //2. Decides hacer un viaje de placer. Avanza hasta Cádiz.
             case S_VIAXE_PLACER:
-                turno.setPosicion((xogo.getTaboeiro().getCasilla(3)));
+                turno.setPosicion((xogo.getTaboeiro().getCasilla(13)));
                 return mensaxe+" "+(xogo.getTurno().getPosicion().interpretarCasilla(xogo,0));
 
             //3. Vendes tu billete de avión para Terrassa en una subasta por Internet. Cobra 500000€.
@@ -66,7 +66,7 @@ public class Carta {
 
             //11. ¡Hora punta de tráfico! Retrocede tres casillas.
             case S_RETROCEDER3:
-                xogo.interpretarAccion(turno.getPosicion(),-3);
+                xogo.interpretarAccion(turno.getPosicion(),-3); //REVISAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRR
                 return mensaxe;
 
             //2. Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla de Salida y sin cobrar los 2000000€.

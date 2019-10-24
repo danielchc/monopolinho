@@ -28,7 +28,7 @@ public class Baralla {
         return cartas.get(i);
     }
     private void crearCartasSorte(){
-        cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_VIAXE_PLACER,"Viaxe de placer a "));
+        cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_VIAXE_PLACER,"Viaxe de placer a MONELOS"));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_AUMENTO_BENS_IMUEBLES,""));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_PRESIDENTE,""));
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_VENDER_BILLETE,""));
