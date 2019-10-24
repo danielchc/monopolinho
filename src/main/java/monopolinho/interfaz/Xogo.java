@@ -177,103 +177,6 @@ public class Xogo {
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
     }
 
-
-    /**
-     * Este metodo permite crear un xogador
-     * @param nombre nombre nome do xogador
-     * @param tipoMov tipoMov tipo de movemento do avatar do xogador
-     * @return true si se creou o xogador ou false se o xogador xa existe
-     */
-    public boolean crearXogador(String nombre, TipoMovemento tipoMov){
-        if(this.partidaComezada){
-            System.err.println("Non se pode crear un xogador durante a partida");
-            return false;
-        }
-        Xogador xogador=new Xogador(nombre, tipoMov);
-        if(this.xogadores.contains(xogador)){
-            return false; //Comproba se existe o usuario o método equal compara nomes!
-        }
-        this.xogadores.add(xogador);
-        if(this.xogadores.indexOf(xogador)==0)this.turno=this.xogadores.get(0);
-        xogador.setPosicion(this.taboeiro.getCasilla(0));
-        System.out.println(xogador);
-        return true;
-    }
-
-    /**
-     * Este metodo lanza os dados.
-     * - Se saen dobles permite volver a tirar.
-     * - Se volven sair dobles permite volver tirar.
-     * - Se saen triples manda ao xogador para a carcere.
-     */
-    public void lanzarDados(){
-        if(!turno.podeLanzar()){
-            System.err.println("O xogador xa lanzou os dados. Non se poden lanzar de novo");
-            return;
-        }
-        dados.lanzarDados();
-        turno.aumentarVecesTiradas();   //1 vez tirada
-
-        String mensaxe="\nSaiu o "+dados.getDado1()+" e o "+dados.getDado2();
-
-        if(turno.estaNaCarcel()){
-            if(!dados.sonDobles()){
-                System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
-                turno.setPodeLanzar(false);
-                return;
-            }else{
-                turno.setTurnosNaCarcel(0);
-                turno.setVecesTiradas(0);
-                System.out.println("Sacasches dados dobles. Tes que volver a lanzar.");
-                return;
-            }
-        }else{
-            if (dados.sonDobles() && turno.getVecesTiradas()<3){
-                mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
-            }
-            else if(dados.sonDobles() && turno.getVecesTiradas()==3){
-                turno.setTurnosNaCarcel(3);
-                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
-                System.err.println("Saion triples e vas para o cárcere.");
-                turno.setPodeLanzar(false);
-                return;
-            }
-            else{
-                turno.setPodeLanzar(false);
-            }
-        }
-        System.out.println(mensaxe);
-        interpretarAccion(turno.getPosicion(),dados.valorLanzar());
-    }
-
-    /**
-     * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
-     * @param current Casilla actual
-     * @param valorDados Movemento no taboeiro respecto a casilla actual
-     * @return Mensaxe da acción interpretada
-     */
-    public void interpretarAccion(Casilla current,int valorDados){
-        String mensaxe="";
-        int nPos=Math.floorMod((current.getPosicionIndex()+valorDados), 40);
-        Casilla next=this.taboeiro.getCasilla(nPos);
-        if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
-            if((current.getPosicionIndex()+valorDados)>39) {
-                mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
-                turno.getAvatar().voltaTaboeiro();
-                turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
-            }
-        }
-
-        mensaxe+=next.interpretarCasilla(this,valorDados);
-
-        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
-        System.out.println(mensaxe);
-        if(deronTodosCatroVoltas()){
-            aumentarPrecioCasillas();
-            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
-        }
-    }
-
     /**
      * Funcions privadas
      */
@@ -482,6 +385,106 @@ public class Xogo {
     }
 
     /**
+     * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
+     * @param current Casilla actual
+     * @param valorDados Movemento no taboeiro respecto a casilla actual
+     * @return Mensaxe da acción interpretada
+     */
+    public void interpretarAccion(Casilla current,int valorDados){
+        String mensaxe="";
+        int nPos=Math.floorMod((current.getPosicionIndex()+valorDados), 40);
+        Casilla next=this.taboeiro.getCasilla(nPos);
+        if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
+            if((current.getPosicionIndex()+valorDados)>39) {
+                mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
+                turno.getAvatar().voltaTaboeiro();
+                turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
+            }
+        }
+
+        mensaxe+=next.interpretarCasilla(this,valorDados);
+
+        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
+        System.out.println(mensaxe);
+        if(deronTodosCatroVoltas()){
+            aumentarPrecioCasillas();
+            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
+        }
+    }
+
+    /**
+     * Este metodo permite crear un xogador
+     * @param nombre nombre nome do xogador
+     * @param tipoMov tipoMov tipo de movemento do avatar do xogador
+     * @return true si se creou o xogador ou false se o xogador xa existe
+     */
+    public boolean crearXogador(String nombre, TipoMovemento tipoMov){
+        if(this.partidaComezada){
+            System.err.println("Non se pode crear un xogador durante a partida");
+            return false;
+        }
+        Xogador xogador=new Xogador(nombre, tipoMov);
+        if(this.xogadores.contains(xogador)){
+            return false; //Comproba se existe o usuario o método equal compara nomes!
+        }
+        this.xogadores.add(xogador);
+        if(this.xogadores.indexOf(xogador)==0)this.turno=this.xogadores.get(0);
+        xogador.setPosicion(this.taboeiro.getCasilla(0));
+        System.out.println(xogador);
+        return true;
+    }
+
+    /**
+     * Este metodo lanza os dados.
+     * - Se saen dobles permite volver a tirar.
+     * - Se volven sair dobles permite volver tirar.
+     * - Se saen triples manda ao xogador para a carcere.
+     */
+    public void lanzarDados(){
+        if(turno.estadoXogador()==EstadoXogador.TEN_DEBEDAS){
+            System.err.println("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
+            return;
+        }
+        if(!turno.podeLanzar()){
+            System.err.println("O xogador xa lanzou os dados. Non se poden lanzar de novo");
+            return;
+        }
+        dados.lanzarDados();
+        turno.aumentarVecesTiradas();   //1 vez tirada
+
+        String mensaxe="\nSaiu o "+dados.getDado1()+" e o "+dados.getDado2();
+
+        if(turno.estaNaCarcel()){
+            if(!dados.sonDobles()){
+                System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
+                turno.setPodeLanzar(false);
+                return;
+            }else{
+                turno.setTurnosNaCarcel(0);
+                turno.setVecesTiradas(0);
+                System.out.println("Sacasches dados dobles. Tes que volver a lanzar.");
+                return;
+            }
+        }else{
+            if (dados.sonDobles() && turno.getVecesTiradas()<3){
+                mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
+            }
+            else if(dados.sonDobles() && turno.getVecesTiradas()==3){
+                turno.setTurnosNaCarcel(3);
+                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+                System.err.println("Saion triples e vas para o cárcere.");
+                turno.setPodeLanzar(false);
+                return;
+            }
+            else{
+                turno.setPodeLanzar(false);
+            }
+        }
+        System.out.println(mensaxe);
+        interpretarAccion(turno.getPosicion(),dados.valorLanzar());
+    }
+
+    /**
      * Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
      */
     private void engadirCasillasBanca(){
@@ -491,22 +494,37 @@ public class Xogo {
         }
     }
 
+    /**
+     * @return Devolve o taboeiro
+     */
     public Taboeiro getTaboeiro() {
         return taboeiro;
     }
 
+    /**
+     * @return Devolve os datos
+     */
     public Dados getDados() {
         return dados;
     }
 
+    /**
+     * @return Devolve o xogador banca
+     */
     public Xogador getBanca() {
         return banca;
     }
 
+    /**
+     * @return Devolve os xogadores
+     */
     public ArrayList<Xogador> getXogadores() {
         return xogadores;
     }
 
+    /**
+     * @return Devolve o xogador actual
+     */
     public Xogador getTurno() {
         return turno;
     }
