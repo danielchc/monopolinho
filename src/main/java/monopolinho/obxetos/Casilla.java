@@ -769,6 +769,18 @@ public class Casilla {
                             "Grupo: "+this.getGrupo().getNome()+"\n\t" +
                             "Valor: "+this.getValor()+"\n\t" +
                             "Alquiler: "+this.getAlquiler()+"\n\t"+
+                            "Valor casa: "+this.valor*Valor.FACTOR_VALOR_CASA+"\n\t"+
+                            "Valor hotel: "+this.valor*Valor.FACTOR_VALOR_HOTEL+"\n\t"+
+                            "Valor piscina: "+this.valor*Valor.FACTOR_VALOR_PISCINA+"\n\t"+
+                            "Valor pista deportes: "+this.valor*Valor.FACTOR_VALOR_PISTADEPORTES+"\n\t"+
+                            "Alquiler 1 casa: "+this.alquiler*5+"\n\t"+
+                            "Alquiler 2 casa: "+this.alquiler*15+"\n\t"+
+                            "Alquiler 3 casa: "+this.alquiler*35+"\n\t"+
+                            "Alquiler 4 casa: "+this.alquiler*50+"\n\t"+
+                            "Alquiler hotel: "+this.alquiler*70+"\n\t"+
+                            "Alquiler piscina: "+this.alquiler*25+"\n\t"+
+                            "Alquiler pista de deportes: "+this.alquiler*25+"\n\t"+
+                            "Total a pagar de alquiler actualmente: "+((this.getGrupo().tenTodoGrupo(this.dono) && !this.dono.getNome().equals("Banca"))?this.totalPagoAlquiler()*Valor.FACTOR_PAGO_ALQUILER:this.totalPagoAlquiler())+"\n\t"+
                             "Edificios: "+edificios+"\n\t"+
                             ((!this.dono.getNome().equals("Banca"))?"\n\tPropietario: "+this.dono.getNome():"") +
                         "\n}";
