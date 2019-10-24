@@ -136,8 +136,9 @@ public class Xogo {
         if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
             return;
         }
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 && actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
+        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.CASA));
+        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL));
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
             return;
         }

@@ -354,7 +354,12 @@ public class Casilla {
      * @return Número de edificios
      */
     public int getNumeroEdificiosTipo(TipoEdificio tipo){
-        return (int)this.edificios.stream().filter(t->t.getTipoEdificio()==tipo).count();
+        //return (int)this.edificios.stream().filter(t->t.getTipoEdificio()==tipo).count();
+        int num=0;
+        for(Edificio e:this.edificios){
+            if(e.getTipoEdificio()==tipo) num++;
+        }
+        return num;
     }
 
 
