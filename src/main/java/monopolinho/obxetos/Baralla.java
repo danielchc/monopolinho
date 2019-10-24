@@ -24,6 +24,11 @@ public class Baralla {
     public void barallar(){
         Collections.shuffle(cartas);
     }
+    public void listarCartas(){
+        for(Carta c:this.cartas){
+            System.out.println(c.getTipoCartaAccion());
+        }
+    }
     public Carta getCarta(int i){
         return cartas.get(i);
     }
@@ -36,6 +41,11 @@ public class Baralla {
         cartas.add(new Carta(TipoCarta.SORTE, TipoCartaAccion.S_BOTE,""));
     }
     private void crearCartasComunidade(){
-
+        cartas.add(new Carta(TipoCarta.COMUNIDADE, TipoCartaAccion.C_ALQUILAR_VILLA,"Viaxe de placer a MONELOS"));
+        cartas.add(new Carta(TipoCarta.COMUNIDADE, TipoCartaAccion.C_BALNEARIO,""));
+        cartas.add(new Carta(TipoCarta.COMUNIDADE, TipoCartaAccion.C_BENEFICIOS_INTERNET,""));
+        cartas.add(new Carta(TipoCarta.COMUNIDADE, TipoCartaAccion.C_DEVOLUCION_HACIENDA,""));
+        cartas.add(new Carta(TipoCarta.COMUNIDADE, TipoCartaAccion.C_FRAUDE_IDENTIDAD,""));
+        cartas.add(new Carta(TipoCarta.COMUNIDADE, TipoCartaAccion.C_RETROCEDER_PONTEPEDRA,""));
     }
 }

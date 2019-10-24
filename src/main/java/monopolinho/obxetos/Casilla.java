@@ -3,6 +3,7 @@ package monopolinho.obxetos;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
+import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
@@ -144,30 +145,22 @@ public class Casilla {
     public String interpretarCasilla(Xogo xogo, int valorDados){
         Casilla next=this;
         Xogador turno=xogo.getTurno();
-        String mensaxe="";
          switch (tipoCasilla){
              case SOLAR:
-                 return mensaxe=interpretarSOLAR(next,turno,xogo);
-
+                 return interpretarSOLAR(next,turno,xogo);
              case TRANSPORTE:
-                 return mensaxe=interpretarTRANSPORTE(next,turno,xogo);
-
+                 return interpretarTRANSPORTE(next,turno,xogo);
              case SERVIZO:
-                 return mensaxe=interpretarSERVIZO(next,turno,xogo,valorDados);
-
+                 return interpretarSERVIZO(next,turno,xogo,valorDados);
              case CARCEL:
                  turno.setPosicion(next);
                  return "So de visita...";
-
              case IRCARCEL:
-                 return mensaxe=interpretarIRCARCEL(turno,xogo);
-
+                 return interpretarIRCARCEL(turno,xogo);
              case PARKING:
-                 return mensaxe=interpretarPARKING(turno,next,xogo);
-
+                 return interpretarPARKING(turno,next,xogo);
              case IMPOSTO:
-                 return mensaxe=interpretarIMPOSTO(turno,next,xogo);
-
+                 return interpretarIMPOSTO(turno,next,xogo);
              case SORTE:
              case SALIDA:
              case COMUNIDADE:
@@ -176,7 +169,6 @@ public class Casilla {
         }
         return "";
      }
-
 
     /**
      * Este metodo interpreta as accions a realizar ao caer nun solar
@@ -204,6 +196,7 @@ public class Casilla {
                  }else{
                      //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                      mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                     turno.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                      return mensaxe;
                  }
              }
@@ -233,6 +226,7 @@ public class Casilla {
             }else{
                 //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                 mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                turno.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                 return mensaxe;
             }
         }
@@ -258,6 +252,7 @@ public class Casilla {
             }else{
                 //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                 mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                turno.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                 return mensaxe;
             }
         }

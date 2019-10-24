@@ -254,8 +254,8 @@ public class Xogo {
      */
     public void interpretarAccion(Casilla current,int valorDados){
         String mensaxe="";
-
-        Casilla next=this.taboeiro.getCasilla((current.getPosicionIndex()+valorDados)%40);
+        int nPos=Math.floorMod((current.getPosicionIndex()+valorDados), 40);
+        Casilla next=this.taboeiro.getCasilla(nPos);
         if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
             if((current.getPosicionIndex()+valorDados)>39) {
                 mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
@@ -386,7 +386,7 @@ public class Xogo {
         do{
             novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
             turno=this.xogadores.get(novoTurno);
-        }while(turno.isEnBancarrota());
+        }while(turno.enBancarrota());
         actual.setVecesTiradas(0);
         actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
@@ -465,7 +465,7 @@ public class Xogo {
      * Metodo bancarrota.
      */
     public void declararBancarrota(){
-        this.turno.setEnBancarrota(true);
+        this.turno.setEstadoXogador(EstadoXogador.BANCARROTA);
         for(Casilla c:this.turno.getPropiedades()){
             c.setDono(this.banca);
         }
@@ -541,6 +541,8 @@ public class Xogo {
 
     public void carta(int i) {
         Baralla n=new Baralla(TipoCarta.SORTE);
+        n.barallar();
+        n.listarCartas();
         System.out.println(n.getCarta(i).interpretarCarta(this));
 
     }

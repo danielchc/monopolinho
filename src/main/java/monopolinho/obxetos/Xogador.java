@@ -1,6 +1,7 @@
 package monopolinho.obxetos;
 
 import monopolinho.axuda.Valor;
+import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 
@@ -21,7 +22,7 @@ public class Xogador {
     private int turnosNaCarcel;
     private boolean podeLanzar;
     private int vecesTiradas;
-    private boolean enBancarrota;
+    private EstadoXogador estadoXogador;
 
 
     /**
@@ -35,7 +36,7 @@ public class Xogador {
         this.turnosNaCarcel=0;
         this.propiedades=new ArrayList<>();
         this.podeLanzar=false;
-        this.enBancarrota=false;
+        this.estadoXogador=EstadoXogador.ESPECIAL;
     }
 
     /**
@@ -51,7 +52,7 @@ public class Xogador {
         this.propiedades=new ArrayList<>();
         this.podeLanzar=true;
         this.vecesTiradas=0;
-        this.enBancarrota=false;
+        this.estadoXogador=EstadoXogador.NORMAL;
     }
 
     /**
@@ -127,7 +128,7 @@ public class Xogador {
         edificios+="]";
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna)+ ",\n"+
+                "\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna)+ ",\n"+
                 "\tGastos:"+  this.dineroGastado +",\n"+
                 "\tPropiedades:"+listaprop+"\n"+
                 "\tHipotecas:"+listaHipotecas+"\n"+
@@ -146,6 +147,13 @@ public class Xogador {
             if(c.getTipoCasilla() == tipo)
                 numCasillas++;
         return numCasillas;
+    }
+
+    /**
+     * @return Devolve se o xogador está en bancarrota
+     */
+    public boolean enBancarrota(){
+        return (this.estadoXogador==EstadoXogador.BANCARROTA);
     }
 
     /**
@@ -286,16 +294,16 @@ public class Xogador {
     /**
      * @return O xogador está en bancarrota
      */
-    public boolean isEnBancarrota() {
-        return enBancarrota;
+    public EstadoXogador estadoXogador() {
+        return estadoXogador;
     }
 
     /**
      * Establece se o xogoador está ou non en bancarrota
-     * @param enBancarrota
+     * @param estadoXogador
      */
-    public void setEnBancarrota(boolean enBancarrota) {
-        this.enBancarrota = enBancarrota;
+    public void setEstadoXogador(EstadoXogador estadoXogador) {
+        this.estadoXogador = estadoXogador;
     }
 
     /**
@@ -322,7 +330,7 @@ public class Xogador {
 
         return "{\n\tNome:" +this.nome+ ",\n"+
                 "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ ((this.enBancarrota)?"BANCARROTA":this.fortuna) + ",\n"+
+                "\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna) + ",\n"+
                 "}";
     }
 
