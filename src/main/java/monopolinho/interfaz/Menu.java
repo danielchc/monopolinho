@@ -131,9 +131,31 @@ public class Menu {
      * Este metodo mostra por pantalla todos os comandos dispoñibles.
      */
     private void mostrarComandos(){
-        String comandos="\n\nComandos dispoñibles:\n\t+ xogador   (indica quen ten turno)\n\t+ listar <xogadores/avatares/enventa/edificios/edificios <grupo>>\n\t+ lanzar dados"+
-                "\n\t+ acabar turno\n\t+ salir carcel\n\t+ describir <casilla>\n\t+ describir xogador <nome>\n\t+ describir avatar <avatar>"+
-                "\n\t+ comprar <casilla>\n\t+ edificar <casa/hotel/piscina/pista>\n\t+ vender <casa/hotel/piscina/pista> <casilla> <numero>\n\t+ bancarrota (declara o xogador en bancarrota)\n\t+ hipotecar <casilla>\n\t+ deshipotecar <casilla>\n\t+ ver taboeiro\n\t+ sair  (sae do xogo)\n\t+ comandos  (mostra todos os comandos)";
+        String comandos="\n\nComandos dispoñibles:" +
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"xogador" )+"\tIndica o xogador que ten o turno ten turno)"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar" )+
+                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar xogadores" )+"\tMostra os xogadores"+
+                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar avatares" )+"\tMostra os avatares dos xogadores"+
+                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar enventa" )+"\tMostra as propiedades en venta"+
+                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar edificios" )+"\tMostra os edificios"+
+                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar edificios <grupo>" )+"\tMostra os edificios dun grupo"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"lanzar dados")+ "\tLanza os dados"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"acabar turno")+ "\tAcaba o turno"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair" )+"\tSae do xogo"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair carcel")+"\tO xogador sae do cárcere pagando unha tasa"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir <casilla>" )+"\tDescribe unha casilla"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir xogador <nome>" )+"\tDescribe un xogador"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir avatar <avatar>")+"\tDescribe un avatar"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comprar <casilla>" )+"\tCompra unha casilla"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"edificar <casa/hotel/piscina/pista>" )+"\tConstrue un edificio"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"vender <casa/hotel/piscina/pista> <casilla> <numero>" )+"\tVende un edificio"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"bancarrota" )+ "\tDeclara o xogador en bancarrota"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"hipotecar <casilla>" )+"\tHipoteca unha propiedade"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"deshipotecar <casilla>" )+"\tDeshipoteca unha propiedade"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas" )+"\tMostra as estadisticas do xogo"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas <xogador>" )+"\tMostra as estadisticas do xogo"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"ver taboeiro" )+"\tMostra a representación do taboeiro"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos")+"\tMostra esta mensaxe de axuda";
         System.out.println(comandos);
     }
 
@@ -165,6 +187,8 @@ public class Menu {
                 break;
             case "listar":
                 if(cmds.length<2){
+                    System.out.println("Sintaxe: listar <xogadores/avatares/enventa/edificios>");
+                    System.out.println("Sintaxe: listar <edificios> <grupo>");
                     return;
                 }
                 switch (cmds[1].toLowerCase()){
@@ -179,12 +203,10 @@ public class Menu {
                         xogo.listarCasillaEnVenta();
                         break;
                     case "edificios":
-
                         if(cmds.length==3){
                             xogo.listarEdificiosGrupo(cmds[2]);
                             return;
                         }
-
                         xogo.listarEdificios();
                         break;
                     default:
@@ -216,14 +238,15 @@ public class Menu {
                 }else if (cmds.length==2){
                     xogo.salirCarcel();
                 }else{
-                    System.out.println("Sintaxe: salir carcel\nsalir");
+                    System.out.println("Sintaxe: sair carcel");
+                    System.out.println("Sintaxe: sair");
                     return;
                 }
                 break;
             case "describir":
                 if(cmds.length<2){
-                    System.out.println("Sintaxe describir <xogador/avatar> <nome>");
-                    System.out.println("Sintaxe describir <casilla>");
+                    System.out.println("Sintaxe: describir <xogador/avatar> <nome>");
+                    System.out.println("Sintaxe: describir <casilla>");
                     return;
                 }
                 switch (cmds[1]){
@@ -255,25 +278,22 @@ public class Menu {
                 xogo.comprarCasilla(cmds);
                 break;
             case "edificar":
-                if(cmds.length!=2){
-                    System.out.println("Sintaxe: edificar <casa/hotel/piscina/pista>");
-                }else{
+                if(cmds.length==2){
                     switch (cmds[1]){
                         case "casa":
                             xogo.edificarCasa();
-                            break;
+                            return;
                         case "hotel":
                             xogo.edificarHotel();
-                            break;
+                            return;
                         case "piscina":
                             xogo.edificarPiscina();
-                            break;
+                            return;
                         case "pista":
                             xogo.edificarPistaDeportes();
-                            break;
-                        default:
-                            System.out.println("Opción de edificar inválida.");
+                            return;
                     }
+                    System.out.println("Sintaxe: edificar <casa/hotel/piscina/pista>");
                 }
                 break;
             case "vender":
@@ -319,10 +339,11 @@ public class Menu {
                 xogo.mov(Integer.parseInt(cmds[1]));
                 break;
             case "comandos":
+            case "axuda":
                 mostrarComandos();
                 break;
             default:
-                System.out.println("Comando non recoñecido");
+                System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe ")+ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos"));
         }
     }
 }

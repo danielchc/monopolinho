@@ -32,6 +32,7 @@ public class Grupo {
      * @param grupo_nome nome do grupo
      * @param color color para a representación no taboeiro do grupo
      * @param valor valor total dos solares do grupo
+     * @param numeroSolares numero de solares do grupo
      */
     public Grupo(String grupo_nome, Valor.ReprColor color,float valor,int numeroSolares){
         if(grupo_nome==null || color==null){
