@@ -32,6 +32,7 @@ public class Casilla {
     private Taboeiro taboeiro;
     private boolean estaHipotecada;
     private ArrayList<Edificio> edificios;
+    private ArrayList<Avatar> historial;
 
 
     /**
@@ -48,6 +49,7 @@ public class Casilla {
         this.tipoCasilla=tipoCasilla;
         this.avatares=new ArrayList<Avatar>();
         this.edificios=new ArrayList<>();
+        this.historial=new ArrayList<>();
         this.grupo=null;
         this.estaHipotecada=false;
         this.valor =0;
@@ -123,9 +125,13 @@ public class Casilla {
      * @param a Avatar a colocar
      */
     public void engadirAvatar(Avatar a){
+        if(a==null){
+            return;
+        }
         if(!avatares.contains(a)){
             avatares.add(a);
         }
+        historial.add(a);
     }
 
     /**
@@ -134,9 +140,22 @@ public class Casilla {
      * @param a Avatar a eliminar da casilla
      */
     public void eliminarAvatar(Avatar a){
+        if(a==null){
+            return;
+        }
         if(avatares.contains(a)){
             avatares.remove(a);
         }
+    }
+
+    public int numeroVecesCaidas(Avatar a){
+        int contador=0;
+        for(Avatar x:this.historial){
+            if(x.equals(a)){
+                contador++;
+            }
+        }
+        return contador;
     }
 
     /**
@@ -470,6 +489,23 @@ public class Casilla {
     public void setEdificios(ArrayList<Edificio> edificios) {
         if(edificios!=null){
             this.edificios = edificios;
+        }
+    }
+
+    /**
+     * Devolve o historial de avatares que caeron na casilla
+     * @return Historial de avatares
+     */
+    public ArrayList<Avatar> getHistorial() {
+        return historial;
+    }
+
+    /**
+     * @param historial Historial de avatares
+     */
+    public void setHistorial(ArrayList<Avatar> historial) {
+        if(historial!=null){
+            this.historial = historial;
         }
     }
 

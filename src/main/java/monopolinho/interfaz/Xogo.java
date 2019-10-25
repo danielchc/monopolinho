@@ -280,15 +280,15 @@ public class Xogo {
      */
     public void edificarCasa(){
         Casilla actual=turno.getPosicion();
-
         if(!comprobarConstruir(actual,TipoEdificio.CASA)){
             return;
         }
 
-        if(!actual.getGrupo().tenTodoGrupo(turno)){  // FALTA COMPROBAR QUE SE CAERA POLO MENOS DUAS VECES NA CASILLA
+        if(!actual.getGrupo().tenTodoGrupo(turno) && actual.numeroVecesCaidas(turno.getAvatar())<2){
             System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
             return;
         }
+
 
         if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA))){
             System.err.println("Non tes suficiente diñeiro para edificar");
