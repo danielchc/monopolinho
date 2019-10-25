@@ -6,6 +6,10 @@ import monopolinho.tipos.TipoCartaAccion;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoGasto;
 
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Carta {
     private TipoCarta tipoCarta;
     private TipoCartaAccion tipoCartaAccion;
@@ -16,6 +20,11 @@ public class Carta {
         this.mensaxe = mensaxe;
     }
 
+    /**
+     * Interpreta a acción ao levantar esa carta
+     * @param xogo
+     * @return Devolve unha String coa información interpretada
+     */
     public String interpretarCarta(Xogo xogo){
         Xogador turno=xogo.getTurno();
         float dinheiroPagar;
@@ -106,26 +115,48 @@ public class Carta {
         return mensaxe;
     }
 
+    /**
+     * @return Devolve o Tipo de carta
+     */
     public TipoCarta getTipoCarta() {
         return tipoCarta;
     }
 
+    /**
+     * Establece o tipo de Carta
+     * @param tipoCarta
+     */
     public void setTipoCarta(TipoCarta tipoCarta) {
         this.tipoCarta = tipoCarta;
     }
 
+    /**
+     * Establece a acción da carta
+     * @return
+     */
     public TipoCartaAccion getTipoCartaAccion() {
         return tipoCartaAccion;
     }
 
+    /**
+     * Establece o tipo de acción da carta
+     * @param tipoCartaAccion
+     */
     public void setTipoCartaAccion(TipoCartaAccion tipoCartaAccion) {
         this.tipoCartaAccion = tipoCartaAccion;
     }
 
+    /**
+     * @return Devolve o mensaxe da Carta
+     */
     public String getMensaxe() {
         return mensaxe;
     }
 
+    /**
+     * Establece o mensaxe da carta
+     * @param mensaxe
+     */
     public void setMensaxe(String mensaxe) {
         this.mensaxe = mensaxe;
     }

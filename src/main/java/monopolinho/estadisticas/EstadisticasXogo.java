@@ -7,13 +7,42 @@ import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
 
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
+
 public class EstadisticasXogo {
     Xogo xogo;
 
+    /**
+     * Contructor de estadisticas
+     * @param xogo
+     */
     public EstadisticasXogo(Xogo xogo) {
         this.xogo = xogo;
     }
 
+    /**
+     * @return Devolve a casilla máis rentable
+     */
+    public Casilla getCasillaMaisRentable(){
+        Casilla maisRentable=null;
+        float alquileres=0;
+        for(ArrayList<Casilla> zona:xogo.getTaboeiro().getCasillas()){
+            for(Casilla c:zona){
+                if (c.getEstadisticas().getAlquileresPagados()>alquileres){
+                    alquileres=c.getEstadisticas().getAlquileresPagados();
+                    maisRentable=c;
+                }
+            }
+        }
+        return maisRentable;
+    }
+
+    /**
+     * @return Devolve o grupo máis rentable
+     */
     public Grupo getGrupoMaisRentable(){
         float valorAlquilerAcumulado=0,valorAlquilerMaximo=0;
 
@@ -28,20 +57,10 @@ public class EstadisticasXogo {
         }
         return grupoMaisRentable;
     }
-    public Casilla getCasillaMaisRentable(){
-        Casilla maisRentable=null;
-        float alquileres=0;
-        for(ArrayList<Casilla> zona:xogo.getTaboeiro().getCasillas()){
-            for(Casilla c:zona){
-                if (c.getEstadisticas().getAlquileresPagados()>alquileres){
-                    alquileres=c.getEstadisticas().getAlquileresPagados();
-                    maisRentable=c;
-                }
-            }
-        }
-        return maisRentable;
-    }
-    
+
+    /**
+     * @return Devolve o Xogador coa forturna máis alta
+     */
     public Xogador getXogadorEnCabeza(){
         Xogador enCabeza=null;
         float fortunaMaxima=0;
@@ -54,6 +73,9 @@ public class EstadisticasXogo {
         return enCabeza;
     }
 
+    /**
+     * @return Devolve o Xogador que lazou máis veces os dados
+     */
     public Xogador getMaisLanzamentosDados(){
         Xogador enCabeza=null;
         int dados=0;
@@ -66,6 +88,9 @@ public class EstadisticasXogo {
         return enCabeza;
     }
 
+    /**
+     * @return Devolve o xogador que deu máis voltas o taboeiro
+     */
     public Xogador getMaisVoltas(){
         Xogador enCabeza=null;
         int voltaTaboeiro=0;
@@ -78,6 +103,9 @@ public class EstadisticasXogo {
         return enCabeza;
     }
 
+    /**
+     * @return Devolve a casilla máis frecuentada
+     */
     public Casilla getCasillaMaisFrecuentada(){
         Casilla maisFrecuentada=null;
         int visitas=0;
@@ -92,6 +120,9 @@ public class EstadisticasXogo {
         return maisFrecuentada;
     }
 
+    /**
+     * @return Devolve as estadisticas formatedas
+     */
     @Override
     public String toString() {
         return "{" +

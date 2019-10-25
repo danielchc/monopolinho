@@ -43,6 +43,11 @@ public class Xogo {
         cartasSorte=new Baralla(TipoCarta.SORTE);
         estadisticasXogo=new EstadisticasXogo(this);
     }
+
+    /**
+     * Carga o xogo con uns xogadores creados fora
+     * @param xogadores
+     */
     public Xogo(ArrayList<Xogador> xogadores){
         this();
         this.xogadores=xogadores;
@@ -139,8 +144,6 @@ public class Xogo {
             System.out.println(x.describir());
     }
 
-
-
     /**
      * Este metodo imprime todas as casillas en venta.
      */
@@ -225,6 +228,10 @@ public class Xogo {
         System.out.println(taboeiro);
     }
 
+    /**
+     * Mostra as estadisticas para un xogador
+     * @param nome
+     */
     public void mostrarEstadisticasXogador(String nome){
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
@@ -235,6 +242,9 @@ public class Xogo {
         System.out.println("Non se atopou o xogador "+nome);
     }
 
+    /**
+     * Mostra as estadisticas do Xogo
+     */
     public void mostrarEstadisticasXogo(){
         System.out.println(estadisticasXogo);
     }
@@ -407,6 +417,12 @@ public class Xogo {
     }
 
 
+    /**
+     * Vende un edificio
+     * @param tipoEdif tipo de edificio
+     * @param casilla Casilla
+     * @param numero Número de edificios a vender
+     */
     public void venderEdificio(String tipoEdif,String casilla,int numero){
         TipoEdificio tipo=interpretarEdificio(tipoEdif);
         Casilla c=taboeiro.buscarCasilla(casilla);
@@ -708,6 +724,12 @@ public class Xogo {
         }
         return true;
     }
+
+    /**
+     * Interpreta as cartas de Comunidade e Sorte
+     * @param tipoCasilla
+     * @return
+     */
     private String preguntarCarta(TipoCasilla tipoCasilla) {
         Baralla b=(tipoCasilla==TipoCasilla.SORTE)?this.cartasSorte:this.cartasComunidade;
         b.barallar();

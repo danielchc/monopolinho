@@ -57,7 +57,6 @@ public class Avatar {
         this.voltasTaboeiro++;
     }
 
-
     /**
      * Este método xera un identificador aleatorio
      */
@@ -66,7 +65,6 @@ public class Avatar {
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }
 
-
     /**
      * @return posicion do avatar
      */
@@ -74,14 +72,12 @@ public class Avatar {
         return posicion;
     }
 
-
     /**
      * @return tipo de movemento do avatar
      */
     public TipoMovemento getTipo() {
         return tipo;
     }
-
 
     /**
      * @return xogador que ten o avatar

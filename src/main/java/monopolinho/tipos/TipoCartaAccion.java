@@ -1,9 +1,8 @@
 package monopolinho.tipos;
-
-import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Casilla;
-import monopolinho.obxetos.Xogador;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public enum  TipoCartaAccion {
     S_VIAXE_PLACER,
     S_VENDER_BILLETE,

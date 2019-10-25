@@ -290,10 +290,17 @@ public class Casilla {
         }
     }
 
+    /**
+     * @return Obten as estadisticas dunha casilla
+     */
     public EstadisticasCasilla getEstadisticas() {
         return estadisticasCasilla;
     }
 
+    /**
+     * Establece a estadisticas dunha casilla
+     * @param estadisticasCasilla
+     */
     public void setEstadisticas(EstadisticasCasilla estadisticasCasilla) {
         this.estadisticasCasilla = estadisticasCasilla;
     }

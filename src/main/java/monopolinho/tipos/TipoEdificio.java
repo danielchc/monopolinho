@@ -1,8 +1,8 @@
 package monopolinho.tipos;
-
-import monopolinho.obxetos.Casilla;
-import monopolinho.obxetos.Xogador;
-
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public enum TipoEdificio{
     CASA,
     HOTEL,

@@ -3,6 +3,10 @@ package monopolinho.obxetos;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public class Edificio {
     private TipoEdificio tipoEdificio;
     private Xogador propietario;
