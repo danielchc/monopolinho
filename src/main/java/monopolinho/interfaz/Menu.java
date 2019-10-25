@@ -307,6 +307,12 @@ public class Menu {
                 }
                 xogo.mostrarTaboeiro();
                 break;
+            case "estadisticas":
+                if(cmds.length==2){
+                   xogo.mostrarEstadisticasXogador(cmds[1]);
+                   return;
+                }
+                break;
             case "mov":
                 //BORRARR
                 xogo.mov(Integer.parseInt(cmds[1]));

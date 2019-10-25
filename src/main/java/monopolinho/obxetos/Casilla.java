@@ -3,14 +3,9 @@ package monopolinho.obxetos;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.tipos.EstadoXogador;
-import monopolinho.tipos.TipoCarta;
-import monopolinho.tipos.TipoCasilla;
-import monopolinho.tipos.TipoEdificio;
+import monopolinho.tipos.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
 
 /**
  * Clase casilla
@@ -564,8 +559,8 @@ public class Casilla {
                 }else{
                     aPagar=next.totalPagoAlquiler();
                 }
-                if(turno.quitarDinheiro(aPagar)){
-                    next.getDono().engadirDinheiro(aPagar);
+                if(turno.quitarDinheiro(aPagar, TipoGasto.ALQUILER)){
+                    next.getDono().engadirDinheiro(aPagar,TipoGasto.ALQUILER);
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
                     return mensaxe;
                 }else{
@@ -595,8 +590,8 @@ public class Casilla {
             }else if(turno.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
                 aPagar*=10.0f;
             }
-            if(turno.quitarDinheiro(aPagar)){
-                next.getDono().engadirDinheiro(aPagar);
+            if(turno.quitarDinheiro(aPagar,TipoGasto.OTROS)){
+                next.getDono().engadirDinheiro(aPagar,TipoGasto.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
             }else{
                 //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
@@ -621,8 +616,8 @@ public class Casilla {
         if((!next.getDono().equals(turno)) && (!next.getDono().equals(xogo.getBanca()))){
             float aPagar=0;
             aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
-            if(turno.quitarDinheiro(aPagar)){
-                next.getDono().engadirDinheiro(aPagar);
+            if(turno.quitarDinheiro(aPagar,TipoGasto.OTROS)){
+                next.getDono().engadirDinheiro(aPagar,TipoGasto.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
             }else{
                 //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
@@ -643,7 +638,7 @@ public class Casilla {
      */
     private String interpretarIRCARCEL(Xogador turno,Xogo xogo){
         String mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
-        turno.setTurnosNaCarcel(3);
+        turno.meterNoCarcere();
         turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
         return mensaxe;
     }
@@ -656,7 +651,7 @@ public class Casilla {
     private String interpretarPARKING(Xogador turno,Casilla next,Xogo xogo){
         String mensaxe="";
         mensaxe="O xogador "+ turno.getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
-        turno.engadirDinheiro(xogo.getTaboeiro().getBote());
+        turno.engadirDinheiro(xogo.getTaboeiro().getBote(),TipoGasto.BOTE_PREMIO);
         xogo.getTaboeiro().setBote(0);
         turno.setPosicion(next);
         return mensaxe;
@@ -670,7 +665,7 @@ public class Casilla {
     private String interpretarIMPOSTO(Xogador turno,Casilla next,Xogo xogo){
         String mensaxe="";
         mensaxe="O xogador "+ turno.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
-        if(turno.quitarDinheiro(next.getImposto())){
+        if(turno.quitarDinheiro(next.getImposto(),TipoGasto.IMPOSTO)){
             xogo.getTaboeiro().engadirBote(next.getImposto());
         }else{
             System.err.println("O xogador "+turno.getNome()+" non ten suficiente dinheiro para pagar o imposto");
@@ -693,7 +688,7 @@ public class Casilla {
         for(Edificio e:this.edificios){
             edificios+=e+", ";
         }
-        edificios+="]";
+        edificios=(edificios.length()==1)?"[]":edificios.substring(0,edificios.length()-2)+"]";
 
         if(this.avatares!=null) {
             for (Avatar a : this.avatares){

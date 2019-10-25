@@ -3,6 +3,7 @@ package monopolinho.obxetos;
 import monopolinho.axuda.Valor;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.TipoGasto;
 import monopolinho.tipos.TipoMovemento;
 
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ public class Xogador {
     private String nome;
     private Avatar avatar;
     private float fortuna;
-    private float dineroGastado;
     private ArrayList<Casilla> propiedades;
     private boolean tenTurno;
     private int turnosNaCarcel;
     private boolean podeLanzar;
     private int vecesTiradas;
     private EstadoXogador estadoXogador;
+    private Estadisticas estadisticas;
 
 
     /**
@@ -31,12 +32,12 @@ public class Xogador {
     public Xogador(){
         this.nome="Banca";
         this.avatar=null;
-        this.dineroGastado=0.0f;
         this.fortuna=0.0f;
         this.turnosNaCarcel=0;
         this.propiedades=new ArrayList<>();
         this.podeLanzar=false;
         this.estadoXogador=EstadoXogador.ESPECIAL;
+        this.estadisticas=new Estadisticas();
     }
 
     /**
@@ -47,12 +48,12 @@ public class Xogador {
     public Xogador(String nome, TipoMovemento tipoMovemento){
         this.nome=nome;
         this.fortuna= Valor.FORTUNA_INCIAL;
-        this.dineroGastado=0;
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>();
         this.podeLanzar=true;
         this.vecesTiradas=0;
         this.estadoXogador=EstadoXogador.NORMAL;
+        this.estadisticas=new Estadisticas();
     }
 
     /**
@@ -90,7 +91,17 @@ public class Xogador {
      * Este metodo engade diñeiro ao xogador.
      * @param dinero Engade diñeiro a un usuario
      */
-    public void engadirDinheiro(float dinero){
+    public void engadirDinheiro(float dinero, TipoGasto tipoGasto){
+        switch (tipoGasto){
+            case BOTE_PREMIO:
+                this.estadisticas.engadirPremiosInversionesOBote(dinero);
+                break;
+            case VOLTA_COMPLETA:
+                this.estadisticas.engadirPasarPolaCasillaDeSalida(dinero);
+                break;
+            case ALQUILER:
+                this.estadisticas.engadirCobroDeAlquileres(dinero);
+        }
         fortuna+=dinero;
     }
 
@@ -100,40 +111,25 @@ public class Xogador {
      * @param dinero diñeiro a quitar
      * @return Delvolve se ten cartos para gastar
      */
-    public boolean quitarDinheiro(float dinero){
-        if(fortuna<dinero)return false;
-        this.fortuna-=dinero;
-        this.dineroGastado+=dinero;
-        return true;
-    }
-
-    /**
-     * @return Fai unha descripción completa do xogador
-     */
-    public String describir(){
-        String listaprop="[";
-        String listaHipotecas="[";
-        if(this.propiedades.size()!=0)
-            for(Casilla c:this.propiedades)
-                if(!c.getEstaHipotecada())listaprop+="\n\t\t"+c.getNome()+",";
-                else listaHipotecas+="\n\t\t"+c.getNome()+",";
-        listaprop+="\n\t]";
-        listaHipotecas+="\n\t]";
-        String edificios="[";
-        for(Casilla c:this.propiedades){
-            for(Edificio e:c.getEdificios()){
-                edificios+=e+" ("+e.getPosicion().getNome()+"), ";
-            }
+    public boolean quitarDinheiro(float dinero,TipoGasto tipoGasto){
+        if(fortuna<dinero)
+            return false;
+        switch (tipoGasto){
+            case IMPOSTO:
+            case TASAS:
+                this.estadisticas.engadirPagoTasasEImpuestos(dinero);
+                break;
+            case COMPRA:
+            case EDIFICAR:
+                this.estadisticas.engadirDineroInvertido(dinero);
+                break;
+            case ALQUILER:
+                this.estadisticas.engadirPagoDeAlquileres(dinero);
+                break;
         }
-        edificios+="]";
-        return "{\n\tNome:" +this.nome+ ",\n"+
-                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna)+ ",\n"+
-                "\tGastos:"+  this.dineroGastado +",\n"+
-                "\tPropiedades:"+listaprop+"\n"+
-                "\tHipotecas:"+listaHipotecas+"\n"+
-                "\tEdificios:"+edificios+"\n"+
-                "}";
+        this.estadisticas.engadirDineroGastado(dinero);
+        this.fortuna-=dinero;
+        return true;
     }
 
 
@@ -154,6 +150,47 @@ public class Xogador {
      */
     public boolean enBancarrota(){
         return (this.estadoXogador==EstadoXogador.BANCARROTA);
+    }
+
+    public void meterNoCarcere(){
+        this.turnosNaCarcel=3;
+        this.estadisticas.engadirVecesCarcel(1);
+    }
+
+    public void sairDoCarcere(){
+        this.turnosNaCarcel=0;
+    }
+
+    /**
+     * @return Fai unha descripción completa do xogador
+     */
+    public String describir(){
+        String listaprop="[";
+        String listaHipotecas="[";
+        String edificios="[";
+
+
+        if(this.propiedades.size()!=0)
+            for(Casilla c:this.propiedades) {
+                if (!c.getEstaHipotecada()) listaprop += c.getNome() + ", ";
+                else listaHipotecas += c.getNome() + ", ";
+                for(Edificio e:c.getEdificios()){
+                    edificios+=e+" ("+e.getPosicion().getNome()+"), ";
+                }
+            }
+
+        listaHipotecas=(listaHipotecas.length()==1)?"[]":listaHipotecas.substring(0,listaHipotecas.length()-2)+"]";
+        listaprop=(listaprop.length()==1)?"[]":listaprop.substring(0,listaprop.length()-2)+"]";
+        edificios=(edificios.length()==1)?"[]":edificios.substring(0,edificios.length()-2)+"]";
+
+        return "{\n\tNome:" +this.nome+ ",\n"+
+                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
+                "\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna)+ ",\n"+
+                "\tGastos:"+  this.estadisticas.getDineroGastado() +",\n"+
+                "\tPropiedades:"+listaprop+"\n"+
+                "\tHipotecas:"+listaHipotecas+"\n"+
+                "\tEdificios:"+edificios+"\n"+
+                "}";
     }
 
     /**
@@ -196,20 +233,6 @@ public class Xogador {
      */
     public void setFortuna(float fortuna) {
         this.fortuna = fortuna;
-    }
-
-    /**
-     * @return Obtén o diñeiro gastado polo xogador
-     */
-    public float getDineroGastado() {
-        return dineroGastado;
-    }
-
-    /**
-     * @param dineroGastado Establece o diñeiro gastado polo xogador
-     */
-    public void setDineroGastado(float dineroGastado) {
-        this.dineroGastado = dineroGastado;
     }
 
     /**
@@ -257,9 +280,9 @@ public class Xogador {
      * Establece o número de turnos na cárcel
      * @param turnosNaCarcel E
      */
-    public void setTurnosNaCarcel(int turnosNaCarcel) {
+    /*public void setTurnosNaCarcel(int turnosNaCarcel) {
         this.turnosNaCarcel = turnosNaCarcel;
-    }
+    }*/
 
     /**
      * @return Comproba se o xogador pode lanzar
@@ -319,6 +342,15 @@ public class Xogador {
      */
     public Casilla getPosicion(){
         return this.avatar.getPosicion();
+    }
+
+
+    public Estadisticas getEstadisticas() {
+        return estadisticas;
+    }
+
+    public void setEstadisticas(Estadisticas estadisticas) {
+        this.estadisticas = estadisticas;
     }
 
     /**

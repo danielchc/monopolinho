@@ -4,6 +4,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.tipos.TipoCarta;
 import monopolinho.tipos.TipoCartaAccion;
 import monopolinho.tipos.TipoEdificio;
+import monopolinho.tipos.TipoGasto;
 
 public class Carta {
     private TipoCarta tipoCarta;
@@ -28,12 +29,12 @@ public class Carta {
             //6. Devolución de Hacienda. Cobra 500000€.
             case S_VENDER_BILLETE:
             case C_DEVOLUCION_HACIENDA:
-                turno.engadirDinheiro( 500000); //CTE?
+                turno.engadirDinheiro( 500000, TipoGasto.BOTE_PREMIO); //CTE?
                 return mensaxe;
 
             //6. ¡Has ganado el bote de la lotería! Recibe 1000000€.
             case S_BOTE:
-                turno.engadirDinheiro(1000000); //CTE?
+                turno.engadirDinheiro(1000000, TipoGasto.BOTE_PREMIO); //CTE?
                 return mensaxe;
 
             //8. El  aumento  del  impuesto  sobre  bienes  inmuebles  afecta  a  todas  tus  propiedades.  Paga  400000€  por casa, 1150000M€ por hotel, 200.000€ por piscina y 750000€ por pista de deportes.
@@ -45,7 +46,7 @@ public class Carta {
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*200000;
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*750000;
                 }
-                if(!turno.quitarDinheiro(aPagar)){
+                if(!turno.quitarDinheiro(aPagar,TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar");
                     return "";
                 }
@@ -54,12 +55,12 @@ public class Carta {
             //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.
             case S_PRESIDENTE:
                 dinheiroPagar=250000f;
-                if(!turno.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores())){
+                if(!turno.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(),TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
                     return "";
                 }
                 for(Xogador x:xogo.getXogadores()){
-                    x.engadirDinheiro(dinheiroPagar);
+                    x.engadirDinheiro(dinheiroPagar,TipoGasto.OTROS);
                 }
                 return mensaxe;
 
@@ -71,32 +72,32 @@ public class Carta {
             //2. Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla de Salida y sin cobrar los 2000000€.
             case C_FRAUDE_IDENTIDAD:
                 turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
-                turno.setTurnosNaCarcel(3);
+                turno.meterNoCarcere();
                 return mensaxe;
 
             //8. Alquilas a tus compañeros una villa en Cannes durante una semana. Paga 200000€ a cada jugador. 4
             case C_ALQUILAR_VILLA:
                 dinheiroPagar=200000f;
-                if(!turno.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores())){
+                if(!turno.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(),TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
                     return mensaxe;
                 }
                 for(Xogador x:xogo.getXogadores()){
-                    x.engadirDinheiro(dinheiroPagar);
+                    x.engadirDinheiro(dinheiroPagar,TipoGasto.OTROS);
                 }
                 return mensaxe;
 
             //4. Tu compañía de Internet obtiene beneficios. Recibe 2000000€.
             case C_BENEFICIOS_INTERNET:
-                turno.engadirDinheiro( 2000000);
+                turno.engadirDinheiro( 2000000,TipoGasto.BOTE_PREMIO);
                 return mensaxe;
 
             //7. Retrocede hasta Valencia para comprar antigüedades exóticas.
             case C_RETROCEDER_PONTEPEDRA:
-                turno.setPosicion((xogo.getTaboeiro().getCasilla(3)));
+                turno.setPosicion((xogo.getTaboeiro().getCasilla(8)));
                 return mensaxe + turno.getPosicion().interpretarCasilla(xogo,0);
             case C_TERMAS:
-                if(!turno.quitarDinheiro(500000)){
+                if(!turno.quitarDinheiro(500000, TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar a acción");
                     return mensaxe;
                 }

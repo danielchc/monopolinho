@@ -12,3 +12,7 @@ edificar casa
 edificar casa
 edificar casa
 edificar casa
+describir xogador Dani
+describir SADA
+describir PONTEPEDRA
+estadisticas Dani

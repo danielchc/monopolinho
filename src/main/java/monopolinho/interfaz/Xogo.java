@@ -177,9 +177,9 @@ public class Xogo {
             System.out.println("O xogador non está no cárcere");
             return;
         }
-        if(turno.quitarDinheiro(Valor.SAIR_CARCERE)){
+        if(turno.quitarDinheiro(Valor.SAIR_CARCERE,TipoGasto.OTROS)){
             System.out.println(turno.getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
-            turno.setTurnosNaCarcel(0);
+            turno.sairDoCarcere();
             taboeiro.engadirBote(Valor.SAIR_CARCERE);
         }else{
             System.err.println("Non tes o suficiente diñeiro para saír do cárcere");
@@ -204,12 +204,12 @@ public class Xogo {
             System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }
-        if(!turno.quitarDinheiro(comprar.getValor())){
+        if(!turno.quitarDinheiro(comprar.getValor(),TipoGasto.COMPRA)){
             System.err.println("Non tes suficiente diñeiro");
             return ;
         }
 
-        comprar.getDono().engadirDinheiro(comprar.getValor());
+        comprar.getDono().engadirDinheiro(comprar.getValor(),TipoGasto.VENTA);
         comprar.setDono(turno);
         System.out.println("O usuario "+turno.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
@@ -220,6 +220,16 @@ public class Xogo {
      */
     public void mostrarTaboeiro(){
         System.out.println(taboeiro);
+    }
+
+    public void mostrarEstadisticasXogador(String nome){
+        for(Xogador x:this.xogadores){
+            if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
+                System.out.println(x.getEstadisticas());
+                return;
+            }
+        }
+        System.out.println("Non se atopou o xogador "+nome);
     }
 
     /**
@@ -236,7 +246,7 @@ public class Xogo {
 
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno) && !c.getEstaHipotecada()){
             c.setEstaHipotecada(true);
-            c.getDono().engadirDinheiro(c.getHipoteca());
+            c.getDono().engadirDinheiro(c.getHipoteca(),TipoGasto.OTROS);
             System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
         }
         else{
@@ -255,7 +265,7 @@ public class Xogo {
 
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
-            c.getDono().quitarDinheiro(c.getHipoteca());
+            c.getDono().quitarDinheiro(c.getHipoteca(),TipoGasto.OTROS);
             System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Recibes "+c.getHipoteca());
         }
         else{
@@ -290,7 +300,7 @@ public class Xogo {
         }
 
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
@@ -329,7 +339,7 @@ public class Xogo {
             }
         }
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
@@ -354,7 +364,7 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
@@ -379,7 +389,7 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES))){
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
@@ -432,7 +442,7 @@ public class Xogo {
             c.eliminarEdificio(e);
         }
 
-        turno.engadirDinheiro(valor);
+        turno.engadirDinheiro(valor,TipoGasto.OTROS);
         System.out.println("Vendiches "+totalEdifs+" edificios de tipo "+tipo+" e recibes "+valor);
     }
 
@@ -458,7 +468,7 @@ public class Xogo {
             if((current.getPosicionIndex()+valorDados)>39) {
                 mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getAvatar().voltaTaboeiro();
-                turno.engadirDinheiro(Valor.VOLTA_COMPLETA);
+                turno.engadirDinheiro(Valor.VOLTA_COMPLETA,TipoGasto.VOLTA_COMPLETA);
             }
         }
 
@@ -526,7 +536,7 @@ public class Xogo {
                 turno.setPodeLanzar(false);
                 return;
             }else{
-                turno.setTurnosNaCarcel(0);
+                turno.sairDoCarcere();
                 turno.setVecesTiradas(0);
                 System.out.println("Sacasches dados dobles. Tes que volver a lanzar.");
                 return;
@@ -536,7 +546,7 @@ public class Xogo {
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
             }
             else if(dados.sonDobles() && turno.getVecesTiradas()==3){
-                turno.setTurnosNaCarcel(3);
+                turno.meterNoCarcere();
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
                 System.err.println("Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
