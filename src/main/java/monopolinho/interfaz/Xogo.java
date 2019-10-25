@@ -348,8 +348,6 @@ public class Xogo {
         if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
             return;
         }
-        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.CASA));
-        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL));
 
         if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
             System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
@@ -395,8 +393,7 @@ public class Xogo {
     public void venderEdificio(String tipoEdif,String casilla,int numero){
         TipoEdificio tipo=interpretarEdificio(tipoEdif);
         Casilla c=taboeiro.buscarCasilla(casilla);
-
-        if(tipo==TipoEdificio.INCORRECTO){
+        if(tipo==null){
             System.err.println("Tipo de edificio incorrecto.");
             return;
         }
@@ -438,28 +435,6 @@ public class Xogo {
         turno.engadirDinheiro(valor);
         System.out.println("Vendiches "+totalEdifs+" edificios de tipo "+tipo+" e recibes "+valor);
     }
-
-
-    /**
-     * Convirte un String a un TipoEdificio
-     * @param tipo String edificio a convertir
-     * @return Tipo de Edificio
-     */
-    private TipoEdificio interpretarEdificio(String tipo){
-        switch (tipo){
-            case "casa":
-                return TipoEdificio.CASA;
-            case "hotel":
-                return TipoEdificio.HOTEL;
-            case "piscina":
-                return TipoEdificio.PISCINA;
-            case "pista":
-                return TipoEdificio.PISTA_DEPORTES;
-            default:
-                return TipoEdificio.INCORRECTO;
-        }
-    }
-
 
     /**
      * Mostra a información do turno actual
@@ -725,6 +700,25 @@ public class Xogo {
             nCarta=new Scanner(System.in).nextInt();
         }while(nCarta<1 || nCarta>6);
         return b.getCarta(nCarta-1).interpretarCarta(this);
+    }
+
+    /**
+     * Convirte un String a un TipoEdificio
+     * @param tipo String edificio a convertir
+     * @return Tipo de Edificio
+     */
+    private TipoEdificio interpretarEdificio(String tipo){
+        switch (tipo){
+            case "casa":
+                return TipoEdificio.CASA;
+            case "hotel":
+                return TipoEdificio.HOTEL;
+            case "piscina":
+                return TipoEdificio.PISCINA;
+            case "pista":
+                return TipoEdificio.PISTA_DEPORTES;
+        }
+        return null;
     }
 
     //BORRAR

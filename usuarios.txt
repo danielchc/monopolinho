@@ -1,2 +1,14 @@
 crear jugador Dani pelota
 crear jugador David sombrero
+mov 1
+comprar GOIRIZ
+mov 2
+comprar SADA
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa

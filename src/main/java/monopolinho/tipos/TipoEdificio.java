@@ -8,5 +8,4 @@ public enum TipoEdificio{
     HOTEL,
     PISCINA,
     PISTA_DEPORTES,
-    INCORRECTO
 }

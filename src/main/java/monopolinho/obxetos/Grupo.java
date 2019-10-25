@@ -69,8 +69,6 @@ public class Grupo {
         return true;
     }
 
-
-
     /**
      * @return solares pertencentes a un grupo
      */
