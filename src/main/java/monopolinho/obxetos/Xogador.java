@@ -1,6 +1,7 @@
 package monopolinho.obxetos;
 
 import monopolinho.axuda.Valor;
+import monopolinho.estadisticas.EstadisticasXogador;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoGasto;
@@ -23,7 +24,7 @@ public class Xogador {
     private boolean podeLanzar;
     private int vecesTiradas;
     private EstadoXogador estadoXogador;
-    private Estadisticas estadisticas;
+    private EstadisticasXogador estadisticas;
 
 
     /**
@@ -37,7 +38,7 @@ public class Xogador {
         this.propiedades=new ArrayList<>();
         this.podeLanzar=false;
         this.estadoXogador=EstadoXogador.ESPECIAL;
-        this.estadisticas=new Estadisticas();
+        this.estadisticas=new EstadisticasXogador();
     }
 
     /**
@@ -53,7 +54,7 @@ public class Xogador {
         this.podeLanzar=true;
         this.vecesTiradas=0;
         this.estadoXogador=EstadoXogador.NORMAL;
-        this.estadisticas=new Estadisticas();
+        this.estadisticas=new EstadisticasXogador();
     }
 
     /**
@@ -345,11 +346,11 @@ public class Xogador {
     }
 
 
-    public Estadisticas getEstadisticas() {
+    public EstadisticasXogador getEstadisticas() {
         return estadisticas;
     }
 
-    public void setEstadisticas(Estadisticas estadisticas) {
+    public void setEstadisticas(EstadisticasXogador estadisticas) {
         this.estadisticas = estadisticas;
     }
 

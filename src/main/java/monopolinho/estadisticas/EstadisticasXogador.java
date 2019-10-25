@@ -1,6 +1,6 @@
-package monopolinho.obxetos;
+package monopolinho.estadisticas;
 
-public class Estadisticas {
+public class EstadisticasXogador {
     private float dineroGastado;
     private float dineroInvertido;
     private float pagoTasasEImpuestos;
@@ -10,7 +10,7 @@ public class Estadisticas {
     private float premiosInversionesOBote;
     private int vecesEnLaCarcel;
 
-    public Estadisticas() {
+    public EstadisticasXogador() {
         this.dineroInvertido=0;
         this.pagoTasasEImpuestos=0;
         this.pagoDeAlquileres=0;
