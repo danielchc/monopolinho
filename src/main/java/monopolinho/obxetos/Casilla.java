@@ -148,6 +148,11 @@ public class Casilla {
         }
     }
 
+    /**
+     * Este método conta as veces que caeu un avatar nunha casilla
+     * @param a Avatar a buscar
+     * @return Número de veces caídas
+     */
     public int numeroVecesCaidas(Avatar a){
         int contador=0;
         for(Avatar x:this.historial){
