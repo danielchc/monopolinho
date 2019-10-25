@@ -310,7 +310,8 @@ public class Menu {
             case "estadisticas":
                 if(cmds.length==2){
                    xogo.mostrarEstadisticasXogador(cmds[1]);
-                   return;
+                }else{
+                    xogo.mostrarEstadisticasXogo();
                 }
                 break;
             case "mov":

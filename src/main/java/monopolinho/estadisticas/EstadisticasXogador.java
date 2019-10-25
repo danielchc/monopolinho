@@ -9,6 +9,7 @@ public class EstadisticasXogador {
     private float pasarPolaCasillaDeSalida;
     private float premiosInversionesOBote;
     private int vecesEnLaCarcel;
+    private int vecesDados;
 
     public EstadisticasXogador() {
         this.dineroInvertido=0;
@@ -17,6 +18,7 @@ public class EstadisticasXogador {
         this.cobroDeAlquileres=0;
         this.pasarPolaCasillaDeSalida=0;
         this.premiosInversionesOBote=0;
+        this.vecesDados=0;
         this.vecesEnLaCarcel=0;
     }
 
@@ -47,8 +49,12 @@ public class EstadisticasXogador {
         this.premiosInversionesOBote+=engadir;
     }
 
-    public void engadirVecesCarcel(float engadir){
-        this.vecesEnLaCarcel+=engadir;
+    public void engadirVecesCarcel(){
+        this.vecesEnLaCarcel++;
+    }
+
+    public void engadirVecesDados(){
+        this.vecesDados++;
     }
 
     public float getDineroInvertido() {
@@ -113,6 +119,14 @@ public class EstadisticasXogador {
 
     public void setDineroGastado(float dineroGastado) {
         this.dineroGastado = dineroGastado;
+    }
+
+    public int getVecesLanzamentoDados() {
+        return vecesDados;
+    }
+
+    public void setVecesDados(int vecesDados) {
+        this.vecesDados = vecesDados;
     }
 
     @Override

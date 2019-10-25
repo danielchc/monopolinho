@@ -68,6 +68,7 @@ public class Xogador {
      * Este metodo aumenta en 1 as veces que tirou un xogador. Serve para saber se un xogador sacou triples.
      */
     public void aumentarVecesTiradas() {
+        this.estadisticas.engadirVecesDados();
         this.vecesTiradas++;
     }
 
@@ -155,7 +156,7 @@ public class Xogador {
 
     public void meterNoCarcere(){
         this.turnosNaCarcel=3;
-        this.estadisticas.engadirVecesCarcel(1);
+        this.estadisticas.engadirVecesCarcel();
     }
 
     public void sairDoCarcere(){
@@ -281,9 +282,9 @@ public class Xogador {
      * Establece o número de turnos na cárcel
      * @param turnosNaCarcel E
      */
-    /*public void setTurnosNaCarcel(int turnosNaCarcel) {
+    public void setTurnosNaCarcel(int turnosNaCarcel) {
         this.turnosNaCarcel = turnosNaCarcel;
-    }*/
+    }
 
     /**
      * @return Comproba se o xogador pode lanzar

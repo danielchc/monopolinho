@@ -1,6 +1,7 @@
 package monopolinho.interfaz;
 
 import monopolinho.axuda.Valor;
+import monopolinho.estadisticas.EstadisticasXogo;
 import monopolinho.obxetos.*;
 import monopolinho.tipos.*;
 
@@ -22,6 +23,7 @@ public class Xogo {
     private Baralla cartasSorte;
     private Baralla cartasComunidade;
     private boolean partidaComezada;
+    private EstadisticasXogo estadisticasXogo;
     /**
      * Constructor da clase Xogo.
      * Determina o turno.
@@ -39,6 +41,7 @@ public class Xogo {
         xogadores=new ArrayList<Xogador>();
         cartasComunidade=new Baralla(TipoCarta.COMUNIDADE);
         cartasSorte=new Baralla(TipoCarta.SORTE);
+        estadisticasXogo=new EstadisticasXogo(this);
     }
     public Xogo(ArrayList<Xogador> xogadores){
         this();
@@ -230,6 +233,10 @@ public class Xogo {
             }
         }
         System.out.println("Non se atopou o xogador "+nome);
+    }
+
+    public void mostrarEstadisticasXogo(){
+        System.out.println(estadisticasXogo);
     }
 
     /**
