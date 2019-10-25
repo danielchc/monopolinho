@@ -2,6 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.estadisticas.EstadisticasCasilla;
 import monopolinho.interfaz.Xogo;
 import monopolinho.tipos.*;
 
@@ -27,8 +28,7 @@ public class Casilla {
     private Taboeiro taboeiro;
     private boolean estaHipotecada;
     private ArrayList<Edificio> edificios;
-    private ArrayList<Avatar> historial;
-
+    private EstadisticasCasilla estadisticasCasilla;
 
     /**
      * Crea unha nova instancia de casilla
@@ -44,11 +44,11 @@ public class Casilla {
         this.tipoCasilla=tipoCasilla;
         this.avatares=new ArrayList<Avatar>();
         this.edificios=new ArrayList<>();
-        this.historial=new ArrayList<>();
         this.grupo=null;
         this.estaHipotecada=false;
-        this.valor =0;
+        this.valor=0;
         this.usoServizo=0;
+        this.estadisticasCasilla=new EstadisticasCasilla();
         switch (tipoCasilla){
             case SORTE:
                 this.colorCasilla= Valor.ReprColor.ANSI_RED_BOLD;
@@ -124,7 +124,7 @@ public class Casilla {
         if(!avatares.contains(a)){
             avatares.add(a);
         }
-        historial.add(a);
+        this.estadisticasCasilla.engadirAvatarHistorial(a);
     }
 
     /**
@@ -146,7 +146,7 @@ public class Casilla {
      */
     public int numeroVecesCaidas(Avatar a){
         int contador=0;
-        for(Avatar x:this.historial)
+        for(Avatar x:this.estadisticasCasilla.getHistorial())
             if(x.equals(a))
                 contador++;
         return contador;
@@ -290,21 +290,12 @@ public class Casilla {
         }
     }
 
-    /**
-     * Devolve o historial de avatares que caeron na casilla
-     * @return Historial de avatares
-     */
-    public ArrayList<Avatar> getHistorial() {
-        return historial;
+    public EstadisticasCasilla getEstadisticas() {
+        return estadisticasCasilla;
     }
 
-    /**
-     * @param historial Historial de avatares
-     */
-    public void setHistorial(ArrayList<Avatar> historial) {
-        if(historial!=null){
-            this.historial = historial;
-        }
+    public void setEstadisticas(EstadisticasCasilla estadisticasCasilla) {
+        this.estadisticasCasilla = estadisticasCasilla;
     }
 
     /**
@@ -560,6 +551,7 @@ public class Casilla {
                     aPagar=next.totalPagoAlquiler();
                 }
                 if(turno.quitarDinheiro(aPagar, TipoGasto.ALQUILER)){
+                    this.estadisticasCasilla.engadirAlquilerPagado(aPagar);
                     next.getDono().engadirDinheiro(aPagar,TipoGasto.ALQUILER);
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
                     return mensaxe;

@@ -2,6 +2,7 @@ package monopolinho.estadisticas;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Casilla;
+import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
 
 import java.util.ArrayList;
@@ -13,6 +14,34 @@ public class EstadisticasXogo {
         this.xogo = xogo;
     }
 
+    public Grupo getGrupoMaisRentable(){
+        float valorAlquilerAcumulado=0,valorAlquilerMaximo=0;
+
+        Grupo grupoMaisRentable=null;
+        for(Grupo g:xogo.getTaboeiro().getGrupos()){
+            valorAlquilerAcumulado=0;
+            for(Casilla c:g.getSolares())valorAlquilerAcumulado+=c.getEstadisticas().getAlquileresPagados();
+            if(valorAlquilerAcumulado>valorAlquilerMaximo){
+                valorAlquilerMaximo=valorAlquilerAcumulado;
+                grupoMaisRentable=g;
+            }
+        }
+        return grupoMaisRentable;
+    }
+    public Casilla getCasillaMaisRentable(){
+        Casilla maisRentable=null;
+        float alquileres=0;
+        for(ArrayList<Casilla> zona:xogo.getTaboeiro().getCasillas()){
+            for(Casilla c:zona){
+                if (c.getEstadisticas().getAlquileresPagados()>alquileres){
+                    alquileres=c.getEstadisticas().getAlquileresPagados();
+                    maisRentable=c;
+                }
+            }
+        }
+        return maisRentable;
+    }
+    
     public Xogador getXogadorEnCabeza(){
         Xogador enCabeza=null;
         float fortunaMaxima=0;
@@ -54,8 +83,8 @@ public class EstadisticasXogo {
         int visitas=0;
         for(ArrayList<Casilla> zona:xogo.getTaboeiro().getCasillas()){
             for(Casilla c:zona){
-                if (c.getHistorial().size()>visitas){
-                    visitas=c.getHistorial().size();
+                if (c.getEstadisticas().getVisitas()>visitas){
+                    visitas=c.getEstadisticas().getVisitas();
                     maisFrecuentada=c;
                 }
             }
@@ -66,10 +95,12 @@ public class EstadisticasXogo {
     @Override
     public String toString() {
         return "{" +
-                    "\n\tcasillaMaisFrecuentada:" +((getCasillaMaisFrecuentada()!=null)?getCasillaMaisFrecuentada().getNome():"SEN DATOS")+
-                    ",\n\txogadorMaisVoltas:"+((getMaisVoltas()!=null)?getMaisVoltas().getNome():"SEN DATOS")+
-                    ",\n\txogadorMaisVecesDados: "+((getMaisLanzamentosDados()!=null)?getMaisLanzamentosDados().getNome():"SEN DATOS")+
-                    ",\n\txogadorEnCabeza: "+((getXogadorEnCabeza()!=null)?getXogadorEnCabeza().getNome():"SEN DATOS")+
-                "\n}";
+            "\n\tcasillaMaisRentable: " +((getCasillaMaisRentable()!=null)?getCasillaMaisRentable().getNome():"SEN DATOS")+
+            ",\n\tgrupoMaisRentable:"  +((getGrupoMaisRentable()!=null)?getGrupoMaisRentable().getNome():"SEN DATOS")+
+            ",\n\tcasillaMaisFrecuentada: " +((getCasillaMaisFrecuentada()!=null)?getCasillaMaisFrecuentada().getNome():"SEN DATOS")+
+            ",\n\txogadorMaisVoltas: "+((getMaisVoltas()!=null)?getMaisVoltas().getNome():"SEN DATOS")+
+            ",\n\txogadorMaisVecesDados: "+((getMaisLanzamentosDados()!=null)?getMaisLanzamentosDados().getNome():"SEN DATOS")+
+            ",\n\txogadorEnCabeza: "+((getXogadorEnCabeza()!=null)?getXogadorEnCabeza().getNome():"SEN DATOS")+
+        "\n}";
     }
 }
