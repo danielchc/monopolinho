@@ -164,7 +164,7 @@ public class Menu {
                 xogo.mostrarTurno();
                 break;
             case "listar":
-                if(cmds.length!=2){
+                if(cmds.length<2){
                     return;
                 }
                 switch (cmds[1].toLowerCase()){
@@ -258,8 +258,7 @@ public class Menu {
             case "edificar":
                 if(cmds.length!=2){
                     System.out.println("Sintaxe: edificar <casa/hotel/piscina/pista>");
-                }
-                else{
+                }else{
                     switch (cmds[1]){
                         case "casa":
                             xogo.edificarCasa();
