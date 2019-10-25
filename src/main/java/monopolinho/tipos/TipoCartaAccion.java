@@ -12,7 +12,7 @@ public enum  TipoCartaAccion {
     S_PRESIDENTE,
     S_RETROCEDER3,
 
-    C_BALNEARIO,
+    C_TERMAS,
     C_FRAUDE_IDENTIDAD,
     C_ALQUILAR_VILLA,
     C_DEVOLUCION_HACIENDA,

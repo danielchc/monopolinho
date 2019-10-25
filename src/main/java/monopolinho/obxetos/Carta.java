@@ -9,7 +9,6 @@ public class Carta {
     private TipoCarta tipoCarta;
     private TipoCartaAccion tipoCartaAccion;
     private String mensaxe;
-
     public Carta(TipoCarta tipoCarta, TipoCartaAccion tipoCartaAccion, String mensaxe) {
         this.tipoCarta = tipoCarta;
         this.tipoCartaAccion = tipoCartaAccion;
@@ -96,7 +95,7 @@ public class Carta {
             case C_RETROCEDER_PONTEPEDRA:
                 turno.setPosicion((xogo.getTaboeiro().getCasilla(3)));
                 return mensaxe + turno.getPosicion().interpretarCasilla(xogo,0);
-            case C_BALNEARIO:
+            case C_TERMAS:
                 if(!turno.quitarDinheiro(500000)){
                     System.err.println("Non tes suficiente diñeiro para pagar a acción");
                     return mensaxe;

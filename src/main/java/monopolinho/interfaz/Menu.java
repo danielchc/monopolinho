@@ -305,11 +305,6 @@ public class Menu {
                 //BORRARR
                 xogo.mov(Integer.parseInt(cmds[1]));
                 break;
-            case "carta":
-                if(cmds.length==2){
-                    xogo.carta(Integer.parseInt(cmds[1]));
-                }
-                break;
             case "comandos":
                 mostrarComandos();
                 break;

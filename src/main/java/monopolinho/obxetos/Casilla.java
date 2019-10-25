@@ -4,11 +4,13 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.tipos.EstadoXogador;
+import monopolinho.tipos.TipoCarta;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 /**
  * Clase casilla
@@ -163,11 +165,11 @@ public class Casilla {
              case IMPOSTO:
                  return interpretarIMPOSTO(turno,next,xogo);
              case SORTE:
-             case SALIDA:
              case COMUNIDADE:
+             case SALIDA:
                  turno.setPosicion(next);
                  return "";
-        }
+         }
         return "";
      }
 

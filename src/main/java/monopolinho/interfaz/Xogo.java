@@ -5,6 +5,7 @@ import monopolinho.obxetos.*;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * @author Daniel Chenel
@@ -18,6 +19,8 @@ public class Xogo {
     private Xogador turno;
     private Dados dados;
     private Xogador banca;
+    private Baralla cartasSorte;
+    private Baralla cartasComunidade;
     private boolean partidaComezada;
     /**
      * Constructor da clase Xogo.
@@ -34,185 +37,12 @@ public class Xogo {
         engadirCasillasBanca();
         partidaComezada=false;
         xogadores=new ArrayList<Xogador>();
+        cartasComunidade=new Baralla(TipoCarta.COMUNIDADE);
+        cartasSorte=new Baralla(TipoCarta.SORTE);
     }
     public Xogo(ArrayList<Xogador> xogadores){
         this();
         this.xogadores=xogadores;
-    }
-
-
-    /**
-     * Este método comproba se se cumplen as condicións básicas de edificación.
-     * @param c Casilla
-     * @return True si se pode edificar, false se non
-     */
-    private boolean comprobarConstruir(Casilla c,TipoEdificio tipo){
-        if(c.getEstaHipotecada()){
-            System.err.println("Non podes construir nunha casilla hipotecada");
-            return false;
-        }
-
-        if(c.getTipoCasilla()!= TipoCasilla.SOLAR){
-            System.err.println("Non podes edificar esta casilla");
-            return false;
-        }
-
-        if(!c.getDono().equals(turno)){
-            System.err.println("Esta casilla non é túa, non a podes edificar.");
-            return false;
-        }
-
-        if(!c.podeseEdificarMais(tipo)){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Este metodo permite construir unha casa nun solar.
-     */
-    public void edificarCasa(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.CASA)){
-            return;
-        }
-
-        if(!actual.getGrupo().tenTodoGrupo(turno)){  // FALTA COMPROBAR QUE SE CAERA POLO MENOS DUAS VECES NA CASILLA
-            System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
-            return;
-        }
-
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA))){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.CASA,turno,actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-
-    /**
-     * Este metodo permite construir un hotel nun solar.
-     */
-    public void edificarHotel(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.HOTEL)){
-            return;
-        }
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
-            System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
-            return;
-        }
-        else{
-            int casasEliminadas=0;
-            ArrayList<Edificio> aBorrar=new ArrayList<>();
-            for(Edificio e:actual.getEdificios()){
-                if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){
-                    aBorrar.add(e);
-                    casasEliminadas++;
-                }
-            }
-            for(Edificio e:aBorrar){
-                actual.eliminarEdificio(e);
-            }
-        }
-
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL))){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.HOTEL,turno,actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-    /**
-     * Este metodo permite construir unha piscina nun solar.
-     */
-    public void edificarPiscina(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
-            return;
-        }
-        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.CASA));
-        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL));
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
-            System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
-            return;
-        }
-
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA))){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.PISCINA,turno,actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-    /**
-     * Este metodo permite construir unha pista de deportes nun solar.
-     */
-    public void edificarPistaDeportes(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.PISTA_DEPORTES)){
-            return;
-        }
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
-            System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
-            return;
-        }
-
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES))){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno,actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-    /**
-     * Funcions privadas
-     */
-
-    /**
-     * Este método permite saber si todos os xogadores deron un número de voltas múltiplo de 4
-     * @return true si deron todos un múltiplo de 4 voltas, false se non.
-     */
-    private boolean deronTodosCatroVoltas(){
-        for(Xogador x:this.xogadores){
-            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 != 0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    /**
-     * Este método aumenta o precio das casillas que están en venta nun 5%
-     */
-    private void aumentarPrecioCasillas(){
-        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
-            for(Casilla c:zona){
-                if(c.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
-                    c.setValor(c.getValor()*1.05f);
-                }
-            }
-        }
     }
 
     /**
@@ -445,6 +275,122 @@ public class Xogo {
     }
 
     /**
+     * Este metodo permite construir unha casa nun solar.
+     */
+    public void edificarCasa(){
+        Casilla actual=turno.getPosicion();
+
+        if(!comprobarConstruir(actual,TipoEdificio.CASA)){
+            return;
+        }
+
+        if(!actual.getGrupo().tenTodoGrupo(turno)){  // FALTA COMPROBAR QUE SE CAERA POLO MENOS DUAS VECES NA CASILLA
+            System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
+            return;
+        }
+
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(TipoEdificio.CASA,turno,actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+
+    /**
+     * Este metodo permite construir un hotel nun solar.
+     */
+    public void edificarHotel(){
+        Casilla actual=turno.getPosicion();
+
+        if(!comprobarConstruir(actual,TipoEdificio.HOTEL)){
+            return;
+        }
+
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
+            System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
+            return;
+        }
+        else{
+            int casasEliminadas=0;
+            ArrayList<Edificio> aBorrar=new ArrayList<>();
+            for(Edificio e:actual.getEdificios()){
+                if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){
+                    aBorrar.add(e);
+                    casasEliminadas++;
+                }
+            }
+            for(Edificio e:aBorrar){
+                actual.eliminarEdificio(e);
+            }
+        }
+
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(TipoEdificio.HOTEL,turno,actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+    /**
+     * Este metodo permite construir unha piscina nun solar.
+     */
+    public void edificarPiscina(){
+        Casilla actual=turno.getPosicion();
+
+        if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
+            return;
+        }
+        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.CASA));
+        System.out.println(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL));
+
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
+            System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
+            return;
+        }
+
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(TipoEdificio.PISCINA,turno,actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+    /**
+     * Este metodo permite construir unha pista de deportes nun solar.
+     */
+    public void edificarPistaDeportes(){
+        Casilla actual=turno.getPosicion();
+
+        if(!comprobarConstruir(actual,TipoEdificio.PISTA_DEPORTES)){
+            return;
+        }
+
+        if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
+            System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
+            return;
+        }
+
+        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES))){
+            System.err.println("Non tes suficiente diñeiro para edificar");
+            return ;
+        }
+        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno,actual);
+        actual.engadirEdificio(e);
+
+        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
+    }
+
+    /**
      * Mostra a información do turno actual
      */
     public void mostrarTurno() {
@@ -474,10 +420,16 @@ public class Xogo {
 
         mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         System.out.println(mensaxe);
+
         if(deronTodosCatroVoltas()){
             aumentarPrecioCasillas();
             System.out.println("Os precios dos solares en venta aumentaron un 5%.");
         }
+
+        if (next.getTipoCasilla()==TipoCasilla.SORTE || next.getTipoCasilla()==TipoCasilla.COMUNIDADE) {
+            System.out.println(preguntarCarta(next.getTipoCasilla()));
+        }
+
     }
 
     /**
@@ -553,14 +505,8 @@ public class Xogo {
     }
 
     /**
-     * Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
+     * GETTERS AND SETTERS
      */
-    private void engadirCasillasBanca(){
-        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
-            for(Casilla c:zona)
-                c.setDono(banca);
-        }
-    }
 
     /**
      * @return Devolve o taboeiro
@@ -618,18 +564,101 @@ public class Xogo {
         this.partidaComezada = true;
     }
 
+    /**
+     * @return Obten as cartas de Sorte
+     */
+    public Baralla getCartasSorte() {
+        return cartasSorte;
+    }
+
+    /**
+     * @return Obten as cartas de Comunidade
+     */
+    public Baralla getCartasComunidade() {
+        return cartasComunidade;
+    }
+
+    /**
+     * Funcions privadas
+     */
+
+    /**
+     * Este método permite saber si todos os xogadores deron un número de voltas múltiplo de 4
+     * @return true si deron todos un múltiplo de 4 voltas, false se non.
+     */
+    private boolean deronTodosCatroVoltas(){
+        for(Xogador x:this.xogadores){
+            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Este método aumenta o precio das casillas que están en venta nun 5%
+     */
+    private void aumentarPrecioCasillas(){
+        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
+            for(Casilla c:zona){
+                if(c.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
+                    c.setValor(c.getValor()*1.05f);
+                }
+            }
+        }
+    }
+
+    /**
+     * Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
+     */
+    private void engadirCasillasBanca(){
+        for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
+            for(Casilla c:zona)
+                c.setDono(banca);
+        }
+    }
+
+    /**
+     * Este método comproba se se cumplen as condicións básicas de edificación.
+     * @param c Casilla
+     * @return True si se pode edificar, false se non
+     */
+    private boolean comprobarConstruir(Casilla c,TipoEdificio tipo){
+        if(c.getEstaHipotecada()){
+            System.err.println("Non podes construir nunha casilla hipotecada");
+            return false;
+        }
+
+        if(c.getTipoCasilla()!= TipoCasilla.SOLAR){
+            System.err.println("Non podes edificar esta casilla");
+            return false;
+        }
+
+        if(!c.getDono().equals(turno)){
+            System.err.println("Esta casilla non é túa, non a podes edificar.");
+            return false;
+        }
+
+        if(!c.podeseEdificarMais(tipo)){
+            return false;
+        }
+        return true;
+    }
+    private String preguntarCarta(TipoCasilla tipoCasilla) {
+        Baralla b=(tipoCasilla==TipoCasilla.SORTE)?this.cartasSorte:this.cartasComunidade;
+        b.barallar();
+        int nCarta=0;
+        do{
+            System.out.print("Elixe unha carta (1-6): ");
+            nCarta=new Scanner(System.in).nextInt();
+        }while(nCarta<1 || nCarta>6);
+        return b.getCarta(nCarta-1).interpretarCarta(this);
+    }
+
     //BORRAR
     public void mov(int i){
         interpretarAccion(turno.getPosicion(),i);
         turno.aumentarVecesTiradas();
-    }
-
-
-    public void carta(int i) {
-        Baralla n=new Baralla(TipoCarta.SORTE);
-        //n.barallar();
-        n.listarCartas();
-        System.out.println(n.getCarta(i).interpretarCarta(this));
-
     }
 }
