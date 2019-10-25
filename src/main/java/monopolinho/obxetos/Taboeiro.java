@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Taboeiro {
     private ArrayList<ArrayList<Casilla>> casillas;
+    private ArrayList<Grupo> grupos;
     private float bote=0.0f;
 
     /**
@@ -22,6 +23,7 @@ public class Taboeiro {
      */
     public Taboeiro(){
         this.casillas=new ArrayList<>();
+        this.grupos=new ArrayList<>();
         for(int i=0;i<4;i++)this.casillas.add(new ArrayList<>());
         xerarCasillas();
     }
@@ -51,6 +53,20 @@ public class Taboeiro {
         for(ArrayList<Casilla> ac:this.casillas){
             for(Casilla c:ac){
                 if(c.getNome().toLowerCase().equals(nome.toLowerCase())) return c;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Este metodo busca un grupo do taboeiro
+     * @param nome Nome do grupo
+     * @return Grupo do taboeiro
+     */
+    public Grupo buscarGrupo(String nome){
+        for(Grupo g:this.grupos){
+            if(g.getNome().toLowerCase().equals(nome.toLowerCase())){
+                return g;
             }
         }
         return null;
@@ -114,6 +130,24 @@ public class Taboeiro {
         this.bote += imposto;
     }
 
+    /**
+     * Devolve os grupos do tableiro
+     * @return Grupos do tableiro
+     */
+    public ArrayList<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    /**
+     * Establece os grupos do tableiro
+     * @param grupos Grupos do tableiro
+     */
+    public void setGrupos(ArrayList<Grupo> grupos) {
+        if(grupos!=null){
+            this.grupos = grupos;
+        }
+    }
+
 
     /**
      * Este metodo instancia todas as casillas do taboeiro e engadeas a zona que lles corresponde.
@@ -129,6 +163,14 @@ public class Taboeiro {
         Grupo grupo_verde=new Grupo("VERDE", Valor.ReprColor.ANSI_GREEN_BACKGROUND,Valor.VALOR_GRUPO_VERDE,3);
         Grupo grupo_azul=new Grupo("AZUL", Valor.ReprColor.ANSI_BLUE_BACKGROUND,Valor.VALOR_GRUPO_AZUL,2);
 
+        this.grupos.add(grupo_ocre);
+        this.grupos.add(grupo_cyan);
+        this.grupos.add(grupo_violeta);
+        this.grupos.add(grupo_amarillo);
+        this.grupos.add(grupo_rojo);
+        this.grupos.add(grupo_blanco);
+        this.grupos.add(grupo_verde);
+        this.grupos.add(grupo_azul);
 
         engadirCasilla(Zona.SUR,new Casilla("SALIDA",TipoCasilla.SALIDA));
         engadirCasilla(Zona.SUR,new Casilla("GOIRIZ",grupo_ocre));

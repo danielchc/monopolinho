@@ -107,13 +107,14 @@ public class Xogo {
      * Este metodo lista todos os edificios dun grupo
      */
     public void listarEdificiosGrupo(String cmds){
-        for(ArrayList<Casilla> zona:taboeiro.getCasillas()){
-            for(Casilla c:zona){
-                if(c.getGrupo().getNome().toLowerCase().equals(cmds)){
-                    for (Edificio e:c.getEdificios()){
-                        System.out.println(e.describirEdificio());
-                    }
-                }
+        Grupo grupo=taboeiro.buscarGrupo(cmds);
+        if(grupo==null){
+            System.err.println("Ese nome de grupo non existe.");
+            return;
+        }
+        for(Casilla c:grupo.getSolares()){
+            for(Edificio e:c.getEdificios()){
+                System.out.println(e.describirEdificio());
             }
         }
     }
@@ -389,6 +390,76 @@ public class Xogo {
 
         System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
     }
+
+
+    public void venderEdificio(String tipoEdif,String casilla,int numero){
+        TipoEdificio tipo=interpretarEdificio(tipoEdif);
+        Casilla c=taboeiro.buscarCasilla(casilla);
+
+        if(tipo==TipoEdificio.INCORRECTO){
+            System.err.println("Tipo de edificio incorrecto.");
+            return;
+        }
+        if(c==null){
+            System.err.println("Esa casilla non existe.");
+            return;
+        }
+        if(c.getTipoCasilla()!=TipoCasilla.SOLAR){
+            System.err.println("Só podes vender edificios de solares.");
+            return;
+        }
+        if(!c.getDono().equals(turno)){
+            System.err.println("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
+            return;
+        }
+        if(c.getEstaHipotecada()){
+            System.err.println("Non podes vender edificios en "+c.getNome()+" porque está hipotecada");
+            return;
+        }
+
+        int totalEdifs=c.getNumeroEdificiosTipo(tipo);
+        float valor = totalEdifs*c.getPrecioEdificio(tipo)/2.0f;
+        if(totalEdifs<numero){
+            System.err.println("Non podes vender edificios de tipo "+tipo+". Solamente tes "+totalEdifs+" de tipo "+tipo+" por valor de "+valor);
+        }
+
+        int edifsEliminados=0;
+        ArrayList<Edificio> aBorrar=new ArrayList<>();
+        for(Edificio e:c.getEdificios()){
+            if((e.getTipoEdificio() == tipo) && (edifsEliminados<numero)){
+                aBorrar.add(e);
+                edifsEliminados++;
+            }
+        }
+        for(Edificio e:aBorrar){
+            c.eliminarEdificio(e);
+        }
+
+        turno.engadirDinheiro(valor);
+        System.out.println("Vendiches "+totalEdifs+" edificios de tipo "+tipo+" e recibes "+valor);
+    }
+
+
+    /**
+     * Convirte un String a un TipoEdificio
+     * @param tipo String edificio a convertir
+     * @return Tipo de Edificio
+     */
+    private TipoEdificio interpretarEdificio(String tipo){
+        switch (tipo){
+            case "casa":
+                return TipoEdificio.CASA;
+            case "hotel":
+                return TipoEdificio.HOTEL;
+            case "piscina":
+                return TipoEdificio.PISCINA;
+            case "pista":
+                return TipoEdificio.PISTA_DEPORTES;
+            default:
+                return TipoEdificio.INCORRECTO;
+        }
+    }
+
 
     /**
      * Mostra a información do turno actual
