@@ -159,7 +159,7 @@ public class Xogo {
      */
     public void pasarTurno(){
         Xogador actual=turno;
-        if(turno.getVecesTiradas()==0){
+        if(turno.getVecesTiradas()==0 && turno.estadoXogador()!=EstadoXogador.BANCARROTA){
             System.err.println("Tes que tirar unha vez antes de pasar turno.");
             return;
         }
@@ -168,11 +168,14 @@ public class Xogo {
             novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
             turno=this.xogadores.get(novoTurno);
         }while(turno.enBancarrota());
+        if(comprobarFinPartida()){
+            System.out.println("\nFin da partida!!");
+            System.out.println("O xogador "+turno.getNome()+ " gañou a partida");
+            System.exit(0);
+        }
         actual.setVecesTiradas(0);
         actual.setPodeLanzar(true);
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
-
-
     }
 
     /**
@@ -298,7 +301,7 @@ public class Xogo {
         for(Casilla c:this.turno.getPropiedades()){
             c.setDono(this.banca);
         }
-        System.err.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
+        System.out.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
         pasarTurno();
     }
 
@@ -760,6 +763,13 @@ public class Xogo {
         return null;
     }
 
+    private boolean comprobarFinPartida(){
+        int xogadoresEnBancarrota=0;
+        for(Xogador x:this.xogadores){
+            if(x.estadoXogador()==EstadoXogador.BANCARROTA)xogadoresEnBancarrota++;
+        }
+        return ((this.xogadores.size()-1)==xogadoresEnBancarrota);
+    }
     //BORRAR
     public void mov(int i){
         interpretarAccion(turno.getPosicion(),i);
