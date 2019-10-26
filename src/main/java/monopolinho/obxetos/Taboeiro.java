@@ -98,6 +98,7 @@ public class Taboeiro {
      * @return Casilla no taboeiro
      */
     public Casilla getCasilla(int posicion){
+        posicion=Math.floorMod(posicion,40);
         if((posicion>=0)&&(posicion<11)) return getCasillas(Zona.SUR).get(posicion);
         else if((posicion>=11)&&(posicion<20)) return getCasillas(Zona.OESTE).get(posicion-11);
         else if((posicion>=20)&&(posicion<31)) return getCasillas(Zona.NORTE).get(posicion-20);

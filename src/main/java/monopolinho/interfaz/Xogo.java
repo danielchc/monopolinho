@@ -481,40 +481,6 @@ public class Xogo {
     }
 
     /**
-     * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
-     * @param current Casilla actual
-     * @param valorDados Movemento no taboeiro respecto a casilla actual
-     * @return Mensaxe da acción interpretada
-     */
-    public void interpretarAccion(Casilla current,int valorDados){
-        String mensaxe="";
-        int nPos=Math.floorMod((current.getPosicionIndex()+valorDados), 40);
-        Casilla next=this.taboeiro.getCasilla(nPos);
-        if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
-            if((current.getPosicionIndex()+valorDados)>39) {
-                mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
-                turno.getAvatar().voltaTaboeiro();
-                turno.engadirDinheiro(Valor.VOLTA_COMPLETA,TipoGasto.VOLTA_COMPLETA);
-            }
-        }
-
-        mensaxe+=next.interpretarCasilla(this,valorDados);
-
-        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
-        System.out.println(mensaxe);
-
-        if(deronTodosCatroVoltas()){
-            aumentarPrecioCasillas();
-            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
-        }
-
-        if (next.getTipoCasilla()==TipoCasilla.SORTE || next.getTipoCasilla()==TipoCasilla.COMUNIDADE) {
-            System.out.println(preguntarCarta(next.getTipoCasilla()));
-        }
-
-    }
-
-    /**
      * Este metodo permite crear un xogador
      * @param nombre nombre nome do xogador
      * @param tipoMov tipoMov tipo de movemento do avatar do xogador
@@ -564,17 +530,16 @@ public class Xogo {
             }else{
                 turno.sairDoCarcere();
                 turno.setVecesTiradas(0);
-                System.out.println("Sacasches dados dobles. Tes que volver a lanzar.");
+                System.out.println("Sacasches dados dobles, saíches do cárcere. Tes que volver a lanzar.");
                 return;
             }
         }else{
             if (dados.sonDobles() && turno.getVecesTiradas()<3){
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
-            }
-            else if(dados.sonDobles() && turno.getVecesTiradas()==3){
+            }else if(dados.sonDobles() && turno.getVecesTiradas()==3){
                 turno.meterNoCarcere();
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
-                System.err.println("Saion triples e vas para o cárcere.");
+                System.err.println(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
                 return;
             }
@@ -583,7 +548,11 @@ public class Xogo {
             }
         }
         System.out.println(mensaxe);
-        interpretarAccion(turno.getPosicion(),dados.valorLanzar());
+        if(turno.getAvatar().getModoXogo()==ModoXogo.NORMAL){
+            moverModoNormal(dados.valorLanzar());
+        }else{
+            moverModoAvanzado(dados.valorLanzar());
+        }
     }
 
     public void cambiarModoXogo(){
@@ -669,9 +638,76 @@ public class Xogo {
         return cartasComunidade;
     }
 
+
     /**
-     * Funcions privadas
+     * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
+     * @param valorDados Movemento no taboeiro respecto a casilla actual
+     * @return Mensaxe da acción interpretada
      */
+
+    public void moverModoNormal(int valorDados){
+        String mensaxe="";
+        Casilla current=turno.getPosicion();
+        int nPos=current.getPosicionIndex()+valorDados;
+        Casilla next=this.taboeiro.getCasilla(nPos);
+
+        if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
+            if(nPos>39) {
+                mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
+                turno.getAvatar().voltaTaboeiro();
+                turno.engadirDinheiro(Valor.VOLTA_COMPLETA,TipoGasto.VOLTA_COMPLETA);
+            }
+        }
+
+        mensaxe+=next.interpretarCasilla(this,valorDados);
+        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
+        System.out.println(mensaxe);
+
+        if(deronTodosCatroVoltas()){
+            aumentarPrecioCasillas();
+            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
+        }
+
+        if (next.getTipoCasilla()==TipoCasilla.SORTE || next.getTipoCasilla()==TipoCasilla.COMUNIDADE) {
+            System.out.println(preguntarCarta(next.getTipoCasilla()));
+        }
+    }
+
+    /**
+     * Move os avatares de en modo avanzado
+     */
+    private void moverModoAvanzado(int valorDados){
+        Casilla next;
+        int cPos=turno.getPosicion().getPosicionIndex();
+        switch (turno.getAvatar().getTipo()){
+            /*si el valor de los dados es mayor que 4, avanza tantas casillas como dicho valor; mientras
+            que,  si  el  valor  es  menor  o  igual  que  4,  retrocede  el  número  de  casillas  correspondiente.  En
+            cualquiera  de  los  dos  casos,  el  avatar  se  parará  en  las  casillas  por  las  que  va  pasando  y  cuyos
+            valores son impares contados desde el número 4. Por ejemplo, si el valor del dado es 9, entonces
+            el avatar avanzará hasta la casilla 5, de manera que si pertenece a otro jugador y es una casilla de
+            propiedad deberá pagar el alquiler, y después avanzará hasta la casilla 7, que podrá comprar si no
+            pertenece a ningún jugador, y finalmente a la casilla 9, que podrá comprar o deberá pagar alquiler
+            si  no  pertenece  al  jugador.  Si  una  de  esas  casillas  es  Ir  a  Cárcel,  entonces  no  se  parará  en  las
+            subsiguientes casillas.*/
+            case PELOTA:
+                if(valorDados>4){
+                    for(int i=5;i<=valorDados;i+=2){
+                        next=this.taboeiro.getCasilla(cPos+i);
+                        System.out.println("Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
+                        if(next.getTipoCasilla()==TipoCasilla.IRCARCEL)return;
+                        if(next.getDono().equals(this.banca) && next.podeseComprar()){
+                            System.out.println("Queres comprar a casilla " + next.getNome() + "? ");
+                            //new Scanner(System.in).nextLine();
+                        }
+                    }
+                }else{
+
+                }
+                break;
+            case COCHE:
+                break;
+        }
+    }
 
     /**
      * Este método permite saber si todos os xogadores deron un número de voltas múltiplo de 4
@@ -786,7 +822,7 @@ public class Xogo {
 
     //BORRAR
     public void mov(int i){
-        interpretarAccion(turno.getPosicion(),i);
+        moverModoNormal(i);
         turno.aumentarVecesTiradas();
     }
 }

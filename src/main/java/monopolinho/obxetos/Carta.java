@@ -55,6 +55,7 @@ public class Carta {
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*200000;
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*750000;
                 }
+                mensaxe+="Tes que pagar "+aPagar;
                 if(!turno.quitarDinheiro(aPagar,TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar");
                     return "";
@@ -75,7 +76,7 @@ public class Carta {
 
             //11. ¡Hora punta de tráfico! Retrocede tres casillas.
             case S_RETROCEDER3:
-                xogo.interpretarAccion(turno.getPosicion(),-3); //REVISAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRR
+                xogo.moverModoNormal(-3);
                 return mensaxe;
 
             //2. Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla de Salida y sin cobrar los 2000000€.
