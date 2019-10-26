@@ -155,6 +155,7 @@ public class Menu {
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas" )+"\tMostra as estadisticas do xogo"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas <xogador>" )+"\tMostra as estadisticas do xogo"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"ver taboeiro" )+"\tMostra a representación do taboeiro"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"cambiar modo" )+"\tCambia de modo de xogo"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos")+"\tMostra esta mensaxe de axuda";
         System.out.println(comandos);
     }
@@ -333,6 +334,13 @@ public class Menu {
                 }else{
                     xogo.mostrarEstadisticasXogo();
                 }
+                break;
+            case "cambiar":
+                if(cmds.length!=2){
+                    System.out.println("cambiar modo");
+                    return;
+                }
+                xogo.cambiarModoXogo();
                 break;
             case "mov":
                 //BORRARR

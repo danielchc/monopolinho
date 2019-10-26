@@ -586,6 +586,15 @@ public class Xogo {
         interpretarAccion(turno.getPosicion(),dados.valorLanzar());
     }
 
+    public void cambiarModoXogo(){
+        if(turno.getAvatar().getTipo()!=TipoMovemento.PELOTA && turno.getAvatar().getTipo()!=TipoMovemento.COCHE ){
+            System.err.println("Este tipo de avatar non pode cambiar de modo\n");
+            return;
+        }
+        if(turno.getAvatar().getModoXogo()==ModoXogo.NORMAL)turno.getAvatar().setModoXogo(ModoXogo.AVANZADO);
+        else if(turno.getAvatar().getModoXogo()==ModoXogo.AVANZADO)turno.getAvatar().setModoXogo(ModoXogo.NORMAL);
+        System.out.println("O avatar "+turno.getAvatar().getId() + " de tipo "+turno.getAvatar().getTipo() +" cambia de modo "+turno.getAvatar().getModoXogo());
+    }
     /**
      * GETTERS AND SETTERS
      */
@@ -763,13 +772,18 @@ public class Xogo {
         return null;
     }
 
+    /**
+     * @return Comproba se acabou a partida
+     */
     private boolean comprobarFinPartida(){
         int xogadoresEnBancarrota=0;
         for(Xogador x:this.xogadores){
-            if(x.estadoXogador()==EstadoXogador.BANCARROTA)xogadoresEnBancarrota++;
+            if(x.estadoXogador()==EstadoXogador.BANCARROTA)
+                xogadoresEnBancarrota++;
         }
         return ((this.xogadores.size()-1)==xogadoresEnBancarrota);
     }
+
     //BORRAR
     public void mov(int i){
         interpretarAccion(turno.getPosicion(),i);

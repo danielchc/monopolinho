@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import monopolinho.tipos.ModoXogo;
 import monopolinho.tipos.TipoMovemento;
 
 import java.util.Random;
@@ -16,8 +17,7 @@ public class Avatar {
     private String id;
     private Casilla posicion; //CASILLA na que esta
     private int voltasTaboeiro=0;
-
-
+    private ModoXogo modoXogo;
 
     /**
      * Constructor da clase Avatar
@@ -25,11 +25,11 @@ public class Avatar {
      * @param xogador xogador que ten o avatar
      */
     public Avatar(TipoMovemento tipo, Xogador xogador){
-
         if (tipo!=null && xogador!=null){
             this.tipo=tipo;
-            setXogador(xogador);
+            this.modoXogo=ModoXogo.NORMAL;
             xerarId();
+            setXogador(xogador);
         }
         else{
             System.err.println("Error creando avatar");
@@ -152,6 +152,21 @@ public class Avatar {
      */
     public void setVoltasTaboeiro(int voltasTaboeiro) {
         this.voltasTaboeiro = voltasTaboeiro;
+    }
+
+    /**
+     * @return Devolve o modo de xogo do xogador
+     */
+    public ModoXogo getModoXogo() {
+        return modoXogo;
+    }
+
+    /**
+     * Establece o modo de xogo
+     * @param modoXogo
+     */
+    public void setModoXogo(ModoXogo modoXogo) {
+        this.modoXogo = modoXogo;
     }
 
     /**
