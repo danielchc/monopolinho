@@ -159,7 +159,7 @@ public class Xogo {
      */
     public void pasarTurno(){
         Xogador actual=turno;
-        if(turno.getVecesTiradas()==0 && turno.estadoXogador()!=EstadoXogador.BANCARROTA){
+        if(turno.podeLanzar() && turno.estadoXogador()!=EstadoXogador.BANCARROTA){
             System.err.println("Tes que tirar unha vez antes de pasar turno.");
             return;
         }
