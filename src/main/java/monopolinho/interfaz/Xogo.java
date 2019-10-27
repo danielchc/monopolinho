@@ -201,6 +201,10 @@ public class Xogo {
      */
     public void comprarCasilla(String[] cmds){
         Casilla comprar=turno.getPosicion();
+        if(turno.getVecesTiradas()==0){
+            System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
+            return;
+        }
         if(!comprar.equals(this.taboeiro.buscarCasilla(cmds[1]))){
             System.err.println("Non te atopas nesta casilla");
             return;
