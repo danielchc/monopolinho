@@ -695,17 +695,18 @@ public class Xogo {
             subsiguientes casillas.*/
             case PELOTA:
                 if(valorDados>4){
+                    //Hai que facer tipo un historial de casillas polas que pasaches
                     for(int i=5;i<=valorDados;i+=2){
                         next=this.taboeiro.getCasilla(cPos+i);
                         System.out.println("Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
                         if(next.getTipoCasilla()==TipoCasilla.IRCARCEL)return;
-                        if(next.getDono().equals(this.banca) && next.podeseComprar()){
-                            System.out.println("Queres comprar a casilla " + next.getNome() + "? ");
-                            //new Scanner(System.in).nextLine();
-                        }
                     }
                 }else{
-
+                    for(int i=1;i<=valorDados;i+=2){
+                        next=this.taboeiro.getCasilla(cPos-i);
+                        System.out.println("Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
+                        if(next.getTipoCasilla()==TipoCasilla.IRCARCEL)return;
+                    }
                 }
                 break;
             case COCHE:
