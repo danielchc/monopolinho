@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import monopolinho.axuda.Valor;
 import monopolinho.tipos.TipoCarta;
 import monopolinho.tipos.TipoCartaAccion;
 
@@ -67,17 +68,17 @@ public class Baralla {
         cartas.add(new Carta(
                 TipoCarta.SORTE,
                 TipoCartaAccion.S_AUMENTO_BENS_IMUEBLES,
-                "O aumento do impuesto sobre os bens inmobles afecta a todas as túas propiedades.\nPaga 400000€ por casa, 1150000€ por hotel, 200.000€ por piscina e 750000€ por pista de deportes."
+                "Pilloute Hacienda, ahora aumenta o pago por cada edificio que teñas.\nPaga 40000€ por casa, 115000€ por hotel, 20000€ por piscina e 75000€ por pista de deportes."
         ));
         cartas.add(new Carta(
                 TipoCarta.SORTE,
                 TipoCartaAccion.S_PRESIDENTE,
-                "Fuches escollido como presidente da xunta directiva. Paga a cada jugador 250000€"
+                "Saliche escollido concejal de urbanismo, soborta a cada xogador con 25000€"
         ));
         cartas.add(new Carta(
                 TipoCarta.SORTE,
                 TipoCartaAccion.S_VENDER_BILLETE,
-                "Vendes o teu billete de avión para o Carbalinho nunha subaste de Internet. Cobra 500000€. "
+                "Vendes o teu billete de avión para Castroverde nunha subasta de Internet. Cobra 50000€. "
         ));
         cartas.add(new Carta(
                 TipoCarta.SORTE,
@@ -87,7 +88,7 @@ public class Baralla {
         cartas.add(new Carta(
                 TipoCarta.SORTE,
                 TipoCartaAccion.S_BOTE,
-                "A POLO BOTEEE!! Ganaches o bote da Loteria, recibes 1000000€"
+                "Tocou a rifa da excursión da túa filla, recibes 100000€"
         ));
     }
 
@@ -98,27 +99,27 @@ public class Baralla {
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_ALQUILAR_VILLA,
-                "Alugas os teus compañeiros un chalet no Quinto Pino(Arteixo) durante unha semana. Paga 200000€ a cada xogador"
+                "Alúgaslle aos teus compañeiros un chalet no Quinto Pino(Arteixo) durante unha semana. Paga 20000€ a cada xogador"
         ));
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_TERMAS,
-                "Paga 500000€ por un fin de semana nas termas de Ourense"
+                "Paga 50000€ por un fin de semana nas termas de Ourense"
         ));
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_BENEFICIOS_INTERNET,
-                "A túa compañía de Internet obtén beneficios. Recibe 2000000€."
+                "Google comprouche o Monopolinho. Recibe 200000€."
         ));
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_DEVOLUCION_HACIENDA,
-                "Saleu a devolver. Recibes 500000€"
+                "Hacienda estaba generosa, saleu a devolver. Recibes 50000€"
         ));
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_FRAUDE_IDENTIDAD,
-                "Investingante por fraude de identidade. Vai a Cárcel. Ve directamente sen pasar pola casilla de Saída e sen cobrar os 2000000€."
+                "Investingante por mover os marcos das fincas. Vai a Cárcel. Vai directamente sen pasar pola casilla de Saída e sen cobrar os "+ Valor.VOLTA_COMPLETA
         ));
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
