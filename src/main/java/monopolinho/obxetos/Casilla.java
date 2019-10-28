@@ -20,7 +20,7 @@ public class Casilla {
     private float alquiler;
     private float usoServizo;
     private float imposto;
-    private int posicion=-1;
+    private int posicion;
     private Xogador dono;
     private TipoCasilla tipoCasilla;
     private Valor.ReprColor colorCasilla;
@@ -42,6 +42,7 @@ public class Casilla {
         }
         this.nome=nome;
         this.tipoCasilla=tipoCasilla;
+        this.posicion=-1;
         this.avatares=new ArrayList<Avatar>();
         this.edificios=new ArrayList<>();
         this.grupo=null;
