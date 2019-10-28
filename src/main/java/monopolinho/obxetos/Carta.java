@@ -38,22 +38,22 @@ public class Carta {
             //6. Devolución de Hacienda. Cobra 500000€.
             case S_VENDER_BILLETE:
             case C_DEVOLUCION_HACIENDA:
-                turno.engadirDinheiro( 500000, TipoGasto.BOTE_PREMIO); //CTE?
+                turno.engadirDinheiro( 50000, TipoGasto.BOTE_PREMIO); //CTE?
                 return mensaxe;
 
             //6. ¡Has ganado el bote de la lotería! Recibe 1000000€.
             case S_BOTE:
-                turno.engadirDinheiro(1000000, TipoGasto.BOTE_PREMIO); //CTE?
+                turno.engadirDinheiro(100000, TipoGasto.BOTE_PREMIO); //CTE?
                 return mensaxe;
 
             //8. El  aumento  del  impuesto  sobre  bienes  inmuebles  afecta  a  todas  tus  propiedades.  Paga  400000€  por casa, 1150000M€ por hotel, 200.000€ por piscina y 750000€ por pista de deportes.
             case S_AUMENTO_BENS_IMUEBLES:
                 float aPagar=0;
                 for (Casilla c:turno.getPropiedades()){
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.CASA)*400000;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*1150000;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*200000;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*750000;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.CASA)*40000;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*115000;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*20000;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000;
                 }
                 mensaxe+="Tes que pagar "+aPagar;
                 if(!turno.quitarDinheiro(aPagar,TipoGasto.TASAS)){
@@ -64,7 +64,7 @@ public class Carta {
 
             //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.
             case S_PRESIDENTE:
-                dinheiroPagar=250000f;
+                dinheiroPagar=25000f;
                 if(!turno.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(),TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
                     return "";
@@ -87,7 +87,7 @@ public class Carta {
 
             //8. Alquilas a tus compañeros una villa en Cannes durante una semana. Paga 200000€ a cada jugador. 4
             case C_ALQUILAR_VILLA:
-                dinheiroPagar=200000f;
+                dinheiroPagar=20000f;
                 if(!turno.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(),TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
                     return mensaxe;
@@ -99,7 +99,7 @@ public class Carta {
 
             //4. Tu compañía de Internet obtiene beneficios. Recibe 2000000€.
             case C_BENEFICIOS_INTERNET:
-                turno.engadirDinheiro( 2000000,TipoGasto.BOTE_PREMIO);
+                turno.engadirDinheiro( 200000,TipoGasto.BOTE_PREMIO);
                 return mensaxe;
 
             //7. Retrocede hasta Valencia para comprar antigüedades exóticas.
@@ -107,7 +107,7 @@ public class Carta {
                 turno.setPosicion((xogo.getTaboeiro().getCasilla(8)));
                 return mensaxe + turno.getPosicion().interpretarCasilla(xogo,0);
             case C_TERMAS:
-                if(!turno.quitarDinheiro(500000, TipoGasto.TASAS)){
+                if(!turno.quitarDinheiro(50000, TipoGasto.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar a acción");
                     return mensaxe;
                 }
