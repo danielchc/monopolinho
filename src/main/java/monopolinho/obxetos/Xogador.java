@@ -36,6 +36,8 @@ public class Xogador {
         this.avatar=null;
         this.fortuna=0.0f;
         this.turnosNaCarcel=0;
+        this.turnosInvalidado=0;
+        this.vecesTiradas=0;
         this.propiedades=new ArrayList<>();
         this.podeLanzar=false;
         this.estadoXogador=EstadoXogador.ESPECIAL;
@@ -54,6 +56,8 @@ public class Xogador {
         this.propiedades=new ArrayList<>();
         this.podeLanzar=true;
         this.vecesTiradas=0;
+        this.turnosInvalidado=0;
+        this.turnosNaCarcel=0;
         this.estadoXogador=EstadoXogador.NORMAL;
         this.estadisticas=new EstadisticasXogador();
     }
