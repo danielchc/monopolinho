@@ -244,7 +244,7 @@ public class Casilla {
      */
     public boolean podeseEdificarMais(TipoEdificio tipo){
         if  (((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)) || ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)==this.getGrupo().getNumeroSolares()))) {
-                System.err.println("Non podes construir máis do tipo "+tipo+" en "+this.nome);
+                System.err.println("Non podes construir máis edificios do tipo "+tipo+" en "+this.nome);
                 return false;
         }
         return true;

@@ -132,7 +132,7 @@ public class Menu {
      */
     private void mostrarComandos(){
         String comandos="\n\nComandos dispoñibles:" +
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"xogador" )+"\tIndica o xogador que ten o turno ten turno)"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"xogador" )+"\tIndica o xogador que ten o turno ten turno"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar" )+
                 "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar xogadores" )+"\tMostra os xogadores"+
                 "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar avatares" )+"\tMostra os avatares dos xogadores"+
