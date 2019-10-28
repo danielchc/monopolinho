@@ -327,6 +327,13 @@ public class Casilla {
     }
 
     /**
+     * @return Devolve se hai que coller carta
+     */
+    public boolean haiQueCollerCarta(){
+        return (this.tipoCasilla== TipoCasilla.COMUNIDADE || this.tipoCasilla == TipoCasilla.SORTE);
+    }
+
+    /**
      * @return Devolve o valor dunha casilla
      */
     public float getValor() {

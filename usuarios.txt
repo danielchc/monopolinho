@@ -1,5 +1,5 @@
 crear jugador Dani pelota
-crear jugador David sombrero
+crear jugador David coche
 mov 1
 comprar GOIRIZ
 mov 2

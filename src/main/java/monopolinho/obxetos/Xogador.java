@@ -21,6 +21,7 @@ public class Xogador {
     private ArrayList<Casilla> propiedades;
     private boolean tenTurno;
     private int turnosNaCarcel;
+    private int turnosInvalidado;
     private boolean podeLanzar;
     private int vecesTiradas;
     private EstadoXogador estadoXogador;
@@ -160,6 +161,10 @@ public class Xogador {
     public void meterNoCarcere(){
         this.turnosNaCarcel=3;
         this.estadisticas.engadirVecesCarcel();
+    }
+
+    public void restarTurnosInvalidado(){
+        if(this.turnosInvalidado>0)this.turnosInvalidado--;
     }
 
     /**
@@ -352,7 +357,6 @@ public class Xogador {
         return this.avatar.getPosicion();
     }
 
-
     /**
      * @return Devolve as estadisticas dun xogador
      */
@@ -366,6 +370,21 @@ public class Xogador {
      */
     public void setEstadisticas(EstadisticasXogador estadisticas) {
         this.estadisticas = estadisticas;
+    }
+
+    /**
+     * @return Devolve os turnos nos que o xogador non pode realizar ningunha acción
+     */
+    public int getTurnosInvalidado() {
+        return turnosInvalidado;
+    }
+
+    /**
+     * Establece os turnos no que o xogador non pode realizar ningunha acción
+     * @param turnosInvalidado
+     */
+    public void setTurnosInvalidado(int turnosInvalidado) {
+        this.turnosInvalidado = turnosInvalidado+1;
     }
 
     /**

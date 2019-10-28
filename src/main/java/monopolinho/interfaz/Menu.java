@@ -346,6 +346,10 @@ public class Menu {
                 //BORRARR
                 xogo.mov(Integer.parseInt(cmds[1]));
                 break;
+            case "mova":
+                //BORRARR
+                xogo.mova(Integer.parseInt(cmds[1]));
+                break;
             case "comandos":
             case "axuda":
                 mostrarComandos();
