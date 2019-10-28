@@ -252,6 +252,19 @@ public class Casilla {
     }
 
     /**
+     * Esta función renombra as casas para que sempre estean os ids entre 1 e N.
+     */
+    public void renombrarEdificios(){
+        int contador=1;
+        for(Edificio e:this.edificios){
+            if(e.getTipoEdificio()==TipoEdificio.CASA){
+                e.setId(e.getTipoEdificio() + String.valueOf(contador));
+                contador++;
+            }
+        }
+    }
+
+    /**
      * Este metodo permite saber o precio según o tipo de edificio
      * @param tipo Input do usuario
      * @return Precio do edificio.

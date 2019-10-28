@@ -163,6 +163,10 @@ public class Xogo {
             System.err.println("Tes que tirar unha vez antes de pasar turno.");
             return;
         }
+        if(turno.estadoXogador() == EstadoXogador.TEN_DEBEDAS){
+            System.err.println("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
+            return;
+        }
         int novoTurno;
         do{
             novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
@@ -302,7 +306,9 @@ public class Xogo {
      */
     public void declararBancarrota(){
         this.turno.setEstadoXogador(EstadoXogador.BANCARROTA);
+
         for(Casilla c:this.turno.getPropiedades()){
+            c.setEstaHipotecada(false);
             c.setDono(this.banca);
         }
         System.out.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
@@ -361,6 +367,7 @@ public class Xogo {
             for(Edificio e:aBorrar){
                 actual.eliminarEdificio(e);
             }
+            actual.renombrarEdificios();
         }
 
         if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL),TipoGasto.EDIFICAR)){
