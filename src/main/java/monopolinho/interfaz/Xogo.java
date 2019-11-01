@@ -17,7 +17,8 @@ public class Xogo {
 
     private ArrayList<Xogador> xogadores;
     private Taboeiro taboeiro;
-    private Xogador turno;
+    //private Xogador turno;
+    private Turno turno;
     private Dados dados;
     private Xogador banca;
     private Baralla cartasSorte;
@@ -158,43 +159,41 @@ public class Xogo {
      * Este metodo acaba o turno e pasallo ao seguinte.
      */
     public void pasarTurno(){
-        Xogador actual=turno;
-        if(turno.podeLanzar() && turno.estadoXogador()!=EstadoXogador.BANCARROTA && turno.getTurnosInvalidado()==0){
+        Xogador actual=turno.getXogador();
+        if(turno.podeLanzar() && turno.getXogador().estadoXogador()!=EstadoXogador.BANCARROTA && turno.getXogador().getTurnosInvalidado()==0){
             System.err.println("Tes que tirar unha vez antes de pasar turno.");
             return;
         }
-        if(turno.estadoXogador() == EstadoXogador.TEN_DEBEDAS){
+        if(turno.getXogador().estadoXogador() == EstadoXogador.TEN_DEBEDAS){
             System.err.println("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
             return;
         }
         int novoTurno;
         do{
-            novoTurno=(this.xogadores.indexOf(turno)+1)%this.xogadores.size();
-            turno=this.xogadores.get(novoTurno);
-        }while(turno.enBancarrota());
+            novoTurno=(this.xogadores.indexOf(turno.getXogador())+1)%this.xogadores.size();
+            turno=new Turno(this.xogadores.get(novoTurno));
+        }while(turno.getXogador().enBancarrota());
+
         if(comprobarFinPartida()){
             System.out.println("\nFin da partida!!");
-            System.out.println("O xogador "+turno.getNome()+ " gañou a partida");
+            System.out.println("O xogador "+turno.getXogador().getNome()+ " gañou a partida");
             System.exit(0);
         }
-
         actual.restarTurnosInvalidado();
-        actual.setVecesTiradas(0);
-        actual.setPodeLanzar(true);
-        System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getNome());
+        System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getXogador().getNome());
     }
 
     /**
      * Este metodo saca a un xogador da carcere.
      */
     public void salirCarcel(){
-        if (!turno.estaNaCarcel()){
+        if (!turno.getXogador().estaNaCarcel()){
             System.out.println("O xogador non está no cárcere");
             return;
         }
-        if(turno.quitarDinheiro(Valor.SAIR_CARCERE,TipoGasto.OTROS)){
-            System.out.println(turno.getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
-            turno.sairDoCarcere();
+        if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE,TipoGasto.OTROS)){
+            System.out.println(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
+            turno.getXogador().sairDoCarcere();
             taboeiro.engadirBote(Valor.SAIR_CARCERE);
         }else{
             System.err.println("Non tes o suficiente diñeiro para saír do cárcere");
@@ -206,7 +205,8 @@ public class Xogo {
      * @param cmds Argumentos da función
      */
     public void comprarCasilla(String[] cmds){
-        Casilla comprar=turno.getPosicion();
+        Xogador xogador=turno.getXogador();
+        Casilla comprar=xogador.getPosicion();
         if(turno.getVecesTiradas()==0){
             System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
             return;
@@ -220,17 +220,22 @@ public class Xogo {
             return;
         }
         if (!comprar.getDono().equals(banca)){
-            System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
+            System.err.println("Esta casilla pertence a " + xogador.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }
-        if(!turno.quitarDinheiro(comprar.getValor(),TipoGasto.COMPRA)){
+        if(!xogador.quitarDinheiro(comprar.getValor(),TipoGasto.COMPRA)){
             System.err.println("Non tes suficiente diñeiro");
             return ;
         }
+        if(xogador.getAvatar().getTipo()==TipoMovemento.COCHE && xogador.getAvatar().getModoXogo()==ModoXogo.AVANZADO && turno.getCompradasTurno()>=1){
+            System.err.println("Non podes facer máis compras neste turno");
+            return;
+        }
 
         comprar.getDono().engadirDinheiro(comprar.getValor(),TipoGasto.VENTA);
-        comprar.setDono(turno);
-        System.out.println("O usuario "+turno.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
+        comprar.setDono(xogador);
+        turno.aumentarCompras();
+        System.out.println("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
 
 
@@ -274,7 +279,7 @@ public class Xogo {
             return;
         }
 
-        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno) && !c.getEstaHipotecada()){
+        if(c!=null && c.podeseComprar() && c.getDono().equals(turno.getXogador()) && !c.getEstaHipotecada()){
             c.setEstaHipotecada(true);
             c.getDono().engadirDinheiro(c.getHipoteca(),TipoGasto.OTROS);
             System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
@@ -293,7 +298,7 @@ public class Xogo {
         Casilla c=this.taboeiro.buscarCasilla(nome);
 
 
-        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno) && c.getEstaHipotecada()){
+        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
             c.getDono().quitarDinheiro(c.getHipoteca(),TipoGasto.OTROS);
             System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Recibes "+c.getHipoteca());
@@ -307,13 +312,13 @@ public class Xogo {
      * Metodo bancarrota.
      */
     public void declararBancarrota(){
-        this.turno.setEstadoXogador(EstadoXogador.BANCARROTA);
+        this.turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
 
-        for(Casilla c:this.turno.getPropiedades()){
+        for(Casilla c:this.turno.getXogador().getPropiedades()){
             c.setEstaHipotecada(false);
             c.setDono(this.banca);
         }
-        System.out.println("\nO xogador "+this.turno.getNome()+" declarouse en bancarrota.");
+        System.out.println("\nO xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
         pasarTurno();
     }
 
@@ -321,25 +326,25 @@ public class Xogo {
      * Este metodo permite construir unha casa nun solar.
      */
     public void edificarCasa(){
-        Casilla actual=turno.getPosicion();
+        Casilla actual=turno.getXogador().getPosicion();
         if(!comprobarConstruir(actual,TipoEdificio.CASA)){
             return;
         }
 
-        if(!actual.getGrupo().tenTodoGrupo(turno) && actual.numeroVecesCaidas(turno.getAvatar())<2){
+        if(!actual.getGrupo().tenTodoGrupo(turno.getXogador()) && actual.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
             System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
             return;
         }
 
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA),TipoGasto.EDIFICAR)){
+        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.CASA,turno,actual);
+        Edificio e=new Edificio(TipoEdificio.CASA,turno.getXogador(),actual);
         actual.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
     }
 
 
@@ -347,7 +352,7 @@ public class Xogo {
      * Este metodo permite construir un hotel nun solar.
      */
     public void edificarHotel(){
-        Casilla actual=turno.getPosicion();
+        Casilla actual=turno.getXogador().getPosicion();
 
         if(!comprobarConstruir(actual,TipoEdificio.HOTEL)){
             return;
@@ -372,21 +377,21 @@ public class Xogo {
             actual.renombrarEdificios();
         }
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL),TipoGasto.EDIFICAR)){
+        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.HOTEL,turno,actual);
+        Edificio e=new Edificio(TipoEdificio.HOTEL,turno.getXogador(),actual);
         actual.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
     }
 
     /**
      * Este metodo permite construir unha piscina nun solar.
      */
     public void edificarPiscina(){
-        Casilla actual=turno.getPosicion();
+        Casilla actual=turno.getXogador().getPosicion();
 
         if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
             return;
@@ -397,21 +402,21 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA),TipoGasto.EDIFICAR)){
+        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.PISCINA,turno,actual);
+        Edificio e=new Edificio(TipoEdificio.PISCINA,turno.getXogador(),actual);
         actual.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
     }
 
     /**
      * Este metodo permite construir unha pista de deportes nun solar.
      */
     public void edificarPistaDeportes(){
-        Casilla actual=turno.getPosicion();
+        Casilla actual=turno.getXogador().getPosicion();
 
         if(!comprobarConstruir(actual,TipoEdificio.PISTA_DEPORTES)){
             return;
@@ -422,14 +427,14 @@ public class Xogo {
             return;
         }
 
-        if(!turno.quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES),TipoGasto.EDIFICAR)){
+        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno,actual);
+        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno.getXogador(),actual);
         actual.engadirEdificio(e);
 
-        System.out.println("O usuario "+turno.getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
     }
 
 
@@ -454,7 +459,7 @@ public class Xogo {
             System.err.println("Só podes vender edificios de solares.");
             return;
         }
-        if(!c.getDono().equals(turno)){
+        if(!c.getDono().equals(turno.getXogador())){
             System.err.println("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
             return;
         }
@@ -481,7 +486,7 @@ public class Xogo {
             c.eliminarEdificio(e);
         }
 
-        turno.engadirDinheiro(valor,TipoGasto.OTROS);
+        turno.getXogador().engadirDinheiro(valor,TipoGasto.OTROS);
         System.out.println("Vendiches "+totalEdifs+" edificios de tipo "+tipo+" e recibes "+valor);
     }
 
@@ -509,7 +514,9 @@ public class Xogo {
             return false; //Comproba se existe o usuario o método equal compara nomes!
         }
         this.xogadores.add(xogador);
-        if(this.xogadores.indexOf(xogador)==0)this.turno=this.xogadores.get(0);
+        //FACER ESTO
+        if(this.xogadores.indexOf(xogador)==0)
+            this.turno=new Turno(this.xogadores.get(0));
         xogador.setPosicion(this.taboeiro.getCasilla(0));
         System.out.println(xogador);
         return true;
@@ -522,7 +529,7 @@ public class Xogo {
      * - Se saen triples manda ao xogador para a carcere.
      */
     public void lanzarDados(){
-        if(turno.estadoXogador()==EstadoXogador.TEN_DEBEDAS){
+        if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS){
             System.err.println("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
             return;
         }
@@ -530,8 +537,8 @@ public class Xogo {
             System.err.println("O xogador xa lanzou os dados. Non se poden lanzar de novo");
             return;
         }
-        if(turno.getTurnosInvalidado()>0){
-            System.err.println("O xogador ten que esperar "+turno.getTurnosInvalidado()+" turno para volver a lanzar");
+        if(turno.getXogador().getTurnosInvalidado()>0){
+            System.err.println("O xogador ten que esperar "+turno.getXogador().getTurnosInvalidado()+" turno para volver a lanzar");
             return;
         }
         dados.lanzarDados();
@@ -539,23 +546,23 @@ public class Xogo {
 
         String mensaxe="\nSaiu o "+dados.getDado1()+" e o "+dados.getDado2();
 
-        if(turno.estaNaCarcel()){
+        if(turno.getXogador().estaNaCarcel()){
             if(!dados.sonDobles()){
                 System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
                 turno.setPodeLanzar(false);
                 return;
             }else{
-                turno.sairDoCarcere();
+                turno.getXogador().sairDoCarcere();
                 turno.setVecesTiradas(0);
                 System.out.println("Sacasches dados dobles, saíches do cárcere. Tes que volver a lanzar.");
                 return;
             }
         }else{
             if (dados.sonDobles() && turno.getVecesTiradas()<3){
-                mensaxe+="\nAo sair dobles, o xogador "+turno.getNome()+" volve tirar.";
+                mensaxe+="\nAo sair dobles, o xogador "+turno.getXogador().getNome()+" volve tirar.";
             }else if(dados.sonDobles() && turno.getVecesTiradas()==3){
-                turno.meterNoCarcere();
-                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+                turno.getXogador().meterNoCarcere();
+                turno.getXogador().setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
                 System.err.println(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
                 return;
@@ -564,7 +571,7 @@ public class Xogo {
             }
         }
         System.out.println(mensaxe);
-        if(turno.getAvatar().getModoXogo()==ModoXogo.NORMAL){
+        if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL){
             moverModoNormal(dados.valorLanzar());
         }else{
             moverModoAvanzado(dados.valorLanzar());
@@ -572,13 +579,13 @@ public class Xogo {
     }
 
     public void cambiarModoXogo(){
-        if(turno.getAvatar().getTipo()!=TipoMovemento.PELOTA && turno.getAvatar().getTipo()!=TipoMovemento.COCHE ){
+        if(turno.getXogador().getAvatar().getTipo()!=TipoMovemento.PELOTA && turno.getXogador().getAvatar().getTipo()!=TipoMovemento.COCHE ){
             System.err.println("Este tipo de avatar non pode cambiar de modo\n");
             return;
         }
-        if(turno.getAvatar().getModoXogo()==ModoXogo.NORMAL)turno.getAvatar().setModoXogo(ModoXogo.AVANZADO);
-        else if(turno.getAvatar().getModoXogo()==ModoXogo.AVANZADO)turno.getAvatar().setModoXogo(ModoXogo.NORMAL);
-        System.out.println("O avatar "+turno.getAvatar().getId() + " de tipo "+turno.getAvatar().getTipo() +" cambia de modo "+turno.getAvatar().getModoXogo());
+        if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL)turno.getXogador().getAvatar().setModoXogo(ModoXogo.AVANZADO);
+        else if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO)turno.getXogador().getAvatar().setModoXogo(ModoXogo.NORMAL);
+        System.out.println("O avatar "+turno.getXogador().getAvatar().getId() + " de tipo "+turno.getXogador().getAvatar().getTipo() +" cambia de modo "+turno.getXogador().getAvatar().getModoXogo());
     }
     /**
      * GETTERS AND SETTERS
@@ -613,9 +620,9 @@ public class Xogo {
     }
 
     /**
-     * @return Devolve o xogador actual
+     * @return Devolve o Turno actual
      */
-    public Xogador getTurno() {
+    public Turno getTurno() {
         return turno;
     }
 
@@ -663,20 +670,20 @@ public class Xogo {
 
     public void moverModoNormal(int valorDados){
         String mensaxe="";
-        Casilla current=turno.getPosicion();
+        Casilla current=turno.getXogador().getPosicion();
         int nPos=current.getPosicionIndex()+valorDados;
         Casilla next=this.taboeiro.getCasilla(nPos);
 
         if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
             if(nPos>39) {
-                mensaxe="O xogador "+turno.getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
-                turno.getAvatar().voltaTaboeiro();
-                turno.engadirDinheiro(Valor.VOLTA_COMPLETA,TipoGasto.VOLTA_COMPLETA);
+                mensaxe="O xogador "+turno.getXogador().getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
+                turno.getXogador().getAvatar().voltaTaboeiro();
+                turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA,TipoGasto.VOLTA_COMPLETA);
             }
         }
 
         mensaxe+=next.interpretarCasilla(this,valorDados);
-        mensaxe="O avatar "  +turno.getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
+        mensaxe="O avatar "  +turno.getXogador().getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
         System.out.println(mensaxe);
 
         if(deronTodosCatroVoltas()){
@@ -693,9 +700,9 @@ public class Xogo {
      */
     private void moverModoAvanzado(int valorDados){
         Casilla next;
-        int cPos=turno.getPosicion().getPosicionIndex();
-        System.out.println("Encontraste en "+ turno.getPosicion().getNome());
-        switch (turno.getAvatar().getTipo()){
+        int cPos=turno.getXogador().getPosicion().getPosicionIndex();
+        System.out.println("Encontraste en "+ turno.getXogador().getPosicion().getNome());
+        switch (turno.getXogador().getAvatar().getTipo()){
             case PELOTA:
                 /**
                  * si el valor de los dados es mayor que 4, avanza tantas casillas como dicho valor; mientras
@@ -747,7 +754,7 @@ public class Xogo {
                     System.out.println("Avanzaches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
                 }else{
                     turno.setPodeLanzar(false);
-                    turno.setTurnosInvalidado(2);
+                    turno.getXogador().setTurnosInvalidado(2);
                     next=this.taboeiro.getCasilla(cPos-valorDados);
                     if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     System.out.println("Retrocediches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
@@ -810,7 +817,7 @@ public class Xogo {
             return false;
         }
 
-        if(!c.getDono().equals(turno)){
+        if(!c.getDono().equals(turno.getXogador())){
             System.err.println("Esta casilla non é túa, non a podes edificar.");
             return false;
         }

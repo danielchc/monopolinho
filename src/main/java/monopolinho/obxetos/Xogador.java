@@ -19,11 +19,10 @@ public class Xogador {
     private Avatar avatar;
     private float fortuna;
     private ArrayList<Casilla> propiedades;
-    private boolean tenTurno;
     private int turnosNaCarcel;
     private int turnosInvalidado;
-    private boolean podeLanzar;
-    private int vecesTiradas;
+    //private boolean podeLanzar;
+    //private int vecesTiradas;
     private EstadoXogador estadoXogador;
     private EstadisticasXogador estadisticas;
 
@@ -37,9 +36,7 @@ public class Xogador {
         this.fortuna=0.0f;
         this.turnosNaCarcel=0;
         this.turnosInvalidado=0;
-        this.vecesTiradas=0;
         this.propiedades=new ArrayList<>();
-        this.podeLanzar=false;
         this.estadoXogador=EstadoXogador.ESPECIAL;
         this.estadisticas=new EstadisticasXogador();
     }
@@ -54,8 +51,6 @@ public class Xogador {
         this.fortuna= Valor.FORTUNA_INCIAL;
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>();
-        this.podeLanzar=true;
-        this.vecesTiradas=0;
         this.turnosInvalidado=0;
         this.turnosNaCarcel=0;
         this.estadoXogador=EstadoXogador.NORMAL;
@@ -67,14 +62,6 @@ public class Xogador {
      */
     public boolean estaNaCarcel(){
         return (this.turnosNaCarcel!=0);
-    }
-
-    /**
-     * Este metodo aumenta en 1 as veces que tirou un xogador. Serve para saber se un xogador sacou triples.
-     */
-    public void aumentarVecesTiradas() {
-        this.estadisticas.engadirLazamentosDeDadosTotales();
-        this.vecesTiradas++;
     }
 
     /**
@@ -271,20 +258,6 @@ public class Xogador {
         }
     }
 
-    /**
-     * @return Devolve se o xogador ten turno ou non
-     */
-    public boolean isTenTurno() {
-        return tenTurno;
-    }
-
-    /**
-     * Establece se o xogador ten turno
-     * @param tenTurno
-     */
-    public void setTenTurno(boolean tenTurno) {
-        this.tenTurno = tenTurno;
-    }
 
     /**
      * @return Número de turnos na cárcel
@@ -299,36 +272,6 @@ public class Xogador {
      */
     public void setTurnosNaCarcel(int turnosNaCarcel) {
         this.turnosNaCarcel = turnosNaCarcel;
-    }
-
-    /**
-     * @return Comproba se o xogador pode lanzar
-     */
-    public boolean podeLanzar() {
-        return podeLanzar;
-    }
-
-    /**
-     * Establece se o xogador pode lanzar
-     * @param podeLanzar
-     */
-    public void setPodeLanzar(boolean podeLanzar) {
-        this.podeLanzar = podeLanzar;
-    }
-
-    /**
-     * @return Número de veces que tirou un xogador
-     */
-    public int getVecesTiradas() {
-        return vecesTiradas;
-    }
-
-    /**
-     * Establece o número de veces que tirou un xogador
-     * @param vecesTiradas
-     */
-    public void setVecesTiradas(int vecesTiradas) {
-        this.vecesTiradas = vecesTiradas;
     }
 
     /**

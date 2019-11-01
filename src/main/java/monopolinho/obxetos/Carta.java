@@ -26,13 +26,13 @@ public class Carta {
      * @return Devolve unha String coa información interpretada
      */
     public String interpretarCarta(Xogo xogo){
-        Xogador turno=xogo.getTurno();
+        Xogador turno=xogo.getTurno().getXogador();
         float dinheiroPagar;
         switch (this.tipoCartaAccion){
             //2. Decides hacer un viaje de placer. Avanza hasta Cádiz.
             case S_VIAXE_PLACER:
                 turno.setPosicion((xogo.getTaboeiro().getCasilla(13)));
-                return mensaxe+" "+(xogo.getTurno().getPosicion().interpretarCasilla(xogo,0));
+                return mensaxe+" "+(turno.getPosicion().interpretarCasilla(xogo,0));
 
             //3. Vendes tu billete de avión para Terrassa en una subasta por Internet. Cobra 500000€.
             //6. Devolución de Hacienda. Cobra 500000€.

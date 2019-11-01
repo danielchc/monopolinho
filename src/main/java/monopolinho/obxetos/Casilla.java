@@ -161,7 +161,7 @@ public class Casilla {
      */
     public String interpretarCasilla(Xogo xogo, int valorDados){
         Casilla next=this;
-        Xogador turno=xogo.getTurno();
+        Xogador turno=xogo.getTurno().getXogador();
          switch (tipoCasilla){
              case SOLAR:
                  return interpretarSOLAR(next,turno,xogo);
