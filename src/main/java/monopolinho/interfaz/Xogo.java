@@ -1,5 +1,6 @@
 package monopolinho.interfaz;
 
+import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogo;
 import monopolinho.obxetos.*;
@@ -161,7 +162,7 @@ public class Xogo {
     public void pasarTurno(){
         Xogador actual=turno.getXogador();
         if(turno.podeLanzar() && turno.getXogador().estadoXogador()!=EstadoXogador.BANCARROTA && turno.getXogador().getTurnosInvalidado()==0){
-            System.err.println("Tes que tirar unha vez antes de pasar turno.");
+            System.err.println("Tes que tirar antes de pasar turno.");
             return;
         }
         if(turno.getXogador().estadoXogador() == EstadoXogador.TEN_DEBEDAS){
@@ -206,21 +207,21 @@ public class Xogo {
      */
     public void comprarCasilla(String[] cmds){
         Xogador xogador=turno.getXogador();
-        Casilla comprar=xogador.getPosicion();
+        Casilla comprar=this.taboeiro.buscarCasilla(cmds[1]);
         if(turno.getVecesTiradas()==0){
             System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
             return;
         }
-        if(!comprar.equals(this.taboeiro.buscarCasilla(cmds[1]))){
-            System.err.println("Non te atopas nesta casilla");
+        if(!this.turno.getHistorial().contains(comprar)){
+            System.err.println("Non paseches por esta casilla neste turno");
             return;
         }
         if(!comprar.podeseComprar()){
-            System.err.println("Non podes comprar esta casilla");
+            System.err.println("Este tipo de casilla non se pode comprar esta casilla");
             return;
         }
         if (!comprar.getDono().equals(banca)){
-            System.err.println("Esta casilla pertence a " + xogador.getPosicion().getDono().getNome()+". Non a podes comprar");
+            System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }
         if(!xogador.quitarDinheiro(comprar.getValor(),TipoGasto.COMPRA)){
@@ -326,7 +327,7 @@ public class Xogo {
      * Este metodo permite construir unha casa nun solar.
      */
     public void edificarCasa(){
-        Casilla actual=turno.getXogador().getPosicion();
+        Casilla actual=turno.getPosicion();
         if(!comprobarConstruir(actual,TipoEdificio.CASA)){
             return;
         }
@@ -352,7 +353,7 @@ public class Xogo {
      * Este metodo permite construir un hotel nun solar.
      */
     public void edificarHotel(){
-        Casilla actual=turno.getXogador().getPosicion();
+        Casilla actual=turno.getPosicion();
 
         if(!comprobarConstruir(actual,TipoEdificio.HOTEL)){
             return;
@@ -391,7 +392,7 @@ public class Xogo {
      * Este metodo permite construir unha piscina nun solar.
      */
     public void edificarPiscina(){
-        Casilla actual=turno.getXogador().getPosicion();
+        Casilla actual=turno.getPosicion();
 
         if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
             return;
@@ -416,7 +417,7 @@ public class Xogo {
      * Este metodo permite construir unha pista de deportes nun solar.
      */
     public void edificarPistaDeportes(){
-        Casilla actual=turno.getXogador().getPosicion();
+        Casilla actual=turno.getPosicion();
 
         if(!comprobarConstruir(actual,TipoEdificio.PISTA_DEPORTES)){
             return;
@@ -494,7 +495,7 @@ public class Xogo {
      * Mostra a información do turno actual
      */
     public void mostrarTurno() {
-        if (turno!=null)System.out.println(turno);
+        if (turno!=null)System.out.println(turno.getXogador());
         else System.err.println("Non hai xogadores");
     }
 
@@ -544,7 +545,9 @@ public class Xogo {
         dados.lanzarDados();
         turno.aumentarVecesTiradas();   //1 vez tirada
 
-        String mensaxe="\nSaiu o "+dados.getDado1()+" e o "+dados.getDado2();
+        String mensaxe="\nSaiu o "+ ReprTab.colorear(Valor.ReprColor.ANSI_RED_BOLD,Integer.toString(dados.getDado1()))+
+                        " e o "+
+                        ReprTab.colorear(Valor.ReprColor.ANSI_RED_BOLD,Integer.toString(dados.getDado2()));
 
         if(turno.getXogador().estaNaCarcel()){
             if(!dados.sonDobles()){
@@ -562,7 +565,7 @@ public class Xogo {
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getXogador().getNome()+" volve tirar.";
             }else if(dados.sonDobles() && turno.getVecesTiradas()==3){
                 turno.getXogador().meterNoCarcere();
-                turno.getXogador().setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
                 System.err.println(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
                 return;
@@ -670,7 +673,7 @@ public class Xogo {
 
     public void moverModoNormal(int valorDados){
         String mensaxe="";
-        Casilla current=turno.getXogador().getPosicion();
+        Casilla current=turno.getPosicion();
         int nPos=current.getPosicionIndex()+valorDados;
         Casilla next=this.taboeiro.getCasilla(nPos);
 
@@ -700,8 +703,8 @@ public class Xogo {
      */
     private void moverModoAvanzado(int valorDados){
         Casilla next;
-        int cPos=turno.getXogador().getPosicion().getPosicionIndex();
-        System.out.println("Encontraste en "+ turno.getXogador().getPosicion().getNome());
+        int cPos=turno.getPosicion().getPosicionIndex();
+        System.out.println("Encontraste en "+ turno.getPosicion().getNome());
         switch (turno.getXogador().getAvatar().getTipo()){
             case PELOTA:
                 /**
@@ -713,7 +716,7 @@ public class Xogo {
                  * propiedad deberá pagar el alquiler, y después avanzará hasta la casilla 7, que podrá comprar si no
                  * pertenece a ningún jugador, y finalmente a la casilla 9, que podrá comprar o deberá pagar alquiler
                  * si  no  pertenece  al  jugador.  Si  una  de  esas  casillas  es  Ir  a  Cárcel,  entonces  no  se  parará  en  las
-                 * subsiguientes casillas. FALTA QUE SE POIDA COMPRAR CALQUERA
+                 * subsiguientes casillas.
                  */
                 //Hai que facer tipo un historial de casillas polas que pasaches
                 if(valorDados>4){
@@ -740,7 +743,6 @@ public class Xogo {
                 * en cualesquiera de los 4 intentos posibles. Sin embargo, se puede edificar cualquier tipo de edificio
                 * en cualquier intento. Si el valor de los dados es menor que 4, el avatar retrocederá el número de
                 * casillas correspondientes y además no puede volver a lanzar los dados en los siguientes dos turnos.
-                * FALTA QUE SE POIDA COMPRAR SOLO UNHA VEZ
                 */
                 if(turno.getVecesTiradas()>4){
                     System.err.println("Non podes lanzar máis veces.Tes que pasar de turno");
@@ -750,14 +752,15 @@ public class Xogo {
                 if(valorDados>4){
                     turno.setPodeLanzar(true);
                     next=this.taboeiro.getCasilla(cPos+valorDados);
-                    if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     System.out.println("Avanzaches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
+                    if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
+                    if(turno.getVecesTiradas()<4)System.out.println("Podes lanzar outra vez");
                 }else{
                     turno.setPodeLanzar(false);
                     turno.getXogador().setTurnosInvalidado(2);
                     next=this.taboeiro.getCasilla(cPos-valorDados);
-                    if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     System.out.println("Retrocediches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
+                    if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     System.out.println("Non podes lanzar nos seguintes dous turnos.");
                 }
                 break;
@@ -838,7 +841,7 @@ public class Xogo {
         b.barallar();
         int nCarta=0;
         do{
-            System.out.print("Elixe unha carta (1-6): ");
+            System.out.print("Escolle unha carta (1-6): ");
             nCarta=new Scanner(System.in).nextInt();
         }while(nCarta<1 || nCarta>6);
         System.out.println(b.getCarta(nCarta-1).interpretarCarta(this));
@@ -877,12 +880,14 @@ public class Xogo {
 
     //BORRAR
     public void mov(int i){
-        moverModoNormal(i);
         turno.aumentarVecesTiradas();
+        turno.setPodeLanzar(false);
+        moverModoNormal(i);
     }
     public void mova(int i){
-        moverModoAvanzado(i);
         turno.aumentarVecesTiradas();
+        turno.setPodeLanzar(false);
+        moverModoAvanzado(i);
     }
 
 }

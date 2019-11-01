@@ -73,7 +73,7 @@ public class Baralla {
         cartas.add(new Carta(
                 TipoCarta.SORTE,
                 TipoCartaAccion.S_PRESIDENTE,
-                "Saliche escollido concejal de urbanismo, soborta a cada xogador con 25000€"
+                "Saliche escollido conselleiro de urbanismo, soborna a cada xogador con 25000€"
         ));
         cartas.add(new Carta(
                 TipoCarta.SORTE,
@@ -119,12 +119,12 @@ public class Baralla {
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_FRAUDE_IDENTIDAD,
-                "Investingante por mover os marcos das fincas. Vai a Cárcel. Vai directamente sen pasar pola casilla de Saída e sen cobrar os "+ Valor.VOLTA_COMPLETA
+                "Investingante por mover os marcos das fincas. Vai ó cárcere. Vai directamente sen pasar pola casilla de Saída e sen cobrar os "+ Valor.VOLTA_COMPLETA
         ));
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_RETROCEDER_PONTEPEDRA,
-                "Retrocede ata Pontepedra para facer un trompos co jabalí. "
+                "Retrocede ata PONTEPEDRA para facer un trompos co jabalí. "
         ));
     }
 }
