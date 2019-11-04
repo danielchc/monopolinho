@@ -275,15 +275,14 @@ public class Xogo {
     public void hipotecarCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
 
-        if(c.getEdificios().size()!=0){
-            System.err.println(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
-            return;
-        }
-
         if(c!=null && c.podeseComprar() && c.getDono().equals(turno.getXogador()) && !c.getEstaHipotecada()){
+            if(c.getEdificios().size()!=0){
+                System.err.println(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
+                return;
+            }
             c.setEstaHipotecada(true);
             c.getDono().engadirDinheiro(c.getHipoteca(),TipoGasto.OTROS);
-            System.out.println("\nAcabas de hipotecar a casilla "+c.getNome());
+            System.out.println("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
         }
         else{
             System.err.println("Non se pode hipotecar esa casilla");
@@ -302,7 +301,7 @@ public class Xogo {
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
             c.getDono().quitarDinheiro(c.getHipoteca(),TipoGasto.OTROS);
-            System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Recibes "+c.getHipoteca());
+            System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca());
         }
         else{
             System.err.println("Non se pode deshipotecar esa casilla");
