@@ -14,6 +14,7 @@ public class Carta {
     private TipoCarta tipoCarta;
     private TipoCartaAccion tipoCartaAccion;
     private String mensaxe;
+
     public Carta(TipoCarta tipoCarta, TipoCartaAccion tipoCartaAccion, String mensaxe) {
         this.tipoCarta = tipoCarta;
         this.tipoCartaAccion = tipoCartaAccion;
@@ -56,12 +57,12 @@ public class Carta {
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*20000;
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000;
                 }
-                mensaxe+="Tes que pagar "+aPagar;
+
                 if(!xogador.quitarDinheiro(aPagar,TipoGasto.TASAS)){
-                    System.err.println("Non tes suficiente diñeiro para pagar");
+                    System.err.println("Non tes suficiente diñeiro para pagar "+aPagar);
                     return "";
                 }
-                return mensaxe;
+                return mensaxe + " Tes que pagar "+aPagar;
 
             //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.
             case S_PRESIDENTE:
@@ -77,8 +78,9 @@ public class Carta {
 
             //11. ¡Hora punta de tráfico! Retrocede tres casillas.
             case S_RETROCEDER3:
+                System.out.println(mensaxe);
                 xogo.moverModoNormal(-3);
-                return mensaxe;
+                return "";
 
             //2. Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla de Salida y sin cobrar los 2000000€.
             case C_FRAUDE_IDENTIDAD:
