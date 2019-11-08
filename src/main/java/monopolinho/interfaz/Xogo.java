@@ -325,6 +325,7 @@ public class Xogo {
     /**
      * Este metodo permite construir unha casa nun solar.
      */
+    
     public void edificarCasa(){
         Casilla actual=turno.getPosicion();
         if(!comprobarConstruir(actual,TipoEdificio.CASA)){
@@ -440,12 +441,11 @@ public class Xogo {
 
     /**
      * Vende un edificio
-     * @param tipoEdif tipo de edificio
+     * @param tipo tipo de edificio
      * @param casilla Casilla
      * @param numero Número de edificios a vender
      */
-    public void venderEdificio(String tipoEdif,String casilla,int numero){
-        TipoEdificio tipo=interpretarEdificio(tipoEdif);
+    public void venderEdificio(TipoEdificio tipo,String casilla,int numero){
         Casilla c=taboeiro.buscarCasilla(casilla);
         if(tipo==null){
             System.err.println("Tipo de edificio incorrecto.");
@@ -844,25 +844,6 @@ public class Xogo {
             nCarta=new Scanner(System.in).nextInt();
         }while(nCarta<1 || nCarta>6);
         System.out.println(b.getCarta(nCarta-1).interpretarCarta(this));
-    }
-
-    /**
-     * Convirte un String a un TipoEdificio
-     * @param tipo String edificio a convertir
-     * @return Tipo de Edificio
-     */
-    private TipoEdificio interpretarEdificio(String tipo){
-        switch (tipo){
-            case "casa":
-                return TipoEdificio.CASA;
-            case "hotel":
-                return TipoEdificio.HOTEL;
-            case "piscina":
-                return TipoEdificio.PISCINA;
-            case "pista":
-                return TipoEdificio.PISTA_DEPORTES;
-        }
-        return null;
     }
 
     /**

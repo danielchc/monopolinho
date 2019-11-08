@@ -3,6 +3,7 @@ package monopolinho.interfaz;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
+import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
 
 import java.io.BufferedReader;
@@ -87,6 +88,25 @@ public class Menu {
                 System.out.println("\nAvatar inválido, asignouseche o coche por defecto.");
                 return TipoMovemento.COCHE;
         }
+    }
+
+    /**
+     * Convirte un String a un TipoEdificio
+     * @param tipo String edificio a convertir
+     * @return Tipo de Edificio
+     */
+    private TipoEdificio interpretarEdificio(String tipo){
+        switch (tipo){
+            case "casa":
+                return TipoEdificio.CASA;
+            case "hotel":
+                return TipoEdificio.HOTEL;
+            case "piscina":
+                return TipoEdificio.PISCINA;
+            case "pista":
+                return TipoEdificio.PISTA_DEPORTES;
+        }
+        return null;
     }
 
     /**
@@ -302,7 +322,7 @@ public class Menu {
                     System.out.println("Sintaxe: vender <casa/hotel/piscina/pista> <casilla> <numero> ");
                     return;
                 }
-                xogo.venderEdificio(cmds[1],cmds[2],Integer.parseInt(cmds[3]));
+                xogo.venderEdificio(interpretarEdificio(cmds[1]),cmds[2],Integer.parseInt(cmds[3]));
                 break;
             case "bancarrota":
                 xogo.declararBancarrota();
