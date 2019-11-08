@@ -325,117 +325,57 @@ public class Xogo {
     /**
      * Este metodo permite construir unha casa nun solar.
      */
-    
-    public void edificarCasa(){
+
+    public void edificar(TipoEdificio tipo){
         Casilla actual=turno.getPosicion();
-        if(!comprobarConstruir(actual,TipoEdificio.CASA)){
+        if(tipo==null){
+            System.err.println("Tipo de edificio incorrecto");
             return;
         }
-
-        if(!actual.getGrupo().tenTodoGrupo(turno.getXogador()) && actual.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
-            System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
-            return;
-        }
-
-
-        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.CASA),TipoGasto.EDIFICAR)){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.CASA,turno.getXogador(),actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-
-    /**
-     * Este metodo permite construir un hotel nun solar.
-     */
-    public void edificarHotel(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.HOTEL)){
-            return;
-        }
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
-            System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
-            return;
-        }
-        else{
-            int casasEliminadas=0;
-            ArrayList<Edificio> aBorrar=new ArrayList<>();
-            for(Edificio e:actual.getEdificios()){
-                if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){
-                    aBorrar.add(e);
-                    casasEliminadas++;
+        if(!comprobarConstruir(actual,tipo))return;
+        switch (tipo){
+            case CASA:
+                if(!actual.getGrupo().tenTodoGrupo(turno.getXogador()) && actual.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
+                    System.err.println("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
+                    return;
                 }
-            }
-            for(Edificio e:aBorrar){
-                actual.eliminarEdificio(e);
-            }
-            actual.renombrarEdificios();
+                break;
+            case HOTEL:
+                if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
+                    System.err.println("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
+                    return;
+                }
+                int casasEliminadas=0;
+                ArrayList<Edificio> aBorrar=new ArrayList<>();
+                for(Edificio e:actual.getEdificios()){
+                    if((e.getTipoEdificio() == TipoEdificio.CASA) && (casasEliminadas<4)){
+                        aBorrar.add(e);
+                        casasEliminadas++;
+                    }
+                }
+                for(Edificio e:aBorrar)actual.eliminarEdificio(e);
+                actual.renombrarEdificios();
+                break;
+            case PISCINA:
+                if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
+                    System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
+                    return;
+                }
+                break;
+            case PISTA_DEPORTES:
+                if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
+                    System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
+                    return;
+                }
+                break;
         }
-
-        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.HOTEL),TipoGasto.EDIFICAR)){
+        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(tipo),TipoGasto.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(TipoEdificio.HOTEL,turno.getXogador(),actual);
+        Edificio e=new Edificio(tipo,turno.getXogador(),actual);
         actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" un hotel. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-    /**
-     * Este metodo permite construir unha piscina nun solar.
-     */
-    public void edificarPiscina(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.PISCINA)){
-            return;
-        }
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
-            System.err.println("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
-            return;
-        }
-
-        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISCINA),TipoGasto.EDIFICAR)){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.PISCINA,turno.getXogador(),actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha piscina. A súa fortuna redúcese en "+e.getPrecio());
-    }
-
-    /**
-     * Este metodo permite construir unha pista de deportes nun solar.
-     */
-    public void edificarPistaDeportes(){
-        Casilla actual=turno.getPosicion();
-
-        if(!comprobarConstruir(actual,TipoEdificio.PISTA_DEPORTES)){
-            return;
-        }
-
-        if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
-            System.err.println("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
-            return;
-        }
-
-        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(TipoEdificio.PISTA_DEPORTES),TipoGasto.EDIFICAR)){
-            System.err.println("Non tes suficiente diñeiro para edificar");
-            return ;
-        }
-        Edificio e=new Edificio(TipoEdificio.PISTA_DEPORTES,turno.getXogador(),actual);
-        actual.engadirEdificio(e);
-
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha pista de deportes. A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
     }
 
 

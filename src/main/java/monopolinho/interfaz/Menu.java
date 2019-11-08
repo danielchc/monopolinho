@@ -300,20 +300,8 @@ public class Menu {
                 break;
             case "edificar":
                 if(cmds.length==2){
-                    switch (cmds[1]){
-                        case "casa":
-                            xogo.edificarCasa();
-                            return;
-                        case "hotel":
-                            xogo.edificarHotel();
-                            return;
-                        case "piscina":
-                            xogo.edificarPiscina();
-                            return;
-                        case "pista":
-                            xogo.edificarPistaDeportes();
-                            return;
-                    }
+                    xogo.edificar(interpretarEdificio(cmds[1]));
+                }else{
                     System.out.println("Sintaxe: edificar <casa/hotel/piscina/pista>");
                 }
                 break;

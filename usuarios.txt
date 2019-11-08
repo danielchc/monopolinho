@@ -1,2 +1,21 @@
 crear jugador Dani pelota
 crear jugador David coche
+mov 1
+comprar GOIRIZ
+mov 2
+comprar SADA
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+describir SADA
+edificar hotel
+edificar hotel
+describir xogador Dani
+describir SADA
+describir PONTEPEDRA
+estadisticas Dani
