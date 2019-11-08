@@ -323,9 +323,9 @@ public class Xogo {
     }
 
     /**
-     * Este metodo permite construir unha casa nun solar.
+     * Este metodo permite construir
+     * @param tipo Tipo de edificio
      */
-
     public void edificar(TipoEdificio tipo){
         Casilla actual=turno.getPosicion();
         if(tipo==null){
@@ -375,7 +375,7 @@ public class Xogo {
         }
         Edificio e=new Edificio(tipo,turno.getXogador(),actual);
         actual.engadirEdificio(e);
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+" unha casa. A súa fortuna redúcese en "+e.getPrecio());
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+e.getPrecio());
     }
 
 
