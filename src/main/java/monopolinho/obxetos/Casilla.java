@@ -55,9 +55,9 @@ public class Casilla {
                 this.colorCasilla= Valor.ReprColor.ANSI_RED_BOLD;
                 break;
             case PARKING:
-            case CARCEL:
-            case SALIDA:
-            case IRCARCEL:
+            case CARCERE:
+            case SAIDA:
+            case IRCARCERE:
                 this.colorCasilla=Valor.ReprColor.ANSI_BLACK_BOLD;
                 break;
             case IMPOSTO:
@@ -169,18 +169,18 @@ public class Casilla {
                  return interpretarTRANSPORTE(next,turno,xogo);
              case SERVIZO:
                  return interpretarSERVIZO(next,turno,xogo,valorDados);
-             case CARCEL:
+             case CARCERE:
                  turno.setPosicion(next);
                  return "Só de visita...";
-             case IRCARCEL:
-                 return interpretarIRCARCEL(turno,xogo);
+             case IRCARCERE:
+                 return interpretarIRCARCERE(turno,xogo);
              case PARKING:
                  return interpretarPARKING(turno,next,xogo);
              case IMPOSTO:
                  return interpretarIMPOSTO(turno,next,xogo);
              case SORTE:
              case COMUNIDADE:
-             case SALIDA:
+             case SAIDA:
                  turno.setPosicion(next);
                  return "";
          }
@@ -659,8 +659,8 @@ public class Casilla {
      * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarIRCARCEL(Turno turno,Xogo xogo){
-        String mensaxe="O avatar colocase na casilla CARCEL(TEIXEIRO)";
+    private String interpretarIRCARCERE(Turno turno, Xogo xogo){
+        String mensaxe="O avatar colocase na casilla CÁRCERE";
         turno.getXogador().meterNoCarcere();
         turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
         return mensaxe;
@@ -706,7 +706,7 @@ public class Casilla {
     @Override
     public String toString(){
         String xogadores="";
-        String xogadoresCarcel="";
+        String xogadoresCarcere="";
         String edificios="[";
 
         for(Edificio e:this.edificios){
@@ -717,8 +717,8 @@ public class Casilla {
         if(this.avatares!=null) {
             for (Avatar a : this.avatares){
                 xogadores += "\n\t\t" + a.getXogador().getNome() + ",";
-                if (a.getXogador().estaNaCarcel())
-                    xogadoresCarcel += "\n\t\t[" + a.getXogador().getNome() + "," + a.getXogador().getTurnosNaCarcel() + "],";
+                if (a.getXogador().estaNoCarcere())
+                    xogadoresCarcere += "\n\t\t[" + a.getXogador().getNome() + "," + a.getXogador().getTurnosNoCarcere() + "],";
             }
         }
         String texto;
@@ -728,11 +728,11 @@ public class Casilla {
                         "Bote: "+this.taboeiro.getBote()+"\n\t" +
                         "Xogadores:["+xogadores+"\n\t]\n}";
                 break;
-            case CARCEL:
+            case CARCERE:
                 texto="{\n\t" +
                         "Tipo: "+this.tipoCasilla+",\n\t" +
                         "Salir:"+ Valor.SAIR_CARCERE+",\n\t" +
-                        "Xogadores:["+xogadoresCarcel+"\n\t]" +
+                        "Xogadores:["+xogadoresCarcere+"\n\t]" +
                         "\n}";
                 break;
             case IMPOSTO:
@@ -756,7 +756,7 @@ public class Casilla {
             case SORTE:
                 texto="";
                 break;
-            case SALIDA:
+            case SAIDA:
                 texto="";
                 break;
             default:

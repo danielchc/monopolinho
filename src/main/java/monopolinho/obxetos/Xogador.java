@@ -19,7 +19,7 @@ public class Xogador {
     private Avatar avatar;
     private float fortuna;
     private ArrayList<Casilla> propiedades;
-    private int turnosNaCarcel;
+    private int turnosNoCarcere;
     private int turnosInvalidado;
     //private boolean podeLanzar;
     //private int vecesTiradas;
@@ -34,7 +34,7 @@ public class Xogador {
         this.nome="Banca";
         this.avatar=null;
         this.fortuna=0.0f;
-        this.turnosNaCarcel=0;
+        this.turnosNoCarcere =0;
         this.turnosInvalidado=0;
         this.propiedades=new ArrayList<>();
         this.estadoXogador=EstadoXogador.ESPECIAL;
@@ -52,7 +52,7 @@ public class Xogador {
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>();
         this.turnosInvalidado=0;
-        this.turnosNaCarcel=0;
+        this.turnosNoCarcere=0;
         this.estadoXogador=EstadoXogador.NORMAL;
         this.estadisticas=new EstadisticasXogador();
     }
@@ -60,8 +60,8 @@ public class Xogador {
     /**
      * @return Saber se un xogador esta no carcere.
      */
-    public boolean estaNaCarcel(){
-        return (this.turnosNaCarcel!=0);
+    public boolean estaNoCarcere(){
+        return (this.turnosNoCarcere!=0);
     }
 
     /**
@@ -150,8 +150,8 @@ public class Xogador {
      * Mete un xogador no cárcere
      */
     public void meterNoCarcere(){
-        this.turnosNaCarcel=3;
-        this.estadisticas.engadirVecesCarcel();
+        this.turnosNoCarcere =3;
+        this.estadisticas.engadirVecesNoCarcere();
     }
 
     public void restarTurnosInvalidado(){
@@ -162,7 +162,7 @@ public class Xogador {
      * Saca un xogador do cárcere
      */
     public void sairDoCarcere(){
-        this.turnosNaCarcel=0;
+        this.turnosNoCarcere =0;
     }
 
     /**
@@ -262,16 +262,16 @@ public class Xogador {
     /**
      * @return Número de turnos na cárcel
      */
-    public int getTurnosNaCarcel() {
-        return turnosNaCarcel;
+    public int getTurnosNoCarcere() {
+        return turnosNoCarcere;
     }
 
     /**
      * Establece o número de turnos na cárcel
-     * @param turnosNaCarcel E
+     * @param turnosNoCarcere E
      */
-    public void setTurnosNaCarcel(int turnosNaCarcel) {
-        this.turnosNaCarcel = turnosNaCarcel;
+    public void setTurnosNoCarcere(int turnosNoCarcere) {
+        this.turnosNoCarcere = turnosNoCarcere;
     }
 
     /**

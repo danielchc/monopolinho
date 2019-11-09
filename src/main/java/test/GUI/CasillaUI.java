@@ -56,13 +56,13 @@ public class CasillaUI extends StackPane {
         }
         this.setBackground(new Background(new BackgroundFill(k, CornerRadii.EMPTY, Insets.EMPTY)));
         switch (c.getTipoCasilla()){
-            case CARCEL:
+            case CARCERE:
                 ka.setRotate(45);
                 break;
-            case SALIDA:
+            case SAIDA:
                 ka.setRotate(-45);
                 break;
-            case IRCARCEL:
+            case IRCARCERE:
                 ka.setRotate(45);
                 break;
             case PARKING:

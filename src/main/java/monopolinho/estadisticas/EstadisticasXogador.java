@@ -12,7 +12,7 @@ public class EstadisticasXogador {
     private float cobroDeAlquileres;
     private float pasarPolaCasillaDeSalida;
     private float premiosInversionesOBote;
-    private int vecesEnLaCarcel;
+    private int vecesNoCarcere;
     private int lazamentosDeDadosTotales;
 
     /**
@@ -26,7 +26,7 @@ public class EstadisticasXogador {
         this.pasarPolaCasillaDeSalida=0;
         this.premiosInversionesOBote=0;
         this.lazamentosDeDadosTotales =0;
-        this.vecesEnLaCarcel=0;
+        this.vecesNoCarcere =0;
     }
 
     /**
@@ -88,8 +88,8 @@ public class EstadisticasXogador {
     /**
      * Aumenta o número de veces que un xogador estuvo no cárcere
      */
-    public void engadirVecesCarcel(){
-        this.vecesEnLaCarcel++;
+    public void engadirVecesNoCarcere(){
+        this.vecesNoCarcere++;
     }
 
     /**
@@ -192,16 +192,16 @@ public class EstadisticasXogador {
     /**
      * @return Devolve o número de veces que un xogador estuvo no cárcere
      */
-    public int getVecesEnLaCarcel() {
-        return vecesEnLaCarcel;
+    public int getVecesNoCarcere() {
+        return vecesNoCarcere;
     }
 
     /**
      * Establece o número de veces que un xogador foi o cárcere
-     * @param vecesEnLaCarcel
+     * @param vecesNoCarcere
      */
-    public void setVecesEnLaCarcel(int vecesEnLaCarcel) {
-        this.vecesEnLaCarcel = vecesEnLaCarcel;
+    public void setVecesNoCarcere(int vecesNoCarcere) {
+        this.vecesNoCarcere = vecesNoCarcere;
     }
 
     /**
@@ -246,7 +246,7 @@ public class EstadisticasXogador {
                 ",\n\t cobroDeAlquileres: " + cobroDeAlquileres +
                 ",\n\t pasarPolaCasillaDeSalida: " + pasarPolaCasillaDeSalida +
                 ",\n\t premiosInversionesOBote: " + premiosInversionesOBote +
-                ",\n\t vecesEnLaCarcel: " + vecesEnLaCarcel +
+                ",\n\t vecesNoCarcere: " + vecesNoCarcere +
                 "\n}";
     }
 }

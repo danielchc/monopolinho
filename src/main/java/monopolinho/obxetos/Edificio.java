@@ -150,7 +150,7 @@ public class Edificio {
      */
     public boolean equals(Object obj){
         if(obj instanceof Edificio){
-            if(this.id==((Edificio) obj).id)return true;
+            if(this.id==((Edificio) obj).id && this.getPosicion().equals(((Edificio) obj).getPosicion()))return true;
         }
         return false;
     }

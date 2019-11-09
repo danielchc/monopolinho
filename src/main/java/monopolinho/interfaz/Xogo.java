@@ -187,8 +187,8 @@ public class Xogo {
     /**
      * Este metodo saca a un xogador da carcere.
      */
-    public void salirCarcel(){
-        if (!turno.getXogador().estaNaCarcel()){
+    public void salirCarcere(){
+        if (!turno.getXogador().estaNoCarcere()){
             System.out.println("O xogador non está no cárcere");
             return;
         }
@@ -488,7 +488,7 @@ public class Xogo {
                         " e o "+
                         ReprTab.colorear(Valor.ReprColor.ANSI_RED_BOLD,Integer.toString(dados.getDado2()));
 
-        if(turno.getXogador().estaNaCarcel()){
+        if(turno.getXogador().estaNoCarcere()){
             if(!dados.sonDobles()){
                 System.err.println(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
                 turno.setPodeLanzar(false);
@@ -504,7 +504,7 @@ public class Xogo {
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getXogador().getNome()+" volve tirar.";
             }else if(dados.sonDobles() && turno.getVecesTiradas()==3){
                 turno.getXogador().meterNoCarcere();
-                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCEL
+                turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCERE
                 System.err.println(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
                 return;
@@ -616,7 +616,7 @@ public class Xogo {
         int nPos=current.getPosicionIndex()+valorDados;
         Casilla next=this.taboeiro.getCasilla(nPos);
 
-        if(next.getTipoCasilla()!=TipoCasilla.IRCARCEL) {
+        if(next.getTipoCasilla()!=TipoCasilla.IRCARCERE) {
             if(nPos>39) {
                 mensaxe="O xogador "+turno.getXogador().getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getXogador().getAvatar().voltaTaboeiro();
@@ -662,14 +662,14 @@ public class Xogo {
                     for(int i=5;i<=valorDados;i+=2){
                         next=this.taboeiro.getCasilla(cPos+i);
                         System.out.println("Avanzaches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,i));
-                        if(next.getTipoCasilla()==TipoCasilla.IRCARCEL)return;
+                        if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
                         if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     }
                 }else{
                     for(int i=1;i<=valorDados;i+=2){
                         next=this.taboeiro.getCasilla(cPos-i);
                         System.out.println("Retrocedeches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,i));
-                        if(next.getTipoCasilla()==TipoCasilla.IRCARCEL)return;
+                        if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
                         if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     }
                 }

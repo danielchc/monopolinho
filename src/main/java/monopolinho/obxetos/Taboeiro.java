@@ -173,7 +173,7 @@ public class Taboeiro {
         this.grupos.add(grupo_verde);
         this.grupos.add(grupo_azul);
 
-        engadirCasilla(Zona.SUR,new Casilla("SALIDA",TipoCasilla.SALIDA));
+        engadirCasilla(Zona.SUR,new Casilla("SAIDA",TipoCasilla.SAIDA));
         engadirCasilla(Zona.SUR,new Casilla("GOIRIZ",grupo_ocre));
         engadirCasilla(Zona.SUR,new Casilla("COMUNIDADE", TipoCasilla.COMUNIDADE));
         engadirCasilla(Zona.SUR,new Casilla("SADA",grupo_ocre));
@@ -183,7 +183,7 @@ public class Taboeiro {
         engadirCasilla(Zona.SUR,new Casilla("SORTE",TipoCasilla.SORTE));
         engadirCasilla(Zona.SUR,new Casilla("PONTEPEDRA",grupo_cyan));
         engadirCasilla(Zona.SUR,new Casilla("BALDAIO",grupo_cyan));
-        engadirCasilla(Zona.SUR,new Casilla("CARCEL_TEIXEIRO", TipoCasilla.CARCEL));
+        engadirCasilla(Zona.SUR,new Casilla("CARCERE", TipoCasilla.CARCERE));
 
         engadirCasilla(Zona.NORTE,new Casilla("PARKING",TipoCasilla.PARKING));
         engadirCasilla(Zona.NORTE,new Casilla("CASTROVERDE",grupo_rojo));
@@ -195,7 +195,7 @@ public class Taboeiro {
         engadirCasilla(Zona.NORTE,new Casilla("CANGAS",grupo_blanco));
         engadirCasilla(Zona.NORTE,new Casilla("AS_PONTES",TipoCasilla.SERVIZO,Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
         engadirCasilla(Zona.NORTE,new Casilla("FENE",grupo_blanco));
-        engadirCasilla(Zona.NORTE,new Casilla("IR_CARCEL",TipoCasilla.IRCARCEL));
+        engadirCasilla(Zona.NORTE,new Casilla("IR_CARCERE",TipoCasilla.IRCARCERE));
 
         engadirCasilla(Zona.ESTE,new Casilla("CORUNA",grupo_verde));
         engadirCasilla(Zona.ESTE,new Casilla("LUGO",grupo_verde));

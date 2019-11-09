@@ -162,7 +162,7 @@ public class Menu {
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"lanzar dados")+ "\tLanza os dados"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"acabar turno")+ "\tAcaba o turno"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair" )+"\tSae do xogo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair carcel")+"\tO xogador sae do cárcere pagando unha tasa"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair carcere")+"\tO xogador sae do cárcere pagando unha tasa"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir <casilla>" )+"\tDescribe unha casilla"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir xogador <nome>" )+"\tDescribe un xogador"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir avatar <avatar>")+"\tDescribe un avatar"+
@@ -257,9 +257,9 @@ public class Menu {
                     System.out.println("Saindo...");
                     System.exit(0);
                 }else if (cmds.length==2){
-                    xogo.salirCarcel();
+                    xogo.salirCarcere();
                 }else{
-                    System.out.println("Sintaxe: sair carcel");
+                    System.out.println("Sintaxe: sair carecere");
                     System.out.println("Sintaxe: sair");
                     return;
                 }

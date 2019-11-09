@@ -7,10 +7,10 @@ public enum TipoCasilla{
     SOLAR,
     SERVIZO,
     TRANSPORTE,
-    CARCEL,
-    IRCARCEL,
+    CARCERE,
+    IRCARCERE,
     PARKING,
-    SALIDA,
+    SAIDA,
     IMPOSTO,
     SORTE,
     COMUNIDADE
