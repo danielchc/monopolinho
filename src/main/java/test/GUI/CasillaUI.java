@@ -10,9 +10,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
+import javafx.scene.text.Font;
 import monopolinho.obxetos.Casilla;
+import javafx.scene.text.Text;
 
 public class CasillaUI extends StackPane {
 
@@ -20,7 +21,7 @@ public class CasillaUI extends StackPane {
         Color k=Color.AZURE;
         switch (c.getColorCasilla()){
             case ANSI_BLUE_BACKGROUND:
-                k=Color.BLUE;
+                k=Color.rgb(0, 131, 245);
                 break;
             case ANSI_PURPLE_BACKGROUND:
                 k=Color.PURPLE;
@@ -41,7 +42,7 @@ public class CasillaUI extends StackPane {
                 k=Color.GREY;
                 break;
             case ANSI_YELLOW_BACKGROUND:
-                k=Color.PINK;
+                k=Color.rgb(201, 145, 32);
                 break;
             case ANSI_CYAN_BACKGROUND:
                 k=Color.CYAN;
@@ -50,24 +51,41 @@ public class CasillaUI extends StackPane {
         Text ka=new Text(c.getNome());
         ka.setTextAlignment(TextAlignment.CENTER);
         super.getChildren().add(ka);
-        StackPane.setAlignment(ka, Pos.CENTER);
+        StackPane.setAlignment(ka, Pos.TOP_CENTER);
         if(c.podeseComprar()){
             ka.setText(ka.getText()+"\n"+String.valueOf(c.getValor()));
         }
+        ka.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+
         this.setBackground(new Background(new BackgroundFill(k, CornerRadii.EMPTY, Insets.EMPTY)));
+
         switch (c.getTipoCasilla()){
+            case IMPOSTO:
+            case SORTE:
+            case COMUNIDADE:
+                ka.setFill(Color.rgb(255, 94, 0));
+                break;
             case CARCERE:
+            case IRCARCERE:
+                StackPane.setAlignment(ka, Pos.CENTER);
+                ka.setFill(Color.GREEN);
                 ka.setRotate(45);
                 break;
             case SAIDA:
+            case PARKING:
+                StackPane.setAlignment(ka, Pos.CENTER);
+                ka.setFill(Color.GREEN);
                 ka.setRotate(-45);
                 break;
-            case IRCARCERE:
+            /*case IRCARCERE:
+                StackPane.setAlignment(ka, Pos.CENTER);
                 ka.setRotate(45);
                 break;
             case PARKING:
+                StackPane.setAlignment(ka, Pos.CENTER);
                 ka.setRotate(-45);
                 break;
+            */
         }
     }
 

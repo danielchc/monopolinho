@@ -12,7 +12,8 @@ public class GUI extends Application {
     public void start(Stage primaryStage) {
         Taboeiro t=new Taboeiro();
         TaboeiroUI tUI=new TaboeiroUI(t);
-        Scene scene = new Scene(tUI, 800, 800);
+
+        Scene scene = new Scene(tUI, 1100, 900);
         primaryStage.setTitle("Monopolinho");
         primaryStage.setScene(scene);
         primaryStage.show();

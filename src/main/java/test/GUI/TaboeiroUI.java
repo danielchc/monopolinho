@@ -11,13 +11,15 @@ import monopolinho.tipos.Zona;
 
 
 public class TaboeiroUI extends GridPane {
+
     public TaboeiroUI(Taboeiro t){
         ColumnConstraints column = new ColumnConstraints();
         RowConstraints row = new RowConstraints();
         column.setPercentWidth(100/11.0f);
         row.setPercentHeight(100/11.0f);
+
         Image image = new Image("Laranjo.png");
-        super.add(new ImageView(image),1,5);
+        super.add(new ImageView(image),2,5);
 
         for(int i=0;i<11;i++)super.getColumnConstraints().add(column);
         for(int i=0;i<11;i++)super.getRowConstraints().add(row);
