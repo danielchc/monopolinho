@@ -123,9 +123,7 @@ public class Xogo {
             return;
         }
         for(Casilla c:grupo.getSolares()){
-            for(Edificio e:c.getEdificios()){
-                System.out.println(e.describirEdificio());
-            }
+            System.out.println(c.describirEdificios());
         }
     }
 

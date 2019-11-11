@@ -264,6 +264,54 @@ public class Casilla {
         }
     }
 
+    public String describirEdificios(){
+        String text="";
+        String casas="[";
+        String hoteles="[";
+        String piscinas="[";
+        String pistas="[";
+        for(Edificio e:this.edificios){
+            switch(e.getTipoEdificio()){
+                case CASA:
+                    casas+=e+", ";
+                    break;
+                case HOTEL:
+                    hoteles+=e+", ";
+                    break;
+                case PISTA_DEPORTES:
+                    pistas+=e+", ";
+                    break;
+                case PISCINA:
+                    piscinas+=e+", ";
+                    break;
+            }
+        }
+        casas+="]";
+        hoteles+="]";
+        piscinas+="]";
+        pistas+="]";
+        text+="{\n"+
+                "\n\tPropiedade: " + this.nome+
+                "\n\tCasas: " + casas+
+                "\n\tHoteles: " + hoteles+
+                "\n\tPiscinas: " + piscinas+
+                "\n\tPistas de deportes: " + pistas+
+                "\n\tAlquiler: " + this.alquiler+
+                "\n}"+
+                "\n" + queSePodeConstruir();
+        return text;
+    }
+
+    private String queSePodeConstruir(){
+        String texto="";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<=this.grupo.getNumeroSolares()*4) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.CASA))+" casas\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=4) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.HOTEL))+" hoteles\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=2 && this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=1) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISCINA))+" piscina\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=2) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES))+" pistas de deportes\n";
+
+        return texto;
+    }
+
     /**
      * Este metodo permite saber o precio según o tipo de edificio
      * @param tipo Input do usuario
