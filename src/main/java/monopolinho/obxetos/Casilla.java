@@ -93,7 +93,7 @@ public class Casilla {
      * Crea unha nova casilla de IMPOSTO
      * @param nome Nome da casilla
      * @param tipoCasilla Tipo de Casilla(preterminado IMPOSTO neste constructor)
-     * @param valor Imposto da casilla IMPOSTO ou Valor da Casilla SERVIZO ou TRANSPORTE
+     * @param valor Imposto da casilla IMPOSTO
      */
     public Casilla(String nome,TipoCasilla tipoCasilla,float valor){
         this(nome,tipoCasilla);
@@ -182,7 +182,7 @@ public class Casilla {
             case COMUNIDADE:
             case SAIDA:
                 turno.setPosicion(next);
-                 return "";
+                return "";
         }
         return "";
      }
@@ -198,7 +198,7 @@ public class Casilla {
         return new String[]{
             ReprTab.colorear(this.colorCasilla, ReprTab.borde()),
             ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.nome:"")),
-            ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?this.getValor()+"$":this.nome)),
+            ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado((this.tipoCasilla==TipoCasilla.SOLAR)?ReprTab.formatearNumeros(this.getValor()):this.nome)),
             ReprTab.colorear(this.colorCasilla, ReprTab.bordeTextoCentrado(avataresCasilla)),
             ReprTab.colorear(this.colorCasilla, ReprTab.borde())
         };
@@ -209,9 +209,8 @@ public class Casilla {
      * @param e Edificio a engadir á casilla
      */
     public void engadirEdificio(Edificio e){
-        if(e!=null){
+        if(e!=null)
             this.edificios.add(e);
-        }
     }
 
     /**
@@ -219,9 +218,8 @@ public class Casilla {
      * @param e Edificio a eliminar
      */
     public void eliminarEdificio(Edificio e){
-        if(e!=null){
+        if(e!=null)
             this.edificios.remove(e);
-        }
     }
 
 
@@ -512,7 +510,7 @@ public class Casilla {
      * @param grupo
      */
     public void setGrupo(Grupo grupo) {
-        if(grupo!=null)this.grupo = grupo;
+        if(grupo!=null)this.grupo =grupo;
     }
 
     /**
@@ -621,12 +619,9 @@ public class Casilla {
             return mensaxe;
         }else{
             if((!next.getDono().equals(xogador))&&(!next.getDono().equals(xogo.getBanca()))){
-                float aPagar;
-                if(next.getGrupo().tenTodoGrupo(next.getDono())){
-                    aPagar=next.totalPagoAlquiler()* Valor.FACTOR_PAGO_ALQUILER;
-                }else{
-                    aPagar=next.totalPagoAlquiler();
-                }
+                float aPagar=next.totalPagoAlquiler();
+
+                aPagar*=(next.getGrupo().tenTodoGrupo(next.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
 
                 if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                     this.estadisticasCasilla.engadirAlquilerPagado(aPagar);
@@ -655,16 +650,13 @@ public class Casilla {
         String mensaxe="";
         if((!next.getDono().equals(xogador)) && (!next.getDono().equals(xogo.getBanca()))){
             float aPagar=valorDados*next.getUsoServizo();
-            if(xogador.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1){
-                aPagar*=4.0f;
-            }else if(xogador.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
-                aPagar*=10.0f;
-            }
+
+            aPagar*=(xogador.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1)?4.0f:10.0f;
+
             if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
                 next.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
             }else{
-                //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                 mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
                 xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                 return mensaxe;
@@ -691,7 +683,6 @@ public class Casilla {
                 next.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
             }else{
-                //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                 mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
                 xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                 return mensaxe;
@@ -741,7 +732,8 @@ public class Casilla {
             xogo.getTaboeiro().engadirBote(next.getImposto());
         }else{
             System.err.println("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-            //E QUE PASA SE NON TEN CARTOS????????????????????
+            xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
+            return "";
         }
         turno.setPosicion(next);
         return mensaxe;
@@ -799,11 +791,7 @@ public class Casilla {
                         "\n}";
                 break;
             case COMUNIDADE:
-                texto="";
-                break;
             case SORTE:
-                texto="";
-                break;
             case SAIDA:
                 texto="";
                 break;

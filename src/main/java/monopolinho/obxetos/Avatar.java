@@ -13,9 +13,9 @@ import java.util.Random;
 
 public class Avatar {
     private Xogador xogador;
-    private TipoMovemento tipo; //String tipo;
+    private TipoMovemento tipo;
     private String id;
-    private Casilla posicion; //CASILLA na que esta
+    private Casilla posicion;
     private int voltasTaboeiro=0;
     private ModoXogo modoXogo;
 
@@ -31,10 +31,6 @@ public class Avatar {
             xerarId();
             setXogador(xogador);
         }
-        else{
-            System.err.println("Error creando avatar");
-            System.exit(1);
-        }
     }
 
 
@@ -46,7 +42,7 @@ public class Avatar {
      */
     public Avatar(TipoMovemento tipo, Xogador xogador, String id){
         this(tipo,xogador);
-        this.id=id;
+        if(this.id!=null)this.id=id;
     }
 
 
@@ -120,10 +116,6 @@ public class Avatar {
      */
     public void setXogador(Xogador xogador) {
         if(xogador!=null)this.xogador = xogador;
-        else{
-            System.err.println("Error: xogador non inicializado");
-            System.exit(1);
-        }
     }
 
     /**

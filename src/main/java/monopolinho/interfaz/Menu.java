@@ -257,7 +257,7 @@ public class Menu {
                     System.out.println("Saindo...");
                     System.exit(0);
                 }else if (cmds.length==2){
-                    xogo.salirCarcere();
+                    xogo.sairCarcere();
                 }else{
                     System.out.println("Sintaxe: sair carecere");
                     System.out.println("Sintaxe: sair");

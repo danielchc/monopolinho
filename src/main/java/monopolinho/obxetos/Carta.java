@@ -1,10 +1,7 @@
 package monopolinho.obxetos;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.tipos.TipoCarta;
-import monopolinho.tipos.TipoCartaAccion;
-import monopolinho.tipos.TipoEdificio;
-import monopolinho.tipos.TipoTransaccion;
+import monopolinho.tipos.*;
 
 /**
  * @author Daniel Chenel
@@ -40,26 +37,26 @@ public class Carta {
             //6. Devolución de Hacienda. Cobra 500000€.
             case S_VENDER_BILLETE:
             case C_DEVOLUCION_HACIENDA:
-                xogador.engadirDinheiro( 50000, TipoTransaccion.BOTE_PREMIO); //CTE?
+                xogador.engadirDinheiro( 50000, TipoTransaccion.BOTE_PREMIO);
                 return mensaxe;
 
             //6. ¡Has ganado el bote de la lotería! Recibe 1000000€.
             case S_BOTE:
-                xogador.engadirDinheiro(100000, TipoTransaccion.BOTE_PREMIO); //CTE?
+                xogador.engadirDinheiro(100000, TipoTransaccion.BOTE_PREMIO);
                 return mensaxe;
 
             //8. El  aumento  del  impuesto  sobre  bienes  inmuebles  afecta  a  todas  tus  propiedades.  Paga  400000€  por casa, 1150000M€ por hotel, 200.000€ por piscina y 750000€ por pista de deportes.
             case S_AUMENTO_BENS_IMUEBLES:
                 float aPagar=0;
                 for (Casilla c:xogador.getPropiedades()){
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.CASA)*40000;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*115000;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*20000;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.CASA)*40000.0f;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*115000.0f;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*20000.0f;
+                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000.0f;
                 }
-
                 if(!xogador.quitarDinheiro(aPagar, TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar "+aPagar);
+                    xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return "";
                 }
                 return mensaxe + " Tes que pagar "+aPagar;
@@ -93,6 +90,7 @@ public class Carta {
                 dinheiroPagar=20000f;
                 if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
+                    xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return mensaxe;
                 }
                 for(Xogador x:xogo.getXogadores()){
@@ -112,6 +110,7 @@ public class Carta {
             case C_TERMAS:
                 if(!xogador.quitarDinheiro(50000, TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar a acción");
+                    xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return mensaxe;
                 }
                 return mensaxe;

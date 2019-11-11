@@ -135,7 +135,6 @@ public class Grupo {
         }
     }
 
-
     /**
      * Establece o color do grupo
      * @param color color de representacion do grupo
@@ -143,7 +142,6 @@ public class Grupo {
     public void setColor(Valor.ReprColor color) {
         this.color = color;
     }
-
 
     /**
      * Establece os solares do grupo
@@ -189,9 +187,6 @@ public class Grupo {
      */
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof Grupo){
-            return (this.grupo_nome.equals(((Grupo) obj).grupo_nome));
-        }
-        return false;
+        return (obj instanceof Grupo) && (this.grupo_nome.equals(((Grupo) obj).grupo_nome));
     }
 }

@@ -117,4 +117,13 @@ public class ReprTab {
         debuxoMonopolinho(p2,1);
         return colorear(Valor.ReprColor.ANSI_PURPLE_BOLD,String.join("\n",p1)+"\n"+String.join("\n",p2));
     }
+    public static String formatearNumeros(float f){
+        if(f>1000000){
+            return String.format("%.2fM",f/1000000);
+        }else if(f>1000){
+            return String.format("%.2fK",f/1000);
+        }else{
+            return String.format("%.2f",f);
+        }
+    }
 }

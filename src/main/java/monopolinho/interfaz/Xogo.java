@@ -18,7 +18,6 @@ public class Xogo {
 
     private ArrayList<Xogador> xogadores;
     private Taboeiro taboeiro;
-    //private Xogador turno;
     private Turno turno;
     private Dados dados;
     private Xogador banca;
@@ -66,7 +65,7 @@ public class Xogo {
     public void describirCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null)System.out.println(c);
-        else System.out.println("Non existe esta casilla");
+        else System.err.println("A casilla " + nome + "non existe");
     }
 
     /**
@@ -80,7 +79,7 @@ public class Xogo {
                 return;
             }
         }
-        System.out.println("Non se atopou o xogador "+nome);
+        System.err.println("O xogador " + nome + "non existe");
     }
 
     /**
@@ -94,9 +93,8 @@ public class Xogo {
                 return;
             }
         }
-        System.out.println("Non se atopou o avatar "+ avatarId);
+        System.err.println("O avatar " + avatarId + "non existe");
     }
-
 
     /**
      * Este metodo lista todos os edificios
@@ -161,6 +159,7 @@ public class Xogo {
      */
     public void pasarTurno(){
         Xogador actual=turno.getXogador();
+        int novoTurno;
         if(turno.podeLanzar() && turno.getXogador().estadoXogador()!=EstadoXogador.BANCARROTA && turno.getXogador().getTurnosInvalidado()==0){
             System.err.println("Tes que tirar antes de pasar turno.");
             return;
@@ -169,7 +168,7 @@ public class Xogo {
             System.err.println("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
             return;
         }
-        int novoTurno;
+
         do{
             novoTurno=(this.xogadores.indexOf(turno.getXogador())+1)%this.xogadores.size();
             turno=new Turno(this.xogadores.get(novoTurno));
@@ -187,13 +186,13 @@ public class Xogo {
     /**
      * Este metodo saca a un xogador da carcere.
      */
-    public void salirCarcere(){
+    public void sairCarcere(){
         if (!turno.getXogador().estaNoCarcere()){
             System.out.println("O xogador non está no cárcere");
             return;
         }
         if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE, TipoTransaccion.OTROS)){
-            System.out.println(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
+            System.out.println(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Podes lanzar os dados.");
             turno.getXogador().sairDoCarcere();
             taboeiro.engadirBote(Valor.SAIR_CARCERE);
         }else{
@@ -212,6 +211,10 @@ public class Xogo {
             System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
             return;
         }
+        if(comprar==null){
+            System.err.println("Tas fodido, a casilla "+cmds[1]+" non existe");
+            return;
+        }
         if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
             if(!this.turno.getHistorial().contains(comprar)){
                 System.err.println("Non paseches por esta casilla neste turno");
@@ -223,7 +226,6 @@ public class Xogo {
                 return;
             }
         }
-
         if(!comprar.podeseComprar()){
             System.err.println("Este tipo de casilla non se pode comprar esta casilla");
             return;
@@ -282,7 +284,6 @@ public class Xogo {
      */
     public void hipotecarCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
-
         if(c!=null && c.podeseComprar() && c.getDono().equals(turno.getXogador()) && !c.getEstaHipotecada()){
             if(c.getEdificios().size()!=0){
                 System.err.println(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
@@ -304,11 +305,12 @@ public class Xogo {
      */
     public void deshipotecarCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
-
-
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
-            c.getDono().quitarDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
+            if(!c.getDono().quitarDinheiro(c.getHipoteca(), TipoTransaccion.OTROS)){
+                System.err.println("Non tes o suficiente diñeiro para deshipotecar a propiedade");
+                return;
+            }
             System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca());
         }
         else{
@@ -324,7 +326,7 @@ public class Xogo {
 
         for(Casilla c:this.turno.getXogador().getPropiedades()){
             c.setEstaHipotecada(false);
-            c.setDono(this.banca);
+            c.setDono(this.banca); //PA O XOGADOR QUE TES A DEBEDA
         }
         System.out.println("\nO xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
         pasarTurno();
@@ -400,7 +402,7 @@ public class Xogo {
             return;
         }
         if(c==null){
-            System.err.println("Esa casilla non existe.");
+            System.err.println("A casilla "+casilla+" non existe.");
             return;
         }
         if(c.getTipoCasilla()!=TipoCasilla.SOLAR){
@@ -462,7 +464,6 @@ public class Xogo {
             return false; //Comproba se existe o usuario o método equal compara nomes!
         }
         this.xogadores.add(xogador);
-        //FACER ESTO
         if(this.xogadores.indexOf(xogador)==0)
             this.turno=new Turno(this.xogadores.get(0));
         xogador.setPosicion(this.taboeiro.getCasilla(0));
@@ -533,8 +534,12 @@ public class Xogo {
             System.err.println("Este tipo de avatar non pode cambiar de modo\n");
             return;
         }
-        if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL)turno.getXogador().getAvatar().setModoXogo(ModoXogo.AVANZADO);
-        else if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO)turno.getXogador().getAvatar().setModoXogo(ModoXogo.NORMAL);
+
+        if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL)
+            turno.getXogador().getAvatar().setModoXogo(ModoXogo.AVANZADO);
+        else if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO)
+            turno.getXogador().getAvatar().setModoXogo(ModoXogo.NORMAL);
+
         System.out.println("O avatar "+turno.getXogador().getAvatar().getId() + " de tipo "+turno.getXogador().getAvatar().getTipo() +" cambia de modo "+turno.getXogador().getAvatar().getModoXogo());
     }
     /**
@@ -641,7 +646,8 @@ public class Xogo {
             System.out.println("Os precios dos solares en venta aumentaron un 5%.");
         }
 
-        if (next.haiQueCollerCarta()) preguntarCarta(next.getTipoCasilla());
+        if (next.haiQueCollerCarta())
+            preguntarCarta(next.getTipoCasilla());
 
     }
 
