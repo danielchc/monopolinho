@@ -579,13 +579,13 @@ public class Casilla {
                 }else{
                     aPagar=next.totalPagoAlquiler();
                 }
+
                 if(xogador.quitarDinheiro(aPagar, TipoGasto.ALQUILER)){
                     this.estadisticasCasilla.engadirAlquilerPagado(aPagar);
                     next.getDono().engadirDinheiro(aPagar,TipoGasto.ALQUILER);
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
                     return mensaxe;
                 }else{
-                    //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
                     mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return mensaxe;
