@@ -252,10 +252,11 @@ public class Casilla {
      * @return True si de pode seguir edificando e false se non.
      */
     public boolean podeseEdificarMais(TipoEdificio tipo){
-        if  (((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)) || ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares()))) {
-            return false;
-        }
-        return true;
+        return (!(
+                ((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)) ||
+                ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares())) ||
+                ((tipo!=TipoEdificio.HOTEL) && this.getNumeroEdificios()>=this.getGrupo().getNumeroSolares()*4)
+        ));
     }
 
     /**
