@@ -212,10 +212,18 @@ public class Xogo {
             System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
             return;
         }
-        if(!this.turno.getHistorial().contains(comprar)){
-            System.err.println("Non paseches por esta casilla neste turno");
-            return;
+        if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
+            if(!this.turno.getHistorial().contains(comprar)){
+                System.err.println("Non paseches por esta casilla neste turno");
+                return;
+            }
+        }else{
+            if(!this.turno.getPosicion().equals(comprar)){
+                System.err.println("Non estás nesta casilla, non a podes comprar");
+                return;
+            }
         }
+
         if(!comprar.podeseComprar()){
             System.err.println("Este tipo de casilla non se pode comprar esta casilla");
             return;
