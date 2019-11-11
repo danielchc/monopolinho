@@ -671,6 +671,7 @@ public class Xogo {
                         next=this.taboeiro.getCasilla(cPos+i);
                         System.out.println("Avanzaches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,i));
                         if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
+                        if(this.turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
                         if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     }
                 }else{
@@ -678,6 +679,7 @@ public class Xogo {
                         next=this.taboeiro.getCasilla(cPos-i);
                         System.out.println("Retrocedeches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,i));
                         if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
+                        if(this.turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
                         if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
                     }
                 }
