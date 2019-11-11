@@ -722,9 +722,7 @@ public class Xogo {
      */
     private boolean deronTodosCatroVoltas(){
         for(Xogador x:this.xogadores){
-            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 != 0){
-                return false;
-            }
+            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 !=0)return false;
         }
         return true;
     }
@@ -739,7 +737,7 @@ public class Xogo {
                 if(c.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
                     c.setValor(c.getValor()*1.05f);
                 }
-            }
+}
         }
     }
 
