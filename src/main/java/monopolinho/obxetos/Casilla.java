@@ -162,28 +162,28 @@ public class Casilla {
     public String interpretarCasilla(Xogo xogo, int valorDados){
         Casilla next=this;
         Turno turno=xogo.getTurno();
-         switch (tipoCasilla){
-             case SOLAR:
-                 return interpretarSOLAR(next,turno,xogo);
-             case TRANSPORTE:
-                 return interpretarTRANSPORTE(next,turno,xogo);
-             case SERVIZO:
-                 return interpretarSERVIZO(next,turno,xogo,valorDados);
-             case CARCERE:
-                 turno.setPosicion(next);
-                 return "Só de visita...";
-             case IRCARCERE:
-                 return interpretarIRCARCERE(turno,xogo);
-             case PARKING:
-                 return interpretarPARKING(turno,next,xogo);
-             case IMPOSTO:
+        switch (tipoCasilla){
+            case SOLAR:
+                return interpretarSOLAR(next,turno,xogo);
+            case TRANSPORTE:
+                return interpretarTRANSPORTE(next,turno,xogo);
+            case SERVIZO:
+                return interpretarSERVIZO(next,turno,xogo,valorDados);
+            case CARCERE:
+                turno.setPosicion(next);
+                return "Só de visita...";
+            case IRCARCERE:
+                return interpretarIRCARCERE(turno,xogo);
+            case PARKING:
+                return interpretarPARKING(turno,next,xogo);
+            case IMPOSTO:
                  return interpretarIMPOSTO(turno,next,xogo);
-             case SORTE:
-             case COMUNIDADE:
-             case SAIDA:
-                 turno.setPosicion(next);
+            case SORTE:
+            case COMUNIDADE:
+            case SAIDA:
+                turno.setPosicion(next);
                  return "";
-         }
+        }
         return "";
      }
 
