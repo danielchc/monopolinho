@@ -131,9 +131,8 @@ public class Avatar {
      * @param tipo tipo de movemento
      */
     public void setTipo(TipoMovemento tipo) {
-        if(tipo!=null){
+        if(tipo!=null)
             this.tipo = tipo;
-        }
     }
 
     /**
@@ -141,9 +140,8 @@ public class Avatar {
      * @param id identificador do avatar
      */
     public void setId(String id) {
-        if(id!=null){
+        if(id!=null)
             this.id = id;
-        }
     }
 
     /**
@@ -176,10 +174,7 @@ public class Avatar {
      */
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof Avatar){
-            if(this.id.equals(((Avatar) obj).id))return true;
-        }
-        return false;
+        return (obj instanceof Avatar)&&(this.id.equals(((Avatar) obj).id));
     }
 
     /**
@@ -188,11 +183,11 @@ public class Avatar {
      */
     @Override
     public String toString(){
-        String texto="{"+"\n\t" +
-                "Id: "+this.id+"\n\t" +
-                "Tipo: "+this.tipo.toString()+"\n\t" +
-                "Posicion: "+this.xogador.getPosicion().getNome()+"\n\t" +
-                "Xogador: "+this.xogador.getNome()+"\n}";
-        return texto;
+        return "{"+"" +
+                "\n\tId: "+this.id +
+                ",\n\tTipo: "+this.tipo.toString()+
+                ",\n\tPosicion: "+this.xogador.getPosicion().getNome() +
+                ",\n\tXogador: "+this.xogador.getNome()+
+                "\n}";
     }
 }

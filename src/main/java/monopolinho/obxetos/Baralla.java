@@ -22,14 +22,10 @@ public class Baralla {
     public Baralla(TipoCarta tipoCarta){
         this.cartas=new ArrayList<>();
         this.tipoBaralla=tipoCarta;
-        switch (tipoCarta){
-            case SORTE:
-                crearCartasSorte();
-                break;
-            case COMUNIDADE:
-                crearCartasComunidade();
-                break;
-        }
+        if(tipoCarta==TipoCarta.SORTE)
+            crearCartasSorte();
+        else if(tipoCarta==TipoCarta.COMUNIDADE)
+            crearCartasComunidade();
     }
 
     /**
@@ -43,9 +39,8 @@ public class Baralla {
      * Lista as cartas dispoñibles
      */
     public void listarCartas(){
-        for(Carta c:this.cartas){
+        for(Carta c:this.cartas)
             System.out.println(c.getTipoCartaAccion());
-        }
     }
 
     /**
@@ -54,6 +49,22 @@ public class Baralla {
      */
     public Carta getCarta(int i){
         return cartas.get(i);
+    }
+
+    public ArrayList<Carta> getCartas() {
+        return cartas;
+    }
+
+    public void setCartas(ArrayList<Carta> cartas) {
+        this.cartas = cartas;
+    }
+
+    public TipoCarta getTipoBaralla() {
+        return tipoBaralla;
+    }
+
+    public void setTipoBaralla(TipoCarta tipoBaralla) {
+        this.tipoBaralla = tipoBaralla;
     }
 
     /**

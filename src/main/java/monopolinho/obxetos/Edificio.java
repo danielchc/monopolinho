@@ -35,7 +35,6 @@ public class Edificio {
         this.precio=posicion.getPrecioEdificio(tipoEdificio);
     }
 
-
     /**
      * Este metodo permite describir a info dun edificio.
      * @return Descripcion do edificio
@@ -43,8 +42,8 @@ public class Edificio {
     public String describirEdificio(){
         String texto="{\n";
         texto+="\tID: "+this.id+"\n\tPropietario: "+this.propietario.getNome()+
-                "\n\tCasilla: "+this.posicion.getNome()+"\n\tGrupo: "+this.posicion.getGrupo().getNome()+
-                "\n\tCoste: "+this.precio+"\n}";
+                ",\n\tCasilla: "+this.posicion.getNome()+"\n\tGrupo: "+this.posicion.getGrupo().getNome()+
+                ",\n\tCoste: "+this.precio+"\n}";
         return texto;
     }
 
@@ -61,9 +60,9 @@ public class Edificio {
      * @param id Identificador
      */
     public void setId(String id) {
-        if(id!=null){
+        if(id!=null)
             this.id = id;
-        }
+
     }
 
     /**
@@ -131,9 +130,8 @@ public class Edificio {
      *
      */
     public void setPosicion(Casilla posicion) {
-        if(posicion!= null){
+        if(posicion!= null)
             this.posicion = posicion;
-        }
     }
 
 
@@ -149,9 +147,6 @@ public class Edificio {
      * @return Son iguais os obxectos
      */
     public boolean equals(Object obj){
-        if(obj instanceof Edificio){
-            if(this.id==((Edificio) obj).id && this.getPosicion().equals(((Edificio) obj).getPosicion()))return true;
-        }
-        return false;
+        return ((obj instanceof Edificio) && (this.id==((Edificio) obj).id && this.getPosicion().equals(((Edificio) obj).getPosicion())));
     }
 }

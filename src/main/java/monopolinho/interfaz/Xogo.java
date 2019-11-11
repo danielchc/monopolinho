@@ -102,12 +102,10 @@ public class Xogo {
      * Este metodo lista todos os edificios
      */
     public void listarEdificios(){
-        for(ArrayList<Casilla> zona:taboeiro.getCasillas()){
-            for(Casilla c:zona){
-                if(c.getTipoCasilla()==TipoCasilla.SOLAR){
-                    for (Edificio e:c.getEdificios()){
-                        System.out.println(e.describirEdificio());
-                    }
+        for(Grupo g:taboeiro.getGrupos()){
+            for(Casilla c:g.getSolares()){
+                for(Edificio e:c.getEdificios()){
+                    System.out.println(e.describirEdificio());
                 }
             }
         }
@@ -120,6 +118,10 @@ public class Xogo {
         Grupo grupo=taboeiro.buscarGrupo(cmds);
         if(grupo==null){
             System.err.println("Ese nome de grupo non existe.");
+            return;
+        }
+        if(grupo.getNumeroEdificios()==0){
+            System.err.println("Este grupo non ten edificios.");
             return;
         }
         for(Casilla c:grupo.getSolares()){
@@ -190,7 +192,7 @@ public class Xogo {
             System.out.println("O xogador non está no cárcere");
             return;
         }
-        if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE,TipoGasto.OTROS)){
+        if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE, TipoTransaccion.OTROS)){
             System.out.println(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Pode lanzar os dados.");
             turno.getXogador().sairDoCarcere();
             taboeiro.engadirBote(Valor.SAIR_CARCERE);
@@ -230,7 +232,7 @@ public class Xogo {
             System.err.println("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
             return;
         }
-        if(!xogador.quitarDinheiro(comprar.getValor(),TipoGasto.COMPRA)){
+        if(!xogador.quitarDinheiro(comprar.getValor(), TipoTransaccion.COMPRA)){
             System.err.println("Non tes suficiente diñeiro");
             return ;
         }
@@ -239,7 +241,7 @@ public class Xogo {
             return;
         }
 
-        comprar.getDono().engadirDinheiro(comprar.getValor(),TipoGasto.VENTA);
+        comprar.getDono().engadirDinheiro(comprar.getValor(), TipoTransaccion.VENTA);
         comprar.setDono(xogador);
         turno.aumentarCompras();
         System.out.println("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
@@ -287,7 +289,7 @@ public class Xogo {
                 return;
             }
             c.setEstaHipotecada(true);
-            c.getDono().engadirDinheiro(c.getHipoteca(),TipoGasto.OTROS);
+            c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
             System.out.println("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
         }
         else{
@@ -306,7 +308,7 @@ public class Xogo {
 
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
-            c.getDono().quitarDinheiro(c.getHipoteca(),TipoGasto.OTROS);
+            c.getDono().quitarDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
             System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca());
         }
         else{
@@ -375,7 +377,7 @@ public class Xogo {
                 }
                 break;
         }
-        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(tipo),TipoGasto.EDIFICAR)){
+        if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(tipo), TipoTransaccion.EDIFICAR)){
             System.err.println("Non tes suficiente diñeiro para edificar");
             return ;
         }
@@ -432,7 +434,7 @@ public class Xogo {
             c.eliminarEdificio(e);
         }
 
-        turno.getXogador().engadirDinheiro(valor,TipoGasto.OTROS);
+        turno.getXogador().engadirDinheiro(valor, TipoTransaccion.OTROS);
         System.out.println("Vendiches "+totalEdifs+" edificios de tipo "+tipo+" e recibes "+valor);
     }
 
@@ -626,7 +628,7 @@ public class Xogo {
             if(nPos>39) {
                 mensaxe="O xogador "+turno.getXogador().getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getXogador().getAvatar().voltaTaboeiro();
-                turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA,TipoGasto.VOLTA_COMPLETA);
+                turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA, TipoTransaccion.VOLTA_COMPLETA);
             }
         }
 
@@ -720,7 +722,8 @@ public class Xogo {
      */
     private boolean deronTodosCatroVoltas(){
         for(Xogador x:this.xogadores){
-            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 !=0)return false;
+            if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 !=0)
+                return false;
         }
         return true;
     }
@@ -759,18 +762,16 @@ public class Xogo {
             System.err.println("Non podes construir nunha casilla hipotecada");
             return false;
         }
-
-        if(c.getTipoCasilla()!= TipoCasilla.SOLAR){
+        if(c.getTipoCasilla()!=TipoCasilla.SOLAR){
             System.err.println("Non podes edificar esta casilla");
             return false;
         }
-
         if(!c.getDono().equals(turno.getXogador())){
             System.err.println("Esta casilla non é túa, non a podes edificar.");
             return false;
         }
-
         if(!c.podeseEdificarMais(tipo)){
+            System.err.println("Non podes construir máis edificios do tipo "+tipo+" en "+c.getNome());
             return false;
         }
         return true;

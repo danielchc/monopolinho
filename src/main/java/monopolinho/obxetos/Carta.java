@@ -4,7 +4,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.tipos.TipoCarta;
 import monopolinho.tipos.TipoCartaAccion;
 import monopolinho.tipos.TipoEdificio;
-import monopolinho.tipos.TipoGasto;
+import monopolinho.tipos.TipoTransaccion;
 
 /**
  * @author Daniel Chenel
@@ -40,12 +40,12 @@ public class Carta {
             //6. Devolución de Hacienda. Cobra 500000€.
             case S_VENDER_BILLETE:
             case C_DEVOLUCION_HACIENDA:
-                xogador.engadirDinheiro( 50000, TipoGasto.BOTE_PREMIO); //CTE?
+                xogador.engadirDinheiro( 50000, TipoTransaccion.BOTE_PREMIO); //CTE?
                 return mensaxe;
 
             //6. ¡Has ganado el bote de la lotería! Recibe 1000000€.
             case S_BOTE:
-                xogador.engadirDinheiro(100000, TipoGasto.BOTE_PREMIO); //CTE?
+                xogador.engadirDinheiro(100000, TipoTransaccion.BOTE_PREMIO); //CTE?
                 return mensaxe;
 
             //8. El  aumento  del  impuesto  sobre  bienes  inmuebles  afecta  a  todas  tus  propiedades.  Paga  400000€  por casa, 1150000M€ por hotel, 200.000€ por piscina y 750000€ por pista de deportes.
@@ -58,7 +58,7 @@ public class Carta {
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000;
                 }
 
-                if(!xogador.quitarDinheiro(aPagar,TipoGasto.TASAS)){
+                if(!xogador.quitarDinheiro(aPagar, TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar "+aPagar);
                     return "";
                 }
@@ -67,12 +67,12 @@ public class Carta {
             //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.
             case S_PRESIDENTE:
                 dinheiroPagar=25000f;
-                if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(),TipoGasto.TASAS)){
+                if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
                     return "";
                 }
                 for(Xogador x:xogo.getXogadores()){
-                    x.engadirDinheiro(dinheiroPagar,TipoGasto.OTROS);
+                    x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
                 }
                 return mensaxe;
 
@@ -91,18 +91,18 @@ public class Carta {
             //8. Alquilas a tus compañeros una villa en Cannes durante una semana. Paga 200000€ a cada jugador. 4
             case C_ALQUILAR_VILLA:
                 dinheiroPagar=20000f;
-                if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(),TipoGasto.TASAS)){
+                if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
                     return mensaxe;
                 }
                 for(Xogador x:xogo.getXogadores()){
-                    x.engadirDinheiro(dinheiroPagar,TipoGasto.OTROS);
+                    x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
                 }
                 return mensaxe;
 
             //4. Tu compañía de Internet obtiene beneficios. Recibe 2000000€.
             case C_BENEFICIOS_INTERNET:
-                xogador.engadirDinheiro( 200000,TipoGasto.BOTE_PREMIO);
+                xogador.engadirDinheiro( 200000, TipoTransaccion.BOTE_PREMIO);
                 return mensaxe;
 
             //7. Retrocede hasta Valencia para comprar antigüedades exóticas.
@@ -110,7 +110,7 @@ public class Carta {
                 turno.setPosicion((xogo.getTaboeiro().getCasilla(8)));
                 return mensaxe + turno.getPosicion().interpretarCasilla(xogo,0);
             case C_TERMAS:
-                if(!xogador.quitarDinheiro(50000, TipoGasto.TASAS)){
+                if(!xogador.quitarDinheiro(50000, TipoTransaccion.TASAS)){
                     System.err.println("Non tes suficiente diñeiro para pagar a acción");
                     return mensaxe;
                 }

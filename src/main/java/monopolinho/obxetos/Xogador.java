@@ -4,7 +4,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogador;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
-import monopolinho.tipos.TipoGasto;
+import monopolinho.tipos.TipoTransaccion;
 import monopolinho.tipos.TipoMovemento;
 
 import java.util.ArrayList;
@@ -21,8 +21,6 @@ public class Xogador {
     private ArrayList<Casilla> propiedades;
     private int turnosNoCarcere;
     private int turnosInvalidado;
-    //private boolean podeLanzar;
-    //private int vecesTiradas;
     private EstadoXogador estadoXogador;
     private EstadisticasXogador estadisticas;
 
@@ -85,8 +83,8 @@ public class Xogador {
      * Este metodo engade diñeiro ao xogador.
      * @param dinero Engade diñeiro a un usuario
      */
-    public void engadirDinheiro(float dinero, TipoGasto tipoGasto){
-        switch (tipoGasto){
+    public void engadirDinheiro(float dinero, TipoTransaccion tipoTransaccion){
+        switch (tipoTransaccion){
             case BOTE_PREMIO:
                 this.estadisticas.engadirPremiosInversionesOBote(dinero);
                 break;
@@ -105,10 +103,10 @@ public class Xogador {
      * @param dinero diñeiro a quitar
      * @return Delvolve se ten cartos para gastar
      */
-    public boolean quitarDinheiro(float dinero,TipoGasto tipoGasto){
+    public boolean quitarDinheiro(float dinero, TipoTransaccion tipoTransaccion){
         if(fortuna<dinero)
             return false;
-        switch (tipoGasto){
+        switch (tipoTransaccion){
             case IMPOSTO:
             case TASAS:
                 this.estadisticas.engadirPagoTasasEImpuestos(dinero);
@@ -169,32 +167,26 @@ public class Xogador {
      * @return Fai unha descripción completa do xogador
      */
     public String describir(){
-        String listaprop="[";
-        String listaHipotecas="[";
-        String edificios="[";
+        String listaPropiedades="[",listaHipotecas="[",listaEdificios="[";
 
-
-        if(this.propiedades.size()!=0)
-            for(Casilla c:this.propiedades) {
-                if (!c.getEstaHipotecada()) listaprop += c.getNome() + ", ";
-                else listaHipotecas += c.getNome() + ", ";
-                for(Edificio e:c.getEdificios()){
-                    edificios+=e+" ("+e.getPosicion().getNome()+"), ";
-                }
-            }
+        for(Casilla c:this.propiedades) {
+            if (!c.getEstaHipotecada())listaPropiedades += c.getNome() + ", ";
+            else listaHipotecas += c.getNome() + ", ";
+            for(Edificio e:c.getEdificios()) listaEdificios+=e+" ("+e.getPosicion().getNome()+"), ";
+        }
 
         listaHipotecas=(listaHipotecas.length()==1)?"[]":listaHipotecas.substring(0,listaHipotecas.length()-2)+"]";
-        listaprop=(listaprop.length()==1)?"[]":listaprop.substring(0,listaprop.length()-2)+"]";
-        edificios=(edificios.length()==1)?"[]":edificios.substring(0,edificios.length()-2)+"]";
+        listaPropiedades=(listaPropiedades.length()==1)?"[]":listaPropiedades.substring(0,listaPropiedades.length()-2)+"]";
+        listaEdificios=(listaEdificios.length()==1)?"[]":listaEdificios.substring(0,listaEdificios.length()-2)+"]";
 
-        return "{\n\tNome:" +this.nome+ ",\n"+
-                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna)+ ",\n"+
-                "\tGastos:"+  this.estadisticas.getDineroGastado() +",\n"+
-                "\tPropiedades:"+listaprop+"\n"+
-                "\tHipotecas:"+listaHipotecas+"\n"+
-                "\tEdificios:"+edificios+"\n"+
-                "}";
+        return "{\n\tNome:" +this.nome+
+                ",\n\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+
+                ",\n\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna)+
+                ",\n\tGastos:"+  this.estadisticas.getDineroGastado() +
+                ",\n\tPropiedades:"+listaPropiedades+
+                ",\n\tHipotecas:"+listaHipotecas+
+                ",\n\tEdificios:"+listaEdificios+
+                "\n}";
     }
 
     /**
@@ -340,11 +332,10 @@ public class Xogador {
      */
     @Override
     public String toString(){
-
-        return "{\n\tNome:" +this.nome+ ",\n"+
-                "\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+ ",\n"+
-                "\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna) + ",\n"+
-                "}";
+        return "{\n\tNome:" +this.nome+
+                ",\n\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+
+                ",\n\tFortuna:"+ ((this.enBancarrota())?"BANCARROTA":this.fortuna) +
+                "\n}";
     }
 
     /**
@@ -353,9 +344,6 @@ public class Xogador {
      * @return Son iguais os obxectos
      */
     public boolean equals(Object obj){
-        if(obj instanceof Xogador){
-            if(this.nome.equals(((Xogador) obj).nome))return true;
-        }
-        return false;
+        return (obj instanceof Xogador)&&(this.nome.equals(((Xogador) obj).nome));
     }
 }

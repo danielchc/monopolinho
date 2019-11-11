@@ -70,6 +70,12 @@ public class Grupo {
         return true;
     }
 
+    public int getNumeroEdificios(){
+        int n=0;
+        for(Casilla c:this.solares)
+            n+=c.getNumeroEdificios();
+        return n;
+    }
     /**
      * @return solares pertencentes a un grupo
      */

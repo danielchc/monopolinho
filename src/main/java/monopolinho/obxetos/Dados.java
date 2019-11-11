@@ -12,7 +12,6 @@ public class Dados {
     private int dado1;
     private int dado2;
 
-
     /**
      * Constructor de parametros vacios.
      * Inicia os dados a 0

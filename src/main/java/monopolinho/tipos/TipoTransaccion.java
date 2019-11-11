@@ -3,7 +3,7 @@ package monopolinho.tipos;
  * @author David Carracedo
  * @author Daniel Chenel
  */
-public enum TipoGasto {
+public enum TipoTransaccion {
     ALQUILER,
     COMPRA,
     EDIFICAR,

@@ -226,6 +226,14 @@ public class Casilla {
 
 
     /**
+     * Este metodo devolve o número de edificios
+     * @return Número de edificios
+     */
+    public int getNumeroEdificios(){
+        return edificios.size();
+    }
+
+    /**
      * Este metodo devolve o número de edificios dun determinado tipo dunha casilla.
      * @param tipo Tipo de edificio
      * @return Número de edificios
@@ -244,9 +252,8 @@ public class Casilla {
      * @return True si de pode seguir edificando e false se non.
      */
     public boolean podeseEdificarMais(TipoEdificio tipo){
-        if  (((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)) || ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)==this.getGrupo().getNumeroSolares()))) {
-                System.err.println("Non podes construir máis edificios do tipo "+tipo+" en "+this.nome);
-                return false;
+        if  (((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)) || ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares()))) {
+            return false;
         }
         return true;
     }
@@ -264,53 +271,28 @@ public class Casilla {
         }
     }
 
+    /**
+     * @return Devolve os edificios de cada casilla
+     */
     public String describirEdificios(){
         String text="";
-        String casas="[";
-        String hoteles="[";
-        String piscinas="[";
-        String pistas="[";
-        for(Edificio e:this.edificios){
-            switch(e.getTipoEdificio()){
-                case CASA:
-                    casas+=e+", ";
-                    break;
-                case HOTEL:
-                    hoteles+=e+", ";
-                    break;
-                case PISTA_DEPORTES:
-                    pistas+=e+", ";
-                    break;
-                case PISCINA:
-                    piscinas+=e+", ";
-                    break;
-            }
-        }
-        casas+="]";
-        hoteles+="]";
-        piscinas+="]";
-        pistas+="]";
+        String[] edificiosTexto={"[","[","[","["};
+        for(Edificio e:this.edificios)
+            edificiosTexto[e.getTipoEdificio().ordinal()]+=e+", ";
+        for(int i=0;i<4;i++)
+            edificiosTexto[i]=((edificiosTexto[i].length()==1)?"[":edificiosTexto[i].substring(0,edificiosTexto[i].length()-2))+"]";
         text+="{\n"+
-                "\n\tPropiedade: " + this.nome+
-                "\n\tCasas: " + casas+
-                "\n\tHoteles: " + hoteles+
-                "\n\tPiscinas: " + piscinas+
-                "\n\tPistas de deportes: " + pistas+
-                "\n\tAlquiler: " + this.alquiler+
+                "\n\tPropiedade: " + this.nome +
+                ",\n\tCasas: " + edificiosTexto[TipoEdificio.CASA.ordinal()]+
+                ",\n\tHoteles: " + edificiosTexto[TipoEdificio.HOTEL.ordinal()]+
+                ",\n\tPiscinas: " + edificiosTexto[TipoEdificio.PISCINA.ordinal()]+
+                ",\n\tPistas de deportes: " + edificiosTexto[TipoEdificio.PISTA_DEPORTES.ordinal()]+
+                ",\n\tAlquiler: " + this.alquiler+
                 "\n}"+
                 "\n" + queSePodeConstruir();
         return text;
     }
 
-    private String queSePodeConstruir(){
-        String texto="";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<=this.grupo.getNumeroSolares()*4) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.CASA))+" casas\n";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=4) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.HOTEL))+" hoteles\n";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=2 && this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=1) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISCINA))+" piscina\n";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=2) texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES))+" pistas de deportes\n";
-
-        return texto;
-    }
 
     /**
      * Este metodo permite saber o precio según o tipo de edificio
@@ -593,6 +575,23 @@ public class Casilla {
 
 
     /**
+     * @return Devolve o tipo de edificios que se poden construir
+     */
+    private String queSePodeConstruir(){
+        String texto="";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<=this.grupo.getNumeroSolares()*4)
+            texto+="Podes construir "+(this.grupo.getNumeroSolares()*4-this.getNumeroEdificiosTipo(TipoEdificio.CASA))+" casas\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=4)
+            texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.HOTEL))+" hoteles\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=2 && this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=1)
+            texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISCINA))+" piscina\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=2)
+            texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES))+" pistas de deportes\n";
+
+        return texto;
+    }
+
+    /**
      * Este metodo permite calcular o total a pagar de alquiler
      * @return Total alquiler a pagar
      */
@@ -628,9 +627,9 @@ public class Casilla {
                     aPagar=next.totalPagoAlquiler();
                 }
 
-                if(xogador.quitarDinheiro(aPagar, TipoGasto.ALQUILER)){
+                if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                     this.estadisticasCasilla.engadirAlquilerPagado(aPagar);
-                    next.getDono().engadirDinheiro(aPagar,TipoGasto.ALQUILER);
+                    next.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
                     return mensaxe;
                 }else{
@@ -660,8 +659,8 @@ public class Casilla {
             }else if(xogador.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 2){
                 aPagar*=10.0f;
             }
-            if(xogador.quitarDinheiro(aPagar,TipoGasto.OTROS)){
-                next.getDono().engadirDinheiro(aPagar,TipoGasto.OTROS);
+            if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
+                next.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
             }else{
                 //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
@@ -687,8 +686,8 @@ public class Casilla {
         if((!next.getDono().equals(xogador)) && (!next.getDono().equals(xogo.getBanca()))){
             float aPagar=0;
             aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
-            if(xogador.quitarDinheiro(aPagar,TipoGasto.OTROS)){
-                next.getDono().engadirDinheiro(aPagar,TipoGasto.OTROS);
+            if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
+                next.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
             }else{
                 //System.err.println("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.");
@@ -722,7 +721,7 @@ public class Casilla {
     private String interpretarPARKING(Turno turno,Casilla next,Xogo xogo){
         String mensaxe="";
         mensaxe="O xogador "+ turno.getXogador().getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
-        turno.getXogador().engadirDinheiro(xogo.getTaboeiro().getBote(),TipoGasto.BOTE_PREMIO);
+        turno.getXogador().engadirDinheiro(xogo.getTaboeiro().getBote(), TipoTransaccion.BOTE_PREMIO);
         xogo.getTaboeiro().setBote(0);
         turno.setPosicion(next);
         return mensaxe;
@@ -737,7 +736,7 @@ public class Casilla {
         Xogador xogador=turno.getXogador();
         String mensaxe="";
         mensaxe="O xogador "+ xogador.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
-        if(xogador.quitarDinheiro(next.getImposto(),TipoGasto.IMPOSTO)){
+        if(xogador.quitarDinheiro(next.getImposto(), TipoTransaccion.IMPOSTO)){
             xogo.getTaboeiro().engadirBote(next.getImposto());
         }else{
             System.err.println("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
