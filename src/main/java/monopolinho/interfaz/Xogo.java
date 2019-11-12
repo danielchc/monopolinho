@@ -179,6 +179,21 @@ public class Xogo {
             System.out.println("O xogador "+turno.getXogador().getNome()+ " gañou a partida");
             System.exit(0);
         }
+        if(actual.estaNoCarcere())
+            actual.restarTurnoCarcere();
+
+        if(actual.getTurnosNoCarcere()==0){
+            if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE, TipoTransaccion.OTROS)){
+                System.out.println("O xogador"+turno.getXogador().getNome()+" leva 3 turnos no carcere  paga "+ Valor.SAIR_CARCERE + " e sae da cárcere. E pode lanzar os dados.");
+                turno.getXogador().sairDoCarcere();
+                taboeiro.engadirBote(Valor.SAIR_CARCERE);
+                return;
+            }else{
+                System.err.println("O xogador leva 3 turnos no cárcere e non ten cartos para saír, o xogador debe declararse en bancarrota");
+                turno.getXogador().setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
+                return;
+            }
+        }
         actual.restarTurnosInvalidado();
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getXogador().getNome());
     }

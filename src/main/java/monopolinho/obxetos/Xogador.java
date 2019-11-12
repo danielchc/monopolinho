@@ -32,7 +32,7 @@ public class Xogador {
         this.nome="Banca";
         this.avatar=null;
         this.fortuna=0.0f;
-        this.turnosNoCarcere =0;
+        this.turnosNoCarcere=-1;
         this.turnosInvalidado=0;
         this.propiedades=new ArrayList<>();
         this.estadoXogador=EstadoXogador.ESPECIAL;
@@ -50,7 +50,7 @@ public class Xogador {
         this.avatar=new Avatar(tipoMovemento,this);
         this.propiedades=new ArrayList<>();
         this.turnosInvalidado=0;
-        this.turnosNoCarcere=0;
+        this.turnosNoCarcere=-1;
         this.estadoXogador=EstadoXogador.NORMAL;
         this.estadisticas=new EstadisticasXogador();
     }
@@ -59,7 +59,7 @@ public class Xogador {
      * @return Saber se un xogador esta no carcere.
      */
     public boolean estaNoCarcere(){
-        return (this.turnosNoCarcere!=0);
+        return (this.turnosNoCarcere!=-1);
     }
 
     /**
@@ -148,8 +148,12 @@ public class Xogador {
      * Mete un xogador no cárcere
      */
     public void meterNoCarcere(){
-        this.turnosNoCarcere =3;
+        this.turnosNoCarcere=4;
         this.estadisticas.engadirVecesNoCarcere();
+    }
+
+    public void restarTurnoCarcere(){
+        if(this.turnosInvalidado>0)this.turnosNoCarcere--;
     }
 
     public void restarTurnosInvalidado(){
@@ -160,7 +164,7 @@ public class Xogador {
      * Saca un xogador do cárcere
      */
     public void sairDoCarcere(){
-        this.turnosNoCarcere =0;
+        this.turnosNoCarcere=-1;
     }
 
     /**
