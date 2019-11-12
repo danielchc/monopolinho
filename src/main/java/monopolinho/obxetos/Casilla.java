@@ -160,28 +160,27 @@ public class Casilla {
      * @return Información da acción interpretada
      */
     public String interpretarCasilla(Xogo xogo, int valorDados){
-        Casilla next=this;
         Turno turno=xogo.getTurno();
         switch (tipoCasilla){
             case SOLAR:
-                return interpretarSOLAR(next,turno,xogo);
+                return interpretarSOLAR(xogo);
             case TRANSPORTE:
-                return interpretarTRANSPORTE(next,turno,xogo);
+                return interpretarTRANSPORTE(xogo);
             case SERVIZO:
-                return interpretarSERVIZO(next,turno,xogo,valorDados);
+                return interpretarSERVIZO(xogo,valorDados);
             case CARCERE:
-                turno.setPosicion(next);
+                turno.setPosicion(this);
                 return "Só de visita...";
             case IRCARCERE:
-                return interpretarIRCARCERE(turno,xogo);
+                return interpretarIRCARCERE(xogo);
             case PARKING:
-                return interpretarPARKING(turno,next,xogo);
+                return interpretarPARKING(xogo);
             case IMPOSTO:
-                 return interpretarIMPOSTO(turno,next,xogo);
+                 return interpretarIMPOSTO(xogo);
             case SORTE:
             case COMUNIDADE:
             case SAIDA:
-                turno.setPosicion(next);
+                turno.setPosicion(this);
                 return "";
         }
         return "";
@@ -410,7 +409,6 @@ public class Casilla {
         return alquiler;
     }
 
-
     /**
      * @param alquiler Establece o valor do alquiler
      */
@@ -596,37 +594,41 @@ public class Casilla {
      */
     private float totalPagoAlquiler(){
         float aPagar=0;
-        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>4)aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[4]*this.alquiler;
-        else aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*this.alquiler;
+        if(this.getNumeroEdificios()==0){
+            if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>4)
+                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[4]*this.alquiler;
+            else
+                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*this.alquiler;
 
-        aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*this.alquiler*70;
-        aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*this.alquiler*25;
-        aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*this.alquiler*25;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*this.alquiler*70;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*this.alquiler*25;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*this.alquiler*25;
+        }else{
+            aPagar=this.alquiler; //REVISAR ESTO
+        }
         return aPagar;
     }
 
     /**
      * Este metodo interpreta as accions a realizar ao caer nun solar
-     * @param next Casilla na que se cae
-     * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarSOLAR(Casilla next,Turno turno,Xogo xogo){
-        Xogador xogador=turno.getXogador();
+    private String interpretarSOLAR(Xogo xogo){
+        Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
-        if(next.getEstaHipotecada()){
-            mensaxe+="Caiche na casila "+next.getNome()+", pero está hipotecada, non pagas.";
+        if(this.getEstaHipotecada()){
+            mensaxe+="Caiche na casila "+this.getNome()+", pero está hipotecada, non pagas.";
             return mensaxe;
         }else{
-            if((!next.getDono().equals(xogador))&&(!next.getDono().equals(xogo.getBanca()))){
-                float aPagar=next.totalPagoAlquiler();
+            if((!this.getDono().equals(xogador))&&(!this.getDono().equals(xogo.getBanca()))){
+                float aPagar=this.totalPagoAlquiler();
 
-                aPagar*=(next.getGrupo().tenTodoGrupo(next.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
+                aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
 
                 if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                     this.estadisticasCasilla.engadirAlquilerPagado(aPagar);
-                    next.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
-                    mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome();
+                    this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
+                    mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
                     return mensaxe;
                 }else{
                     mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
@@ -635,107 +637,100 @@ public class Casilla {
                 }
             }
         }
-        turno.setPosicion(next);
+        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 
     /**
      * Este metodo interpreta as accions a realizar ao caer nun servizo
-     * @param next Casilla na que se cae
-     * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarSERVIZO(Casilla next,Turno turno,Xogo xogo,int valorDados){
-        Xogador xogador=turno.getXogador();
+    private String interpretarSERVIZO(Xogo xogo,int valorDados){
+        Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
-        if((!next.getDono().equals(xogador)) && (!next.getDono().equals(xogo.getBanca()))){
-            float aPagar=valorDados*next.getUsoServizo();
+        if((!this.getDono().equals(xogador)) && (!this.getDono().equals(xogo.getBanca()))){
+            float aPagar=valorDados*this.getUsoServizo();
 
-            aPagar*=(xogador.numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1)?4.0f:10.0f;
+            aPagar*=(this.getDono().numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1)?4.0f:10.0f;
 
             if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
-                next.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
-                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+                this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
+                mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
             }else{
                 mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
                 xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                 return mensaxe;
             }
         }
-        turno.setPosicion(next);
+        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 
 
     /**
      * Este metodo interpreta as accions a realizar ao caer nun transporte
-     * @param next Casilla na que se cae
-     * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarTRANSPORTE(Casilla next,Turno turno,Xogo xogo){
-        Xogador xogador=turno.getXogador();
+    private String interpretarTRANSPORTE(Xogo xogo){
+        Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
-        if((!next.getDono().equals(xogador)) && (!next.getDono().equals(xogo.getBanca()))){
+        if((!this.getDono().equals(xogador)) && (!this.getDono().equals(xogo.getBanca()))){
             float aPagar=0;
-            aPagar=next.getUsoServizo()*(next.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
+            aPagar=this.getUsoServizo()*(this.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
             if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
-                next.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
-                mensaxe+="Tes que pagarlle "+aPagar+" a "+next.getDono().getNome() +" por usar "+next.getNome();
+                this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
+                mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
             }else{
                 mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
                 xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                 return mensaxe;
             }
         }
-        turno.setPosicion(next);
+        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 
 
     /**
      * Este metodo interpreta as accions a realizar ao caer en ir carcel
-     * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarIRCARCERE(Turno turno, Xogo xogo){
+    private String interpretarIRCARCERE(Xogo xogo){
         String mensaxe="O avatar colocase na casilla CÁRCERE";
-        turno.getXogador().meterNoCarcere();
-        turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
+        xogo.getTurno().getXogador().meterNoCarcere();
+        xogo.getTurno().setPosicion(xogo.getTaboeiro().getCasilla(10));
         return mensaxe;
     }
 
     /**
      * Este metodo interpreta as accions a realizar ao caer en parking
-     * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarPARKING(Turno turno,Casilla next,Xogo xogo){
+    private String interpretarPARKING(Xogo xogo){
         String mensaxe="";
-        mensaxe="O xogador "+ turno.getXogador().getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
-        turno.getXogador().engadirDinheiro(xogo.getTaboeiro().getBote(), TipoTransaccion.BOTE_PREMIO);
+        mensaxe="O xogador "+ xogo.getTurno().getXogador().getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
+        xogo.getTurno().getXogador().engadirDinheiro(xogo.getTaboeiro().getBote(), TipoTransaccion.BOTE_PREMIO);
         xogo.getTaboeiro().setBote(0);
-        turno.setPosicion(next);
+        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 
     /**
      * Este metodo interpreta as accions a realizar ao caer nun imposto
-     * @param turno Xogador que cae
      * @return String co mensaxe
      */
-    private String interpretarIMPOSTO(Turno turno,Casilla next,Xogo xogo){
-        Xogador xogador=turno.getXogador();
+    private String interpretarIMPOSTO(Xogo xogo){
+        Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
-        mensaxe="O xogador "+ xogador.getNome() +  " ten que pagar "+next.getImposto() + " por caer en "+next.getNome();
-        if(xogador.quitarDinheiro(next.getImposto(), TipoTransaccion.IMPOSTO)){
-            xogo.getTaboeiro().engadirBote(next.getImposto());
+        mensaxe="O xogador "+ xogador.getNome() +  " ten que pagar "+this.getImposto() + " por caer en "+this.getNome();
+        if(xogador.quitarDinheiro(this.getImposto(), TipoTransaccion.IMPOSTO)){
+            xogo.getTaboeiro().engadirBote(this.getImposto());
         }else{
             System.err.println("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
             xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
             return "";
         }
-        turno.setPosicion(next);
+        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 
