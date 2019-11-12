@@ -307,11 +307,11 @@ public class Xogo {
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
-            if(!c.getDono().quitarDinheiro(c.getHipoteca(), TipoTransaccion.OTROS)){
+            if(!c.getDono().quitarDinheiro(c.getHipoteca()*1.1f, TipoTransaccion.OTROS)){
                 System.err.println("Non tes o suficiente diñeiro para deshipotecar a propiedade");
                 return;
             }
-            System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca());
+            System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
         }
         else{
             System.err.println("Non se pode deshipotecar esa casilla");

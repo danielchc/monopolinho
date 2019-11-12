@@ -249,8 +249,10 @@ public class Casilla {
      * @return True si de pode seguir edificando e false se non.
      */
     public boolean podeseEdificarMais(TipoEdificio tipo){
+        if((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)){
+            return false;
+        }
         return (!(
-                ((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)) ||
                 ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares())) ||
                 ((tipo!=TipoEdificio.HOTEL) && this.getNumeroEdificios()>=this.getGrupo().getNumeroSolares()*4)
         ));
@@ -577,12 +579,12 @@ public class Casilla {
     private String queSePodeConstruir(){
         String texto="";
         if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<=this.grupo.getNumeroSolares()*4)
-            texto+="Podes construir "+(this.grupo.getNumeroSolares()*4-this.getNumeroEdificiosTipo(TipoEdificio.CASA))+" casas\n";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=4)
+            texto+="Podes construir casas\n";
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=4 && this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2)
             texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.HOTEL))+" hoteles\n";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=2 && this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=1)
+        if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>=2 && this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=1 && this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)<2)
             texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISCINA))+" piscina\n";
-        if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=2)
+        if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)>=2 && this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)<2)
             texto+="Podes construir "+(this.grupo.getNumeroSolares()-this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES))+" pistas de deportes\n";
 
         return texto;
@@ -594,7 +596,7 @@ public class Casilla {
      */
     private float totalPagoAlquiler(){
         float aPagar=0;
-        if(this.getNumeroEdificios()==0){
+        if(this.getNumeroEdificios()!=0){
             if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>4)
                 aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[4]*this.alquiler;
             else
