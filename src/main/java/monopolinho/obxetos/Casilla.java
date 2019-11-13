@@ -626,14 +626,13 @@ public class Casilla {
                 float aPagar=this.totalPagoAlquiler();
 
                 aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
-
                 if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                     this.estadisticasCasilla.engadirAlquilerPagado(aPagar);
                     this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
                     return mensaxe;
                 }else{
-                    mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                    mensaxe+="Non tes suficiente diñeiro para pagar o alquiler de "+aPagar+", teste que declarar en bancarrota ou hipotecar unha propiedade.";
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return mensaxe;
                 }
@@ -794,25 +793,25 @@ public class Casilla {
                 break;
             default:
                 texto="{"+
-                            "\n\tNome: "+this.nome+((this.estaHipotecada)?"(Hipotecada)":"")+"\n\t" +
-                            "Tipo: "+this.tipoCasilla+"\n\t" +
-                            "Grupo: "+this.getGrupo().getNome()+"\n\t" +
-                            "Valor: "+this.getValor()+"\n\t" +
-                            "Alquiler: "+this.getAlquiler()+"\n\t"+
-                            "Valor casa: "+this.valor*Valor.FACTOR_VALOR_CASA+"\n\t"+
-                            "Valor hotel: "+this.valor*Valor.FACTOR_VALOR_HOTEL+"\n\t"+
-                            "Valor piscina: "+this.valor*Valor.FACTOR_VALOR_PISCINA+"\n\t"+
-                            "Valor pista deportes: "+this.valor*Valor.FACTOR_VALOR_PISTADEPORTES+"\n\t"+
-                            "Alquiler 1 casa: "+this.alquiler*5+"\n\t"+
-                            "Alquiler 2 casa: "+this.alquiler*15+"\n\t"+
-                            "Alquiler 3 casa: "+this.alquiler*35+"\n\t"+
-                            "Alquiler 4 casa: "+this.alquiler*50+"\n\t"+
-                            "Alquiler hotel: "+this.alquiler*70+"\n\t"+
-                            "Alquiler piscina: "+this.alquiler*25+"\n\t"+
-                            "Alquiler pista de deportes: "+this.alquiler*25+"\n\t"+
-                            "Total a pagar de alquiler actualmente: "+((this.getGrupo().tenTodoGrupo(this.dono) && !this.dono.getNome().equals("Banca"))?this.totalPagoAlquiler()*Valor.FACTOR_PAGO_ALQUILER:this.totalPagoAlquiler())+"\n\t"+
-                            "Edificios: "+edificios+"\n\t"+
-                            ((!this.dono.getNome().equals("Banca"))?"Propietario: "+this.dono.getNome():"") +
+                        "\n\tNome: "+this.nome+((this.estaHipotecada)?"(Hipotecada)":"")+"\n\t" +
+                        "Tipo: "+this.tipoCasilla+"\n\t" +
+                        "Grupo: "+this.getGrupo().getNome()+"\n\t" +
+                        "Valor: "+this.getValor()+"\n\t" +
+                        "Alquiler: "+this.getAlquiler()+"\n\t"+
+                        "Valor casa: "+this.valor*Valor.FACTOR_VALOR_CASA+"\n\t"+
+                        "Valor hotel: "+this.valor*Valor.FACTOR_VALOR_HOTEL+"\n\t"+
+                        "Valor piscina: "+this.valor*Valor.FACTOR_VALOR_PISCINA+"\n\t"+
+                        "Valor pista deportes: "+this.valor*Valor.FACTOR_VALOR_PISTADEPORTES+"\n\t"+
+                        "Alquiler 1 casa: "+this.alquiler*5+"\n\t"+
+                        "Alquiler 2 casa: "+this.alquiler*15+"\n\t"+
+                        "Alquiler 3 casa: "+this.alquiler*35+"\n\t"+
+                        "Alquiler 4 casa: "+this.alquiler*50+"\n\t"+
+                        "Alquiler hotel: "+this.alquiler*70+"\n\t"+
+                        "Alquiler piscina: "+this.alquiler*25+"\n\t"+
+                        "Alquiler pista de deportes: "+this.alquiler*25+"\n\t"+
+                        "Total a pagar de alquiler actualmente: "+((this.getGrupo().tenTodoGrupo(this.dono) && !this.dono.getNome().equals("Banca"))?this.totalPagoAlquiler()*Valor.FACTOR_PAGO_ALQUILER:this.totalPagoAlquiler())+"\n\t"+
+                        "Edificios: "+edificios+"\n\t"+
+                        ((!this.dono.getNome().equals("Banca"))?"Propietario: "+this.dono.getNome():"") +
                         "\n}";
                 break;
 

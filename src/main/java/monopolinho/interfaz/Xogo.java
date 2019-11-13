@@ -228,7 +228,7 @@ public class Xogo {
             return;
         }
         if(comprar==null){
-            System.err.println("Tas fodido, a casilla "+cmds[1]+" non existe");
+            System.err.println("A casilla "+cmds[1]+" non existe");
             return;
         }
         if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
