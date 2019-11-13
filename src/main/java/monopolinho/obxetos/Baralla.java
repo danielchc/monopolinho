@@ -135,7 +135,7 @@ public class Baralla {
         cartas.add(new Carta(
                 TipoCarta.COMUNIDADE,
                 TipoCartaAccion.C_RETROCEDER_PONTEPEDRA,
-                "Retrocede ata PONTEPEDRA para facer un trompos co jabalí. "
+                "Retrocede ata PONTEPEDRA para ir facer unha churrascada. "
         ));
     }
 }

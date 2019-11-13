@@ -55,7 +55,7 @@ public class Carta {
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000.0f;
                 }
                 if(!xogador.quitarDinheiro(aPagar, TipoTransaccion.TASAS)){
-                    System.err.println("Non tes suficiente diñeiro para pagar "+aPagar);
+                    System.err.println(mensaxe+". Non tes suficiente diñeiro para pagar "+aPagar);
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return "";
                 }
@@ -65,7 +65,7 @@ public class Carta {
             case S_PRESIDENTE:
                 dinheiroPagar=25000f;
                 if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
-                    System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
+                    System.err.println( mensaxe + ". Non tes suficiente diñeiro para pagar os xogadores");
                     return "";
                 }
                 for(Xogador x:xogo.getXogadores()){
@@ -89,9 +89,9 @@ public class Carta {
             case C_ALQUILAR_VILLA:
                 dinheiroPagar=20000f;
                 if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
-                    System.err.println("Non tes suficiente diñeiro para pagar os xogadores");
+                    System.err.println(mensaxe+ ". Non tes suficiente diñeiro para pagar os xogadores");
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
-                    return mensaxe;
+                    return "";
                 }
                 for(Xogador x:xogo.getXogadores()){
                     x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
@@ -109,9 +109,9 @@ public class Carta {
                 return mensaxe + turno.getPosicion().interpretarCasilla(xogo,0);
             case C_TERMAS:
                 if(!xogador.quitarDinheiro(50000, TipoTransaccion.TASAS)){
-                    System.err.println("Non tes suficiente diñeiro para pagar a acción");
+                    System.err.println(mensaxe+ ". Non tes suficiente diñeiro para pagar a acción");
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
-                    return mensaxe;
+                    return "";
                 }
                 return mensaxe;
         }

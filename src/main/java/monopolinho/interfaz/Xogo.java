@@ -233,7 +233,7 @@ public class Xogo {
         }
         if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
             if(!this.turno.getHistorial().contains(comprar)){
-                System.err.println("Non paseches por esta casilla neste turno");
+                System.err.println("Non pasaches por esta casilla neste turno");
                 return;
             }
         }else{
@@ -341,10 +341,11 @@ public class Xogo {
      */
     public void declararBancarrota(){
         this.turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
-
         for(Casilla c:this.turno.getXogador().getPropiedades()){
             c.setEstaHipotecada(false);
-            c.setDono(this.banca); //PA O XOGADOR QUE TES A DEBEDA
+            c.setDono(this.banca);
+            //PA O XOGADOR QUE TES A DEBEDA, normalmente vas ter a débeda co xogador da casilla na que estás
+            //c.setDono(this.turno.getPosicion().getDono());
         }
         System.out.println("\nO xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
         pasarTurno();

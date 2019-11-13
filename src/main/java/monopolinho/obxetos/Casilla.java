@@ -38,7 +38,7 @@ public class Casilla {
     public Casilla(String nome,TipoCasilla tipoCasilla){
         if(nome==null || tipoCasilla==null){
             System.err.println("Error creando a casilla");
-            System.exit(1);
+            return;
         }
         this.nome=nome;
         this.tipoCasilla=tipoCasilla;
@@ -252,6 +252,10 @@ public class Casilla {
         if((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)){
             return false;
         }
+        if(tipo!=TipoEdificio.CASA && this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares()){
+            return false;
+        }
+
         return (!(
                 ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares())) ||
                 ((tipo!=TipoEdificio.HOTEL) && this.getNumeroEdificios()>=this.getGrupo().getNumeroSolares()*4)
