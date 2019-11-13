@@ -190,7 +190,7 @@ public class Xogo {
                 return;
             }else{
                 System.err.println("O xogador leva 3 turnos no cárcere e non ten cartos para saír, o xogador debe declararse en bancarrota");
-                turno.getXogador().setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
+                turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
                 return;
             }
         }
