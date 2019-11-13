@@ -153,7 +153,7 @@ public class Xogador {
     }
 
     public void restarTurnoCarcere(){
-        if(this.turnosInvalidado>0)this.turnosNoCarcere--;
+        if(this.turnosNoCarcere>0)this.turnosNoCarcere--;
     }
 
     public void restarTurnosInvalidado(){
