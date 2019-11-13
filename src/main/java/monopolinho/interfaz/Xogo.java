@@ -815,10 +815,6 @@ public class Xogo {
      * @return True si se pode edificar, false se non
      */
     private boolean comprobarConstruir(Casilla c,TipoEdificio tipo){
-        if(this.turno.getVecesTiradas()==0){
-            System.err.println("Non podes construir se non tiraches os dados");
-            return false;
-        }
         if(c.getEstaHipotecada()){
             System.err.println("Non podes construir nunha casilla hipotecada");
             return false;

@@ -252,10 +252,6 @@ public class Casilla {
         if((tipo==TipoEdificio.CASA)&&(this.edificios.size() == this.getGrupo().getNumeroSolares() * 4)){
             return false;
         }
-        if(tipo!=TipoEdificio.CASA && this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares()){
-            return false;
-        }
-
         return (!(
                 ((tipo!=TipoEdificio.CASA)&&(this.getNumeroEdificiosTipo(tipo)>=this.getGrupo().getNumeroSolares())) ||
                 ((tipo!=TipoEdificio.HOTEL) && this.getNumeroEdificios()>=this.getGrupo().getNumeroSolares()*4)
