@@ -220,6 +220,7 @@ public class Xogo {
      * @param cmds Argumentos da función
      */
     public void comprarCasilla(String[] cmds){
+        if(comprobarCarcere())return;
         Xogador xogador=turno.getXogador();
         Casilla comprar=this.taboeiro.buscarCasilla(cmds[1]);
         if(turno.getVecesTiradas()==0){
@@ -298,6 +299,7 @@ public class Xogo {
      * @param nome Nome casilla
      */
     public void hipotecarCasilla(String nome){
+        if(comprobarCarcere())return;
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null && c.podeseComprar() && c.getDono().equals(turno.getXogador()) && !c.getEstaHipotecada()){
             if(c.getEdificios().size()!=0){
@@ -319,6 +321,7 @@ public class Xogo {
      * @param nome Nome casilla
      */
     public void deshipotecarCasilla(String nome){
+        if(comprobarCarcere())return;
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
             c.setEstaHipotecada(false);
@@ -352,6 +355,7 @@ public class Xogo {
      * @param tipo Tipo de edificio
      */
     public void edificar(TipoEdificio tipo){
+        if(comprobarCarcere())return;
         Casilla actual=turno.getPosicion();
         if(tipo==null){
             System.err.println("Tipo de edificio incorrecto");
@@ -411,6 +415,7 @@ public class Xogo {
      * @param numero Número de edificios a vender
      */
     public void venderEdificio(TipoEdificio tipo,String casilla,int numero){
+        if(comprobarCarcere())return;
         Casilla c=taboeiro.buscarCasilla(casilla);
         if(tipo==null){
             System.err.println("Tipo de edificio incorrecto.");
@@ -666,6 +671,8 @@ public class Xogo {
 
     }
 
+
+
     /**
      * Move os avatares de en modo avanzado
      */
@@ -773,12 +780,44 @@ public class Xogo {
         }
     }
 
+
+    /**
+     * Interpreta as cartas de Comunidade e Sorte
+     * @param tipoCasilla
+     * @return
+     */
+    private void preguntarCarta(TipoCasilla tipoCasilla) {
+        Baralla b=(tipoCasilla==TipoCasilla.SORTE)?this.cartasSorte:this.cartasComunidade;
+        b.barallar();
+        int nCarta=0;
+        do{
+            System.out.print("Escolle unha carta (1-6): ");
+            nCarta=new Scanner(System.in).nextInt();
+        }while(nCarta<1 || nCarta>6);
+        System.out.println(b.getCarta(nCarta-1).interpretarCarta(this));
+    }
+
+
+    /**
+     * @return Non permite realizar a acción se está no cárcere
+     */
+    private boolean comprobarCarcere(){
+        if(this.turno.getXogador().estaNoCarcere()){
+            System.err.println("Non podes realizar está acción porque estás no cárcere");
+            return true;
+        }
+        return false;
+    }
     /**
      * Este método comproba se se cumplen as condicións básicas de edificación.
      * @param c Casilla
      * @return True si se pode edificar, false se non
      */
     private boolean comprobarConstruir(Casilla c,TipoEdificio tipo){
+        if(this.turno.getVecesTiradas()==0){
+            System.err.println("Non podes construir se non tiraches os dados");
+            return false;
+        }
         if(c.getEstaHipotecada()){
             System.err.println("Non podes construir nunha casilla hipotecada");
             return false;
@@ -796,22 +835,6 @@ public class Xogo {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Interpreta as cartas de Comunidade e Sorte
-     * @param tipoCasilla
-     * @return
-     */
-    private void preguntarCarta(TipoCasilla tipoCasilla) {
-        Baralla b=(tipoCasilla==TipoCasilla.SORTE)?this.cartasSorte:this.cartasComunidade;
-        b.barallar();
-        int nCarta=0;
-        do{
-            System.out.print("Escolle unha carta (1-6): ");
-            nCarta=new Scanner(System.in).nextInt();
-        }while(nCarta<1 || nCarta>6);
-        System.out.println(b.getCarta(nCarta-1).interpretarCarta(this));
     }
 
     /**
