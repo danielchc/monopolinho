@@ -126,4 +126,7 @@ public class ReprTab {
             return String.format("%.2f",f);
         }
     }
+    public static void imprimirErro(String erro){
+        System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_RED,erro));
+    }
 }

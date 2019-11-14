@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class Grupo {
      */
     public Grupo(String grupo_nome, Valor.ReprColor color,float valor,int numeroSolares){
         if(grupo_nome==null || color==null){
-            System.err.println("Error: algun elemento non inicializado");
+            ReprTab.imprimirErro("Error: algun elemento non inicializado");
             return;
         }
         this.solares=new ArrayList<>();

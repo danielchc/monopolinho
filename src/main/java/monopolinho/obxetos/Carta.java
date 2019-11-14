@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
 import monopolinho.tipos.*;
 
@@ -55,7 +56,7 @@ public class Carta {
                     aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000.0f;
                 }
                 if(!xogador.quitarDinheiro(aPagar, TipoTransaccion.TASAS)){
-                    System.err.println(mensaxe+". Non tes suficiente diñeiro para pagar "+aPagar);
+                    ReprTab.imprimirErro(mensaxe+". Non tes suficiente diñeiro para pagar "+aPagar);
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return "";
                 }
@@ -64,12 +65,13 @@ public class Carta {
             //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.
             case S_PRESIDENTE:
                 dinheiroPagar=25000f;
-                if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
-                    System.err.println( mensaxe + ". Non tes suficiente diñeiro para pagar os xogadores");
+                if(!xogador.quitarDinheiro(dinheiroPagar*(xogo.getNumeroXogadores()-1), TipoTransaccion.TASAS)){
+                    ReprTab.imprimirErro( mensaxe + ". Non tes suficiente diñeiro para pagar os xogadores");
                     return "";
                 }
                 for(Xogador x:xogo.getXogadores()){
-                    x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
+                    if(!x.equals(turno.getXogador()))
+                        x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
                 }
                 return mensaxe;
 
@@ -83,18 +85,20 @@ public class Carta {
             case C_FRAUDE_IDENTIDAD:
                 turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
                 xogador.meterNoCarcere();
+                turno.setPodeLanzar(false);
                 return mensaxe;
 
             //8. Alquilas a tus compañeros una villa en Cannes durante una semana. Paga 200000€ a cada jugador. 4
             case C_ALQUILAR_VILLA:
                 dinheiroPagar=20000f;
-                if(!xogador.quitarDinheiro(dinheiroPagar*xogo.getNumeroXogadores(), TipoTransaccion.TASAS)){
-                    System.err.println(mensaxe+ ". Non tes suficiente diñeiro para pagar os xogadores");
+                if(!xogador.quitarDinheiro(dinheiroPagar*(xogo.getNumeroXogadores()-1), TipoTransaccion.TASAS)){
+                    ReprTab.imprimirErro(mensaxe+ ". Non tes suficiente diñeiro para pagar os xogadores");
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return "";
                 }
                 for(Xogador x:xogo.getXogadores()){
-                    x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
+                    if(!x.equals(turno.getXogador()))
+                        x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
                 }
                 return mensaxe;
 
@@ -109,7 +113,7 @@ public class Carta {
                 return mensaxe + turno.getPosicion().interpretarCasilla(xogo,0);
             case C_TERMAS:
                 if(!xogador.quitarDinheiro(50000, TipoTransaccion.TASAS)){
-                    System.err.println(mensaxe+ ". Non tes suficiente diñeiro para pagar a acción");
+                    ReprTab.imprimirErro(mensaxe+ ". Non tes suficiente diñeiro para pagar a acción");
                     xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
                     return "";
                 }

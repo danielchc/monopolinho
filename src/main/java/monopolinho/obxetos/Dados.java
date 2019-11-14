@@ -1,4 +1,6 @@
 package monopolinho.obxetos;
+import monopolinho.axuda.ReprTab;
+
 import java.util.Random;
 
 
@@ -36,7 +38,7 @@ public class Dados {
      * @return valor dos dous dados sumados
      */
     public int valorLanzar(){
-        if((this.dado1==0) || (this.dado2==0))System.err.println("Non se tiraron os dados");
+        if((this.dado1==0) || (this.dado2==0))ReprTab.imprimirErro("Non se tiraron os dados");
         return (this.dado1+this.dado2);
     }
 
@@ -54,7 +56,7 @@ public class Dados {
      * @return valor do dado 1
      */
     public int getDado1(){
-        if((this.dado1==0) || (this.dado2==0))System.err.println("Non se tiraron os dados");
+        if((this.dado1==0) || (this.dado2==0)) ReprTab.imprimirErro("Non se tiraron os dados");
         return dado1;
     }
 
@@ -63,7 +65,7 @@ public class Dados {
      * @return valor do dado 2
      */
     public int getDado2(){
-        if((this.dado1==0) || (this.dado2==0))System.err.println("Non se tiraron os dados");
+        if((this.dado1==0) || (this.dado2==0))ReprTab.imprimirErro("Non se tiraron os dados");
         return dado2;
     }
 

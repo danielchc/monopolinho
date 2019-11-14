@@ -56,7 +56,7 @@ public class Avatar {
     /**
      * Este método xera un identificador aleatorio
      */
-    private void xerarId(){
+    public void xerarId(){
         Random aleatorio=new Random(System.nanoTime());
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }

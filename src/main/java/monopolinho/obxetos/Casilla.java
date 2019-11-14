@@ -37,7 +37,7 @@ public class Casilla {
      */
     public Casilla(String nome,TipoCasilla tipoCasilla){
         if(nome==null || tipoCasilla==null){
-            System.err.println("Error creando a casilla");
+            ReprTab.imprimirErro("Error creando a casilla");
             return;
         }
         this.nome=nome;
@@ -727,7 +727,7 @@ public class Casilla {
         if(xogador.quitarDinheiro(this.getImposto(), TipoTransaccion.IMPOSTO)){
             xogo.getTaboeiro().engadirBote(this.getImposto());
         }else{
-            System.err.println("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+            ReprTab.imprimirErro("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
             xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
             return "";
         }

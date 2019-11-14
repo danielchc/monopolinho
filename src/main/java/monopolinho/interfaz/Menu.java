@@ -55,13 +55,13 @@ public class Menu {
                 System.out.println("Introduce o tipo de movemento do xogador <coche/sombreiro/esfinxe/pelota> "+i+": ");
                 String mov=input.nextLine();
                 if((nome.toLowerCase().equals("banca"))||!xogo.crearXogador(nome,interpretarMov(mov))){
-                    System.err.println("Xa existe un usuario que se chama así");
+                    ReprTab.imprimirErro("Xa existe un usuario que se chama así");
                     i--;
                 }
             }
             xogo.comezarPartida();
         }else {
-            System.err.println("Debe haber polo menos dous xogadores");
+            ReprTab.imprimirErro("Debe haber polo menos dous xogadores");
             System.exit(1);
         }
     }
@@ -197,7 +197,7 @@ public class Menu {
         if(!xogo.partidaComezada()){
             if(xogo.getNumeroXogadores()>=2)xogo.comezarPartida();
             else {
-                System.err.println("Non hai suficientes xogadores");
+                ReprTab.imprimirErro("Non hai suficientes xogadores");
                 return;
             }
         }
