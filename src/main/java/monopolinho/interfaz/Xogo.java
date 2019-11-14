@@ -65,7 +65,7 @@ public class Xogo {
     public void describirCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null)System.out.println(c);
-        else ReprTab.imprimirErro("A casilla " + nome + "non existe");
+        else ReprTab.imprimirErro("A casilla " + nome + " non existe");
     }
 
     /**
