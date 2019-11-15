@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import monopolinho.obxetos.Casilla;
+import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.Taboeiro;
 import monopolinho.tipos.Zona;
 

@@ -1,9 +1,9 @@
 package monopolinho.estadisticas;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Casilla;
 import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.casillas.Casilla;
 
 import java.util.ArrayList;
 

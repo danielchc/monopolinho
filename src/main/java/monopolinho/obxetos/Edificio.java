@@ -1,5 +1,7 @@
 package monopolinho.obxetos;
 
+import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
@@ -11,7 +13,7 @@ public class Edificio {
     private TipoEdificio tipoEdificio;
     private Xogador propietario;
     private float precio;
-    private Casilla posicion;
+    private Solar posicion;
     private String id;
 
     /**
@@ -21,7 +23,7 @@ public class Edificio {
      * @param precio Precio do edificio
      * @param posicion Casilla na que se vai colocar o edificio
      */
-    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,float precio,Casilla posicion){
+    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,float precio,Solar posicion){
         if(propietario!=null && posicion!=null && posicion.getTipoCasilla()== TipoCasilla.SOLAR){
             this.tipoEdificio=tipoEdificio;
             this.propietario=propietario;
@@ -30,7 +32,7 @@ public class Edificio {
             this.id= this.tipoEdificio + String.valueOf(this.posicion.getNumeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
-    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,Casilla posicion){
+    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,Solar posicion){
         this(tipoEdificio,propietario,0,posicion);
         this.precio=posicion.getPrecioEdificio(tipoEdificio);
     }
@@ -119,7 +121,7 @@ public class Edificio {
      * Devolve a casilla na que está o edificio
      * @return Casilla na que está o edificio
      */
-    public Casilla getPosicion() {
+    public Solar getPosicion() {
         return posicion;
     }
 
@@ -129,7 +131,7 @@ public class Edificio {
      * @param posicion Casilla na que se encontra o edificio
      *
      */
-    public void setPosicion(Casilla posicion) {
+    public void setPosicion(Solar posicion) {
         if(posicion!= null)
             this.posicion = posicion;
     }

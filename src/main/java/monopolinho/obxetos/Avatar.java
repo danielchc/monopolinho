@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.ModoXogo;
 import monopolinho.tipos.TipoMovemento;
 

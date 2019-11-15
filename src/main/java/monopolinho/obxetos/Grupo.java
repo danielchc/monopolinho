@@ -2,6 +2,8 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.propiedades.Solar;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class Grupo {
     private String grupo_nome;
     private float valor;
     private Valor.ReprColor color;
-    private ArrayList<Casilla> solares;
+    private ArrayList<Solar> solares;
     private int numeroSolares;
 
     /**
@@ -52,7 +54,7 @@ public class Grupo {
      * Este método permite engadir un solar a un grupo
      * @param c casilla a engadir
      */
-    public void engadirSolar(Casilla c){
+    public void engadirSolar(Solar c){
         if(c!=null)this.solares.add(c);
     }
 
@@ -63,7 +65,7 @@ public class Grupo {
      * @return Devolve se o xogador ten todo o solar ou non
      */
     public boolean tenTodoGrupo(Xogador x){
-        for(Casilla c:this.solares){
+        for(Solar c:this.solares){
             if(!c.getDono().equals(x)){
                 return false;
             }
@@ -73,14 +75,14 @@ public class Grupo {
 
     public int getNumeroEdificios(){
         int n=0;
-        for(Casilla c:this.solares)
+        for(Solar c:this.solares)
             n+=c.getNumeroEdificios();
         return n;
     }
     /**
      * @return solares pertencentes a un grupo
      */
-    public ArrayList<Casilla> getSolares() {
+    public ArrayList<Solar> getSolares() {
         return solares;
     }
 
@@ -148,7 +150,7 @@ public class Grupo {
      * Establece os solares do grupo
      * @param solares solares do grupo
      */
-    public void setSolares(ArrayList<Casilla> solares) {
+    public void setSolares(ArrayList<Solar> solares) {
         if(solares!=null){
             this.solares = solares;
         }

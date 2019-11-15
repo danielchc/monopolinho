@@ -2,6 +2,9 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogador;
+import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
@@ -18,12 +21,11 @@ public class Xogador {
     private String nome;
     private Avatar avatar;
     private float fortuna;
-    private ArrayList<Casilla> propiedades;
+    private ArrayList<Propiedade> propiedades;
     private int turnosNoCarcere;
     private int turnosInvalidado;
     private EstadoXogador estadoXogador;
     private EstadisticasXogador estadisticas;
-
 
     /**
      *  Constructor sen argumentos crea a banca.
@@ -65,7 +67,7 @@ public class Xogador {
     /**
      * @param casilla Casilla a engadir
      */
-    public void engadirPropiedade(Casilla casilla){
+    public void engadirPropiedade(Propiedade casilla){
         if(casilla!=null){
             this.propiedades.add(casilla);
         }
@@ -173,10 +175,11 @@ public class Xogador {
     public String describir(){
         String listaPropiedades="[",listaHipotecas="[",listaEdificios="[";
 
-        for(Casilla c:this.propiedades) {
+        for(Propiedade c:this.propiedades) {
             if (!c.getEstaHipotecada())listaPropiedades += c.getNome() + ", ";
             else listaHipotecas += c.getNome() + ", ";
-            for(Edificio e:c.getEdificios()) listaEdificios+=e+" ("+e.getPosicion().getNome()+"), ";
+            if(c instanceof Solar)
+                for(Edificio e:((Solar)c).getEdificios()) listaEdificios+=e+" ("+e.getPosicion().getNome()+"), ";
         }
 
         listaHipotecas=(listaHipotecas.length()==1)?"[]":listaHipotecas.substring(0,listaHipotecas.length()-2)+"]";
@@ -238,7 +241,7 @@ public class Xogador {
     /**
      * @return Delvolve unha lista cas propiedades do xogador
      */
-    public ArrayList<Casilla> getPropiedades() {
+    public ArrayList<Propiedade> getPropiedades() {
         return propiedades;
     }
 
@@ -246,9 +249,9 @@ public class Xogador {
      * Establece as propiedades do xogador
      * @param propiedades
      */
-    public void setPropiedades(ArrayList<Casilla> propiedades) {
+    public void setPropiedades(ArrayList<Propiedade> propiedades) {
         if(propiedades!=null){
-            for(Casilla casilla:propiedades)
+            for(Propiedade casilla:propiedades)
                 if (casilla==null)return;
             this.propiedades = propiedades;
         }

@@ -1,5 +1,7 @@
 package monopolinho.obxetos;
 
+import monopolinho.obxetos.casillas.Casilla;
+
 import java.util.ArrayList;
 
 /**

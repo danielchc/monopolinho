@@ -4,6 +4,9 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogo;
 import monopolinho.obxetos.*;
+import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -101,8 +104,8 @@ public class Xogo {
      */
     public void listarEdificios(){
         for(Grupo g:taboeiro.getGrupos()){
-            for(Casilla c:g.getSolares()){
-                for(Edificio e:c.getEdificios()){
+            for(Solar s:g.getSolares()){
+                for(Edificio e:s.getEdificios()){
                     System.out.println(e.describirEdificio());
                 }
             }
@@ -122,7 +125,7 @@ public class Xogo {
             ReprTab.imprimirErro("Este grupo non ten edificios.");
             return;
         }
-        for(Casilla c:grupo.getSolares()){
+        for(Solar c:grupo.getSolares()){
             System.out.println(c.describirEdificios());
         }
     }
@@ -150,7 +153,7 @@ public class Xogo {
     public void listarCasillaEnVenta(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
             for(Casilla c:zona)
-                if(c.podeseComprar())
+                if(c instanceof Propiedade)
                     System.out.println(c);
     }
 
@@ -222,13 +225,19 @@ public class Xogo {
     public void comprarCasilla(String[] cmds){
         if(comprobarCarcere())return;
         Xogador xogador=turno.getXogador();
-        Casilla comprar=this.taboeiro.buscarCasilla(cmds[1]);
-        if(turno.getVecesTiradas()==0){
-            System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
+        Casilla target=this.taboeiro.buscarCasilla(cmds[1]);
+        Propiedade comprar;
+        if(target==null){
+            ReprTab.imprimirErro("A casilla "+cmds[1]+" non existe");
             return;
         }
-        if(comprar==null){
-            ReprTab.imprimirErro("A casilla "+cmds[1]+" non existe");
+        if(!(target instanceof Propiedade)){
+            ReprTab.imprimirErro("Este tipo de casilla non se pode comprar esta casilla");
+            return;
+        }
+        comprar=(Propiedade)target;
+        if(turno.getVecesTiradas()==0){
+            System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
             return;
         }
         if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
@@ -242,12 +251,8 @@ public class Xogo {
                 return;
             }
         }
-        if(!comprar.podeseComprar()){
-            ReprTab.imprimirErro("Este tipo de casilla non se pode comprar esta casilla");
-            return;
-        }
         if (!comprar.getDono().equals(banca)){
-            ReprTab.imprimirErro("Esta casilla pertence a " + turno.getPosicion().getDono().getNome()+". Non a podes comprar");
+            ReprTab.imprimirErro("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
             return;
         }
         if(!xogador.quitarDinheiro(comprar.getValor(), TipoTransaccion.COMPRA)){
@@ -300,19 +305,34 @@ public class Xogo {
      */
     public void hipotecarCasilla(String nome){
         if(comprobarCarcere())return;
-        Casilla c=this.taboeiro.buscarCasilla(nome);
-        if(c!=null && c.podeseComprar() && c.getDono().equals(turno.getXogador()) && !c.getEstaHipotecada()){
-            if(c.getEdificios().size()!=0){
-                ReprTab.imprimirErro(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
-                return;
-            }
-            c.setEstaHipotecada(true);
-            c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
-            System.out.println("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
+        Casilla target=this.taboeiro.buscarCasilla(nome);
+        Propiedade c=null;
+        if(target==null){
+            ReprTab.imprimirErro("A casilla "+nome+" non existe");
+            return;
         }
-        else{
-            ReprTab.imprimirErro("Non se pode hipotecar esa casilla");
+        if(!(target instanceof Propiedade)){
+            ReprTab.imprimirErro("Non se pode hipotecar este tipo de casilla");
+            return;
         }
+        c=(Propiedade)target;
+        if(!c.getDono().equals(turno.getXogador())){
+            ReprTab.imprimirErro("Non eres dono de esta casilla");
+            return;
+        }
+        if(c.getEstaHipotecada()){
+            ReprTab.imprimirErro("Esta casilla xa está hipotecada");
+            return;
+        }
+        if((c instanceof Solar) && (((Solar)c).getEdificios().size()!=0)){
+            ReprTab.imprimirErro(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
+            return;
+        }
+
+        c.setEstaHipotecada(true);
+        c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
+        System.out.println("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
+
     }
 
 
@@ -322,18 +342,33 @@ public class Xogo {
      */
     public void deshipotecarCasilla(String nome){
         if(comprobarCarcere())return;
-        Casilla c=this.taboeiro.buscarCasilla(nome);
-        if(c!=null && c.podeseComprar() && c.getDono().equals(this.turno.getXogador()) && c.getEstaHipotecada()){
-            c.setEstaHipotecada(false);
-            if(!c.getDono().quitarDinheiro(c.getHipoteca()*1.1f, TipoTransaccion.OTROS)){
-                ReprTab.imprimirErro("Non tes o suficiente diñeiro para deshipotecar a propiedade");
-                return;
-            }
-            System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
+        Casilla target=this.taboeiro.buscarCasilla(nome);
+        Propiedade c=null;
+        if(target==null){
+            ReprTab.imprimirErro("A casilla "+nome+" non existe");
+            return;
         }
-        else{
-            ReprTab.imprimirErro("Non se pode deshipotecar esa casilla");
+        if(!(target instanceof Propiedade)){
+            ReprTab.imprimirErro("Non se pode deshipotecar este tipo de casilla");
+            return;
         }
+        c=(Propiedade)target;
+        if(!c.getDono().equals(turno.getXogador())){
+            ReprTab.imprimirErro("Non eres dono de esta casilla");
+            return;
+        }
+        if(!c.getEstaHipotecada()){
+            ReprTab.imprimirErro("Esta casilla non está hipotecada");
+            return;
+        }
+
+        if(!c.getDono().quitarDinheiro(c.getHipoteca()*1.1f, TipoTransaccion.OTROS)){
+            ReprTab.imprimirErro("Non tes o suficiente diñeiro para deshipotecar a propiedade");
+            return;
+        }
+        c.setEstaHipotecada(false);
+        System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
+
     }
 
     /**
@@ -341,7 +376,7 @@ public class Xogo {
      */
     public void declararBancarrota(){
         this.turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
-        for(Casilla c:this.turno.getXogador().getPropiedades()){
+        for(Propiedade c:this.turno.getXogador().getPropiedades()){
             c.setEstaHipotecada(false);
             c.setDono(this.banca);
             //PA O XOGADOR QUE TES A DEBEDA, normalmente vas ter a débeda co xogador da casilla na que estás
@@ -357,7 +392,13 @@ public class Xogo {
      */
     public void edificar(TipoEdificio tipo){
         if(comprobarCarcere())return;
-        Casilla actual=turno.getPosicion();
+        Solar actual;
+        Casilla target=turno.getPosicion();
+        if(!(target instanceof Solar)){
+            ReprTab.imprimirErro("Non se pode construir nunha casilla que non sexa un SOLAR");
+            return;
+        }
+        actual=(Solar)target;
         if(tipo==null){
             ReprTab.imprimirErro("Tipo de edificio incorrecto");
             return;
@@ -417,13 +458,19 @@ public class Xogo {
      */
     public void venderEdificio(TipoEdificio tipo,String casilla,int numero){
         if(comprobarCarcere())return;
-        Casilla c=taboeiro.buscarCasilla(casilla);
-        if(tipo==null){
-            ReprTab.imprimirErro("Tipo de edificio incorrecto.");
+        Casilla target=taboeiro.buscarCasilla(casilla);
+        Solar c;
+        if(target==null){
+            ReprTab.imprimirErro("A casilla "+casilla+" non existe.");
             return;
         }
-        if(c==null){
-            ReprTab.imprimirErro("A casilla "+casilla+" non existe.");
+        if(!(target instanceof Solar)){
+            ReprTab.imprimirErro("Non se pode vender edificios dunha casilla que non sexa un SOLAR");
+            return;
+        }
+        c=(Solar)target;
+        if(tipo==null){
+            ReprTab.imprimirErro("Tipo de edificio incorrecto.");
             return;
         }
         if(c.getTipoCasilla()!=TipoCasilla.SOLAR){
@@ -772,10 +819,13 @@ public class Xogo {
     private void aumentarPrecioCasillas(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona){
-                if(c.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
-                    c.setValor(c.getValor()*1.05f);
+                if(c instanceof Propiedade){
+                    Propiedade p=(Propiedade)c;
+                    if(p.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
+                        p.setValor(p.getValor()*1.05f);
+                    }
                 }
-}
+            }
         }
     }
 
@@ -785,7 +835,8 @@ public class Xogo {
     private void engadirCasillasBanca(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona)
-                c.setDono(banca);
+                if(c instanceof Propiedade)
+                    ((Propiedade)c).setDono(banca);
         }
     }
 
@@ -822,7 +873,7 @@ public class Xogo {
      * @param c Casilla
      * @return True si se pode edificar, false se non
      */
-    private boolean comprobarConstruir(Casilla c,TipoEdificio tipo){
+    private boolean comprobarConstruir(Solar c, TipoEdificio tipo){
         if(c.getEstaHipotecada()){
             ReprTab.imprimirErro("Non podes construir nunha casilla hipotecada");
             return false;

@@ -1,7 +1,6 @@
 package monopolinho.axuda;
 
-import monopolinho.obxetos.Casilla;
-
+import monopolinho.obxetos.casillas.Casilla;
 
 /**
  * @author Daniel Chenel

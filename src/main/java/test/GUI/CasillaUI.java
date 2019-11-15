@@ -12,7 +12,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
-import monopolinho.obxetos.Casilla;
+import monopolinho.obxetos.casillas.Casilla;
 import javafx.scene.text.Text;
 
 public class CasillaUI extends StackPane {
@@ -52,9 +52,6 @@ public class CasillaUI extends StackPane {
         ka.setTextAlignment(TextAlignment.CENTER);
         super.getChildren().add(ka);
         StackPane.setAlignment(ka, Pos.TOP_CENTER);
-        if(c.podeseComprar()){
-            ka.setText(ka.getText()+"\n"+String.valueOf(c.getValor()));
-        }
         ka.setFont(Font.font("Verdana", FontWeight.BOLD,12));
 
         this.setBackground(new Background(new BackgroundFill(k, CornerRadii.EMPTY, Insets.EMPTY)));

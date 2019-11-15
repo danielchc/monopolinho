@@ -2,6 +2,8 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.*;
 
 /**
@@ -49,11 +51,14 @@ public class Carta {
             //8. El  aumento  del  impuesto  sobre  bienes  inmuebles  afecta  a  todas  tus  propiedades.  Paga  400000€  por casa, 1150000M€ por hotel, 200.000€ por piscina y 750000€ por pista de deportes.
             case S_AUMENTO_BENS_IMUEBLES:
                 float aPagar=0;
-                for (Casilla c:xogador.getPropiedades()){
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.CASA)*40000.0f;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*115000.0f;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*20000.0f;
-                    aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000.0f;
+                for (Propiedade p:xogador.getPropiedades()){
+                    if(p instanceof Solar){
+                        Solar c=(Solar)p;
+                        aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.CASA)*40000.0f;
+                        aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*115000.0f;
+                        aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*20000.0f;
+                        aPagar+=c.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*75000.0f;
+                    }
                 }
                 if(!xogador.quitarDinheiro(aPagar, TipoTransaccion.TASAS)){
                     ReprTab.imprimirErro(mensaxe+". Non tes suficiente diñeiro para pagar "+aPagar);
