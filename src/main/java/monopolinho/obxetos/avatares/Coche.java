@@ -12,7 +12,7 @@ import monopolinho.tipos.TipoMovemento;
 public class Coche extends Avatar{
 
     public Coche(Xogador xogador) {
-        super(xogador,TipoMovemento.COCHE);
+        super(xogador);
     }
 
     public void interpretarMovementoAvanzado(Xogo xogo,int valorDados) {
@@ -38,5 +38,10 @@ public class Coche extends Avatar{
             System.out.println("Retrocediches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(xogo,valorDados));
             System.out.println("Non podes lanzar nos seguintes dous turnos.");
         }
+    }
+
+    @Override
+    public TipoMovemento getTipo() {
+        return TipoMovemento.COCHE;
     }
 }

@@ -11,7 +11,7 @@ import monopolinho.tipos.TipoMovemento;
 public class Pelota extends Avatar{
 
     public Pelota(Xogador xogador) {
-        super(xogador,TipoMovemento.PELOTA);
+        super(xogador);
     }
 
     public void interpretarMovementoAvanzado(Xogo xogo,int valorDados) {
@@ -35,5 +35,10 @@ public class Pelota extends Avatar{
                 if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
             }
         }
+    }
+
+    @Override
+    public TipoMovemento getTipo() {
+        return TipoMovemento.PELOTA;
     }
 }

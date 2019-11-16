@@ -16,7 +16,6 @@ import java.util.Random;
 
 public abstract class Avatar {
     private Xogador xogador;
-    private TipoMovemento tipo;
     private String id;
     private Casilla posicion;
     private int voltasTaboeiro=0;
@@ -24,12 +23,10 @@ public abstract class Avatar {
 
     /**
      * Constructor da clase Avatar
-     * @param tipo tipo de movemento do xogador
      * @param xogador xogador que ten o avatar
      */
-    public Avatar(Xogador xogador,TipoMovemento tipo){
-        if (tipo!=null && xogador!=null){
-            this.tipo=tipo;
+    public Avatar(Xogador xogador){
+        if (xogador!=null){
             this.modoXogo=ModoXogo.NORMAL;
             xerarId();
             setXogador(xogador);
@@ -39,12 +36,11 @@ public abstract class Avatar {
 
     /**
      * Constructor para a clase Avatar
-     * @param tipo tipo de movemento
      * @param xogador xogador que ten o avatar
      * @param id identificador do avatar
      */
-    public Avatar(TipoMovemento tipo, Xogador xogador, String id){
-        this(xogador,tipo);
+    public Avatar(Xogador xogador, String id){
+        this(xogador);
         if(this.id!=null)this.id=id;
     }
 
@@ -76,9 +72,8 @@ public abstract class Avatar {
     /**
      * @return tipo de movemento do avatar
      */
-    public TipoMovemento getTipo() {
-        return tipo;
-    }
+    public abstract TipoMovemento getTipo();
+
 
     /**
      * @return xogador que ten o avatar
@@ -121,15 +116,6 @@ public abstract class Avatar {
      */
     public void setXogador(Xogador xogador) {
         if(xogador!=null)this.xogador = xogador;
-    }
-
-    /**
-     * Establece o tipo de movemento dun avatar
-     * @param tipo tipo de movemento
-     */
-    public void setTipo(TipoMovemento tipo) {
-        if(tipo!=null)
-            this.tipo = tipo;
     }
 
     /**
@@ -182,7 +168,7 @@ public abstract class Avatar {
     public String toString(){
         return "{"+"" +
                 "\n\tId: "+this.id +
-                ",\n\tTipo: "+this.tipo.toString()+
+                ",\n\tTipo: "+this.getTipo().toString()+
                 ",\n\tPosicion: "+this.xogador.getPosicion().getNome() +
                 ",\n\tXogador: "+this.xogador.getNome()+
                 "\n}";

@@ -10,10 +10,15 @@ import monopolinho.tipos.TipoMovemento;
 public class Sombreiro extends Avatar{
 
     public Sombreiro(Xogador xogador) {
-        super(xogador,TipoMovemento.SOMBREIRO);
+        super(xogador);
     }
 
     public void interpretarMovementoAvanzado(Xogo xogo,int valorDados) {
 
+    }
+
+    @Override
+    public TipoMovemento getTipo() {
+        return TipoMovemento.SOMBREIRO;
     }
 }
