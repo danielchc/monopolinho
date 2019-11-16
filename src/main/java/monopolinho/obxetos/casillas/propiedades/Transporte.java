@@ -10,7 +10,7 @@ import monopolinho.tipos.TipoTransaccion;
 public class Transporte extends Propiedade {
     private float usoServizo;
     public Transporte(String nome, float valor, float usoServizo){
-        super(nome,TipoCasilla.TRANSPORTE);
+        super(nome);
         super.setColorCasilla(Valor.ReprColor.ANSI_PURPLE_BOLD);
         this.setValor(valor);
         this.usoServizo=usoServizo;
@@ -42,6 +42,11 @@ public class Transporte extends Propiedade {
 
     public void setUsoServizo(float usoServizo) {
         this.usoServizo = usoServizo;
+    }
+
+    @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.TRANSPORTE;
     }
 
     @Override

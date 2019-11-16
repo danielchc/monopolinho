@@ -7,7 +7,7 @@ import monopolinho.tipos.TipoCasilla;
 
 public class Saida extends Casilla {
     public Saida() {
-        super("SAIDA", TipoCasilla.SAIDA);
+        super("SAIDA");
         this.setColorCasilla(Valor.ReprColor.ANSI_BLACK_BOLD);
     }
 
@@ -16,4 +16,10 @@ public class Saida extends Casilla {
         xogo.getTurno().setPosicion(this);
         return "";
     }
+
+    @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.SAIDA;
+    }
+
 }

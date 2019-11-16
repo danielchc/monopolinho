@@ -1,5 +1,6 @@
 package monopolinho.obxetos.casillas;
 
+import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Xogador;
@@ -10,7 +11,7 @@ import monopolinho.tipos.TipoTransaccion;
 public class Imposto extends Casilla {
     private float imposto;
     public Imposto(String nome,float imposto) {
-        super(nome, TipoCasilla.IMPOSTO);
+        super(nome);
         this.setColorCasilla(Valor.ReprColor.ANSI_GREEN_BOLD);
         this.imposto=imposto;
     }
@@ -23,12 +24,25 @@ public class Imposto extends Casilla {
         if(xogador.quitarDinheiro(this.getImposto(), TipoTransaccion.IMPOSTO)){
             xogo.getTaboeiro().engadirBote(this.getImposto());
         }else{
-            System.err.println("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
+            ReprTab.imprimirErro("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
             xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
             return "";
         }
         xogo.getTurno().setPosicion(this);
         return mensaxe;
+    }
+
+    public float getImposto() {
+        return imposto;
+    }
+
+    public void setImposto(float imposto) {
+        this.imposto = imposto;
+    }
+
+    @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.IMPOSTO;
     }
 
     @Override
@@ -39,11 +53,4 @@ public class Imposto extends Casilla {
         "\n}";
     }
 
-    public float getImposto() {
-        return imposto;
-    }
-
-    public void setImposto(float imposto) {
-        this.imposto = imposto;
-    }
 }

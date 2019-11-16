@@ -16,17 +16,10 @@ public class Servizo extends Propiedade {
      * @param usoServizo
      */
     public Servizo(String nome, float valor, float usoServizo){
-        super(nome,TipoCasilla.SERVIZO);
+        super(nome);
         super.setColorCasilla(Valor.ReprColor.ANSI_BLUE_BOLD);
         this.setValor(valor);
         this.usoServizo=usoServizo;
-    }
-    public float getUsoServizo() {
-        return usoServizo;
-    }
-
-    public void setUsoServizo(float usoServizo) {
-        this.usoServizo = usoServizo;
     }
 
     @Override
@@ -49,6 +42,19 @@ public class Servizo extends Propiedade {
         }
         xogo.getTurno().setPosicion(this);
         return mensaxe;
+    }
+
+    public float getUsoServizo() {
+        return usoServizo;
+    }
+
+    public void setUsoServizo(float usoServizo) {
+        this.usoServizo = usoServizo;
+    }
+
+    @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.SERVIZO;
     }
 
     @Override

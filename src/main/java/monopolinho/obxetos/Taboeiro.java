@@ -3,6 +3,8 @@ package monopolinho.obxetos;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.casillas.*;
+import monopolinho.obxetos.casillas.casillacartas.Comunidade;
+import monopolinho.obxetos.casillas.casillacartas.Sorte;
 import monopolinho.obxetos.casillas.propiedades.Servizo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.casillas.propiedades.Transporte;

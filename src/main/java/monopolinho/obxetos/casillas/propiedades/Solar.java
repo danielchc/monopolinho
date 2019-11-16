@@ -3,7 +3,7 @@ package monopolinho.obxetos.casillas.propiedades;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Avatar;
+import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.Edificio;
 import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
@@ -24,13 +24,42 @@ public class Solar extends Propiedade {
      * @param grupo Grupo do solar
      */
     public Solar(String nome, Grupo grupo){
-        super(nome, TipoCasilla.SOLAR);
+        super(nome);
         this.edificios=new ArrayList<>();
         this.grupo=grupo;
         this.grupo.engadirSolar(this);
         super.setValor((float) Math.ceil((this.grupo.getValor()/this.grupo.getNumeroSolares())));
         this.alquiler=this.getValor()* Valor.FACTOR_ALQUILER;
         this.setColorCasilla(this.getGrupo().getColor());
+    }
+
+    @Override
+    public String interpretarCasilla(Xogo xogo, int valorDados) {
+        Xogador xogador=xogo.getTurno().getXogador();
+        String mensaxe="";
+        if(this.getEstaHipotecada()){
+            mensaxe+="Caiche na casila "+this.getNome()+", pero está hipotecada, non pagas.";
+            return mensaxe;
+        }else{
+            if((!this.getDono().equals(xogador))&&(!this.getDono().equals(xogo.getBanca()))){
+                float aPagar=this.totalPagoAlquiler();
+
+                aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
+
+                if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
+                    this.getEstadisticas().engadirAlquilerPagado(aPagar);
+                    this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
+                    mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
+                    return mensaxe;
+                }else{
+                    mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
+                    xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
+                    return mensaxe;
+                }
+            }
+        }
+        xogo.getTurno().setPosicion(this);
+        return mensaxe;
     }
 
     /**
@@ -121,6 +150,19 @@ public class Solar extends Propiedade {
         return text;
     }
 
+    public String[] getRepresentacion(){
+        String avataresCasilla="";
+        if(!this.getAvatares().isEmpty())avataresCasilla="&";
+        for(Avatar a:this.getAvatares())avataresCasilla+=a.getId()+" ";
+        return new String[]{
+                ReprTab.colorear(this.getColorCasilla(), ReprTab.borde()),
+                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(this.getNome())),
+                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(ReprTab.formatearNumeros(this.getValor()))),
+                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(avataresCasilla)),
+                ReprTab.colorear(this.getColorCasilla(), ReprTab.borde())
+        };
+    }
+
 
     /**
      * Este metodo permite saber o precio según o tipo de edificio
@@ -165,13 +207,13 @@ public class Solar extends Propiedade {
     public float getAlquiler() {
         return alquiler;
     }
-
     /**
      * @param alquiler Establece o valor do alquiler
      */
     public void setAlquiler(float alquiler) {
         this.alquiler = alquiler;
     }
+
     /**
      * @return Devolve o grupo que pertenece esta casilla
      */
@@ -185,6 +227,10 @@ public class Solar extends Propiedade {
      */
     public void setGrupo(Grupo grupo) {
         if(grupo!=null)this.grupo =grupo;
+    }
+    @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.SOLAR;
     }
 
     /**
@@ -203,6 +249,7 @@ public class Solar extends Propiedade {
 
         return texto;
     }
+
     /**
      * Este metodo permite calcular o total a pagar de alquiler
      * @return Total alquiler a pagar
@@ -222,47 +269,6 @@ public class Solar extends Propiedade {
             aPagar=this.alquiler; //REVISAR ESTO
         }
         return aPagar;
-    }
-
-    @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) {
-        Xogador xogador=xogo.getTurno().getXogador();
-        String mensaxe="";
-        if(this.getEstaHipotecada()){
-            mensaxe+="Caiche na casila "+this.getNome()+", pero está hipotecada, non pagas.";
-            return mensaxe;
-        }else{
-            if((!this.getDono().equals(xogador))&&(!this.getDono().equals(xogo.getBanca()))){
-                float aPagar=this.totalPagoAlquiler();
-
-                aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
-
-                if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
-                    this.getEstadisticas().engadirAlquilerPagado(aPagar);
-                    this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
-                    mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
-                    return mensaxe;
-                }else{
-                    mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                    xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
-                    return mensaxe;
-                }
-            }
-        }
-        xogo.getTurno().setPosicion(this);
-        return mensaxe;
-    }
-    public String[] getRepresentacion(){
-        String avataresCasilla="";
-        if(!this.getAvatares().isEmpty())avataresCasilla="&";
-        for(Avatar a:this.getAvatares())avataresCasilla+=a.getId()+" ";
-        return new String[]{
-                ReprTab.colorear(this.getColorCasilla(), ReprTab.borde()),
-                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(this.getNome())),
-                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(ReprTab.formatearNumeros(this.getValor()))),
-                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(avataresCasilla)),
-                ReprTab.colorear(this.getColorCasilla(), ReprTab.borde())
-        };
     }
 
     @Override

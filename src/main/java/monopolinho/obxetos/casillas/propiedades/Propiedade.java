@@ -11,8 +11,8 @@ public abstract class Propiedade extends Casilla {
     private float valor;
     private boolean estaHipotecada;
 
-    public Propiedade(String nome, TipoCasilla tipoCasilla) {
-        super(nome, tipoCasilla);
+    public Propiedade(String nome) {
+        super(nome);
     }
 
     /**

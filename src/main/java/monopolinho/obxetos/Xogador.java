@@ -2,6 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogador;
+import monopolinho.obxetos.avatares.*;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
@@ -49,7 +50,20 @@ public class Xogador {
     public Xogador(String nome, TipoMovemento tipoMovemento){
         this.nome=nome;
         this.fortuna= Valor.FORTUNA_INCIAL;
-        this.avatar=new Avatar(tipoMovemento,this);
+        switch (tipoMovemento){
+            case PELOTA:
+                this.avatar=new Pelota(this);
+                break;
+            case COCHE:
+                this.avatar=new Coche(this);
+                break;
+            case SOMBREIRO:
+                this.avatar=new Sombreiro(this);
+                break;
+            case ESFINXE:
+                this.avatar=new Esfinxe(this);
+                break;
+        }
         this.propiedades=new ArrayList<>();
         this.turnosInvalidado=0;
         this.turnosNoCarcere=-1;

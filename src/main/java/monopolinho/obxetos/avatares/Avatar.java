@@ -1,5 +1,7 @@
-package monopolinho.obxetos;
+package monopolinho.obxetos.avatares;
 
+import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.ModoXogo;
 import monopolinho.tipos.TipoMovemento;
@@ -12,7 +14,7 @@ import java.util.Random;
  */
 
 
-public class Avatar {
+public abstract class Avatar {
     private Xogador xogador;
     private TipoMovemento tipo;
     private String id;
@@ -25,7 +27,7 @@ public class Avatar {
      * @param tipo tipo de movemento do xogador
      * @param xogador xogador que ten o avatar
      */
-    public Avatar(TipoMovemento tipo, Xogador xogador){
+    public Avatar(Xogador xogador,TipoMovemento tipo){
         if (tipo!=null && xogador!=null){
             this.tipo=tipo;
             this.modoXogo=ModoXogo.NORMAL;
@@ -42,7 +44,7 @@ public class Avatar {
      * @param id identificador do avatar
      */
     public Avatar(TipoMovemento tipo, Xogador xogador, String id){
-        this(tipo,xogador);
+        this(xogador,tipo);
         if(this.id!=null)this.id=id;
     }
 
@@ -61,6 +63,8 @@ public class Avatar {
         Random aleatorio=new Random(System.nanoTime());
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }
+
+    public abstract void interpretarMovementoAvanzado(Xogo xogo,int valorDados);
 
     /**
      * @return posicion do avatar

@@ -5,6 +5,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasCasilla;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.*;
+import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -16,10 +17,7 @@ import java.util.ArrayList;
  */
 public abstract class Casilla {
     private String nome;
-    private float imposto;
     private int posicion;
-
-    private TipoCasilla tipoCasilla;
     private Valor.ReprColor colorCasilla;
     private ArrayList<Avatar> avatares;
     private Taboeiro taboeiro;
@@ -28,20 +26,17 @@ public abstract class Casilla {
     /**
      * Crea unha nova instancia de casilla
      * @param nome Nome da casilla
-     * @param tipoCasilla Tipo de casilla
      */
-    public Casilla(String nome,TipoCasilla tipoCasilla){
-        if(nome==null || tipoCasilla==null){
-            System.err.println("Error creando a casilla");
-            System.exit(1);
+    public Casilla(String nome){
+        if(nome==null){
+            ReprTab.imprimirErro("Error creando a casilla");
+            return;
         }
         this.nome=nome;
-        this.tipoCasilla=tipoCasilla;
         this.posicion=-1;
-        this.avatares=new ArrayList<Avatar>();
+        this.avatares=new ArrayList<>();
         this.estadisticasCasilla=new EstadisticasCasilla();
         this.colorCasilla=Valor.ReprColor.ANSI_BLACK;
-        this.tipoCasilla=tipoCasilla;
     }
 
 
@@ -125,26 +120,9 @@ public abstract class Casilla {
     }
 
     /**
-     * @return Devolve se hai que coller carta
-     */
-    public boolean haiQueCollerCarta(){
-        return false;
-    }
-
-    /**
      * @return Devolve o tipo de casilla
      */
-    public TipoCasilla getTipoCasilla() {
-        return tipoCasilla;
-    }
-
-    /**
-     * Establece o tipo de casilla
-     * @param tipoCasilla
-     */
-    public void setTipoCasilla(TipoCasilla tipoCasilla) {
-        this.tipoCasilla = tipoCasilla;
-    }
+    public abstract TipoCasilla getTipoCasilla();
 
     /**
      * @return Devolve o nome da casilla
@@ -160,8 +138,6 @@ public abstract class Casilla {
     public void setNome(String nome) {
         if(nome!=null)this.nome = nome;
     }
-
-
 
     /**
      * @return Devolve a posición da casilla no taboeiro, do 0 o 39

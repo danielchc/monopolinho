@@ -2,12 +2,12 @@ package monopolinho.obxetos.casillas;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Avatar;
+import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.tipos.TipoCasilla;
 
 public class Carcere extends Casilla {
     public Carcere() {
-        super("CARCERE", TipoCasilla.CARCERE);
+        super("CARCERE");
         this.setColorCasilla(Valor.ReprColor.ANSI_BLACK_BOLD);
     }
 
@@ -15,6 +15,11 @@ public class Carcere extends Casilla {
     public String interpretarCasilla(Xogo xogo, int valorDados) {
         xogo.getTurno().setPosicion(this);
         return "Só de visita...";
+    }
+
+    @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.CARCERE;
     }
 
     @Override

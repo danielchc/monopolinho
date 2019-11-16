@@ -2,13 +2,13 @@ package monopolinho.obxetos.casillas;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Avatar;
+import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Parking extends Casilla {
     public Parking() {
-        super("PARKING", TipoCasilla.PARKING);
+        super("PARKING");
         this.setColorCasilla(Valor.ReprColor.ANSI_BLACK_BOLD);
 
     }
@@ -24,11 +24,15 @@ public class Parking extends Casilla {
     }
 
     @Override
+    public TipoCasilla getTipoCasilla() {
+        return TipoCasilla.PARKING;
+    }
+
+    @Override
     public String toString() {
         String xogadores="";
         for (Avatar a : this.getAvatares())
             xogadores += "\n\t\t[" + a.getXogador().getNome() + "," + a.getXogador().getTurnosNoCarcere() + "],";
-
         return  "{\n\t" +
                 "Bote: "+this.getTaboeiro().getBote()+"\n\t" +
                 "Xogadores:["+xogadores+"\n\t]\n}";

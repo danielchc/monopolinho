@@ -11,7 +11,6 @@ import monopolinho.tipos.TipoEdificio;
  */
 public class Edificio {
     private TipoEdificio tipoEdificio;
-    private Xogador propietario;
     private float precio;
     private Solar posicion;
     private String id;
@@ -19,21 +18,19 @@ public class Edificio {
     /**
      * Constructor da clase Edificio
      * @param tipoEdificio Tipo de contrucción
-     * @param propietario Dono do edificio
      * @param precio Precio do edificio
      * @param posicion Casilla na que se vai colocar o edificio
      */
-    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,float precio,Solar posicion){
-        if(propietario!=null && posicion!=null && posicion.getTipoCasilla()== TipoCasilla.SOLAR){
+    public Edificio(TipoEdificio tipoEdificio,float precio,Solar posicion){
+        if(posicion!=null && posicion.getTipoCasilla()== TipoCasilla.SOLAR){
             this.tipoEdificio=tipoEdificio;
-            this.propietario=propietario;
             this.precio=precio;
             this.posicion=posicion;
             this.id= this.tipoEdificio + String.valueOf(this.posicion.getNumeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
-    public Edificio(TipoEdificio tipoEdificio,Xogador propietario,Solar posicion){
-        this(tipoEdificio,propietario,0,posicion);
+    public Edificio(TipoEdificio tipoEdificio,Solar posicion){
+        this(tipoEdificio,0,posicion);
         this.precio=posicion.getPrecioEdificio(tipoEdificio);
     }
 
@@ -43,7 +40,7 @@ public class Edificio {
      */
     public String describirEdificio(){
         String texto="{\n";
-        texto+="\tID: "+this.id+"\n\tPropietario: "+this.propietario.getNome()+
+        texto+="\tID: "+this.id+"\n\tPropietario: "+this.posicion.getDono().getNome()+
                 ",\n\tCasilla: "+this.posicion.getNome()+"\n\tGrupo: "+this.posicion.getGrupo().getNome()+
                 ",\n\tCoste: "+this.precio+"\n}";
         return texto;
@@ -81,24 +78,6 @@ public class Edificio {
      */
     public void setTipoEdificio(TipoEdificio tipoEdificio) {
         this.tipoEdificio = tipoEdificio;
-    }
-
-    /**
-     * Devolve o propietario do edificio
-     * @return Dono do edificio
-     */
-    public Xogador getPropietario() {
-        return propietario;
-    }
-
-    /**
-     * Establece o dono do edificio
-     * @param propietario Dono do edificio
-     */
-    public void setPropietario(Xogador propietario) {
-        if(propietario!=null){
-            this.propietario = propietario;
-        }
     }
 
     /**

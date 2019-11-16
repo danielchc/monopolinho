@@ -1,7 +1,6 @@
 package monopolinho.estadisticas;
 
-import monopolinho.obxetos.Avatar;
-import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.avatares.Avatar;
 
 import java.util.ArrayList;
 /**

@@ -4,13 +4,13 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogo;
 import monopolinho.obxetos.*;
+import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * @author Daniel Chenel
@@ -24,8 +24,6 @@ public class Xogo {
     private Turno turno;
     private Dados dados;
     private Xogador banca;
-    private Baralla cartasSorte;
-    private Baralla cartasComunidade;
     private boolean partidaComezada;
     private EstadisticasXogo estadisticasXogo;
     /**
@@ -43,8 +41,6 @@ public class Xogo {
         engadirCasillasBanca();
         partidaComezada=false;
         xogadores=new ArrayList<Xogador>();
-        cartasComunidade=new Baralla(TipoCarta.COMUNIDADE);
-        cartasSorte=new Baralla(TipoCarta.SORTE);
         estadisticasXogo=new EstadisticasXogo(this);
     }
 
@@ -444,7 +440,7 @@ public class Xogo {
             ReprTab.imprimirErro("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(tipo,turno.getXogador(),actual);
+        Edificio e=new Edificio(tipo,actual);
         actual.engadirEdificio(e);
         System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+e.getPrecio());
     }
@@ -679,21 +675,6 @@ public class Xogo {
     }
 
     /**
-     * @return Obten as cartas de Sorte
-     */
-    public Baralla getCartasSorte() {
-        return cartasSorte;
-    }
-
-    /**
-     * @return Obten as cartas de Comunidade
-     */
-    public Baralla getCartasComunidade() {
-        return cartasComunidade;
-    }
-
-
-    /**
      * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
      * @param valorDados Movemento no taboeiro respecto a casilla actual
      * @return Mensaxe da acción interpretada
@@ -721,10 +702,6 @@ public class Xogo {
             aumentarPrecioCasillas();
             System.out.println("Os precios dos solares en venta aumentaron un 5%.");
         }
-
-        if (next.haiQueCollerCarta())
-            preguntarCarta(next.getTipoCasilla());
-
     }
 
 
@@ -733,71 +710,7 @@ public class Xogo {
      * Move os avatares de en modo avanzado
      */
     private void moverModoAvanzado(int valorDados){
-        Casilla next;
-        int cPos=turno.getPosicion().getPosicionIndex();
-        System.out.println("Encontraste en "+ turno.getPosicion().getNome());
-        switch (turno.getXogador().getAvatar().getTipo()){
-            case PELOTA:
-                /**
-                 * si el valor de los dados es mayor que 4, avanza tantas casillas como dicho valor; mientras
-                 * que,  si  el  valor  es  menor  o  igual  que  4,  retrocede  el  número  de  casillas  correspondiente.  En
-                 * cualquiera  de  los  dos  casos,  el  avatar  se  parará  en  las  casillas  por  las  que  va  pasando  y  cuyos
-                 * valores son impares contados desde el número 4. Por ejemplo, si el valor del dado es 9, entonces
-                 * el avatar avanzará hasta la casilla 5, de manera que si pertenece a otro jugador y es una casilla de
-                 * propiedad deberá pagar el alquiler, y después avanzará hasta la casilla 7, que podrá comprar si no
-                 * pertenece a ningún jugador, y finalmente a la casilla 9, que podrá comprar o deberá pagar alquiler
-                 * si  no  pertenece  al  jugador.  Si  una  de  esas  casillas  es  Ir  a  Cárcel,  entonces  no  se  parará  en  las
-                 * subsiguientes casillas.
-                 */
-                //Hai que facer tipo un historial de casillas polas que pasaches
-                if(valorDados>4){
-                    for(int i=5;i<=valorDados;i+=2){
-                        next=this.taboeiro.getCasilla(cPos+i);
-                        System.out.println("Avanzaches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,i));
-                        if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
-                        if(this.turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
-                        if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
-                    }
-                }else{
-                    for(int i=1;i<=valorDados;i+=2){
-                        next=this.taboeiro.getCasilla(cPos-i);
-                        System.out.println("Retrocedeches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,i));
-                        if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
-                        if(this.turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
-                        if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
-                    }
-                }
-                break;
-            case COCHE:
-                /**
-                * Si el valor  de los  dados es mayor  que  4, avanza  tantas casillas como  dicho valor y  puede
-                * seguir lanzando los dados tres veces más mientras el valor sea mayor que 4. Durante el turno solo
-                * se puede realizar UNA SOLA COMPRA DE PROPIEDADES, servicios o transportes, aunque se podría hacer
-                * en cualesquiera de los 4 intentos posibles. Sin embargo, se puede edificar cualquier tipo de edificio
-                * en cualquier intento. Si el valor de los dados es menor que 4, el avatar retrocederá el número de
-                * casillas correspondientes y además no puede volver a lanzar los dados en los siguientes dos turnos.
-                */
-                if(turno.getVecesTiradas()>4){
-                    ReprTab.imprimirErro("Non podes lanzar máis veces.Tes que pasar de turno");
-                    turno.setPodeLanzar(false);
-                    return;
-                }
-                if(valorDados>4){
-                    turno.setPodeLanzar(true);
-                    next=this.taboeiro.getCasilla(cPos+valorDados);
-                    System.out.println("Avanzaches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
-                    if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
-                    if(turno.getVecesTiradas()<4)System.out.println("Podes lanzar outra vez");
-                }else{
-                    turno.setPodeLanzar(false);
-                    turno.getXogador().setTurnosInvalidado(2);
-                    next=this.taboeiro.getCasilla(cPos-valorDados);
-                    System.out.println("Retrocediches "+valorDados+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(this,valorDados));
-                    if (next.haiQueCollerCarta())preguntarCarta(next.getTipoCasilla());
-                    System.out.println("Non podes lanzar nos seguintes dous turnos.");
-                }
-                break;
-        }
+        turno.getXogador().getAvatar().interpretarMovementoAvanzado(this,valorDados);
     }
 
     /**
@@ -839,24 +752,6 @@ public class Xogo {
                     ((Propiedade)c).setDono(banca);
         }
     }
-
-    /**
-     * Interpreta as cartas de Comunidade e Sorte
-     * @param tipoCasilla
-     * @return
-     */
-    private void preguntarCarta(TipoCasilla tipoCasilla) {
-        Baralla b=(tipoCasilla==TipoCasilla.SORTE)?this.cartasSorte:this.cartasComunidade;
-        b.barallar();
-        b.listarCartas();
-        int nCarta=0;
-        do{
-            System.out.print("Escolle unha carta (1-6): ");
-            nCarta=new Scanner(System.in).nextInt();
-        }while(nCarta<1 || nCarta>6);
-        System.out.println(b.getCarta(nCarta-1).interpretarCarta(this));
-    }
-
 
     /**
      * @return Non permite realizar a acción se está no cárcere
