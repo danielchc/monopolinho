@@ -139,7 +139,7 @@ public class Menu {
                 System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,"Esperando a entrada para continuar..."));
                 new Scanner(System.in).nextLine();
             }else{
-                System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,leido));
+                System.out.println("$> " + ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,leido));
                 interpretarComando(leido);
             }
         }

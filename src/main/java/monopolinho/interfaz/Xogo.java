@@ -483,7 +483,7 @@ public class Xogo {
         }
 
         int totalEdifs=c.getNumeroEdificiosTipo(tipo);
-        float valor = totalEdifs*c.getPrecioEdificio(tipo)/2.0f;
+        float valor = numero*c.getPrecioEdificio(tipo)/2.0f;
         if(totalEdifs<numero){
             ReprTab.imprimirErro("Non podes vender edificios de tipo "+tipo+". Solamente tes "+totalEdifs+" de tipo "+tipo+" por valor de "+valor);
         }
@@ -501,7 +501,7 @@ public class Xogo {
         }
 
         turno.getXogador().engadirDinheiro(valor, TipoTransaccion.OTROS);
-        System.out.println("Vendiches "+totalEdifs+" edificios de tipo "+tipo+" e recibes "+valor);
+        System.out.println("Vendiches "+numero+" edificios de tipo "+tipo+" e recibes "+valor);
     }
 
     /**
