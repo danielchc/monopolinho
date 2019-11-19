@@ -22,24 +22,22 @@ public class Esfinxe extends Avatar{
         Taboeiro taboeiro=xogo.getTaboeiro();
         Casilla next;
         Zona zona=turno.getPosicion().getZona();
-        int posicion=taboeiro.getCasillas(zona).indexOf(turno.getPosicion());
-
+        int posicion;
+        int cpos=0;
         System.out.println("Atopaste en "+turno.getPosicion().getNome());
         if(zona==Zona.ESTE || zona==Zona.OESTE){
-            turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(0));
+            turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(1));
             zona=Zona.SUR;
-            posicion=0;
         }
-        int cpos=0;
+        posicion=taboeiro.getCasillas(zona).indexOf(turno.getPosicion());
         for(int i=1;i<=valorDados;i++){
             zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
             cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
             next=taboeiro.getCasillas(zona).get(cpos);
             System.out.println("Movecheste o lado "+ zona + " a casilla " + next.getNome());
-            next.interpretarCasilla(xogo,valorDados);
+            System.out.println(next.interpretarCasilla(xogo,valorDados));
             if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
         }
-
 
 
     }
