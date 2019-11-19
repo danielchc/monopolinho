@@ -5,9 +5,11 @@ import monopolinho.axuda.Valor;
 import monopolinho.obxetos.casillas.*;
 import monopolinho.obxetos.casillas.casillacartas.Comunidade;
 import monopolinho.obxetos.casillas.casillacartas.Sorte;
+import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Servizo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.casillas.propiedades.Transporte;
+import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.Zona;
 
 import java.util.ArrayList;
@@ -76,7 +78,6 @@ public class Taboeiro {
         }
         return null;
     }
-
 
     /**
      * Sobrecarga de métodos

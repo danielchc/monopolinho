@@ -1,10 +1,14 @@
 package monopolinho.obxetos.avatares;
 
+import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.ModoXogo;
+import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
+import monopolinho.tipos.TipoTransaccion;
 
 import java.util.Random;
 
@@ -60,7 +64,39 @@ public abstract class Avatar {
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }
 
-    public abstract void interpretarMovementoAvanzado(Xogo xogo,int valorDados);
+    /**
+     * Este metodo interpreta a accion a realizar segundo a casilla na que se cae.
+     * @param valorDados Movemento no taboeiro respecto a casilla actual
+     * @return Mensaxe da acción interpretada
+     */
+
+    public void moverEnBasico(Xogo xogo, int valorDados){
+        Turno turno=xogo.getTurno();
+        String mensaxe="";
+        Casilla current=turno.getPosicion();
+        int nPos=current.getPosicionIndex()+valorDados;
+        Casilla next=xogo.getTaboeiro().getCasilla(nPos);
+
+        if(next.getTipoCasilla()!= TipoCasilla.IRCARCERE) {
+            if(nPos>39) {
+                mensaxe="O xogador "+turno.getXogador().getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
+                turno.getXogador().getAvatar().voltaTaboeiro();
+                turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA, TipoTransaccion.VOLTA_COMPLETA);
+            }
+        }
+
+        mensaxe+=next.interpretarCasilla(xogo,valorDados);
+        mensaxe="O avatar "  +turno.getXogador().getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
+        System.out.println(mensaxe);
+
+        if(xogo.deronTodosCatroVoltas()){
+            xogo.aumentarPrecioCasillas();
+            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
+        }
+    }
+
+    public abstract void moverEnAvanzado(Xogo xogo, int valorDados);
+
 
     /**
      * @return posicion do avatar

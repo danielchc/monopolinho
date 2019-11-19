@@ -14,7 +14,7 @@ public class Pelota extends Avatar{
         super(xogador);
     }
 
-    public void interpretarMovementoAvanzado(Xogo xogo,int valorDados) {
+    public void moverEnAvanzado(Xogo xogo, int valorDados) {
         Casilla next;
         Turno turno=xogo.getTurno();
         int cPos=turno.getPosicion().getPosicionIndex();

@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author David Carracedo
  */
 
-public class Xogo {
+public class Xogo implements Comandos {
 
     private ArrayList<Xogador> xogadores;
     private Taboeiro taboeiro;
@@ -61,6 +61,7 @@ public class Xogo {
      * Este metdo imprime a info dunha casilla.
      * @param nome Nome da casilla
      */
+    @Override
     public void describirCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null)System.out.println(c);
@@ -71,6 +72,7 @@ public class Xogo {
      * Este metodo imprime a info dun xogador.
      * @param nome Nome do xogador
      */
+    @Override
     public void describirXogador(String nome){
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
@@ -85,6 +87,7 @@ public class Xogo {
      * Este metodo imprime a info dun avatar.
      * @param avatarId Argumentos do usuario
      */
+    @Override
     public void describirAvatar(String avatarId){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getId().equals(avatarId)){
@@ -98,6 +101,7 @@ public class Xogo {
     /**
      * Este metodo lista todos os edificios
      */
+    @Override
     public void listarEdificios(){
         for(Grupo g:taboeiro.getGrupos()){
             for(Solar s:g.getSolares()){
@@ -111,6 +115,7 @@ public class Xogo {
     /**
      * Este metodo lista todos os edificios dun grupo
      */
+    @Override
     public void listarEdificiosGrupo(String cmds){
         Grupo grupo=taboeiro.buscarGrupo(cmds);
         if(grupo==null){
@@ -130,6 +135,7 @@ public class Xogo {
     /**
      * Este metodo imprime todos os avatares.
      */
+    @Override
     public void listarAvatares(){
         for(Xogador x:this.xogadores)
             System.out.println(x.getAvatar());
@@ -138,6 +144,7 @@ public class Xogo {
     /**
      * Este metodo imprime todos os xogadores.
      */
+    @Override
     public void listarXogadores(){
         for(Xogador x:this.xogadores)
             System.out.println(x.describir());
@@ -146,6 +153,7 @@ public class Xogo {
     /**
      * Este metodo imprime todas as casillas en venta.
      */
+    @Override
     public void listarCasillaEnVenta(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
             for(Casilla c:zona)
@@ -156,6 +164,7 @@ public class Xogo {
     /**
      * Este metodo acaba o turno e pasallo ao seguinte.
      */
+    @Override
     public void pasarTurno(){
         Xogador actual=turno.getXogador();
         int novoTurno;
@@ -200,6 +209,7 @@ public class Xogo {
     /**
      * Este metodo saca a un xogador da carcere.
      */
+    @Override
     public void sairCarcere(){
         if (!turno.getXogador().estaNoCarcere()){
             System.out.println("O xogador non está no cárcere");
@@ -218,6 +228,7 @@ public class Xogo {
      * Este metodo engade unha casilla as propiedades do xogador.
      * @param cmds Argumentos da función
      */
+    @Override
     public void comprarCasilla(String[] cmds){
         if(comprobarCarcere())return;
         Xogador xogador=turno.getXogador();
@@ -270,6 +281,7 @@ public class Xogo {
     /**
      * Este metodo imprime o tableiro.
      */
+    @Override
     public void mostrarTaboeiro(){
         System.out.println(taboeiro);
     }
@@ -278,6 +290,7 @@ public class Xogo {
      * Mostra as estadisticas para un xogador
      * @param nome
      */
+    @Override
     public void mostrarEstadisticasXogador(String nome){
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
@@ -291,6 +304,7 @@ public class Xogo {
     /**
      * Mostra as estadisticas do Xogo
      */
+    @Override
     public void mostrarEstadisticasXogo(){
         System.out.println(estadisticasXogo);
     }
@@ -299,6 +313,7 @@ public class Xogo {
      * Metodo que hipoteca unha casilla.
      * @param nome Nome casilla
      */
+    @Override
     public void hipotecarCasilla(String nome){
         if(comprobarCarcere())return;
         Casilla target=this.taboeiro.buscarCasilla(nome);
@@ -336,6 +351,7 @@ public class Xogo {
      * Metodo que deshipoteca unha casilla.
      * @param nome Nome casilla
      */
+    @Override
     public void deshipotecarCasilla(String nome){
         if(comprobarCarcere())return;
         Casilla target=this.taboeiro.buscarCasilla(nome);
@@ -370,6 +386,7 @@ public class Xogo {
     /**
      * Metodo bancarrota.
      */
+    @Override
     public void declararBancarrota(){
         this.turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
         for(Propiedade c:this.turno.getXogador().getPropiedades()){
@@ -386,6 +403,7 @@ public class Xogo {
      * Este metodo permite construir
      * @param tipo Tipo de edificio
      */
+    @Override
     public void edificar(TipoEdificio tipo){
         if(comprobarCarcere())return;
         Solar actual;
@@ -452,7 +470,8 @@ public class Xogo {
      * @param casilla Casilla
      * @param numero Número de edificios a vender
      */
-    public void venderEdificio(TipoEdificio tipo,String casilla,int numero){
+    @Override
+    public void venderEdificio(TipoEdificio tipo, String casilla, int numero){
         if(comprobarCarcere())return;
         Casilla target=taboeiro.buscarCasilla(casilla);
         Solar c;
@@ -507,6 +526,7 @@ public class Xogo {
     /**
      * Mostra a información do turno actual
      */
+    @Override
     public void mostrarTurno() {
         if (turno!=null)System.out.println(turno.getXogador());
         else ReprTab.imprimirErro("Non hai xogadores");
@@ -518,6 +538,7 @@ public class Xogo {
      * @param tipoMov tipoMov tipo de movemento do avatar do xogador
      * @return true si se creou o xogador ou false se o xogador xa existe
      */
+    @Override
     public boolean crearXogador(String nombre, TipoMovemento tipoMov){
         if(this.partidaComezada){
             ReprTab.imprimirErro("Non se pode crear un xogador durante a partida");
@@ -544,6 +565,7 @@ public class Xogo {
      * - Se volven sair dobles permite volver tirar.
      * - Se saen triples manda ao xogador para a carcere.
      */
+    @Override
     public void lanzarDados(){
         if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS){
             ReprTab.imprimirErro("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
@@ -597,6 +619,7 @@ public class Xogo {
         }
     }
 
+    @Override
     public void cambiarModoXogo(){
         if(turno.getXogador().getAvatar().getTipo()!=TipoMovemento.PELOTA && turno.getXogador().getAvatar().getTipo()!=TipoMovemento.COCHE ){
             ReprTab.imprimirErro("Este tipo de avatar non pode cambiar de modo\n");
@@ -617,6 +640,7 @@ public class Xogo {
     /**
      * @return Devolve o taboeiro
      */
+    @Override
     public Taboeiro getTaboeiro() {
         return taboeiro;
     }
@@ -624,6 +648,7 @@ public class Xogo {
     /**
      * @return Devolve os datos
      */
+    @Override
     public Dados getDados() {
         return dados;
     }
@@ -631,6 +656,7 @@ public class Xogo {
     /**
      * @return Devolve o xogador banca
      */
+    @Override
     public Xogador getBanca() {
         return banca;
     }
@@ -638,6 +664,7 @@ public class Xogo {
     /**
      * @return Devolve os xogadores
      */
+    @Override
     public ArrayList<Xogador> getXogadores() {
         return xogadores;
     }
@@ -645,6 +672,7 @@ public class Xogo {
     /**
      * @return Devolve o Turno actual
      */
+    @Override
     public Turno getTurno() {
         return turno;
     }
@@ -652,6 +680,7 @@ public class Xogo {
     /**
      * @return Devolve o número de xogadores
      */
+    @Override
     public int getNumeroXogadores(){
         int nXogadores=0;
         for(Xogador x:xogadores)
@@ -663,6 +692,7 @@ public class Xogo {
     /**
      * @return Compraba se se comezou a partida
      */
+    @Override
     public boolean partidaComezada() {
         return partidaComezada;
     }
@@ -670,6 +700,7 @@ public class Xogo {
     /**
      * Establece se se comezou a partida
      */
+    @Override
     public void comezarPartida() {
         this.partidaComezada = true;
     }
@@ -680,44 +711,23 @@ public class Xogo {
      * @return Mensaxe da acción interpretada
      */
 
+    @Override
     public void moverModoNormal(int valorDados){
-        String mensaxe="";
-        Casilla current=turno.getPosicion();
-        int nPos=current.getPosicionIndex()+valorDados;
-        Casilla next=this.taboeiro.getCasilla(nPos);
-
-        if(next.getTipoCasilla()!=TipoCasilla.IRCARCERE) {
-            if(nPos>39) {
-                mensaxe="O xogador "+turno.getXogador().getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
-                turno.getXogador().getAvatar().voltaTaboeiro();
-                turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA, TipoTransaccion.VOLTA_COMPLETA);
-            }
-        }
-
-        mensaxe+=next.interpretarCasilla(this,valorDados);
-        mensaxe="O avatar "  +turno.getXogador().getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
-        System.out.println(mensaxe);
-
-        if(deronTodosCatroVoltas()){
-            aumentarPrecioCasillas();
-            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
-        }
+        turno.getXogador().getAvatar().moverEnBasico(this,valorDados);
     }
-
-
 
     /**
      * Move os avatares de en modo avanzado
      */
     private void moverModoAvanzado(int valorDados){
-        turno.getXogador().getAvatar().interpretarMovementoAvanzado(this,valorDados);
+        turno.getXogador().getAvatar().moverEnAvanzado(this,valorDados);
     }
 
     /**
      * Este método permite saber si todos os xogadores deron un número de voltas múltiplo de 4
      * @return true si deron todos un múltiplo de 4 voltas, false se non.
      */
-    private boolean deronTodosCatroVoltas(){
+    public boolean deronTodosCatroVoltas(){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getVoltasTaboeiro()==0 || x.getAvatar().getVoltasTaboeiro()%4 !=0)
                 return false;
@@ -729,7 +739,7 @@ public class Xogo {
     /**
      * Este método aumenta o precio das casillas que están en venta nun 5%
      */
-    private void aumentarPrecioCasillas(){
+    public void aumentarPrecioCasillas(){
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas()){
             for(Casilla c:zona){
                 if(c instanceof Propiedade){
@@ -800,6 +810,7 @@ public class Xogo {
         return ((this.xogadores.size()-1)==xogadoresEnBancarrota);
     }
 
+    @Override
     public boolean comprobarAvatarRepetido(Avatar avatar){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().equals(avatar))return true;
@@ -807,11 +818,13 @@ public class Xogo {
         return false;
     }
     //BORRAR
+    @Override
     public void mov(int i){
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
         moverModoNormal(i);
     }
+    @Override
     public void mova(int i){
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);

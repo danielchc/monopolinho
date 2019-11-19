@@ -1,10 +1,6 @@
 package test;
 import monopolinho.interfaz.Menu;
-import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.*;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Main {
 

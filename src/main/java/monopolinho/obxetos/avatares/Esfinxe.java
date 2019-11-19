@@ -10,7 +10,7 @@ public class Esfinxe extends Avatar{
         super(xogador);
     }
 
-    public void interpretarMovementoAvanzado(Xogo xogo,int valorDados) {
+    public void moverEnAvanzado(Xogo xogo, int valorDados) {
 
     }
 
