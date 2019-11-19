@@ -48,6 +48,7 @@ public class Taboeiro {
             else if(z==Zona.NORTE) casilla.setPosicionIndex(20+this.casillas.get(z.ordinal()).indexOf(casilla));
             else if(z==Zona.ESTE) casilla.setPosicionIndex(31+this.casillas.get(z.ordinal()).indexOf(casilla));
             casilla.setTaboeiro(this);
+            casilla.setZona(z);
         }
     }
 

@@ -621,11 +621,6 @@ public class Xogo implements Comandos {
 
     @Override
     public void cambiarModoXogo(){
-        if(turno.getXogador().getAvatar().getTipo()!=TipoMovemento.PELOTA && turno.getXogador().getAvatar().getTipo()!=TipoMovemento.COCHE ){
-            ReprTab.imprimirErro("Este tipo de avatar non pode cambiar de modo\n");
-            return;
-        }
-
         if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL)
             turno.getXogador().getAvatar().setModoXogo(ModoXogo.AVANZADO);
         else if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO)
@@ -713,7 +708,7 @@ public class Xogo implements Comandos {
 
     @Override
     public void moverModoNormal(int valorDados){
-        turno.getXogador().getAvatar().moverEnBasico(this,valorDados);
+        System.out.println(turno.getXogador().getAvatar().moverEnBasico(this,valorDados));
     }
 
     /**

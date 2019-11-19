@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public abstract class Casilla {
     private String nome;
     private int posicion;
+    private Zona zona;
     private Valor.ReprColor colorCasilla;
     private ArrayList<Avatar> avatares;
     private Taboeiro taboeiro;
@@ -198,6 +199,13 @@ public abstract class Casilla {
         if(avatares!=null)this.avatares = avatares;
     }
 
+    public void setZona(Zona z) {
+        this.zona=z;
+    }
+
+    public Zona getZona(){
+        return zona;
+    }
     @Override
     public String toString() {
         return "{\n"+

@@ -70,7 +70,7 @@ public abstract class Avatar {
      * @return Mensaxe da acción interpretada
      */
 
-    public void moverEnBasico(Xogo xogo, int valorDados){
+    public String moverEnBasico(Xogo xogo, int valorDados){
         Turno turno=xogo.getTurno();
         String mensaxe="";
         Casilla current=turno.getPosicion();
@@ -87,12 +87,12 @@ public abstract class Avatar {
 
         mensaxe+=next.interpretarCasilla(xogo,valorDados);
         mensaxe="O avatar "  +turno.getXogador().getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
-        System.out.println(mensaxe);
 
         if(xogo.deronTodosCatroVoltas()){
             xogo.aumentarPrecioCasillas();
-            System.out.println("Os precios dos solares en venta aumentaron un 5%.");
+            mensaxe+="\nOs precios dos solares en venta aumentaron un 5%.";
         }
+        return mensaxe;
     }
 
     public abstract void moverEnAvanzado(Xogo xogo, int valorDados);
