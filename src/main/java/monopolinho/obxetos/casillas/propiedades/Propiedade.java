@@ -5,6 +5,7 @@ import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.TipoTransaccion;
 
 public abstract class Propiedade extends Casilla {
     private Xogador dono;
@@ -13,6 +14,15 @@ public abstract class Propiedade extends Casilla {
 
     public Propiedade(String nome) {
         super(nome);
+    }
+
+    public void comprar(Xogador x){
+        this.getDono().engadirDinheiro(this.getValor(), TipoTransaccion.VENTA);
+        this.setDono(x);
+    }
+
+    public boolean pertenceXogador(Xogador x){
+        return this.dono.equals(x);
     }
 
     /**
@@ -71,6 +81,9 @@ public abstract class Propiedade extends Casilla {
     public void setEstaHipotecada(boolean estaHipotecada) {
         this.estaHipotecada = estaHipotecada;
     }
+
+    public abstract float getAlquiler();
+
 
     @Override
     public String toString() {

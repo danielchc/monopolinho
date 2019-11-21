@@ -258,7 +258,7 @@ public class Xogo implements Comandos {
                 return;
             }
         }
-        if (!comprar.getDono().equals(banca)){
+        if (!comprar.pertenceXogador(banca)){
             ReprTab.imprimirErro("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
             return;
         }
@@ -271,8 +271,7 @@ public class Xogo implements Comandos {
             return;
         }
 
-        comprar.getDono().engadirDinheiro(comprar.getValor(), TipoTransaccion.VENTA);
-        comprar.setDono(xogador);
+        comprar.comprar(this.turno.getXogador());
         turno.aumentarCompras();
         System.out.println("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
@@ -327,7 +326,7 @@ public class Xogo implements Comandos {
             return;
         }
         c=(Propiedade)target;
-        if(!c.getDono().equals(turno.getXogador())){
+        if(!c.pertenceXogador(turno.getXogador())){
             ReprTab.imprimirErro("Non eres dono de esta casilla");
             return;
         }
@@ -365,7 +364,7 @@ public class Xogo implements Comandos {
             return;
         }
         c=(Propiedade)target;
-        if(!c.getDono().equals(turno.getXogador())){
+        if(!c.pertenceXogador(turno.getXogador())){
             ReprTab.imprimirErro("Non eres dono de esta casilla");
             return;
         }
@@ -458,9 +457,8 @@ public class Xogo implements Comandos {
             ReprTab.imprimirErro("Non tes suficiente diñeiro para edificar");
             return ;
         }
-        Edificio e=new Edificio(tipo,actual);
-        actual.engadirEdificio(e);
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+e.getPrecio());
+        actual.edificar(tipo);
+        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+actual.getPrecioEdificio(tipo));
     }
 
 
@@ -492,7 +490,7 @@ public class Xogo implements Comandos {
             ReprTab.imprimirErro("Só podes vender edificios de solares.");
             return;
         }
-        if(!c.getDono().equals(turno.getXogador())){
+        if(!c.pertenceXogador(turno.getXogador())){
             ReprTab.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
             return;
         }
@@ -739,7 +737,7 @@ public class Xogo implements Comandos {
             for(Casilla c:zona){
                 if(c instanceof Propiedade){
                     Propiedade p=(Propiedade)c;
-                    if(p.getDono().equals(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
+                    if(p.pertenceXogador(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
                         p.setValor(p.getValor()*1.05f);
                     }
                 }
@@ -782,7 +780,7 @@ public class Xogo implements Comandos {
             ReprTab.imprimirErro("Non podes edificar esta casilla");
             return false;
         }
-        if(!c.getDono().equals(turno.getXogador())){
+        if(!c.pertenceXogador(turno.getXogador())){
             ReprTab.imprimirErro("Esta casilla non é túa, non a podes edificar.");
             return false;
         }

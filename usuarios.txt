@@ -1,6 +1,2 @@
 crear jugador Dani esfinxe
 crear jugador David coche
-cambiar modo
-ver tableiro
-mov 15
-mova 8

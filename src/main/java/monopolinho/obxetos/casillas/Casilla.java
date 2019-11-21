@@ -79,6 +79,15 @@ public abstract class Casilla {
         return contador;
     }
 
+    public boolean estaAvatar(Avatar a){
+        return this.avatares.contains(a);
+    }
+
+    //TA BEN IMPLEMENTAO ESTO???
+    public int frecuenciaCasilla(){
+        return this.estadisticasCasilla.getVisitas();
+    }
+
     /**
      * Esta función interpreta a acción que ten que facer o caer na casilla
      * @param xogo

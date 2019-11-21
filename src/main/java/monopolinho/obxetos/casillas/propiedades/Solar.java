@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class Solar extends Propiedade {
     private Grupo grupo;
-    private float alquiler;
     private ArrayList<Edificio> edificios;
+    private float alquiler;
     /**
      * Crea unha nova instancia de SOLAR
      * @param nome Nome do SOLAR
@@ -41,7 +41,7 @@ public class Solar extends Propiedade {
             mensaxe+="Caiche na casila "+this.getNome()+", pero está hipotecada, non pagas.";
             return mensaxe;
         }else{
-            if((!this.getDono().equals(xogador))&&(!this.getDono().equals(xogo.getBanca()))){
+            if((!this.pertenceXogador(xogador))&&(!this.pertenceXogador(xogo.getBanca()))){
                 float aPagar=this.totalPagoAlquiler();
 
                 aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
@@ -62,6 +62,9 @@ public class Solar extends Propiedade {
         return mensaxe;
     }
 
+    public void edificar(TipoEdificio tipo){
+        this.engadirEdificio(new Edificio(tipo,this));
+    }
     /**
      * Engade un edificio a unha casilla
      * @param e Edificio a engadir á casilla
@@ -144,7 +147,7 @@ public class Solar extends Propiedade {
                 ",\n\tHoteles: " + edificiosTexto[TipoEdificio.HOTEL.ordinal()]+
                 ",\n\tPiscinas: " + edificiosTexto[TipoEdificio.PISCINA.ordinal()]+
                 ",\n\tPistas de deportes: " + edificiosTexto[TipoEdificio.PISTA_DEPORTES.ordinal()]+
-                ",\n\tAlquiler: " + this.alquiler+
+                ",\n\tAlquiler: " + getAlquiler()+
                 "\n}"+
                 "\n" + queSePodeConstruir();
         return text;
@@ -202,19 +205,6 @@ public class Solar extends Propiedade {
     }
 
     /**
-     * @return Devolve o valor a pagar polo alquiler da casilla
-     */
-    public float getAlquiler() {
-        return alquiler;
-    }
-    /**
-     * @param alquiler Establece o valor do alquiler
-     */
-    public void setAlquiler(float alquiler) {
-        this.alquiler = alquiler;
-    }
-
-    /**
      * @return Devolve o grupo que pertenece esta casilla
      */
     public Grupo getGrupo() {
@@ -258,17 +248,22 @@ public class Solar extends Propiedade {
         float aPagar=0;
         if(this.getNumeroEdificios()!=0){
             if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>4)
-                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[4]*this.alquiler;
+                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[4]*getAlquiler();
             else
-                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*this.alquiler;
+                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*getAlquiler();
 
-            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*this.alquiler*70;
-            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*this.alquiler*25;
-            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*this.alquiler*25;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*getAlquiler()*70;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*getAlquiler()*25;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*getAlquiler()*25;
         }else{
-            aPagar=this.alquiler; //REVISAR ESTO
+            aPagar=getAlquiler(); //REVISAR ESTO
         }
         return aPagar;
+    }
+
+    @Override
+    public float getAlquiler() {
+        return alquiler;
     }
 
     @Override
@@ -288,13 +283,13 @@ public class Solar extends Propiedade {
             "\n\tValor hotel: "+this.getValor()*Valor.FACTOR_VALOR_HOTEL+
             "\n\tValor piscina: "+this.getValor()*Valor.FACTOR_VALOR_PISCINA+
             "\n\tValor pista deportes: "+this.getValor()*Valor.FACTOR_VALOR_PISTADEPORTES+
-            "\n\tAlquiler 1 casa: "+this.alquiler*5+
-            "\n\tAlquiler 2 casa: "+this.alquiler*15+
-            "\n\tAlquiler 3 casa: "+this.alquiler*35+
-            "\n\tAlquiler 4 casa: "+this.alquiler*50+
-            "\n\tAlquiler hotel: "+this.alquiler*70+
-            "\n\tAlquiler piscina: "+this.alquiler*25+
-            "\n\tAlquiler pista de deportes: "+this.alquiler*25+
+            "\n\tAlquiler 1 casa: "+this.getAlquiler()*5+
+            "\n\tAlquiler 2 casa: "+this.getAlquiler()*15+
+            "\n\tAlquiler 3 casa: "+this.getAlquiler()*35+
+            "\n\tAlquiler 4 casa: "+this.getAlquiler()*50+
+            "\n\tAlquiler hotel: "+this.getAlquiler()*70+
+            "\n\tAlquiler piscina: "+this.getAlquiler()*25+
+            "\n\tAlquiler pista de deportes: "+this.getAlquiler()*25+
             "\n\tTotal a pagar de alquiler actualmente: "+((this.getGrupo().tenTodoGrupo(this.getDono()) && !this.getDono().getNome().equals("Banca"))?this.totalPagoAlquiler()*Valor.FACTOR_PAGO_ALQUILER:this.totalPagoAlquiler())+
             "\n\tEdificios: "+listaEdificios+
             "\n}";

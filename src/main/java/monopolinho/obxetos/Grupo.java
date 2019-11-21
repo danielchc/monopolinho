@@ -66,7 +66,7 @@ public class Grupo {
      */
     public boolean tenTodoGrupo(Xogador x){
         for(Solar c:this.solares){
-            if(!c.getDono().equals(x)){
+            if(!c.pertenceXogador(x)){
                 return false;
             }
         }

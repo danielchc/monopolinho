@@ -1,7 +1,7 @@
 package monopolinho.obxetos.casillas.casillacartas;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Carta;
+import monopolinho.obxetos.cartas.Carta;
 import monopolinho.obxetos.casillas.Casilla;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public  abstract class CasillaCarta extends Casilla {
             System.out.print("Escolle unha carta (1-6): ");
             nCarta=new Scanner(System.in).nextInt();
         }while(nCarta<1 || nCarta>6);
-        return cartas.get(nCarta-1).interpretarCarta(xogo);
+        return cartas.get(nCarta-1).accion(xogo);
     }
 
     public void engadirCarta(Carta c){
@@ -50,7 +50,7 @@ public  abstract class CasillaCarta extends Casilla {
      */
     public void listarCartas(){
         for(Carta c:this.cartas)
-            System.out.println(c.getTipoCartaAccion());
+            System.out.println(c.getMensaxe());
     }
 
 }

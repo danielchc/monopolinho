@@ -8,21 +8,19 @@ import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Transporte extends Propiedade {
-    private float usoServizo;
-    public Transporte(String nome, float valor, float usoServizo){
+    public Transporte(String nome){
         super(nome);
         super.setColorCasilla(Valor.ReprColor.ANSI_PURPLE_BOLD);
-        this.setValor(valor);
-        this.usoServizo=usoServizo;
+        this.setValor(Valor.VALOR_TRANSPORTE);
     }
 
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados) {
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
-        if((!this.getDono().equals(xogador)) && (!this.getDono().equals(xogo.getBanca()))){
+        if((!this.pertenceXogador(xogador)) && (!this.pertenceXogador(xogo.getBanca()))){
             float aPagar=0;
-            aPagar=this.getUsoServizo()*(this.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
+            aPagar=this.getAlquiler()*(this.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
             if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
                 this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
@@ -36,17 +34,14 @@ public class Transporte extends Propiedade {
         return mensaxe;
     }
 
-    public float getUsoServizo() {
-        return usoServizo;
-    }
-
-    public void setUsoServizo(float usoServizo) {
-        this.usoServizo = usoServizo;
-    }
-
     @Override
     public TipoCasilla getTipoCasilla() {
         return TipoCasilla.TRANSPORTE;
+    }
+
+    @Override
+    public float getAlquiler() {
+        return Valor.USO_TRANSPORTE;
     }
 
     @Override

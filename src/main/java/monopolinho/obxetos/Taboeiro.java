@@ -3,13 +3,11 @@ package monopolinho.obxetos;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.casillas.*;
-import monopolinho.obxetos.casillas.casillacartas.Comunidade;
-import monopolinho.obxetos.casillas.casillacartas.Sorte;
-import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.casillas.casillacartas.CasillaComunidade;
+import monopolinho.obxetos.casillas.casillacartas.CasillaSorte;
 import monopolinho.obxetos.casillas.propiedades.Servizo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.casillas.propiedades.Transporte;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.Zona;
 
 import java.util.ArrayList;
@@ -182,46 +180,46 @@ public class Taboeiro {
 
         engadirCasilla(Zona.SUR,new Saida());
         engadirCasilla(Zona.SUR,new Solar("GOIRIZ",grupo_ocre));
-        engadirCasilla(Zona.SUR,new Comunidade());
+        engadirCasilla(Zona.SUR,new CasillaComunidade());
         engadirCasilla(Zona.SUR,new Solar("SADA",grupo_ocre));
         engadirCasilla(Zona.SUR,new Imposto("I.CATASTRO",Valor.IMPOSTO_BARATO));
-        engadirCasilla(Zona.SUR,new Transporte("AVE", Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.SUR,new Transporte("AVE"));
         engadirCasilla(Zona.SUR,new Solar("BOIMORTO",grupo_cyan));
-        engadirCasilla(Zona.SUR,new Sorte());
+        engadirCasilla(Zona.SUR,new CasillaSorte());
         engadirCasilla(Zona.SUR,new Solar("PONTEPEDRA",grupo_cyan));
         engadirCasilla(Zona.SUR,new Solar("BALDAIO",grupo_cyan));
         engadirCasilla(Zona.SUR,new Carcere());
 
         engadirCasilla(Zona.NORTE,new Parking());
         engadirCasilla(Zona.NORTE,new Solar("CASTROVERDE",grupo_rojo));
-        engadirCasilla(Zona.NORTE,new Sorte());
+        engadirCasilla(Zona.NORTE,new CasillaSorte());
         engadirCasilla(Zona.NORTE,new Solar("MUIMENTA",grupo_rojo));
         engadirCasilla(Zona.NORTE,new Solar("GUITIRIZ",grupo_rojo));
-        engadirCasilla(Zona.NORTE,new Transporte("HIDROAVION",Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.NORTE,new Transporte("HIDROAVION"));
         engadirCasilla(Zona.NORTE,new Solar("ALLARIZ",grupo_blanco));
         engadirCasilla(Zona.NORTE,new Solar("CANGAS",grupo_blanco));
-        engadirCasilla(Zona.NORTE,new Servizo("AS_PONTES",Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
+        engadirCasilla(Zona.NORTE,new Servizo("AS_PONTES"));
         engadirCasilla(Zona.NORTE,new Solar("FENE",grupo_blanco));
         engadirCasilla(Zona.NORTE,new Ir_Carcere());
 
         engadirCasilla(Zona.ESTE,new Solar("CORUNA",grupo_verde));
         engadirCasilla(Zona.ESTE,new Solar("LUGO",grupo_verde));
-        engadirCasilla(Zona.ESTE,new Comunidade());
+        engadirCasilla(Zona.ESTE,new CasillaComunidade());
         engadirCasilla(Zona.ESTE,new Solar("OURENSE",grupo_verde));
-        engadirCasilla(Zona.ESTE,new Transporte("TRACTOR", Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
-        engadirCasilla(Zona.ESTE,new Sorte());
+        engadirCasilla(Zona.ESTE,new Transporte("TRACTOR"));
+        engadirCasilla(Zona.ESTE,new CasillaSorte());
         engadirCasilla(Zona.ESTE,new Solar("VIGO",grupo_azul));
         engadirCasilla(Zona.ESTE,new Imposto("I.SUCESIONS", Valor.IMPOSTO_CARO));
         engadirCasilla(Zona.ESTE,new Solar("SANTIAGO",grupo_azul));
 
 
         engadirCasilla(Zona.OESTE,new Solar("FRADES",grupo_violeta));
-        engadirCasilla(Zona.OESTE,new Servizo("MEIRAMA", Valor.VALOR_SERVIZO,Valor.USO_SERVIZO));
+        engadirCasilla(Zona.OESTE,new Servizo("MEIRAMA"));
         engadirCasilla(Zona.OESTE,new Solar("MONELOS",grupo_violeta));
         engadirCasilla(Zona.OESTE,new Solar("LOURO",grupo_violeta));
-        engadirCasilla(Zona.OESTE,new Transporte("CATAMARAN", Valor.VALOR_TRANSPORTE,Valor.USO_TRANSPORTE));
+        engadirCasilla(Zona.OESTE,new Transporte("CATAMARAN"));
         engadirCasilla(Zona.OESTE,new Solar("SANTISO",grupo_amarillo));
-        engadirCasilla(Zona.OESTE,new Comunidade());
+        engadirCasilla(Zona.OESTE,new CasillaComunidade());
         engadirCasilla(Zona.OESTE,new Solar("MELIDE",grupo_amarillo));
         engadirCasilla(Zona.OESTE,new Solar("SARRIA",grupo_amarillo));
 

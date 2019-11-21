@@ -25,7 +25,11 @@ public class Esfinxe extends Avatar{
         int posicion;
         int cpos=0;
         System.out.println("Atopaste en "+turno.getPosicion().getNome());
-        if(zona==Zona.ESTE || zona==Zona.OESTE){
+        if(zona==Zona.ESTE){
+            turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(0));
+            zona=Zona.SUR;
+        }
+        if(zona==Zona.OESTE){
             turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(1));
             zona=Zona.SUR;
         }
