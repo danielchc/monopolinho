@@ -8,6 +8,7 @@ import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -713,7 +714,11 @@ public class Xogo implements Comandos {
      * Move os avatares de en modo avanzado
      */
     private void moverModoAvanzado(int valorDados){
-        turno.getXogador().getAvatar().moverEnAvanzado(this,valorDados);
+        try{
+            turno.getXogador().getAvatar().moverEnAvanzado(this,valorDados);
+        }catch (MonopolinhoException e){
+            e.imprimirErro();
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Comunidade4 extends CartaComunidade {
@@ -18,7 +19,7 @@ public class Comunidade4 extends CartaComunidade {
     }
 
     @Override
-    public String accion(Xogo xogo) {
+    public String accion(Xogo xogo) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         turno.setPosicion((xogo.getTaboeiro().getCasilla(8)));
         return getMensaxe() + turno.getPosicion().interpretarCasilla(xogo,0);

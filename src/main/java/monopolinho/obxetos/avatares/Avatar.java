@@ -5,6 +5,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.ModoXogo;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
@@ -84,8 +85,11 @@ public abstract class Avatar {
                 turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA, TipoTransaccion.VOLTA_COMPLETA);
             }
         }
-
-        mensaxe+=next.interpretarCasilla(xogo,valorDados);
+        try{
+            mensaxe+=next.interpretarCasilla(xogo,valorDados);
+        }catch (MonopolinhoException e){
+            e.imprimirErro();
+        }
         mensaxe="O avatar "  +turno.getXogador().getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
 
         if(xogo.deronTodosCatroVoltas()){
@@ -95,7 +99,7 @@ public abstract class Avatar {
         return mensaxe;
     }
 
-    public abstract void moverEnAvanzado(Xogo xogo, int valorDados);
+    public abstract void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException;
 
 
     /**

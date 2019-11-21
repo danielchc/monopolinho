@@ -5,6 +5,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
@@ -15,7 +16,7 @@ public class Coche extends Avatar{
         super(xogador);
     }
 
-    public void moverEnAvanzado(Xogo xogo, int valorDados) {
+    public void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException {
         Casilla next;
         Turno turno=xogo.getTurno();
         int cPos=turno.getPosicion().getPosicionIndex();

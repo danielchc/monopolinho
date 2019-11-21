@@ -6,6 +6,8 @@ import monopolinho.estadisticas.EstadisticasCasilla;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.*;
 import monopolinho.obxetos.avatares.Avatar;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public abstract class Casilla {
      * @param valorDados
      * @return Información da acción interpretada
      */
-    public abstract String interpretarCasilla(Xogo xogo, int valorDados);
+    public abstract String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException;
 
 
     /**

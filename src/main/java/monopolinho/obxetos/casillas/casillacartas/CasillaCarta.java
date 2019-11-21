@@ -3,6 +3,7 @@ package monopolinho.obxetos.casillas.casillacartas;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.Carta;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +24,7 @@ public  abstract class CasillaCarta extends Casilla {
 
     public abstract void crearCartas();
 
-    public String pedirCarta(Xogo xogo){
+    public String pedirCarta(Xogo xogo) throws MonopolinhoException {
         this.barallar();
         this.listarCartas();
         int nCarta=0;

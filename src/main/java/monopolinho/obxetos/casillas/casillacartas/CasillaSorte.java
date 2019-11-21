@@ -2,6 +2,7 @@ package monopolinho.obxetos.casillas.casillacartas;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.implementacion.*;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 
 public class CasillaSorte extends CasillaCarta {
@@ -10,7 +11,7 @@ public class CasillaSorte extends CasillaCarta {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
         System.out.println("Caiches na casilla de SORTE");
         xogo.getTurno().setPosicion(this);
         return super.pedirCarta(xogo);

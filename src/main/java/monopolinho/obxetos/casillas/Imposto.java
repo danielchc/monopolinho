@@ -4,6 +4,8 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
@@ -17,16 +19,14 @@ public class Imposto extends Casilla {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         mensaxe="O xogador "+ xogador.getNome() +  " ten que pagar "+this.getImposto() + " por caer en "+this.getNome();
         if(xogador.quitarDinheiro(this.getImposto(), TipoTransaccion.IMPOSTO)){
             xogo.getTaboeiro().engadirBote(this.getImposto());
         }else{
-            ReprTab.imprimirErro("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto");
-            xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
-            return "";
+            throw new MonopolinhoSinDinheiroException("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto",xogador);
         }
         xogo.getTurno().setPosicion(this);
         return mensaxe;

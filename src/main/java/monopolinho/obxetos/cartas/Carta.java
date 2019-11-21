@@ -6,6 +6,7 @@ import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.*;
 
 /**
@@ -24,7 +25,7 @@ public abstract class Carta {
      * @param xogo
      * @return Devolve unha String coa información interpretada
      */
-    public abstract String accion(Xogo xogo);
+    public abstract String accion(Xogo xogo) throws MonopolinhoException;
 
     /**
      * Establece a acción da carta

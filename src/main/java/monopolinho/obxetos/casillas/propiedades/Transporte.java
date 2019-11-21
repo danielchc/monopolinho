@@ -3,6 +3,7 @@ package monopolinho.obxetos.casillas.propiedades;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
@@ -15,7 +16,7 @@ public class Transporte extends Propiedade {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoSinDinheiroException {
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         if((!this.pertenceXogador(xogador)) && (!this.pertenceXogador(xogo.getBanca()))){
@@ -25,9 +26,7 @@ public class Transporte extends Propiedade {
                 this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
             }else{
-                mensaxe+="Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.";
-                xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
-                return mensaxe;
+                throw new MonopolinhoSinDinheiroException("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
             }
         }
         xogo.getTurno().setPosicion(this);

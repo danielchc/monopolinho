@@ -5,6 +5,7 @@ import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 import monopolinho.tipos.Zona;
@@ -17,7 +18,7 @@ public class Esfinxe extends Avatar{
         super(xogador);
     }
 
-    public void moverEnAvanzado(Xogo xogo, int valorDados) {
+    public void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         Taboeiro taboeiro=xogo.getTaboeiro();
         Casilla next;
