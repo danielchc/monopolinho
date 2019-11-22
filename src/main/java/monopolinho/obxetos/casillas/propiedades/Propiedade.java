@@ -87,7 +87,7 @@ public abstract class Propiedade extends Casilla {
 
     @Override
     public String toString() {
-        return super.toString()+
+        return  super.toString()+
                 ((!this.getDono().getNome().equals("Banca"))?"\n\tPropietario: "+this.getDono().getNome():"");
     }
 }

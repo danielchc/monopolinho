@@ -8,5 +8,5 @@ public class MonopolinhoComandoIncorrecto extends MonopolinhoException {
     public MonopolinhoComandoIncorrecto(String mensaxe) {
         super(mensaxe);
     }
-    
+
 }

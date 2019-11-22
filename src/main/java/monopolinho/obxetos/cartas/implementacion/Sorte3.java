@@ -2,6 +2,7 @@ package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
@@ -9,6 +10,7 @@ import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
 import monopolinho.tipos.EstadoXogador;
+import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 
@@ -30,6 +32,7 @@ public class Sorte3 extends CartaComunidade {
             if(!x.equals(turno.getXogador()))
                 x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
         }
+        turno.engadirAccion(new Accion(TipoAccion.PAGAR_XOGADORES,dinheiroPagar));
         return getMensaxe();
     }
 }

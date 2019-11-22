@@ -2,6 +2,8 @@ package monopolinho.obxetos.casillas;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Accion;
+import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 
 public class Ir_Carcere extends Casilla {
@@ -15,6 +17,7 @@ public class Ir_Carcere extends Casilla {
         String mensaxe="O avatar colocase na casilla CÁRCERE";
         xogo.getTurno().getXogador().meterNoCarcere();
         xogo.getTurno().setPosicion(xogo.getTaboeiro().getCasilla(10));
+        xogo.getTurno().engadirAccion(new Accion(TipoAccion.IR_CARCEL));
         return mensaxe;
     }
 

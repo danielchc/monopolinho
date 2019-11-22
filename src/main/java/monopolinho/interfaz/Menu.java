@@ -360,6 +360,9 @@ public class Menu {
             case "tratos":
                 xogo.listarTratos();
                 break;
+            case "accions":
+                xogo.listarAccions();
+                break;
             case "mov":
                 //BORRARR
                 xogo.mov(Integer.parseInt(cmds[1]));

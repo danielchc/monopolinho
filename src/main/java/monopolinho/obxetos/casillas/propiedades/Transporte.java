@@ -2,9 +2,11 @@ package monopolinho.obxetos.casillas.propiedades;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
 import monopolinho.tipos.EstadoXogador;
+import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 
@@ -24,6 +26,7 @@ public class Transporte extends Propiedade {
             aPagar=this.getAlquiler()*(this.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
             if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
                 this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
+                xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
             }else{
                 throw new MonopolinhoSinDinheiroException("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);

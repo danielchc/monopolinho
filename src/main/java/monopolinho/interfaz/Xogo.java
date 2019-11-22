@@ -274,7 +274,7 @@ public class Xogo implements Comandos {
         }
 
         comprar.comprar(this.turno.getXogador());
-        turno.aumentarCompras();
+        turno.engadirAccion(new Accion(TipoAccion.COMPRAR,comprar));
         System.out.println("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
 
@@ -343,6 +343,7 @@ public class Xogo implements Comandos {
 
         c.setEstaHipotecada(true);
         c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
+        turno.engadirAccion(new Accion(TipoAccion.HIPOTECAR,c));
         System.out.println("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
 
     }
@@ -380,6 +381,7 @@ public class Xogo implements Comandos {
             return;
         }
         c.setEstaHipotecada(false);
+        turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
         System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
 
     }
@@ -460,6 +462,7 @@ public class Xogo implements Comandos {
             return ;
         }
         actual.edificar(tipo);
+        turno.engadirAccion(new Accion(TipoAccion.EDIFICAR,actual));
         System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+actual.getPrecioEdificio(tipo));
     }
 
@@ -600,6 +603,7 @@ public class Xogo implements Comandos {
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getXogador().getNome()+" volve tirar.";
             }else if(dados.sonDobles() && turno.getVecesTiradas()==3){
                 turno.getXogador().meterNoCarcere();
+                turno.engadirAccion(new Accion(TipoAccion.IR_CARCEL));
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCERE
                 ReprTab.imprimirErro(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
@@ -674,7 +678,9 @@ public class Xogo implements Comandos {
 
 
 
-
+    public void listarAccions(){
+        turno.listarAccions();
+    }
 
 
     /**

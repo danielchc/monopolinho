@@ -2,10 +2,12 @@ package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Comunidade4 extends CartaComunidade {
@@ -21,7 +23,11 @@ public class Comunidade4 extends CartaComunidade {
     @Override
     public String accion(Xogo xogo) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
-        turno.setPosicion((xogo.getTaboeiro().getCasilla(8)));
-        return getMensaxe() + turno.getPosicion().interpretarCasilla(xogo,0);
+        Xogador xogador=turno.getXogador();
+        turno.setPosicion(xogo.getTaboeiro().getCasilla(10));
+        xogador.meterNoCarcere();
+        turno.engadirAccion(new Accion(TipoAccion.IR_CARCEL));
+        turno.setPodeLanzar(false);
+        return getMensaxe();
     }
 }

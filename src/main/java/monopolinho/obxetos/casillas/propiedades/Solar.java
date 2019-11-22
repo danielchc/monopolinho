@@ -3,11 +3,13 @@ package monopolinho.obxetos.casillas.propiedades;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.edificios.*;
 import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
+import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
@@ -49,6 +51,7 @@ public class Solar extends Propiedade {
                 if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                     this.getEstadisticas().engadirAlquilerPagado(aPagar);
                     this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
+                    xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
                     return mensaxe;
                 }else{

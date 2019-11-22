@@ -1,6 +1,7 @@
 package monopolinho.obxetos;
 
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.tipos.TipoAccion;
 
 import java.util.ArrayList;
 
@@ -12,8 +13,8 @@ public class Turno {
     private Xogador xogador;
     private int vecesTiradas;
     private boolean podeLanzar;
-    private int compradasTurno;
     private ArrayList<Casilla> historial;
+    private ArrayList<Accion> historialAccion;
 
     /**
      * Crea un obxecto turno
@@ -23,15 +24,13 @@ public class Turno {
         this.xogador=x;
         this.vecesTiradas=0;
         this.podeLanzar=true;
-        this.compradasTurno=0;
         this.historial=new ArrayList<>();
+        this.historialAccion=new ArrayList<>();
     }
 
-    /**
-     * Aumentanse as compras feitas neste turno
-     */
-    public void aumentarCompras() {
-        this.compradasTurno++;
+    public void engadirAccion(Accion a){
+        if(a!=null)
+            historialAccion.add(a);
     }
 
     /**
@@ -49,6 +48,7 @@ public class Turno {
     public void setPosicion(Casilla c){
         this.xogador.setPosicion(c);
         this.historial.add(c);
+        engadirAccion(new Accion(TipoAccion.MOVERSE,c));
     }
 
     /**
@@ -107,17 +107,20 @@ public class Turno {
      * @return Obtén o numero de compras que se fixo nun turno
      */
     public int getCompradasTurno() {
+        int compradasTurno=0;
+        for(Accion a:historialAccion){
+            if(a.getTipo()==TipoAccion.COMPRAR)
+                compradasTurno++;
+        }
         return compradasTurno;
     }
 
-    /**
-     * Establece o número de compras que se fixo nun turno
-     * @param compradasTurno
-     */
-    public void setCompradasTurno(int compradasTurno) {
-        this.compradasTurno = compradasTurno;
+    public void listarAccions(){
+        for(Accion h:historialAccion){
+            if(h.getCasilla()!=null)
+                System.out.println(h.getCasilla().getNome()+" -> "+h.getTipo());
+        }
     }
-
     /**
      * @return Obten o historial de casillas nas que se pasou nun turno
      */
