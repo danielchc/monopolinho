@@ -135,7 +135,7 @@ public class Solar extends Propiedade {
     public void renombrarEdificios(){
         int contador=1;
         for(Edificio e:this.edificios){
-            if(e.getTipoEdificio()==TipoEdificio.CASA){
+            if(e instanceof Casa){
                 e.setId(e.getTipoEdificio() + String.valueOf(contador));
                 contador++;
             }

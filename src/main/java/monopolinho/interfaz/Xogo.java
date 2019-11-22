@@ -628,6 +628,58 @@ public class Xogo implements Comandos {
 
         System.out.println("O avatar "+turno.getXogador().getAvatar().getId() + " de tipo "+turno.getXogador().getAvatar().getTipo() +" cambia de modo "+turno.getXogador().getAvatar().getModoXogo());
     }
+
+
+    @Override
+    public void proponerTrato(String[] cmds){
+        Xogador x=new Xogador("Jabalí",TipoMovemento.COCHE);
+        Xogador y=new Xogador("Becerriño",TipoMovemento.COCHE);
+        Solar a=new Solar("Casacristo",new Grupo());
+        Solar b=new Solar("Bascoas",new Grupo());
+
+        Trato t1=new Trato(x,y);
+        t1.engadirPropiedadeOferta(a);
+        t1.engadirPropiedadeDemanda(b);
+        System.out.println(t1.describirTrato());
+        System.out.println(" ");
+
+        Trato t2=new Trato(x,y);
+        t2.engadirPropiedadeOferta(a);
+        t2.setDinheiroDemanda(10000);
+        System.out.println(t2.describirTrato());
+        System.out.println(" ");
+
+        Trato t3=new Trato(x,y);
+        t3.setDinheiroOferta(929292);
+        t3.engadirPropiedadeDemanda(b);
+        System.out.println(t3.describirTrato());
+        System.out.println(" ");
+
+        Trato t4=new Trato(x,y);
+        t4.engadirPropiedadeOferta(a);
+        t4.engadirPropiedadeDemanda(b);
+        t4.setDinheiroDemanda(2233);
+        System.out.println(t4.describirTrato());
+        System.out.println(" ");
+
+        Trato t5=new Trato(x,y);
+        t5.engadirPropiedadeOferta(a);
+        t5.setDinheiroOferta(5566);
+        t5.engadirPropiedadeDemanda(b);
+        System.out.println(t5.describirTrato());
+        System.out.println(" ");
+    }
+
+    @Override
+    public void listarTratos(){
+
+    }
+
+
+
+
+
+
     /**
      * GETTERS AND SETTERS
      */

@@ -57,6 +57,10 @@ public interface Comandos {
 
     void cambiarModoXogo();
 
+    void proponerTrato(String[] cmds);
+
+    void listarTratos();
+
     Taboeiro getTaboeiro();
 
     Dados getDados();

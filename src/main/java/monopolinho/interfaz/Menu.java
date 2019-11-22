@@ -176,6 +176,15 @@ public class Menu {
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas <xogador>" )+"\tMostra as estadisticas do xogo"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"ver taboeiro" )+"\tMostra a representación do taboeiro"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"cambiar modo" )+"\tCambia de modo de xogo"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"trato <nombre>: cambiar" )+
+                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2>)" )+ "\tCambia propiedade1 por propiedade2"+
+                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade>,diñeiro)" )+"\tCambia propiedade por X diñeiro"+
+                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(diñeiro,<propiedade>)" )+"\tCambia X diñeiro por propiedade"+
+                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2> e diñeiro)" )+ "\tCambia propiedade1 por propiedade2 mais diñeiro"+
+                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1> e diñeiro,<propiedade>)" )+ "\tCambia propiedade1 mais diñerio por propiedade2"+
+                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2> e nonalquiler(<propiedade3>,turnos))" )+ "\tCambia propiedade1 por propiedade2 e non pagar alquiler en propiedade3 X turnos"+
+
+                "\n\tPropoñer un trato a outro xogador"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos")+"\tMostra esta mensaxe de axuda";
         System.out.println(comandos);
     }
@@ -349,6 +358,12 @@ public class Menu {
                     return;
                 }
                 xogo.cambiarModoXogo();
+                break;
+            case "trato":
+                xogo.proponerTrato(cmds);
+                break;
+            case "tratos":
+                xogo.listarTratos();
                 break;
             case "mov":
                 //BORRARR
