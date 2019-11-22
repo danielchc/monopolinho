@@ -9,6 +9,10 @@ public class Piscina extends Edificio{
         super(posicion);
         super.setTipoEdificio(TipoEdificio.PISCINA);
         super.setId(TipoEdificio.PISCINA + String.valueOf(posicion.getNumeroEdificiosTipo(TipoEdificio.PISCINA) + 1));
-        super.setPrecio(Valor.FACTOR_VALOR_PISCINA*posicion.getValor());
+    }
+
+    @Override
+    public float getPrecio() {
+        return Valor.FACTOR_VALOR_PISCINA*getPosicion().getValor();
     }
 }

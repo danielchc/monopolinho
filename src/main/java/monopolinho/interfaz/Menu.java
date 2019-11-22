@@ -3,6 +3,8 @@ package monopolinho.interfaz;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.excepcions.MonopolinhoComandoIncorrecto;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
 
@@ -112,12 +114,16 @@ public class Menu {
     /**
      * Este metodo sirve como consola de comandos.
      */
-    public void consola(){
+    public void consola() {
         mostrarComandos();
         Scanner scanner= new Scanner(System.in);
         while(true){
             System.out.print("$> ");
-            interpretarComando(scanner.nextLine());
+            try{
+                interpretarComando(scanner.nextLine());
+            }catch (MonopolinhoException e){
+                e.imprimirErro();
+            }
         }
     }
 
@@ -140,7 +146,11 @@ public class Menu {
                 new Scanner(System.in).nextLine();
             }else{
                 System.out.println("$> " + ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,leido));
-                interpretarComando(leido);
+                try{
+                    interpretarComando(leido);
+                }catch (MonopolinhoException e){
+                    e.imprimirErro();
+                }
             }
         }
         System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,"Volvendo o modo consola..."));
@@ -193,12 +203,11 @@ public class Menu {
      * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
      * @param comando
      */
-    private void interpretarComando(String comando) {
+    private void interpretarComando(String comando) throws MonopolinhoComandoIncorrecto {
         String[] cmds=comando.split(" ");
         if ((!xogo.partidaComezada())&&(cmds[0].toLowerCase().equals("crear"))){
             if(cmds.length!=4){
-                System.out.println("Sintaxe: crear xogador <nome> <avatar>");
-                return;
+                throw new MonopolinhoComandoIncorrecto("Sintaxe: crear xogador <nome> <avatar>");
             }
             xogo.crearXogador(cmds[2],interpretarMov(cmds[3]));
             return;
@@ -217,9 +226,8 @@ public class Menu {
                 break;
             case "listar":
                 if(cmds.length<2){
-                    System.out.println("Sintaxe: listar <xogadores/avatares/enventa/edificios>");
-                    System.out.println("Sintaxe: listar <edificios> <grupo>");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: listar <xogadores/avatares/enventa/edificios>\n" +
+                            "Sintaxe: listar <edificios> <grupo>");
                 }
                 switch (cmds[1].toLowerCase()){
                     case "xogadores":
@@ -240,22 +248,19 @@ public class Menu {
                         xogo.listarEdificios();
                         break;
                     default:
-                        System.out.println("\nOpción de listaxe non válida");
-                        break;
+                        throw new MonopolinhoComandoIncorrecto("\nOpción de listaxe non válida");
                 }
                 break;
             case "lanzar":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: lanzar dados");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: lanzar dados");
                 }
                 xogo.lanzarDados();
                 break;
 
             case "acabar":
                 if(cmds.length!=2) {
-                    System.out.println("Sintaxe: acabar turno");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: acabar turno");
                 }
                 xogo.pasarTurno();
                 break;
@@ -268,30 +273,26 @@ public class Menu {
                 }else if (cmds.length==2){
                     xogo.sairCarcere();
                 }else{
-                    System.out.println("Sintaxe: sair carecere");
-                    System.out.println("Sintaxe: sair");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: sair carecere\nSintaxe: sair");
                 }
                 break;
             case "describir":
                 if(cmds.length<2){
-                    System.out.println("Sintaxe: describir <xogador/avatar> <nome>");
-                    System.out.println("Sintaxe: describir <casilla>");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: describir <xogador/avatar> <nome>\n" +
+                            "Sintaxe: describir <casilla>"
+                    );
                 }
                 switch (cmds[1]){
                     case "xogador":
                     case "jugador":
                         if(cmds.length!=3){
-                            System.out.println("Sintaxe: describir xogador <nome>");
-                            return;
+                            throw new MonopolinhoComandoIncorrecto("Sintaxe: describir xogador <nome>");
                         }
                         xogo.describirXogador(cmds[2]);
                         break;
                     case "avatar":
                         if(cmds.length!=3){
-                            System.out.println("Sintaxe: describir avatar <id>");
-                            return;
+                            throw new MonopolinhoComandoIncorrecto("Sintaxe: describir avatar <id>");
                         }
                         xogo.describirAvatar(cmds[2]);
                         break;
@@ -302,8 +303,7 @@ public class Menu {
                 break;
             case "comprar":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: comprar <casilla>");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: comprar <casilla>");
                 }
                 xogo.comprarCasilla(cmds);
                 break;
@@ -311,13 +311,12 @@ public class Menu {
                 if(cmds.length==2){
                     xogo.edificar(interpretarEdificio(cmds[1]));
                 }else{
-                    System.out.println("Sintaxe: edificar <casa/hotel/piscina/pista>");
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: edificar <casa/hotel/piscina/pista>");
                 }
                 break;
             case "vender":
                 if(cmds.length!=4){
-                    System.out.println("Sintaxe: vender <casa/hotel/piscina/pista> <casilla> <numero> ");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: vender <casa/hotel/piscina/pista> <casilla> <numero> ");
                 }
                 xogo.venderEdificio(interpretarEdificio(cmds[1]),cmds[2],Integer.parseInt(cmds[3]));
                 break;
@@ -326,22 +325,19 @@ public class Menu {
                 break;
             case "hipotecar":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: hipotecar <casilla>");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: hipotecar <casilla>");
                 }
                 xogo.hipotecarCasilla(cmds[1]);
                 break;
             case "deshipotecar":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: deshipotecar <casilla>");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: deshipotecar <casilla>");
                 }
                 xogo.deshipotecarCasilla(cmds[1]);
                 break;
             case "ver":
                 if(cmds.length!=2){
-                    System.out.println("Sintaxe: ver taboeiro/tableiro");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("Sintaxe: ver taboeiro/tableiro");
                 }
                 xogo.mostrarTaboeiro();
                 break;
@@ -354,8 +350,7 @@ public class Menu {
                 break;
             case "cambiar":
                 if(cmds.length!=2){
-                    System.out.println("cambiar modo");
-                    return;
+                    throw new MonopolinhoComandoIncorrecto("cambiar modo");
                 }
                 xogo.cambiarModoXogo();
                 break;
@@ -378,7 +373,7 @@ public class Menu {
                 mostrarComandos();
                 break;
             default:
-                System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe ")+ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos"));
+               throw new MonopolinhoComandoIncorrecto(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe ")+ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos"));
         }
     }
 }

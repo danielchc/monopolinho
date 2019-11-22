@@ -10,6 +10,9 @@ public class Casa extends Edificio{
         super(posicion);
         super.setTipoEdificio(TipoEdificio.CASA);
         super.setId(TipoEdificio.CASA + String.valueOf(posicion.getNumeroEdificiosTipo(TipoEdificio.CASA) + 1));
-        super.setPrecio(Valor.FACTOR_VALOR_CASA*posicion.getValor());
+    }
+    @Override
+    public float getPrecio() {
+        return Valor.FACTOR_VALOR_CASA*getPosicion().getValor();
     }
 }

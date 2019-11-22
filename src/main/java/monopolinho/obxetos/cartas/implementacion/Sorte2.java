@@ -7,6 +7,8 @@ import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
@@ -20,7 +22,7 @@ public class Sorte2 extends CartaComunidade {
     }
 
     @Override
-    public String accion(Xogo xogo) {
+    public String accion(Xogo xogo) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         Xogador xogador=turno.getXogador();
         float aPagar=0;
@@ -34,9 +36,8 @@ public class Sorte2 extends CartaComunidade {
             }
         }
         if(!xogador.quitarDinheiro(aPagar, TipoTransaccion.TASAS)){
-            ReprTab.imprimirErro(getMensaxe()+". Non tes suficiente diñeiro para pagar "+aPagar);
-            xogador.setEstadoXogador(EstadoXogador.TEN_DEBEDAS);
-            return "";
+            throw new MonopolinhoSinDinheiroException(getMensaxe()+ ". Non tes suficiente diñeiro para pagar "+aPagar,xogador);
+
         }
         return getMensaxe() + " Tes que pagar "+aPagar;
     }

@@ -11,6 +11,7 @@ import monopolinho.tipos.TipoMovemento;
 import java.util.ArrayList;
 
 public interface Comandos {
+
     void describirCasilla(String nome);
 
     void describirXogador(String nome);
@@ -61,28 +62,10 @@ public interface Comandos {
 
     void listarTratos();
 
-    Taboeiro getTaboeiro();
-
-    Dados getDados();
-
-    Xogador getBanca();
-
-    ArrayList<Xogador> getXogadores();
-
-    Turno getTurno();
-
-    int getNumeroXogadores();
-
-    boolean partidaComezada();
-
     void comezarPartida();
 
-    void moverModoNormal(int valorDados);
-
-    boolean comprobarAvatarRepetido(Avatar avatar);
-
-    //BORRAR
     void mov(int i);
 
     void mova(int i);
+
 }

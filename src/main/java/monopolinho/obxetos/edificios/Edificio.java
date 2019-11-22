@@ -10,7 +10,6 @@ import monopolinho.tipos.TipoEdificio;
  */
 public abstract class Edificio {
     private TipoEdificio tipoEdificio;
-    private float precio;
     private Solar posicion;
     private String id;
 
@@ -33,10 +32,11 @@ public abstract class Edificio {
         String texto="{\n";
         texto+="\tID: "+this.id+"\n\tPropietario: "+this.posicion.getDono().getNome()+
                 ",\n\tCasilla: "+this.posicion.getNome()+"\n\tGrupo: "+this.posicion.getGrupo().getNome()+
-                ",\n\tCoste: "+this.precio+"\n}";
+                ",\n\tCoste: "+this.getPrecio()+"\n}";
         return texto;
     }
 
+    public abstract float getPrecio();
     /**
      * Devolve o id dun edificio
      * @return Identificador do edificio
@@ -69,22 +69,6 @@ public abstract class Edificio {
      */
     public void setTipoEdificio(TipoEdificio tipoEdificio) {
         this.tipoEdificio = tipoEdificio;
-    }
-
-    /**
-     * Devolve o precio dun edificio
-     * @return Precio do edificio
-     */
-    public float getPrecio() {
-        return precio;
-    }
-
-    /**
-     * Establece o precio dun edificio
-     * @param precio Precio do edificio
-     */
-    public void setPrecio(float precio) {
-        this.precio = precio;
     }
 
     /**

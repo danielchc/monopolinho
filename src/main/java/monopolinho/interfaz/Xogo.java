@@ -488,10 +488,7 @@ public class Xogo implements Comandos {
             ReprTab.imprimirErro("Tipo de edificio incorrecto.");
             return;
         }
-        if(c.getTipoCasilla()!=TipoCasilla.SOLAR){
-            ReprTab.imprimirErro("Só podes vender edificios de solares.");
-            return;
-        }
+
         if(!c.pertenceXogador(turno.getXogador())){
             ReprTab.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
             return;
@@ -687,7 +684,7 @@ public class Xogo implements Comandos {
     /**
      * @return Devolve o taboeiro
      */
-    @Override
+
     public Taboeiro getTaboeiro() {
         return taboeiro;
     }
@@ -695,7 +692,7 @@ public class Xogo implements Comandos {
     /**
      * @return Devolve os datos
      */
-    @Override
+
     public Dados getDados() {
         return dados;
     }
@@ -703,7 +700,7 @@ public class Xogo implements Comandos {
     /**
      * @return Devolve o xogador banca
      */
-    @Override
+
     public Xogador getBanca() {
         return banca;
     }
@@ -711,7 +708,7 @@ public class Xogo implements Comandos {
     /**
      * @return Devolve os xogadores
      */
-    @Override
+
     public ArrayList<Xogador> getXogadores() {
         return xogadores;
     }
@@ -719,7 +716,6 @@ public class Xogo implements Comandos {
     /**
      * @return Devolve o Turno actual
      */
-    @Override
     public Turno getTurno() {
         return turno;
     }
@@ -727,7 +723,6 @@ public class Xogo implements Comandos {
     /**
      * @return Devolve o número de xogadores
      */
-    @Override
     public int getNumeroXogadores(){
         int nXogadores=0;
         for(Xogador x:xogadores)
@@ -739,7 +734,6 @@ public class Xogo implements Comandos {
     /**
      * @return Compraba se se comezou a partida
      */
-    @Override
     public boolean partidaComezada() {
         return partidaComezada;
     }
@@ -758,7 +752,6 @@ public class Xogo implements Comandos {
      * @return Mensaxe da acción interpretada
      */
 
-    @Override
     public void moverModoNormal(int valorDados){
         System.out.println(turno.getXogador().getAvatar().moverEnBasico(this,valorDados));
     }
@@ -795,7 +788,7 @@ public class Xogo implements Comandos {
             for(Casilla c:zona){
                 if(c instanceof Propiedade){
                     Propiedade p=(Propiedade)c;
-                    if(p.pertenceXogador(banca) && c.getTipoCasilla()== TipoCasilla.SOLAR){
+                    if(p.pertenceXogador(banca) && (c instanceof Solar)){
                         p.setValor(p.getValor()*1.05f);
                     }
                 }
@@ -834,7 +827,7 @@ public class Xogo implements Comandos {
             ReprTab.imprimirErro("Non podes construir nunha casilla hipotecada");
             return false;
         }
-        if(c.getTipoCasilla()!=TipoCasilla.SOLAR){
+        if(c instanceof Solar){
             ReprTab.imprimirErro("Non podes edificar esta casilla");
             return false;
         }
@@ -861,7 +854,7 @@ public class Xogo implements Comandos {
         return ((this.xogadores.size()-1)==xogadoresEnBancarrota);
     }
 
-    @Override
+
     public boolean comprobarAvatarRepetido(Avatar avatar){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().equals(avatar))return true;
@@ -869,13 +862,13 @@ public class Xogo implements Comandos {
         return false;
     }
     //BORRAR
-    @Override
+
     public void mov(int i){
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
         moverModoNormal(i);
     }
-    @Override
+
     public void mova(int i){
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);

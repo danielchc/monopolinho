@@ -9,6 +9,11 @@ public class Pistadeportes extends Edificio{
         super(posicion);
         super.setTipoEdificio(TipoEdificio.PISTA_DEPORTES);
         super.setId(TipoEdificio.PISTA_DEPORTES + String.valueOf(posicion.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES) + 1));
-        super.setPrecio(Valor.FACTOR_VALOR_PISTADEPORTES*posicion.getValor());
     }
+
+    @Override
+    public float getPrecio() {
+        return Valor.FACTOR_VALOR_PISTADEPORTES*getPosicion().getValor();
+    }
+
 }
