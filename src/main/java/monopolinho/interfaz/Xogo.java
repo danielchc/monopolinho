@@ -8,6 +8,7 @@ import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
+import monopolinho.obxetos.edificios.Edificio;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.*;
 

@@ -1,6 +1,5 @@
-package monopolinho.obxetos;
+package monopolinho.obxetos.edificios;
 
-import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
@@ -9,7 +8,7 @@ import monopolinho.tipos.TipoEdificio;
  * @author David Carracedo
  * @author Daniel Chenel
  */
-public class Edificio {
+public abstract class Edificio {
     private TipoEdificio tipoEdificio;
     private float precio;
     private Solar posicion;
@@ -17,22 +16,14 @@ public class Edificio {
 
     /**
      * Constructor da clase Edificio
-     * @param tipoEdificio Tipo de contrucción
-     * @param precio Precio do edificio
      * @param posicion Casilla na que se vai colocar o edificio
      */
-    public Edificio(TipoEdificio tipoEdificio,float precio,Solar posicion){
-        if(posicion!=null && posicion.getTipoCasilla()== TipoCasilla.SOLAR){
-            this.tipoEdificio=tipoEdificio;
-            this.precio=precio;
+    public Edificio(Solar posicion){
+        if(posicion!=null && (posicion instanceof Solar)){
             this.posicion=posicion;
-            this.id= this.tipoEdificio + String.valueOf(this.posicion.getNumeroEdificiosTipo(this.tipoEdificio) + 1);
         }
     }
-    public Edificio(TipoEdificio tipoEdificio,Solar posicion){
-        this(tipoEdificio,0,posicion);
-        this.precio=posicion.getPrecioEdificio(tipoEdificio);
-    }
+
 
     /**
      * Este metodo permite describir a info dun edificio.

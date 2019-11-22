@@ -4,11 +4,10 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.avatares.Avatar;
-import monopolinho.obxetos.Edificio;
+import monopolinho.obxetos.edificios.*;
 import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
-import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
@@ -62,7 +61,20 @@ public class Solar extends Propiedade {
     }
 
     public void edificar(TipoEdificio tipo){
-        this.engadirEdificio(new Edificio(tipo,this));
+        switch (tipo){
+            case PISCINA:
+                this.engadirEdificio(new Piscina(this));
+                break;
+            case CASA:
+                this.engadirEdificio(new Casa(this));
+                break;
+            case PISTA_DEPORTES:
+                this.engadirEdificio(new Pistadeportes(this));
+                break;
+            case HOTEL:
+                this.engadirEdificio(new Hotel(this));
+                break;
+        }
     }
     /**
      * Engade un edificio a unha casilla

@@ -6,6 +6,7 @@ import monopolinho.obxetos.avatares.*;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
+import monopolinho.obxetos.edificios.Edificio;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
