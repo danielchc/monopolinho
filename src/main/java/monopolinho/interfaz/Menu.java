@@ -355,6 +355,9 @@ public class Menu {
                 xogo.cambiarModoXogo();
                 break;
             case "trato":
+                if(cmds.length<2){
+                    throw new MonopolinhoComandoIncorrecto("trato <nombre>: cambiar (opcions)");
+                }
                 xogo.proponerTrato(cmds);
                 break;
             case "tratos":

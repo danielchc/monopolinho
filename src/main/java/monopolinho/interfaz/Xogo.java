@@ -28,6 +28,7 @@ public class Xogo implements Comandos {
     private Xogador banca;
     private boolean partidaComezada;
     private EstadisticasXogo estadisticasXogo;
+    private ArrayList<Trato> tratos; ////TEMPORAL, BORRRAR ESTOOOOOOOOOOO
     /**
      * Constructor da clase Xogo.
      * Determina o turno.
@@ -44,6 +45,8 @@ public class Xogo implements Comandos {
         partidaComezada=false;
         xogadores=new ArrayList<Xogador>();
         estadisticasXogo=new EstadisticasXogo(this);
+
+        this.tratos=new ArrayList<>();
     }
 
     /**
@@ -631,8 +634,73 @@ public class Xogo implements Comandos {
     }
 
 
+
+
     @Override
     public void proponerTrato(String[] cmds){
+
+        Xogador emisor=this.turno.getXogador();
+        Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
+
+        if(destinatario==null){
+            ReprTab.imprimirErro("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
+            return;
+        }
+
+        Trato trato=new Trato(emisor,destinatario);
+
+        String[] limpo=new String[cmds.length];
+        int limiteOferta=-1;
+        for (int i=0;i<cmds.length;i++){
+            if(cmds[i].charAt(cmds[i].length()-1) == ','){
+                limiteOferta=i;
+            }
+            limpo[i]=cmds[i].replace("(","").replace(")","").replace(",","");
+        }
+
+
+
+        for (int i=3;i<=limiteOferta;i++){
+            System.out.println("oferta " + limpo[i] + " e numero? -> "+isNumeric(limpo[i]));
+            if(isNumeric(limpo[i])){
+                trato.setDinheiroOferta(Float.valueOf(limpo[i]));
+            }
+            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y")){
+                Casilla c=this.taboeiro.buscarCasilla(limpo[i]);
+                if(c==null){
+                    ReprTab.imprimirErro(limpo[i]+" non é unha casilla válida. Trato cancelado.");
+                    return;
+                }
+                if(!(c instanceof Propiedade)){
+                    ReprTab.imprimirErro(limpo[i]+" non é unha propiedade. Trato cancelado.");
+                    return;
+                }
+                trato.engadirPropiedadeOferta((Propiedade)c);
+            }
+        }
+        for (int i=limiteOferta+1;i<cmds.length;i++){
+            System.out.println("demanda " + limpo[i] + " e numero? -> "+isNumeric(limpo[i]));
+            if(isNumeric(limpo[i])){
+                trato.setDinheiroDemanda(Float.valueOf(limpo[i]));
+            }
+            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y")){
+                Casilla c=this.taboeiro.buscarCasilla(limpo[i]);
+                if(c==null){
+                    ReprTab.imprimirErro(limpo[i]+" non é unha casilla válida. Trato cancelado.");
+                    return;
+                }
+                if(!(c instanceof Propiedade)){
+                    ReprTab.imprimirErro(limpo[i]+" non é unha propiedade. Trato cancelado.");
+                    return;
+                }
+                trato.engadirPropiedadeDemanda((Propiedade)c);
+            }
+        }
+        this.tratos.add(trato);
+
+
+
+        /*
         Xogador x=new Xogador("Jabalí",TipoMovemento.COCHE);
         Xogador y=new Xogador("Becerriño",TipoMovemento.COCHE);
         Solar a=new Solar("Casacristo",new Grupo());
@@ -669,11 +737,18 @@ public class Xogo implements Comandos {
         t5.engadirPropiedadeDemanda(b);
         System.out.println(t5.describirTrato());
         System.out.println(" ");
+
+         */
     }
 
     @Override
     public void listarTratos(){
 
+        //BORRAR ESTE ARRAYLIST E METERLLE A CADA XOGADOR UN HASHMAP COS SEUS TRATOS
+        //AO CAHAMAR LISTAR TRATOS FACER ALGO TIPO this.turno.getXogador().listarTratos();
+        for(Trato t:this.tratos){
+            System.out.println(t.describirTrato());
+        }
     }
 
 
@@ -802,6 +877,34 @@ public class Xogo implements Comandos {
         }
     }
 
+
+    /**
+     * Este metodo comproba si un string é un número
+     * @param str string a comprobar
+     * @return true si é un número, false se non
+     */
+    private boolean isNumeric(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    /**
+     * Este metodo busca un xogador do xogo polo nome
+     * @param nome nome a buscar
+     * @return Xogador
+     */
+    private Xogador buscarXogadorPorNome(String nome){
+        for(Xogador x:this.xogadores){
+            if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
+                return x;
+            }
+        }
+        return null;
+    }
     /**
      * Este metodo engade todas as casillas a banca. Despois os xogadores compranlle as propiedades a banca.
      */

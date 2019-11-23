@@ -5,6 +5,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.obxetos.casillas.*;
 import monopolinho.obxetos.casillas.casillacartas.CasillaComunidade;
 import monopolinho.obxetos.casillas.casillacartas.CasillaSorte;
+import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Servizo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.casillas.propiedades.Transporte;
@@ -63,6 +64,7 @@ public class Taboeiro {
         }
         return null;
     }
+
 
     /**
      * Este metodo busca un grupo do taboeiro
