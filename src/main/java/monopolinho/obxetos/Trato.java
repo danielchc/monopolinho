@@ -12,6 +12,11 @@ public class Trato {
     private float dinheiroOferta;
     private float dinheiroDemanda;
 
+    /**
+     * Constructor dos tratos
+     * @param emisorTrato Xogador que crea o trato
+     * @param destinatarioTrato Xogador ao que se lle propón o trato
+     */
     public Trato(Xogador emisorTrato,Xogador destinatarioTrato){
         this.emisorTrato = emisorTrato;
         this.destinatarioTrato = destinatarioTrato;
@@ -22,6 +27,10 @@ public class Trato {
     }
 
 
+    /**
+     * Este método imprime todos os datos dun trato
+     * @return String coa información do trato
+     */
     public String describirTrato(){
         String texto="{";
         texto+="\n\txogadorPropon: " + emisorTrato.getNome();
@@ -54,12 +63,20 @@ public class Trato {
     }
 
 
+    /**
+     * Este metodo engade unha propiedade á oferta do trato
+     * @param p Propiedade a engadir
+     */
     public void engadirPropiedadeOferta(Propiedade p){
         if(p!=null){
             this.propiedadesOferta.add(p);
         }
     }
 
+    /**
+     * Este metodo engade unha propiedade á demanda do trato
+     * @param p Propiedade a engadir
+     */
     public void engadirPropiedadeDemanda(Propiedade p){
         if(p!=null){
             this.propiedadesDemanda.add(p);
@@ -69,11 +86,14 @@ public class Trato {
 
 
 
-    ////////////getters e setters//////////////////77
+    /**
+     * GETTERS E SETTERS
+     */
 
     public void setEmisorTrato(Xogador emisorTrato) {
         this.emisorTrato = emisorTrato;
     }
+
 
     public Xogador getEmisorTrato() {
         return emisorTrato;

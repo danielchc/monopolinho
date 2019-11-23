@@ -46,7 +46,7 @@ public class Xogo implements Comandos {
         xogadores=new ArrayList<Xogador>();
         estadisticasXogo=new EstadisticasXogo(this);
 
-        this.tratos=new ArrayList<>();
+        this.tratos=new ArrayList<>(); //ESTO TA TEMPORAL
     }
 
     /**
@@ -634,13 +634,17 @@ public class Xogo implements Comandos {
     }
 
 
-
-
+    /**
+     * Este método permite propoñer un trato.
+     * @param cmds comandos do trato
+     */
     @Override
     public void proponerTrato(String[] cmds){
 
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
+
+        //FACER AS COMPROBACIONES NECESARIAS QUE PON NO PDF
 
         if(destinatario==null){
             ReprTab.imprimirErro("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
@@ -741,13 +745,16 @@ public class Xogo implements Comandos {
          */
     }
 
+    /**
+     * Este método permite listar os tratos do xogador que ten o turno.
+     */
     @Override
     public void listarTratos(){
 
         //BORRAR ESTE ARRAYLIST E METERLLE A CADA XOGADOR UN HASHMAP COS SEUS TRATOS
         //AO CAHAMAR LISTAR TRATOS FACER ALGO TIPO this.turno.getXogador().listarTratos();
         for(Trato t:this.tratos){
-            System.out.println(t.describirTrato());
+            System.out.println(t.describirTrato()); //esto ta provisional
         }
     }
 
