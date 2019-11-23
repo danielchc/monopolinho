@@ -50,8 +50,11 @@ public  abstract class CasillaCarta extends Casilla {
      * Lista as cartas dispoñibles
      */
     public void listarCartas(){
-        for(Carta c:this.cartas)
-            System.out.println(c.getMensaxe());
+        int i=1;
+        for(Carta c:this.cartas){
+            System.out.println("\t"+i+".- "+c.getMensaxe());
+            i++;
+        }
     }
 
 }

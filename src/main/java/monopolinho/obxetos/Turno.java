@@ -118,7 +118,9 @@ public class Turno {
     public void listarAccions(){
         for(Accion h:historialAccion){
             if(h.getCasilla()!=null)
-                System.out.println(h.getCasilla().getNome()+" -> "+h.getTipo());
+                System.out.println(h.getTipo()+" -> "+h.getCasilla().getNome());
+            else
+                System.out.println(h.getTipo()+" -> "+h.dinheiro);
         }
     }
     /**

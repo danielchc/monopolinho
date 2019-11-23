@@ -1,2 +1,3 @@
-crear jugador Dani esfinxe
+crear jugador Dani pelota
 crear jugador David coche
+mova 9
