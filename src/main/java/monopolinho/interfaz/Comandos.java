@@ -5,6 +5,9 @@ import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.avatares.Avatar;
+import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
 
@@ -12,7 +15,7 @@ import java.util.ArrayList;
 
 public interface Comandos {
 
-    void describirCasilla(String nome);
+    void describirCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
     void describirXogador(String nome);
 
@@ -32,7 +35,7 @@ public interface Comandos {
 
     void sairCarcere();
 
-    void comprarCasilla(String[] cmds);
+    void comprarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
     void mostrarTaboeiro();
 
@@ -40,15 +43,15 @@ public interface Comandos {
 
     void mostrarEstadisticasXogo();
 
-    void hipotecarCasilla(String nome);
+    void hipotecarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
-    void deshipotecarCasilla(String nome);
+    void deshipotecarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
     void declararBancarrota();
 
-    void edificar(TipoEdificio tipo);
+    void edificar(TipoEdificio tipo) throws MonopolinhoNonSePodeConstruir;
 
-    void venderEdificio(TipoEdificio tipo, String casilla, int numero);
+    void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente;
 
     void mostrarTurno();
 

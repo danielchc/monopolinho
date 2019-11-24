@@ -9,7 +9,9 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.edificios.Edificio;
+import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -69,10 +71,11 @@ public class Xogo implements Comandos {
      * @param nome Nome da casilla
      */
     @Override
-    public void describirCasilla(String nome){
+    public void describirCasilla(String nome) throws MonopolinhoException {
         Casilla c=this.taboeiro.buscarCasilla(nome);
         if(c!=null)consola.imprimir(c.toString());
-        else Xogo.consola.imprimirErro("A casilla " + nome + " non existe");
+        else throw new MonopolinhoCasillaInexistente(nome);
+
     }
 
     /**
@@ -234,18 +237,16 @@ public class Xogo implements Comandos {
 
     /**
      * Este metodo engade unha casilla as propiedades do xogador.
-     * @param cmds Argumentos da función
+     * @param nome Argumentos da función
      */
     @Override
-    public void comprarCasilla(String[] cmds){
+    public void comprarCasilla(String nome) throws MonopolinhoException {
         if(comprobarCarcere())return;
         Xogador xogador=turno.getXogador();
-        Casilla target=this.taboeiro.buscarCasilla(cmds[1]);
+        Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade comprar;
-        if(target==null){
-            Xogo.consola.imprimirErro("A casilla "+cmds[1]+" non existe");
-            return;
-        }
+        if(target==null)throw new MonopolinhoCasillaInexistente(nome);
+
         if(!(target instanceof Propiedade)){
             Xogo.consola.imprimirErro("Este tipo de casilla non se pode comprar esta casilla");
             return;
@@ -321,14 +322,12 @@ public class Xogo implements Comandos {
      * @param nome Nome casilla
      */
     @Override
-    public void hipotecarCasilla(String nome){
+    public void hipotecarCasilla(String nome) throws MonopolinhoException {
         if(comprobarCarcere())return;
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade c=null;
-        if(target==null){
-            Xogo.consola.imprimirErro("A casilla "+nome+" non existe");
-            return;
-        }
+        if(target==null)throw new MonopolinhoCasillaInexistente(nome);
+
         if(!(target instanceof Propiedade)){
             Xogo.consola.imprimirErro("Non se pode hipotecar este tipo de casilla");
             return;
@@ -360,14 +359,12 @@ public class Xogo implements Comandos {
      * @param nome Nome casilla
      */
     @Override
-    public void deshipotecarCasilla(String nome){
+    public void deshipotecarCasilla(String nome) throws MonopolinhoException {
         if(comprobarCarcere())return;
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade c=null;
-        if(target==null){
-            Xogo.consola.imprimirErro("A casilla "+nome+" non existe");
-            return;
-        }
+        if(target==null)throw new MonopolinhoCasillaInexistente(nome);
+
         if(!(target instanceof Propiedade)){
             Xogo.consola.imprimirErro("Non se pode deshipotecar este tipo de casilla");
             return;
@@ -413,31 +410,31 @@ public class Xogo implements Comandos {
      * @param tipo Tipo de edificio
      */
     @Override
-    public void edificar(TipoEdificio tipo){
+    public void edificar(TipoEdificio tipo) throws MonopolinhoNonSePodeConstruir {
         if(comprobarCarcere())return;
         Solar actual;
         Casilla target=turno.getPosicion();
-        if(!(target instanceof Solar)){
-            Xogo.consola.imprimirErro("Non se pode construir nunha casilla que non sexa un SOLAR");
-            return;
-        }
+        if(!(target instanceof Solar))
+            throw new MonopolinhoNonSePodeConstruir("Non se pode construir nunha casilla que non sexa un SOLAR");
         actual=(Solar)target;
-        if(tipo==null){
-            Xogo.consola.imprimirErro("Tipo de edificio incorrecto");
-            return;
-        }
-        if(!comprobarConstruir(actual,tipo))return;
+        if(tipo==null)
+            throw new MonopolinhoNonSePodeConstruir("Tipo de edificio incorrecto");
+        if(actual.getEstaHipotecada())
+            throw new MonopolinhoNonSePodeConstruir("Non podes construir nunha casilla hipotecada");
+        if(!actual.pertenceXogador(turno.getXogador()))
+            throw new MonopolinhoNonSePodeConstruir("Esta casilla non é túa, non a podes edificar.");
+        if(!actual.podeseEdificarMais(tipo))
+            throw new MonopolinhoNonSePodeConstruir("Non podes construir máis edificios do tipo "+tipo+" en "+actual.getNome());
+
         switch (tipo){
             case CASA:
                 if(!actual.getGrupo().tenTodoGrupo(turno.getXogador()) && actual.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
-                    Xogo.consola.imprimirErro("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
-                    return;
+                    throw new MonopolinhoNonSePodeConstruir("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
                 }
                 break;
             case HOTEL:
                 if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
-                    Xogo.consola.imprimirErro("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
-                    return;
+                    throw new MonopolinhoNonSePodeConstruir("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
                 }
                 int casasEliminadas=0;
                 ArrayList<Edificio> aBorrar=new ArrayList<>();
@@ -452,14 +449,12 @@ public class Xogo implements Comandos {
                 break;
             case PISCINA:
                 if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
-                    Xogo.consola.imprimirErro("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
-                    return;
+                    throw new MonopolinhoNonSePodeConstruir("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
                 }
                 break;
             case PISTA_DEPORTES:
                 if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
-                    Xogo.consola.imprimirErro("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
-                    return;
+                    throw new MonopolinhoNonSePodeConstruir("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
                 }
                 break;
         }
@@ -480,14 +475,12 @@ public class Xogo implements Comandos {
      * @param numero Número de edificios a vender
      */
     @Override
-    public void venderEdificio(TipoEdificio tipo, String casilla, int numero){
+    public void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente {
         if(comprobarCarcere())return;
         Casilla target=taboeiro.buscarCasilla(casilla);
         Solar c;
-        if(target==null){
-            Xogo.consola.imprimirErro("A casilla "+casilla+" non existe.");
-            return;
-        }
+        if(target==null)throw new MonopolinhoCasillaInexistente(casilla);
+
         if(!(target instanceof Solar)){
             Xogo.consola.imprimirErro("Non se pode vender edificios dunha casilla que non sexa un SOLAR");
             return;
@@ -611,8 +604,8 @@ public class Xogo implements Comandos {
                 turno.getXogador().meterNoCarcere();
                 turno.engadirAccion(new Accion(TipoAccion.IR_CARCEL));
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCERE
-                Xogo.consola.imprimirErro(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
+                Xogo.consola.imprimirErro(mensaxe+" Saion triples e vas para o cárcere.");
                 return;
             }else{
                 turno.setPodeLanzar(false);
@@ -704,7 +697,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void listarTratos(){
-        this.turno.getXogador().listarTratos();
+        consola.imprimir(this.turno.getXogador().listarTratos());
     }
 
     /**
@@ -939,30 +932,6 @@ public class Xogo implements Comandos {
             return true;
         }
         return false;
-    }
-    /**
-     * Este método comproba se se cumplen as condicións básicas de edificación.
-     * @param c Casilla
-     * @return True si se pode edificar, false se non
-     */
-    private boolean comprobarConstruir(Solar c, TipoEdificio tipo){
-        if(c.getEstaHipotecada()){
-            Xogo.consola.imprimirErro("Non podes construir nunha casilla hipotecada");
-            return false;
-        }
-        if(c instanceof Solar){
-            Xogo.consola.imprimirErro("Non podes edificar esta casilla");
-            return false;
-        }
-        if(!c.pertenceXogador(turno.getXogador())){
-            Xogo.consola.imprimirErro("Esta casilla non é túa, non a podes edificar.");
-            return false;
-        }
-        if(!c.podeseEdificarMais(tipo)){
-            Xogo.consola.imprimirErro("Non podes construir máis edificios do tipo "+tipo+" en "+c.getNome());
-            return false;
-        }
-        return true;
     }
 
     /**

@@ -5,8 +5,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
-import monopolinho.tipos.EstadoXogador;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
@@ -36,7 +35,7 @@ public class Servizo extends Propiedade {
                 xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
                 mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
             }else{
-                throw new MonopolinhoSinDinheiroException("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
+                throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
             }
         }
         xogo.getTurno().setPosicion(this);

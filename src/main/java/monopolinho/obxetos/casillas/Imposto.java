@@ -1,13 +1,11 @@
 package monopolinho.obxetos.casillas;
 
-import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
-import monopolinho.tipos.EstadoXogador;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
@@ -28,7 +26,7 @@ public class Imposto extends Casilla {
         if(xogador.quitarDinheiro(this.getImposto(), TipoTransaccion.IMPOSTO)){
             xogo.getTaboeiro().engadirBote(this.getImposto());
         }else{
-            throw new MonopolinhoSinDinheiroException("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto",xogador);
+            throw new MonopolinhoSinDinheiro("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto",xogador);
         }
         xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_IMPOSTO,this));
         xogo.getTurno().setPosicion(this);

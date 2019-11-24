@@ -8,7 +8,7 @@ import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.edificios.*;
 import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
-import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
@@ -36,7 +36,7 @@ public class Solar extends Propiedade {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoSinDinheiroException {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoSinDinheiro {
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         if(this.getEstaHipotecada()){
@@ -55,7 +55,7 @@ public class Solar extends Propiedade {
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
                     return mensaxe;
                 }else{
-                    throw new MonopolinhoSinDinheiroException("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
+                    throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
                 }
             }
         }

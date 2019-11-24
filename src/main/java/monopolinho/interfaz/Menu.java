@@ -203,7 +203,7 @@ public class Menu {
      * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
      * @param comando
      */
-    private void interpretarComando(String comando) throws MonopolinhoComando {
+    private void interpretarComando(String comando) throws MonopolinhoException {
         String[] cmds=comando.split(" ");
         if ((!xogo.partidaComezada())&&(cmds[0].toLowerCase().equals("crear"))){
             if(cmds.length!=4){
@@ -305,7 +305,7 @@ public class Menu {
                 if(cmds.length!=2){
                     throw new MonopolinhoComandoIncorrecto("Sintaxe: comprar <casilla>");
                 }
-                xogo.comprarCasilla(cmds);
+                xogo.comprarCasilla(cmds[1]);
                 break;
             case "edificar":
                 if(cmds.length==2){

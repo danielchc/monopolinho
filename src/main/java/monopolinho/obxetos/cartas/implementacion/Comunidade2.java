@@ -1,14 +1,12 @@
 package monopolinho.obxetos.cartas.implementacion;
 
-import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiroException;
-import monopolinho.tipos.EstadoXogador;
+import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
@@ -23,7 +21,7 @@ public class Comunidade2 extends CartaComunidade {
         Turno turno=xogo.getTurno();
         Xogador xogador=turno.getXogador();
         if(!xogador.quitarDinheiro(50000, TipoTransaccion.TASAS)){
-            throw new MonopolinhoSinDinheiroException(getMensaxe()+ ". Non tes suficiente diñeiro para pagar a acción",xogador);
+            throw new MonopolinhoSinDinheiro(getMensaxe()+ ". Non tes suficiente diñeiro para pagar a acción",xogador);
         }
         turno.engadirAccion(new Accion(TipoAccion.PAGAR_CARTA,50000));
         return getMensaxe();
