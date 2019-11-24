@@ -1,4 +1,4 @@
-package monopolinho.obxetos.casillas.casillacartas;
+package monopolinho.obxetos.casillas.especiales.cartas;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.Carta;
@@ -29,7 +29,7 @@ public  abstract class CasillaCarta extends Casilla {
         this.listarCartas();
         int nCarta=0;
         do{
-            System.out.print("Escolle unha carta (1-6): ");
+            Xogo.consola.imprimir("Escolle unha carta (1-6): ");
             nCarta=new Scanner(System.in).nextInt();
         }while(nCarta<1 || nCarta>6);
         return cartas.get(nCarta-1).accion(xogo);
@@ -49,12 +49,14 @@ public  abstract class CasillaCarta extends Casilla {
     /**
      * Lista as cartas dispoñibles
      */
-    public void listarCartas(){
+    public String listarCartas(){
+        String mensaxe="";
         int i=1;
         for(Carta c:this.cartas){
-            System.out.println("\t"+i+".- "+c.getMensaxe());
+            mensaxe+="\t"+i+".- "+c.getMensaxe();
             i++;
         }
+        return mensaxe;
     }
 
 }

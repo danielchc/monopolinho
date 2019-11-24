@@ -1,6 +1,7 @@
 package monopolinho.obxetos.excepcions;
 
 import monopolinho.axuda.ReprTab;
+import monopolinho.interfaz.Xogo;
 
 public abstract class MonopolinhoException extends Exception {
     public MonopolinhoException(String mensaxe) {
@@ -8,6 +9,6 @@ public abstract class MonopolinhoException extends Exception {
     }
 
     public void imprimirErro() {
-        ReprTab.imprimirErro(this.getMessage());
+        Xogo.consola.imprimirErro(this.getMessage());
     }
 }

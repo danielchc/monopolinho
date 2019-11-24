@@ -2,6 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
+import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 
@@ -39,7 +40,6 @@ public class Grupo {
      */
     public Grupo(String grupo_nome, Valor.ReprColor color,float valor,int numeroSolares){
         if(grupo_nome==null || color==null){
-            ReprTab.imprimirErro("Error: algun elemento non inicializado");
             return;
         }
         this.solares=new ArrayList<>();

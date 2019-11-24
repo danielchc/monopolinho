@@ -30,6 +30,7 @@ public class Xogo implements Comandos {
     private boolean partidaComezada;
     private EstadisticasXogo estadisticasXogo;
     private int numTratos;
+    public static final Consola consola = new ConsolaNormal();
 
     /**
      * Constructor da clase Xogo.
@@ -70,8 +71,8 @@ public class Xogo implements Comandos {
     @Override
     public void describirCasilla(String nome){
         Casilla c=this.taboeiro.buscarCasilla(nome);
-        if(c!=null)System.out.println(c);
-        else ReprTab.imprimirErro("A casilla " + nome + " non existe");
+        if(c!=null)consola.imprimir(c.toString());
+        else Xogo.consola.imprimirErro("A casilla " + nome + " non existe");
     }
 
     /**
@@ -82,11 +83,11 @@ public class Xogo implements Comandos {
     public void describirXogador(String nome){
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
-                System.out.println(x.describir());
+                consola.imprimir(x.describir());
                 return;
             }
         }
-        ReprTab.imprimirErro("O xogador " + nome + "non existe");
+        Xogo.consola.imprimirErro("O xogador " + nome + "non existe");
     }
 
     /**
@@ -97,11 +98,11 @@ public class Xogo implements Comandos {
     public void describirAvatar(String avatarId){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getId().equals(avatarId)){
-                System.out.println(x.getAvatar());
+                consola.imprimir(x.getAvatar());
                 return;
             }
         }
-        ReprTab.imprimirErro("O avatar " + avatarId + "non existe");
+        Xogo.consola.imprimirErro("O avatar " + avatarId + "non existe");
     }
 
     /**
@@ -112,7 +113,7 @@ public class Xogo implements Comandos {
         for(Grupo g:taboeiro.getGrupos()){
             for(Solar s:g.getSolares()){
                 for(Edificio e:s.getEdificios()){
-                    System.out.println(e.describirEdificio());
+                    consola.imprimir(e.describirEdificio());
                 }
             }
         }
@@ -125,15 +126,15 @@ public class Xogo implements Comandos {
     public void listarEdificiosGrupo(String cmds){
         Grupo grupo=taboeiro.buscarGrupo(cmds);
         if(grupo==null){
-            ReprTab.imprimirErro("Ese nome de grupo non existe.");
+            Xogo.consola.imprimirErro("Ese nome de grupo non existe.");
             return;
         }
         if(grupo.getNumeroEdificios()==0){
-            ReprTab.imprimirErro("Este grupo non ten edificios.");
+            Xogo.consola.imprimirErro("Este grupo non ten edificios.");
             return;
         }
         for(Solar c:grupo.getSolares()){
-            System.out.println(c.describirEdificios());
+            consola.imprimir(c.describirEdificios());
         }
     }
 
@@ -144,7 +145,7 @@ public class Xogo implements Comandos {
     @Override
     public void listarAvatares(){
         for(Xogador x:this.xogadores)
-            System.out.println(x.getAvatar());
+            consola.imprimir(x.getAvatar());
     }
 
     /**
@@ -153,7 +154,7 @@ public class Xogo implements Comandos {
     @Override
     public void listarXogadores(){
         for(Xogador x:this.xogadores)
-            System.out.println(x.describir());
+            consola.imprimir(x.describir());
     }
 
     /**
@@ -164,7 +165,7 @@ public class Xogo implements Comandos {
         for(ArrayList<Casilla> zona:this.taboeiro.getCasillas())
             for(Casilla c:zona)
                 if(c instanceof Propiedade)
-                    System.out.println(c);
+                    consola.imprimir(c);
     }
 
     /**
@@ -175,11 +176,11 @@ public class Xogo implements Comandos {
         Xogador actual=turno.getXogador();
         int novoTurno;
         if(turno.podeLanzar() && turno.getXogador().estadoXogador()!=EstadoXogador.BANCARROTA && turno.getXogador().getTurnosInvalidado()==0){
-            ReprTab.imprimirErro("Tes que tirar antes de pasar turno.");
+            Xogo.consola.imprimirErro("Tes que tirar antes de pasar turno.");
             return;
         }
         if(turno.getXogador().estadoXogador() == EstadoXogador.TEN_DEBEDAS){
-            ReprTab.imprimirErro("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
+            Xogo.consola.imprimirErro("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
             return;
         }
 
@@ -189,8 +190,8 @@ public class Xogo implements Comandos {
         }while(turno.getXogador().enBancarrota());
 
         if(comprobarFinPartida()){
-            System.out.println("\nFin da partida!!");
-            System.out.println("O xogador "+turno.getXogador().getNome()+ " gañou a partida");
+            consola.imprimir("\nFin da partida!!");
+            consola.imprimir("O xogador "+turno.getXogador().getNome()+ " gañou a partida");
             System.exit(0);
         }
         if(actual.estaNoCarcere())
@@ -198,18 +199,18 @@ public class Xogo implements Comandos {
 
         if(actual.getTurnosNoCarcere()==0){
             if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE, TipoTransaccion.OTROS)){
-                System.out.println("O xogador"+turno.getXogador().getNome()+" leva 3 turnos no carcere  paga "+ Valor.SAIR_CARCERE + " e sae da cárcere. E pode lanzar os dados.");
+                consola.imprimir("O xogador"+turno.getXogador().getNome()+" leva 3 turnos no carcere  paga "+ Valor.SAIR_CARCERE + " e sae da cárcere. E pode lanzar os dados.");
                 turno.getXogador().sairDoCarcere();
                 taboeiro.engadirBote(Valor.SAIR_CARCERE);
                 return;
             }else{
-                ReprTab.imprimirErro("O xogador leva 3 turnos no cárcere e non ten cartos para saír, o xogador debe declararse en bancarrota");
+                Xogo.consola.imprimirErro("O xogador leva 3 turnos no cárcere e non ten cartos para saír, o xogador debe declararse en bancarrota");
                 turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
                 return;
             }
         }
         actual.restarTurnosInvalidado();
-        System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getXogador().getNome());
+        consola.imprimir("Tiña o turno "+actual.getNome()+", agora teno "+turno.getXogador().getNome());
         turno.getXogador().listarTratos();
     }
 
@@ -219,15 +220,15 @@ public class Xogo implements Comandos {
     @Override
     public void sairCarcere(){
         if (!turno.getXogador().estaNoCarcere()){
-            System.out.println("O xogador non está no cárcere");
+            consola.imprimir("O xogador non está no cárcere");
             return;
         }
         if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE, TipoTransaccion.OTROS)){
-            System.out.println(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Podes lanzar os dados.");
+            consola.imprimir(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Podes lanzar os dados.");
             turno.getXogador().sairDoCarcere();
             taboeiro.engadirBote(Valor.SAIR_CARCERE);
         }else{
-            ReprTab.imprimirErro("Non tes o suficiente diñeiro para saír do cárcere");
+            Xogo.consola.imprimirErro("Non tes o suficiente diñeiro para saír do cárcere");
         }
     }
 
@@ -242,45 +243,45 @@ public class Xogo implements Comandos {
         Casilla target=this.taboeiro.buscarCasilla(cmds[1]);
         Propiedade comprar;
         if(target==null){
-            ReprTab.imprimirErro("A casilla "+cmds[1]+" non existe");
+            Xogo.consola.imprimirErro("A casilla "+cmds[1]+" non existe");
             return;
         }
         if(!(target instanceof Propiedade)){
-            ReprTab.imprimirErro("Este tipo de casilla non se pode comprar esta casilla");
+            Xogo.consola.imprimirErro("Este tipo de casilla non se pode comprar esta casilla");
             return;
         }
         comprar=(Propiedade)target;
         if(turno.getVecesTiradas()==0){
-            System.out.println("Non podes comprar unha casilla se non lanzaches os dados");
+            consola.imprimir("Non podes comprar unha casilla se non lanzaches os dados");
             return;
         }
         if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
             if(!this.turno.getHistorial().contains(comprar)){
-                ReprTab.imprimirErro("Non pasaches por esta casilla neste turno");
+                Xogo.consola.imprimirErro("Non pasaches por esta casilla neste turno");
                 return;
             }
         }else{
             if(!this.turno.getPosicion().equals(comprar)){
-                ReprTab.imprimirErro("Non estás nesta casilla, non a podes comprar");
+                Xogo.consola.imprimirErro("Non estás nesta casilla, non a podes comprar");
                 return;
             }
         }
         if (!comprar.pertenceXogador(banca)){
-            ReprTab.imprimirErro("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
+            Xogo.consola.imprimirErro("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
             return;
         }
         if(!xogador.quitarDinheiro(comprar.getValor(), TipoTransaccion.COMPRA)){
-            ReprTab.imprimirErro("Non tes suficiente diñeiro");
+            Xogo.consola.imprimirErro("Non tes suficiente diñeiro");
             return ;
         }
         if(xogador.getAvatar().getTipo()==TipoMovemento.COCHE && xogador.getAvatar().getModoXogo()==ModoXogo.AVANZADO && turno.getCompradasTurno()>=1){
-            ReprTab.imprimirErro("Non podes facer máis compras neste turno");
+            Xogo.consola.imprimirErro("Non podes facer máis compras neste turno");
             return;
         }
 
         comprar.comprar(this.turno.getXogador());
         turno.engadirAccion(new Accion(TipoAccion.COMPRAR,comprar));
-        System.out.println("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
+        consola.imprimir("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
 
 
@@ -289,7 +290,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void mostrarTaboeiro(){
-        System.out.println(taboeiro);
+        consola.imprimir(taboeiro);
     }
 
     /**
@@ -300,11 +301,11 @@ public class Xogo implements Comandos {
     public void mostrarEstadisticasXogador(String nome){
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
-                System.out.println(x.getEstadisticas());
+                consola.imprimir(x.getEstadisticas());
                 return;
             }
         }
-        System.out.println("Non se atopou o xogador "+nome);
+        consola.imprimir("Non se atopou o xogador "+nome);
     }
 
     /**
@@ -312,7 +313,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void mostrarEstadisticasXogo(){
-        System.out.println(estadisticasXogo);
+        consola.imprimir(estadisticasXogo);
     }
 
     /**
@@ -325,31 +326,31 @@ public class Xogo implements Comandos {
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade c=null;
         if(target==null){
-            ReprTab.imprimirErro("A casilla "+nome+" non existe");
+            Xogo.consola.imprimirErro("A casilla "+nome+" non existe");
             return;
         }
         if(!(target instanceof Propiedade)){
-            ReprTab.imprimirErro("Non se pode hipotecar este tipo de casilla");
+            Xogo.consola.imprimirErro("Non se pode hipotecar este tipo de casilla");
             return;
         }
         c=(Propiedade)target;
         if(!c.pertenceXogador(turno.getXogador())){
-            ReprTab.imprimirErro("Non eres dono de esta casilla");
+            Xogo.consola.imprimirErro("Non eres dono de esta casilla");
             return;
         }
         if(c.getEstaHipotecada()){
-            ReprTab.imprimirErro("Esta casilla xa está hipotecada");
+            Xogo.consola.imprimirErro("Esta casilla xa está hipotecada");
             return;
         }
         if((c instanceof Solar) && (((Solar)c).getEdificios().size()!=0)){
-            ReprTab.imprimirErro(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
+            Xogo.consola.imprimirErro(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
             return;
         }
 
         c.setEstaHipotecada(true);
         c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
         turno.engadirAccion(new Accion(TipoAccion.HIPOTECAR,c));
-        System.out.println("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
+        consola.imprimir("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
 
     }
 
@@ -364,30 +365,30 @@ public class Xogo implements Comandos {
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade c=null;
         if(target==null){
-            ReprTab.imprimirErro("A casilla "+nome+" non existe");
+            Xogo.consola.imprimirErro("A casilla "+nome+" non existe");
             return;
         }
         if(!(target instanceof Propiedade)){
-            ReprTab.imprimirErro("Non se pode deshipotecar este tipo de casilla");
+            Xogo.consola.imprimirErro("Non se pode deshipotecar este tipo de casilla");
             return;
         }
         c=(Propiedade)target;
         if(!c.pertenceXogador(turno.getXogador())){
-            ReprTab.imprimirErro("Non eres dono de esta casilla");
+            Xogo.consola.imprimirErro("Non eres dono de esta casilla");
             return;
         }
         if(!c.getEstaHipotecada()){
-            ReprTab.imprimirErro("Esta casilla non está hipotecada");
+            Xogo.consola.imprimirErro("Esta casilla non está hipotecada");
             return;
         }
 
         if(!c.getDono().quitarDinheiro(c.getHipoteca()*1.1f, TipoTransaccion.OTROS)){
-            ReprTab.imprimirErro("Non tes o suficiente diñeiro para deshipotecar a propiedade");
+            Xogo.consola.imprimirErro("Non tes o suficiente diñeiro para deshipotecar a propiedade");
             return;
         }
         c.setEstaHipotecada(false);
         turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
-        System.out.println("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
+        consola.imprimir("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
 
     }
 
@@ -403,7 +404,7 @@ public class Xogo implements Comandos {
             //PA O XOGADOR QUE TES A DEBEDA, normalmente vas ter a débeda co xogador da casilla na que estás
             //c.setDono(this.turno.getPosicion().getDono());
         }
-        System.out.println("\nO xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
+        consola.imprimir("\nO xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
         pasarTurno();
     }
 
@@ -417,25 +418,25 @@ public class Xogo implements Comandos {
         Solar actual;
         Casilla target=turno.getPosicion();
         if(!(target instanceof Solar)){
-            ReprTab.imprimirErro("Non se pode construir nunha casilla que non sexa un SOLAR");
+            Xogo.consola.imprimirErro("Non se pode construir nunha casilla que non sexa un SOLAR");
             return;
         }
         actual=(Solar)target;
         if(tipo==null){
-            ReprTab.imprimirErro("Tipo de edificio incorrecto");
+            Xogo.consola.imprimirErro("Tipo de edificio incorrecto");
             return;
         }
         if(!comprobarConstruir(actual,tipo))return;
         switch (tipo){
             case CASA:
                 if(!actual.getGrupo().tenTodoGrupo(turno.getXogador()) && actual.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
-                    ReprTab.imprimirErro("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
+                    Xogo.consola.imprimirErro("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+actual.getNome());
                     return;
                 }
                 break;
             case HOTEL:
                 if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
-                    ReprTab.imprimirErro("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
+                    Xogo.consola.imprimirErro("Necesitas 4 casas en "+actual.getNome()+" para edificar un hotel");
                     return;
                 }
                 int casasEliminadas=0;
@@ -451,24 +452,24 @@ public class Xogo implements Comandos {
                 break;
             case PISCINA:
                 if(actual.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
-                    ReprTab.imprimirErro("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
+                    Xogo.consola.imprimirErro("Necesitas polo menos 2 casas e 1 hotel en "+actual.getNome()+" para edificar unha piscina.");
                     return;
                 }
                 break;
             case PISTA_DEPORTES:
                 if(actual.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
-                    ReprTab.imprimirErro("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
+                    Xogo.consola.imprimirErro("Necesitas polo menos 2 hoteles en "+actual.getNome()+" para edificar unha pista de deportes.");
                     return;
                 }
                 break;
         }
         if(!turno.getXogador().quitarDinheiro(actual.getPrecioEdificio(tipo), TipoTransaccion.EDIFICAR)){
-            ReprTab.imprimirErro("Non tes suficiente diñeiro para edificar");
+            Xogo.consola.imprimirErro("Non tes suficiente diñeiro para edificar");
             return ;
         }
         actual.edificar(tipo);
         turno.engadirAccion(new Accion(TipoAccion.EDIFICAR,actual));
-        System.out.println("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+actual.getPrecioEdificio(tipo));
+        consola.imprimir("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+actual.getPrecioEdificio(tipo));
     }
 
 
@@ -484,32 +485,32 @@ public class Xogo implements Comandos {
         Casilla target=taboeiro.buscarCasilla(casilla);
         Solar c;
         if(target==null){
-            ReprTab.imprimirErro("A casilla "+casilla+" non existe.");
+            Xogo.consola.imprimirErro("A casilla "+casilla+" non existe.");
             return;
         }
         if(!(target instanceof Solar)){
-            ReprTab.imprimirErro("Non se pode vender edificios dunha casilla que non sexa un SOLAR");
+            Xogo.consola.imprimirErro("Non se pode vender edificios dunha casilla que non sexa un SOLAR");
             return;
         }
         c=(Solar)target;
         if(tipo==null){
-            ReprTab.imprimirErro("Tipo de edificio incorrecto.");
+            Xogo.consola.imprimirErro("Tipo de edificio incorrecto.");
             return;
         }
 
         if(!c.pertenceXogador(turno.getXogador())){
-            ReprTab.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
+            Xogo.consola.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
             return;
         }
         if(c.getEstaHipotecada()){
-            ReprTab.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque está hipotecada");
+            Xogo.consola.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque está hipotecada");
             return;
         }
 
         int totalEdifs=c.getNumeroEdificiosTipo(tipo);
         float valor = numero*c.getPrecioEdificio(tipo)/2.0f;
         if(totalEdifs<numero){
-            ReprTab.imprimirErro("Non podes vender edificios de tipo "+tipo+". Solamente tes "+totalEdifs+" de tipo "+tipo+" por valor de "+valor);
+            Xogo.consola.imprimirErro("Non podes vender edificios de tipo "+tipo+". Solamente tes "+totalEdifs+" de tipo "+tipo+" por valor de "+valor);
         }
 
         int edifsEliminados=0;
@@ -525,7 +526,7 @@ public class Xogo implements Comandos {
         }
 
         turno.getXogador().engadirDinheiro(valor, TipoTransaccion.OTROS);
-        System.out.println("Vendiches "+numero+" edificios de tipo "+tipo+" e recibes "+valor);
+        consola.imprimir("Vendiches "+numero+" edificios de tipo "+tipo+" e recibes "+valor);
     }
 
     /**
@@ -533,8 +534,8 @@ public class Xogo implements Comandos {
      */
     @Override
     public void mostrarTurno() {
-        if (turno!=null)System.out.println(turno.getXogador());
-        else ReprTab.imprimirErro("Non hai xogadores");
+        if (turno!=null)consola.imprimir(turno.getXogador());
+        else Xogo.consola.imprimirErro("Non hai xogadores");
     }
 
     /**
@@ -546,7 +547,7 @@ public class Xogo implements Comandos {
     @Override
     public boolean crearXogador(String nombre, TipoMovemento tipoMov){
         if(this.partidaComezada){
-            ReprTab.imprimirErro("Non se pode crear un xogador durante a partida");
+            Xogo.consola.imprimirErro("Non se pode crear un xogador durante a partida");
             return false;
         }
         Xogador xogador=new Xogador(nombre, tipoMov);
@@ -560,7 +561,7 @@ public class Xogo implements Comandos {
         if(this.xogadores.indexOf(xogador)==0)
             this.turno=new Turno(this.xogadores.get(0));
         xogador.setPosicion(this.taboeiro.getCasilla(0));
-        System.out.println(xogador);
+        consola.imprimir(xogador);
         return true;
     }
 
@@ -573,15 +574,15 @@ public class Xogo implements Comandos {
     @Override
     public void lanzarDados(){
         if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS){
-            ReprTab.imprimirErro("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
+            Xogo.consola.imprimirErro("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
             return;
         }
         if(!turno.podeLanzar()){
-            ReprTab.imprimirErro("O xogador xa lanzou os dados. Non se poden lanzar de novo");
+            Xogo.consola.imprimirErro("O xogador xa lanzou os dados. Non se poden lanzar de novo");
             return;
         }
         if(turno.getXogador().getTurnosInvalidado()>0){
-            ReprTab.imprimirErro("O xogador ten que esperar "+turno.getXogador().getTurnosInvalidado()+" turno para volver a lanzar");
+            Xogo.consola.imprimirErro("O xogador ten que esperar "+turno.getXogador().getTurnosInvalidado()+" turno para volver a lanzar");
             return;
         }
         dados.lanzarDados();
@@ -593,14 +594,14 @@ public class Xogo implements Comandos {
 
         if(turno.getXogador().estaNoCarcere()){
             if(!dados.sonDobles()){
-                System.out.println("Estás no CÁRCERE");
-                ReprTab.imprimirErro(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
+                consola.imprimir("Estás no CÁRCERE");
+                Xogo.consola.imprimirErro(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
                 turno.setPodeLanzar(false);
                 return;
             }else{
                 turno.getXogador().sairDoCarcere();
                 turno.setVecesTiradas(0);
-                System.out.println(mensaxe+". Sacaches dados dobles, saíches do cárcere. Tes que volver a lanzar.");
+                consola.imprimir(mensaxe+". Sacaches dados dobles, saíches do cárcere. Tes que volver a lanzar.");
                 return;
             }
         }else{
@@ -610,14 +611,14 @@ public class Xogo implements Comandos {
                 turno.getXogador().meterNoCarcere();
                 turno.engadirAccion(new Accion(TipoAccion.IR_CARCEL));
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCERE
-                ReprTab.imprimirErro(mensaxe+" Saion triples e vas para o cárcere.");
+                Xogo.consola.imprimirErro(mensaxe+" Saion triples e vas para o cárcere.");
                 turno.setPodeLanzar(false);
                 return;
             }else{
                 turno.setPodeLanzar(false);
             }
         }
-        System.out.println(mensaxe);
+        consola.imprimir(mensaxe);
         if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL){
             moverModoNormal(dados.valorLanzar());
         }else{
@@ -632,7 +633,7 @@ public class Xogo implements Comandos {
         else if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO)
             turno.getXogador().getAvatar().setModoXogo(ModoXogo.NORMAL);
 
-        System.out.println("O avatar "+turno.getXogador().getAvatar().getId() + " de tipo "+turno.getXogador().getAvatar().getTipo() +" cambia de modo "+turno.getXogador().getAvatar().getModoXogo());
+        consola.imprimir("O avatar "+turno.getXogador().getAvatar().getId() + " de tipo "+turno.getXogador().getAvatar().getTipo() +" cambia de modo "+turno.getXogador().getAvatar().getModoXogo());
     }
 
 
@@ -650,11 +651,11 @@ public class Xogo implements Comandos {
 
 
         if(destinatario==null){
-            ReprTab.imprimirErro("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
+            Xogo.consola.imprimirErro("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
             return;
         }
         if(emisor.equals(destinatario)){
-            ReprTab.imprimirErro("Non podes propoñer un trato a ti mismo.");
+            Xogo.consola.imprimirErro("Non podes propoñer un trato a ti mismo.");
             return;
         }
 
@@ -693,7 +694,7 @@ public class Xogo implements Comandos {
                 trato.engadirPropiedadeDemanda((Propiedade)c);
             }
         }
-        System.out.println(trato);
+        consola.imprimir(trato);
         destinatario.engadirTrato(trato);
         this.numTratos++;
     }
@@ -724,17 +725,17 @@ public class Xogo implements Comandos {
         for(Xogador x:this.xogadores){
             if(!this.turno.getXogador().equals(x)){
                 if(x.eliminarTrato(id.toLowerCase())){
-                    System.out.println(id+" eliminado correctamente.");
+                    consola.imprimir(id+" eliminado correctamente.");
                     return;
                 }
             }
         }
-        System.out.println("Non se puido eliminar o "+id);
+        consola.imprimir("Non se puido eliminar o "+id);
     }
 
 
     public void listarAccions(){
-        turno.listarAccions();
+        consola.imprimir(turno.listarAccions());
     }
 
 
@@ -814,7 +815,7 @@ public class Xogo implements Comandos {
      */
 
     public void moverModoNormal(int valorDados){
-        System.out.println(turno.getXogador().getAvatar().moverEnBasico(this,valorDados));
+        consola.imprimir(turno.getXogador().getAvatar().moverEnBasico(this,valorDados));
     }
 
     /**
@@ -876,15 +877,15 @@ public class Xogo implements Comandos {
      */
     private boolean comprobarOfrecerTrato(Casilla c,Xogador x,String nome){
         if(c==null){
-            ReprTab.imprimirErro(nome+" non é unha casilla válida. Trato cancelado.");
+            Xogo.consola.imprimirErro(nome+" non é unha casilla válida. Trato cancelado.");
             return false;
         }
         if(!(c instanceof Propiedade)){
-            ReprTab.imprimirErro(nome+" non é unha propiedade. Trato cancelado.");
+            Xogo.consola.imprimirErro(nome+" non é unha propiedade. Trato cancelado.");
             return false;
         }
         if(!((Propiedade) c).getDono().equals(x)){
-            ReprTab.imprimirErro("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
+            Xogo.consola.imprimirErro("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
             return false;
         }
         return true;
@@ -934,7 +935,7 @@ public class Xogo implements Comandos {
      */
     private boolean comprobarCarcere(){
         if(this.turno.getXogador().estaNoCarcere()){
-            ReprTab.imprimirErro("Non podes realizar está acción porque estás no cárcere");
+            Xogo.consola.imprimirErro("Non podes realizar está acción porque estás no cárcere");
             return true;
         }
         return false;
@@ -946,19 +947,19 @@ public class Xogo implements Comandos {
      */
     private boolean comprobarConstruir(Solar c, TipoEdificio tipo){
         if(c.getEstaHipotecada()){
-            ReprTab.imprimirErro("Non podes construir nunha casilla hipotecada");
+            Xogo.consola.imprimirErro("Non podes construir nunha casilla hipotecada");
             return false;
         }
         if(c instanceof Solar){
-            ReprTab.imprimirErro("Non podes edificar esta casilla");
+            Xogo.consola.imprimirErro("Non podes edificar esta casilla");
             return false;
         }
         if(!c.pertenceXogador(turno.getXogador())){
-            ReprTab.imprimirErro("Esta casilla non é túa, non a podes edificar.");
+            Xogo.consola.imprimirErro("Esta casilla non é túa, non a podes edificar.");
             return false;
         }
         if(!c.podeseEdificarMais(tipo)){
-            ReprTab.imprimirErro("Non podes construir máis edificios do tipo "+tipo+" en "+c.getNome());
+            Xogo.consola.imprimirErro("Non podes construir máis edificios do tipo "+tipo+" en "+c.getNome());
             return false;
         }
         return true;

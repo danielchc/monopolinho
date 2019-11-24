@@ -73,7 +73,7 @@ public class EstadisticasXogador {
      * Aumenta os cartos por pasar pola casilla de salida
      * @param engadir
      */
-    public void engadirPasarPolaCasillaDeSalida(float engadir){
+    public void engadirPasarPolaCasillaDeSaida(float engadir){
         this.pasarPolaCasillaDeSalida+=engadir;
     }
 

@@ -15,7 +15,6 @@ import monopolinho.tipos.TipoMovemento;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * @author Daniel Chenel
@@ -132,11 +131,13 @@ public class Xogador {
     /**
      * Este método lista todos os tratos do xogador
      */
-    public void listarTratos(){
+    public String listarTratos(){
+        String tratos="";
         Collection<Trato> col=this.tratos.values();
         for (Trato t:col){
-            System.out.println(t.describirTrato());
+            tratos+=t.describirTrato()+"\n";
         }
+        return tratos;
     }
 
     /**
@@ -149,7 +150,7 @@ public class Xogador {
                 this.estadisticas.engadirPremiosInversionesOBote(dinero);
                 break;
             case VOLTA_COMPLETA:
-                this.estadisticas.engadirPasarPolaCasillaDeSalida(dinero);
+                this.estadisticas.engadirPasarPolaCasillaDeSaida(dinero);
                 break;
             case ALQUILER:
                 this.estadisticas.engadirCobroDeAlquileres(dinero);

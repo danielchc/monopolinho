@@ -14,7 +14,7 @@ public class Sorte5 extends CartaComunidade {
 
     @Override
     public String accion(Xogo xogo) {
-        System.out.println(getMensaxe());
+        Xogo.consola.imprimir(getMensaxe());
         xogo.moverModoNormal(-3);
         return "";
     }

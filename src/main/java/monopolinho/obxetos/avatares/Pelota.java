@@ -20,18 +20,18 @@ public class Pelota extends Avatar{
         Turno turno=xogo.getTurno();
         int cPos=turno.getPosicion().getPosicionIndex();
 
-        System.out.println("Encontraste en "+ turno.getPosicion().getNome());
+        Xogo.consola.imprimir("Encontraste en "+ turno.getPosicion().getNome());
         if(valorDados>4){
             for(int i=5;i<=valorDados;i+=2){
                 next=xogo.getTaboeiro().getCasilla(cPos+i);
-                System.out.println("Avanzaches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(xogo,i));
+                Xogo.consola.imprimir("Avanzaches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(xogo,i));
                 if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
                 if(turno.getXogador().estadoXogador()== EstadoXogador.TEN_DEBEDAS)return;
             }
         }else{
             for(int i=1;i<=valorDados;i+=2){
                 next=xogo.getTaboeiro().getCasilla(cPos+i);
-                System.out.println("Retrocedeches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(xogo,i));
+                Xogo.consola.imprimir("Retrocedeches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(xogo,i));
                 if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
                 if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
             }

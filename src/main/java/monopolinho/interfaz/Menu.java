@@ -3,6 +3,7 @@ package monopolinho.interfaz;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.excepcions.MonopolinhoComando;
 import monopolinho.obxetos.excepcions.MonopolinhoComandoIncorrecto;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
@@ -31,7 +32,7 @@ public class Menu {
      */
     public Menu(){
         xogadores=new ArrayList<>();
-        System.out.println(ReprTab.debuxoSimple());
+        Xogo.consola.imprimir(ReprTab.debuxoSimple());
         xogo=new Xogo();
     }
 
@@ -45,25 +46,25 @@ public class Menu {
      * Este metodo permite preguntar o numero de xogadores e crealos.
      */
     public void preguntarXogadores(){
-        System.out.print("\n\nInserta o numero de xogadores: ");
+        Xogo.consola.imprimir("\n\nInserta o numero de xogadores: ");
         Scanner input=new Scanner(System.in);
         while (!input.hasNextInt()) input.next();
         int numXogadores = input.nextInt();
         input.nextLine();
         if (numXogadores>1){
             for (int i=1;i<=numXogadores;i++){
-                System.out.println("Introduce o nome do xogador "+i+": ");
+                Xogo.consola.imprimir("Introduce o nome do xogador "+i+": ");
                 String nome=input.nextLine();
-                System.out.println("Introduce o tipo de movemento do xogador <coche/sombreiro/esfinxe/pelota> "+i+": ");
+                Xogo.consola.imprimir("Introduce o tipo de movemento do xogador <coche/sombreiro/esfinxe/pelota> "+i+": ");
                 String mov=input.nextLine();
                 if((nome.toLowerCase().equals("banca"))||!xogo.crearXogador(nome,interpretarMov(mov))){
-                    ReprTab.imprimirErro("Xa existe un usuario que se chama así");
+                    Xogo.consola.imprimirErro("Xa existe un usuario que se chama así");
                     i--;
                 }
             }
             xogo.comezarPartida();
         }else {
-            ReprTab.imprimirErro("Debe haber polo menos dous xogadores");
+            Xogo.consola.imprimirErro("Debe haber polo menos dous xogadores");
             System.exit(1);
         }
     }
@@ -87,7 +88,7 @@ public class Menu {
             case "coche":
                 return TipoMovemento.COCHE;
             default:
-                System.out.println("\nAvatar inválido, asignouseche o coche por defecto.");
+                Xogo.consola.imprimir("\nAvatar inválido, asignouseche o coche por defecto.");
                 return TipoMovemento.COCHE;
         }
     }
@@ -116,11 +117,11 @@ public class Menu {
      */
     public void consola() {
         mostrarComandos();
-        Scanner scanner= new Scanner(System.in);
+
         while(true){
-            System.out.print("$> ");
+            Xogo.consola.imprimirsl("$> ");
             try{
-                interpretarComando(scanner.nextLine());
+                interpretarComando(Xogo.consola.leer(""));
             }catch (MonopolinhoException e){
                 e.imprimirErro();
             }
@@ -136,16 +137,16 @@ public class Menu {
             FileReader fileRead = new FileReader(directorio);
             buffRead = new BufferedReader(fileRead);
         } catch (FileNotFoundException notFound) {
-            System.out.println(notFound.getMessage());
+            Xogo.consola.imprimir(notFound.getMessage());
             System.exit(0);
         }
         String leido = null;
         while ((leido = buffRead.readLine()) != null) {
             if (leido.equals("stop")){
-                System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,"Esperando a entrada para continuar..."));
+                Xogo.consola.imprimirAuto("Esperando a entrada para continuar...");
                 new Scanner(System.in).nextLine();
             }else{
-                System.out.println("$> " + ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,leido));
+                Xogo.consola.imprimirAuto("Esperando a entrada para continuar...","$> " );
                 try{
                     interpretarComando(leido);
                 }catch (MonopolinhoException e){
@@ -153,7 +154,7 @@ public class Menu {
                 }
             }
         }
-        System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_GREEN_BOLD,"Volvendo o modo consola..."));
+        Xogo.consola.imprimirAuto("Volvendo o modo consola...");
         consola();
     }
 
@@ -161,50 +162,48 @@ public class Menu {
      * Este metodo mostra por pantalla todos os comandos dispoñibles.
      */
     private void mostrarComandos(){
-        String comandos="\n\nComandos dispoñibles:" +
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"xogador" )+"\tIndica o xogador que ten o turno ten turno"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar" )+
-                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar xogadores" )+"\tMostra os xogadores"+
-                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar avatares" )+"\tMostra os avatares dos xogadores"+
-                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar enventa" )+"\tMostra as propiedades en venta"+
-                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar edificios" )+"\tMostra os edificios"+
-                "\n\t\t- " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"listar edificios <grupo>" )+"\tMostra os edificios dun grupo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"lanzar dados")+ "\tLanza os dados"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"acabar turno")+ "\tAcaba o turno"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair" )+"\tSae do xogo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"sair carcere")+"\tO xogador sae do cárcere pagando unha tasa"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir <casilla>" )+"\tDescribe unha casilla"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir xogador <nome>" )+"\tDescribe un xogador"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"describir avatar <avatar>")+"\tDescribe un avatar"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comprar <casilla>" )+"\tCompra unha casilla"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"edificar <casa/hotel/piscina/pista>" )+"\tConstrue un edificio"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"vender <casa/hotel/piscina/pista> <casilla> <numero>" )+"\tVende un edificio"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"bancarrota" )+ "\tDeclara o xogador en bancarrota"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"hipotecar <casilla>" )+"\tHipoteca unha propiedade"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"deshipotecar <casilla>" )+"\tDeshipoteca unha propiedade"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas" )+"\tMostra as estadisticas do xogo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"estadisticas <xogador>" )+"\tMostra as estadisticas do xogo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"ver taboeiro" )+"\tMostra a representación do taboeiro"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"cambiar modo" )+"\tCambia de modo de xogo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"trato <nombre>: cambiar" )+
-                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2>)" )+ "\tCambia propiedade1 por propiedade2"+
-                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade>,diñeiro)" )+"\tCambia propiedade por X diñeiro"+
-                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(diñeiro,<propiedade>)" )+"\tCambia X diñeiro por propiedade"+
-                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2> e diñeiro)" )+ "\tCambia propiedade1 por propiedade2 mais diñeiro"+
-                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1> e diñeiro,<propiedade>)" )+ "\tCambia propiedade1 mais diñerio por propiedade2"+
-                "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2> e nonalquiler(<propiedade3>,turnos))" )+ "\tCambia propiedade1 por propiedade2 e non pagar alquiler en propiedade3 X turnos"+
-                "\n\tPropoñer un trato a outro xogador"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"aceptar <trato>" )+"\tAcepta un trato que se che propuxo"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"eliminar <trato>" )+"\tElimina un trato que propuxeches"+
-                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos")+"\tMostra esta mensaxe de axuda";
-        System.out.println(comandos);
+        Xogo.consola.imprimir("\n\nComandos dispoñibles:");
+        Xogo.consola.imprimirComando("xogador" ,"Indica o xogador que ten o turno ten turno");
+        Xogo.consola.imprimirComando("listar","" );
+        Xogo.consola.imprimirSubComando("listar xogadores" ,"Mostra os xogadores");
+        Xogo.consola.imprimirSubComando("listar avatares" ,"Mostra os avatares dos xogadores");
+        Xogo.consola.imprimirSubComando("listar enventa" ,"Mostra as propiedades en venta");
+        Xogo.consola.imprimirSubComando("listar edificios" ,"Mostra os edificios");
+        Xogo.consola.imprimirSubComando("listar edificios <grupo>" ,"Mostra os edificios dun grupo");
+        Xogo.consola.imprimirComando("lanzar dados","Lanza os dados");
+        Xogo.consola.imprimirComando("acabar turno","Acaba o turno");
+        Xogo.consola.imprimirComando("sair" ,"Sae do xogo");
+        Xogo.consola.imprimirComando("sair carcere","O xogador sae do cárcere pagando unha tasa");
+        Xogo.consola.imprimirComando("describir <casilla>" ,"Describe unha casilla");
+        Xogo.consola.imprimirComando("describir xogador <nome>" ,"Describe un xogador");
+        Xogo.consola.imprimirComando("describir avatar <avatar>","Describe un avatar");
+        Xogo.consola.imprimirComando("comprar <casilla>" ,"Compra unha casilla");
+        Xogo.consola.imprimirComando("edificar <casa/hotel/piscina/pista>" ,"Construe un edificio");
+        Xogo.consola.imprimirComando("vender <casa/hotel/piscina/pista> <casilla> <numero>" ,"Vende un edificio");
+        Xogo.consola.imprimirComando("bancarrota","Declara o xogador en bancarrota");
+        Xogo.consola.imprimirComando("hipotecar <casilla>" ,"Hipoteca unha propiedade");
+        Xogo.consola.imprimirComando("deshipotecar <casilla>" ,"Deshipoteca unha propiedade");
+        Xogo.consola.imprimirComando("estadisticas" ,"Mostra as estadisticas do xogo");
+        Xogo.consola.imprimirComando("estadisticas <xogador>" ,"Mostra as estadisticas do xogo");
+        Xogo.consola.imprimirComando("ver taboeiro" ,"Mostra a representación do taboeiro");
+        Xogo.consola.imprimirComando("cambiar modo" ,"Cambia de modo de xogo");
+        Xogo.consola.imprimirComando("trato <nombre>: cambiar","" );
+        Xogo.consola.imprimirSubComando("(<propiedade1>,<propiedade2>)","Cambia propiedade1 por propiedade2");
+        Xogo.consola.imprimirSubComando("(<propiedade>,diñeiro)" ,"Cambia propiedade por X diñeiro");
+        Xogo.consola.imprimirSubComando("(diñeiro,<propiedade>)" ,"Cambia X diñeiro por propiedade");
+        Xogo.consola.imprimirSubComando("(<propiedade1>,<propiedade2> e diñeiro)","Cambia propiedade1 por propiedade2 mais diñeiro");
+        Xogo.consola.imprimirSubComando("(<propiedade1> e diñeiro,<propiedade>)","Cambia propiedade1 mais diñerio por propiedade2");
+        Xogo.consola.imprimirSubComando("(<propiedade1>,<propiedade2> e nonalquiler(<propiedade3>,turnos))" ,"Cambia propiedade1 por propiedade2 e non pagar alquiler en propiedade3 X turnos");
+        Xogo.consola.imprimirSubComando("aceptar <trato>" ,"Acepta un trato que se che propuxo");
+        Xogo.consola.imprimirSubComando("eliminar <trato>", "Elimina un trato que propuxeches");
+        Xogo.consola.imprimirComando("comandos","Mostra esta mensaxe de axuda");
     }
 
     /**
      * Este metodo interpreta o comando escrito e chama as funcions necesarias para realizar a accion do comando.
      * @param comando
      */
-    private void interpretarComando(String comando) throws MonopolinhoComandoIncorrecto {
+    private void interpretarComando(String comando) throws MonopolinhoComando {
         String[] cmds=comando.split(" ");
         if ((!xogo.partidaComezada())&&(cmds[0].toLowerCase().equals("crear"))){
             if(cmds.length!=4){
@@ -216,7 +215,7 @@ public class Menu {
         if(!xogo.partidaComezada()){
             if(xogo.getNumeroXogadores()>=2)xogo.comezarPartida();
             else {
-                ReprTab.imprimirErro("Non hai suficientes xogadores");
+                Xogo.consola.imprimirErro("Non hai suficientes xogadores");
                 return;
             }
         }
@@ -269,7 +268,7 @@ public class Menu {
             case "sair":
             case "exit":
                 if(cmds.length==1){
-                    System.out.println("Saindo...");
+                    Xogo.consola.imprimir("Saindo...");
                     System.exit(0);
                 }else if (cmds.length==2){
                     xogo.sairCarcere();
@@ -344,7 +343,7 @@ public class Menu {
                 break;
             case "estadisticas":
                 if(cmds.length==2){
-                   xogo.mostrarEstadisticasXogador(cmds[1]);
+                    xogo.mostrarEstadisticasXogador(cmds[1]);
                 }else{
                     xogo.mostrarEstadisticasXogo();
                 }
@@ -392,7 +391,7 @@ public class Menu {
                 mostrarComandos();
                 break;
             default:
-               throw new MonopolinhoComandoIncorrecto(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe ")+ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos"));
+                throw new MonopolinhoComando(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe comandos"));
         }
     }
 }

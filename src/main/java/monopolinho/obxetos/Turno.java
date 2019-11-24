@@ -115,13 +115,15 @@ public class Turno {
         return compradasTurno;
     }
 
-    public void listarAccions(){
+    public String listarAccions(){
+        String mensaxe="";
         for(Accion h:historialAccion){
             if(h.getCasilla()!=null)
-                System.out.println(h.getTipo()+" -> "+h.getCasilla().getNome());
+                mensaxe+=h.getTipo()+" -> "+h.getCasilla().getNome()+"\n";
             else
-                System.out.println(h.getTipo()+" -> "+h.dinheiro);
+                mensaxe+=h.getTipo()+" -> "+h.dinheiro+"\n";
         }
+        return mensaxe;
     }
     /**
      * @return Obten o historial de casillas nas que se pasou nun turno

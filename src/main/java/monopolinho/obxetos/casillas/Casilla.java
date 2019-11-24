@@ -32,7 +32,7 @@ public abstract class Casilla {
      */
     public Casilla(String nome){
         if(nome==null){
-            ReprTab.imprimirErro("Error creando a casilla");
+            Xogo.consola.imprimirErro("Error creando a casilla");
             return;
         }
         this.nome=nome;

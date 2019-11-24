@@ -25,7 +25,7 @@ public class Esfinxe extends Avatar{
         Zona zona=turno.getPosicion().getZona();
         int posicion;
         int cpos=0;
-        System.out.println("Atopaste en "+turno.getPosicion().getNome());
+        Xogo.consola.imprimir("Atopaste en "+turno.getPosicion().getNome());
         if(zona==Zona.ESTE){
             turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(0));
             zona=Zona.SUR;
@@ -39,8 +39,8 @@ public class Esfinxe extends Avatar{
             zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
             cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
             next=taboeiro.getCasillas(zona).get(cpos);
-            System.out.println("Movecheste o lado "+ zona + " a casilla " + next.getNome());
-            System.out.println(next.interpretarCasilla(xogo,valorDados));
+            Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
+            Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
             if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
         }
 

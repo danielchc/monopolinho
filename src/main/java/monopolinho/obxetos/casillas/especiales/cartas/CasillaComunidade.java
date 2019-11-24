@@ -1,4 +1,4 @@
-package monopolinho.obxetos.casillas.casillacartas;
+package monopolinho.obxetos.casillas.especiales.cartas;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.implementacion.*;
@@ -12,7 +12,7 @@ public class CasillaComunidade extends CasillaCarta {
 
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados)  throws MonopolinhoException {
-        System.out.println("Caiches na casilla de COMUNIDADE");
+        Xogo.consola.imprimir("Caiches na casilla de COMUNIDADE");
         xogo.getTurno().setPosicion(this);
         return super.pedirCarta(xogo);
     }

@@ -1,12 +1,14 @@
-package monopolinho.obxetos.casillas;
+package monopolinho.obxetos.casillas.especiales.accion;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.avatares.Avatar;
+import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.especiales.Especial;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 
-public class Parking extends Casilla {
+public class Parking extends Especial {
     public Parking() {
         super("PARKING");
         this.setColorCasilla(Valor.ReprColor.ANSI_BLACK_BOLD);
