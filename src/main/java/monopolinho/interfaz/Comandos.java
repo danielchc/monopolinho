@@ -62,6 +62,10 @@ public interface Comandos {
 
     void listarTratos();
 
+    void aceptarTrato(String id);
+
+    void eliminarTrato(String id);
+
     void comezarPartida();
 
     void mov(int i);

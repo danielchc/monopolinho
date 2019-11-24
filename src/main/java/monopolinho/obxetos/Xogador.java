@@ -115,11 +115,18 @@ public class Xogador {
     /**
      * Este método elimina un trato ao xogador
      * @param Id key do trato
+     * @return devolve o Trato eliminado, null si non se eliminou
      */
-    public void eliminarTrato(String Id){
+    public boolean eliminarTrato(String Id){
+        Trato t;
         if(Id!=null){
-            this.tratos.remove(Id);
+            t=this.tratos.remove(Id);
+            if(t!=null){
+                return true;
+            }
+            return false;
         }
+        return false;
     }
 
     /**
@@ -393,6 +400,7 @@ public class Xogador {
             this.tratos = tratos;
         }
     }
+
 
     /**
      * Devolve a información do usuario como unha String

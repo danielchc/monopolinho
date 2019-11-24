@@ -11,7 +11,6 @@ public class Trato {
     private ArrayList<Propiedade> propiedadesDemanda;
     private float dinheiroOferta;
     private float dinheiroDemanda;
-    private boolean estaBorrado;
     private String ID;
 
     /**
@@ -19,15 +18,14 @@ public class Trato {
      * @param emisorTrato Xogador que crea o trato
      * @param destinatarioTrato Xogador ao que se lle propón o trato
      */
-    public Trato(Xogador emisorTrato,Xogador destinatarioTrato){
+    public Trato(Xogador emisorTrato,Xogador destinatarioTrato,String ID){
         this.emisorTrato = emisorTrato;
         this.destinatarioTrato = destinatarioTrato;
         this.propiedadesOferta=new ArrayList<>();
         this.propiedadesDemanda=new ArrayList<>();
         this.dinheiroDemanda=-1f;
         this.dinheiroOferta=-1f;
-        this.estaBorrado=false;
-        this.ID=generarID();
+        this.ID=ID;
     }
 
 
@@ -88,14 +86,7 @@ public class Trato {
         }
     }
 
-    /**
-     * Este método genera un Id correlativo
-     * @return Id do trato
-     */
-    private String generarID(){
-        String id="trato"+(this.destinatarioTrato.getTratos().size()+1);
-        return id;
-    }
+
 
 
     /**
@@ -151,14 +142,6 @@ public class Trato {
         this.dinheiroOferta = dinheiroOferta;
     }
 
-    public boolean isEstaBorrado() {
-        return estaBorrado;
-    }
-
-    public void setEstaBorrado(boolean estaBorrado) {
-        this.estaBorrado = estaBorrado;
-    }
-
     public void setID(String ID) {
         if(ID!=null){
             this.ID = ID;
@@ -195,7 +178,7 @@ public class Trato {
                 texto+=" e "+this.dinheiroDemanda;
             }
         }
-        texto+="?";
+        texto+="? ("+this.ID+")";
         return texto;
     }
 }

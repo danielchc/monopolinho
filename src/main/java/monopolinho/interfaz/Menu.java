@@ -193,8 +193,9 @@ public class Menu {
                 "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2> e diñeiro)" )+ "\tCambia propiedade1 por propiedade2 mais diñeiro"+
                 "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1> e diñeiro,<propiedade>)" )+ "\tCambia propiedade1 mais diñerio por propiedade2"+
                 "\n\t\t " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"(<propiedade1>,<propiedade2> e nonalquiler(<propiedade3>,turnos))" )+ "\tCambia propiedade1 por propiedade2 e non pagar alquiler en propiedade3 X turnos"+
-
                 "\n\tPropoñer un trato a outro xogador"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"aceptar <trato>" )+"\tAcepta un trato que se che propuxo"+
+                "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"eliminar <trato>" )+"\tElimina un trato que propuxeches"+
                 "\n\t+ " +ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,"comandos")+"\tMostra esta mensaxe de axuda";
         System.out.println(comandos);
     }
@@ -362,6 +363,18 @@ public class Menu {
                 break;
             case "tratos":
                 xogo.listarTratos();
+                break;
+            case "eliminar":
+                if(cmds.length!=2){
+                    throw new MonopolinhoComandoIncorrecto("eliminar <trato>");
+                }
+                xogo.eliminarTrato(cmds[1]);
+                break;
+            case "aceptar":
+                if(cmds.length!=2){
+                    throw new MonopolinhoComandoIncorrecto("aceptar <trato>");
+                }
+                xogo.aceptarTrato(cmds[1]);
                 break;
             case "accions":
                 xogo.listarAccions();

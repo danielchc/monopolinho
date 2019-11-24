@@ -13,6 +13,7 @@ import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Daniel Chenel
@@ -28,6 +29,7 @@ public class Xogo implements Comandos {
     private Xogador banca;
     private boolean partidaComezada;
     private EstadisticasXogo estadisticasXogo;
+    private int numTratos;
 
     /**
      * Constructor da clase Xogo.
@@ -45,6 +47,7 @@ public class Xogo implements Comandos {
         partidaComezada=false;
         xogadores=new ArrayList<Xogador>();
         estadisticasXogo=new EstadisticasXogo(this);
+        this.numTratos=0;
     }
 
     /**
@@ -207,6 +210,7 @@ public class Xogo implements Comandos {
         }
         actual.restarTurnosInvalidado();
         System.out.println("Tiña o turno "+actual.getNome()+", agora teno "+turno.getXogador().getNome());
+        turno.getXogador().listarTratos();
     }
 
     /**
@@ -639,7 +643,7 @@ public class Xogo implements Comandos {
      * @param cmds comandos do trato
      */
     @Override
-    public void proponerTrato(String[] cmds){
+    public void proponerTrato(String[] cmds){ //FALTA IMPLEMENTAR O DE NOALQUILER
 
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
@@ -654,7 +658,7 @@ public class Xogo implements Comandos {
             return;
         }
 
-        Trato trato=new Trato(emisor,destinatario);
+        Trato trato=new Trato(emisor,destinatario,generarID());
 
         String[] limpo=new String[cmds.length];
         int limiteOferta=-1;
@@ -691,6 +695,7 @@ public class Xogo implements Comandos {
         }
         System.out.println(trato);
         destinatario.engadirTrato(trato);
+        this.numTratos++;
     }
 
     /**
@@ -701,6 +706,31 @@ public class Xogo implements Comandos {
         this.turno.getXogador().listarTratos();
     }
 
+    /**
+     * Este método permite aceptar un trato
+     * @param id trato aceptar
+     */
+    @Override
+    public void aceptarTrato(String id){
+
+    }
+
+    /**
+     * Este método permite eliminar un trato
+     * @param id trato eliminar
+     */
+    @Override
+    public void eliminarTrato(String id){
+        for(Xogador x:this.xogadores){
+            if(!this.turno.getXogador().equals(x)){
+                if(x.eliminarTrato(id.toLowerCase())){
+                    System.out.println(id+" eliminado correctamente.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Non se puido eliminar o "+id);
+    }
 
 
     public void listarAccions(){
@@ -827,6 +857,15 @@ public class Xogo implements Comandos {
         }
     }
 
+
+    /**
+     * Este método genera un Id correlativo
+     * @return Id do trato
+     */
+    private String generarID(){
+        String id="trato"+(this.numTratos+1);
+        return id;
+    }
 
     /**
      * Este método comproba se se cumplen os requisitos dunha casilla para un trato.
