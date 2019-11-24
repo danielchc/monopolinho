@@ -13,6 +13,9 @@ import monopolinho.tipos.TipoTransaccion;
 import monopolinho.tipos.TipoMovemento;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * @author Daniel Chenel
@@ -28,6 +31,7 @@ public class Xogador {
     private int turnosInvalidado;
     private EstadoXogador estadoXogador;
     private EstadisticasXogador estadisticas;
+    private HashMap<String,Trato> tratos;
 
     /**
      *  Constructor sen argumentos crea a banca.
@@ -41,6 +45,7 @@ public class Xogador {
         this.propiedades=new ArrayList<>();
         this.estadoXogador=EstadoXogador.ESPECIAL;
         this.estadisticas=new EstadisticasXogador();
+        this.tratos=new HashMap<>();
     }
 
     /**
@@ -70,6 +75,7 @@ public class Xogador {
         this.turnosNoCarcere=-1;
         this.estadoXogador=EstadoXogador.NORMAL;
         this.estadisticas=new EstadisticasXogador();
+        this.tratos=new HashMap<>();
     }
 
     /**
@@ -94,6 +100,36 @@ public class Xogador {
      */
     public void eliminarPropiedade(Casilla casilla){
         if(casilla!=null)this.propiedades.remove(casilla);
+    }
+
+    /**
+     * Este método engade un trato ao xogador
+     * @param t Trato a engadir
+     */
+    public void engadirTrato(Trato t){
+        if(t!=null){
+            this.tratos.put(t.getID(),t);
+        }
+    }
+
+    /**
+     * Este método elimina un trato ao xogador
+     * @param Id key do trato
+     */
+    public void eliminarTrato(String Id){
+        if(Id!=null){
+            this.tratos.remove(Id);
+        }
+    }
+
+    /**
+     * Este método lista todos os tratos do xogador
+     */
+    public void listarTratos(){
+        Collection<Trato> col=this.tratos.values();
+        for (Trato t:col){
+            System.out.println(t.describirTrato());
+        }
     }
 
     /**
@@ -346,6 +382,16 @@ public class Xogador {
      */
     public void setTurnosInvalidado(int turnosInvalidado) {
         this.turnosInvalidado = turnosInvalidado+1;
+    }
+
+    public HashMap<String, Trato> getTratos() {
+        return tratos;
+    }
+
+    public void setTratos(HashMap<String, Trato> tratos) {
+        if(tratos!=null){
+            this.tratos = tratos;
+        }
     }
 
     /**

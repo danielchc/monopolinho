@@ -11,6 +11,8 @@ public class Trato {
     private ArrayList<Propiedade> propiedadesDemanda;
     private float dinheiroOferta;
     private float dinheiroDemanda;
+    private boolean estaBorrado;
+    private String ID;
 
     /**
      * Constructor dos tratos
@@ -24,6 +26,8 @@ public class Trato {
         this.propiedadesDemanda=new ArrayList<>();
         this.dinheiroDemanda=-1f;
         this.dinheiroOferta=-1f;
+        this.estaBorrado=false;
+        this.ID=generarID();
     }
 
 
@@ -33,6 +37,7 @@ public class Trato {
      */
     public String describirTrato(){
         String texto="{";
+        texto+="\n\t"+ID;
         texto+="\n\txogadorPropon: " + emisorTrato.getNome();
         texto+="\n\ttrato: cambiar(";
         for(Propiedade p:this.propiedadesOferta){
@@ -83,7 +88,14 @@ public class Trato {
         }
     }
 
-
+    /**
+     * Este método genera un Id correlativo
+     * @return Id do trato
+     */
+    private String generarID(){
+        String id="trato"+(this.destinatarioTrato.getTratos().size()+1);
+        return id;
+    }
 
 
     /**
@@ -137,5 +149,53 @@ public class Trato {
 
     public void setDinheiroOferta(float dinheiroOferta) {
         this.dinheiroOferta = dinheiroOferta;
+    }
+
+    public boolean isEstaBorrado() {
+        return estaBorrado;
+    }
+
+    public void setEstaBorrado(boolean estaBorrado) {
+        this.estaBorrado = estaBorrado;
+    }
+
+    public void setID(String ID) {
+        if(ID!=null){
+            this.ID = ID;
+        }
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    @Override
+    public String toString(){
+        String texto=this.destinatarioTrato.getNome()+", douche ";
+        for(Propiedade p:this.propiedadesOferta){
+            texto+=p.getNome()+" ";
+        }
+        if(this.dinheiroOferta!=-1){
+            if(this.propiedadesOferta.isEmpty()){
+                texto+=this.dinheiroOferta;
+            }
+            else{
+                texto+=" e "+this.dinheiroOferta;
+            }
+        }
+        texto+=", e ti dasme ";
+        for(Propiedade p:this.propiedadesDemanda){
+            texto+=p.getNome()+" ";
+        }
+        if(this.dinheiroDemanda!=-1){
+            if(this.propiedadesDemanda.isEmpty()){
+                texto+=this.dinheiroDemanda;
+            }
+            else{
+                texto+=" e "+this.dinheiroDemanda;
+            }
+        }
+        texto+="?";
+        return texto;
     }
 }

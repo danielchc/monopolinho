@@ -28,7 +28,7 @@ public class Xogo implements Comandos {
     private Xogador banca;
     private boolean partidaComezada;
     private EstadisticasXogo estadisticasXogo;
-    private ArrayList<Trato> tratos; ////TEMPORAL, BORRRAR ESTOOOOOOOOOOO
+
     /**
      * Constructor da clase Xogo.
      * Determina o turno.
@@ -45,8 +45,6 @@ public class Xogo implements Comandos {
         partidaComezada=false;
         xogadores=new ArrayList<Xogador>();
         estadisticasXogo=new EstadisticasXogo(this);
-
-        this.tratos=new ArrayList<>(); //ESTO TA TEMPORAL
     }
 
     /**
@@ -634,6 +632,8 @@ public class Xogo implements Comandos {
     }
 
 
+
+
     /**
      * Este método permite propoñer un trato.
      * @param cmds comandos do trato
@@ -644,10 +644,13 @@ public class Xogo implements Comandos {
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
 
-        //FACER AS COMPROBACIONES NECESARIAS QUE PON NO PDF
 
         if(destinatario==null){
             ReprTab.imprimirErro("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
+            return;
+        }
+        if(emisor.equals(destinatario)){
+            ReprTab.imprimirErro("Non podes propoñer un trato a ti mismo.");
             return;
         }
 
@@ -662,87 +665,32 @@ public class Xogo implements Comandos {
             limpo[i]=cmds[i].replace("(","").replace(")","").replace(",","");
         }
 
-
-
         for (int i=3;i<=limiteOferta;i++){
-            System.out.println("oferta " + limpo[i] + " e numero? -> "+isNumeric(limpo[i]));
             if(isNumeric(limpo[i])){
                 trato.setDinheiroOferta(Float.valueOf(limpo[i]));
             }
-            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y")){
+            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y") && !limpo[i].equals("")){
                 Casilla c=this.taboeiro.buscarCasilla(limpo[i]);
-                if(c==null){
-                    ReprTab.imprimirErro(limpo[i]+" non é unha casilla válida. Trato cancelado.");
-                    return;
-                }
-                if(!(c instanceof Propiedade)){
-                    ReprTab.imprimirErro(limpo[i]+" non é unha propiedade. Trato cancelado.");
+                if(!comprobarOfrecerTrato(c,emisor,limpo[i])){
                     return;
                 }
                 trato.engadirPropiedadeOferta((Propiedade)c);
             }
         }
         for (int i=limiteOferta+1;i<cmds.length;i++){
-            System.out.println("demanda " + limpo[i] + " e numero? -> "+isNumeric(limpo[i]));
             if(isNumeric(limpo[i])){
                 trato.setDinheiroDemanda(Float.valueOf(limpo[i]));
             }
-            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y")){
+            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y") && !limpo[i].equals("")){
                 Casilla c=this.taboeiro.buscarCasilla(limpo[i]);
-                if(c==null){
-                    ReprTab.imprimirErro(limpo[i]+" non é unha casilla válida. Trato cancelado.");
-                    return;
-                }
-                if(!(c instanceof Propiedade)){
-                    ReprTab.imprimirErro(limpo[i]+" non é unha propiedade. Trato cancelado.");
+                if(!comprobarOfrecerTrato(c,destinatario,limpo[i])){
                     return;
                 }
                 trato.engadirPropiedadeDemanda((Propiedade)c);
             }
         }
-        this.tratos.add(trato);
-
-
-
-        /*
-        Xogador x=new Xogador("Jabalí",TipoMovemento.COCHE);
-        Xogador y=new Xogador("Becerriño",TipoMovemento.COCHE);
-        Solar a=new Solar("Casacristo",new Grupo());
-        Solar b=new Solar("Bascoas",new Grupo());
-
-        Trato t1=new Trato(x,y);
-        t1.engadirPropiedadeOferta(a);
-        t1.engadirPropiedadeDemanda(b);
-        System.out.println(t1.describirTrato());
-        System.out.println(" ");
-
-        Trato t2=new Trato(x,y);
-        t2.engadirPropiedadeOferta(a);
-        t2.setDinheiroDemanda(10000);
-        System.out.println(t2.describirTrato());
-        System.out.println(" ");
-
-        Trato t3=new Trato(x,y);
-        t3.setDinheiroOferta(929292);
-        t3.engadirPropiedadeDemanda(b);
-        System.out.println(t3.describirTrato());
-        System.out.println(" ");
-
-        Trato t4=new Trato(x,y);
-        t4.engadirPropiedadeOferta(a);
-        t4.engadirPropiedadeDemanda(b);
-        t4.setDinheiroDemanda(2233);
-        System.out.println(t4.describirTrato());
-        System.out.println(" ");
-
-        Trato t5=new Trato(x,y);
-        t5.engadirPropiedadeOferta(a);
-        t5.setDinheiroOferta(5566);
-        t5.engadirPropiedadeDemanda(b);
-        System.out.println(t5.describirTrato());
-        System.out.println(" ");
-
-         */
+        System.out.println(trato);
+        destinatario.engadirTrato(trato);
     }
 
     /**
@@ -750,12 +698,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void listarTratos(){
-
-        //BORRAR ESTE ARRAYLIST E METERLLE A CADA XOGADOR UN HASHMAP COS SEUS TRATOS
-        //AO CAHAMAR LISTAR TRATOS FACER ALGO TIPO this.turno.getXogador().listarTratos();
-        for(Trato t:this.tratos){
-            System.out.println(t.describirTrato()); //esto ta provisional
-        }
+        this.turno.getXogador().listarTratos();
     }
 
 
@@ -882,6 +825,30 @@ public class Xogo implements Comandos {
                 }
             }
         }
+    }
+
+
+    /**
+     * Este método comproba se se cumplen os requisitos dunha casilla para un trato.
+     * @param c Casilla a comprobar
+     * @param x xogador a comprobar
+     * @param nome nome da casilla a comprobar
+     * @return true se se pode realizar o trato, false se non
+     */
+    private boolean comprobarOfrecerTrato(Casilla c,Xogador x,String nome){
+        if(c==null){
+            ReprTab.imprimirErro(nome+" non é unha casilla válida. Trato cancelado.");
+            return false;
+        }
+        if(!(c instanceof Propiedade)){
+            ReprTab.imprimirErro(nome+" non é unha propiedade. Trato cancelado.");
+            return false;
+        }
+        if(!((Propiedade) c).getDono().equals(x)){
+            ReprTab.imprimirErro("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
+            return false;
+        }
+        return true;
     }
 
 

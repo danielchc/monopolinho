@@ -1,3 +1,2 @@
 crear jugador Dani pelota
 crear jugador David coche
-mova 9
