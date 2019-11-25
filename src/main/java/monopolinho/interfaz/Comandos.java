@@ -7,6 +7,7 @@ import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
@@ -17,13 +18,13 @@ public interface Comandos {
 
     void describirCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
-    void describirXogador(String nome);
+    void describirXogador(String nome) throws MonopolinhoGeneralException, MonopolinhoException;
 
-    void describirAvatar(String avatarId);
+    void describirAvatar(String avatarId) throws MonopolinhoException;
 
     void listarEdificios();
 
-    void listarEdificiosGrupo(String cmds);
+    void listarEdificiosGrupo(String cmds) throws MonopolinhoGeneralException;
 
     void listarAvatares();
 
@@ -31,15 +32,15 @@ public interface Comandos {
 
     void listarCasillaEnVenta();
 
-    void pasarTurno();
+    void pasarTurno() throws MonopolinhoGeneralException;
 
-    void sairCarcere();
+    void sairCarcere() throws MonopolinhoGeneralException;
 
     void comprarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
     void mostrarTaboeiro();
 
-    void mostrarEstadisticasXogador(String nome);
+    void mostrarEstadisticasXogador(String nome) throws MonopolinhoGeneralException;
 
     void mostrarEstadisticasXogo();
 
@@ -47,31 +48,31 @@ public interface Comandos {
 
     void deshipotecarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
 
-    void declararBancarrota();
+    void declararBancarrota() throws MonopolinhoGeneralException;
 
     void edificar(TipoEdificio tipo) throws MonopolinhoNonSePodeConstruir;
 
-    void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente;
+    void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente, MonopolinhoGeneralException;
 
-    void mostrarTurno();
+    void mostrarTurno() throws MonopolinhoGeneralException;
 
     boolean crearXogador(String nombre, TipoMovemento tipoMov);
 
-    void lanzarDados();
+    void lanzarDados() throws MonopolinhoException;
 
     void cambiarModoXogo();
 
-    void proponerTrato(String[] cmds);
+    void proponerTrato(String[] cmds) throws MonopolinhoGeneralException;
 
     void listarTratos();
 
     void aceptarTrato(String id);
 
-    void eliminarTrato(String id);
+    void eliminarTrato(String id) throws MonopolinhoGeneralException;
 
     void comezarPartida();
 
-    void mov(int i);
+    void mov(int i) throws MonopolinhoException;
 
     void mova(int i);
 

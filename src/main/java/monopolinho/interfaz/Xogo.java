@@ -1,5 +1,6 @@
 package monopolinho.interfaz;
 
+import com.sun.org.apache.bcel.internal.generic.CodeExceptionGen;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogo;
@@ -11,6 +12,7 @@ import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.edificios.Edificio;
 import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.tipos.*;
 
@@ -83,14 +85,14 @@ public class Xogo implements Comandos {
      * @param nome Nome do xogador
      */
     @Override
-    public void describirXogador(String nome){
+    public void describirXogador(String nome) throws MonopolinhoException {
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
                 consola.imprimir(x.describir());
                 return;
             }
         }
-        Xogo.consola.imprimirErro("O xogador " + nome + "non existe");
+        throw new MonopolinhoGeneralException("O xogador " + nome + "non existe");
     }
 
     /**
@@ -98,14 +100,14 @@ public class Xogo implements Comandos {
      * @param avatarId Argumentos do usuario
      */
     @Override
-    public void describirAvatar(String avatarId){
+    public void describirAvatar(String avatarId) throws MonopolinhoException{
         for(Xogador x:this.xogadores){
             if(x.getAvatar().getId().equals(avatarId)){
                 consola.imprimir(x.getAvatar());
                 return;
             }
         }
-        Xogo.consola.imprimirErro("O avatar " + avatarId + "non existe");
+        throw new MonopolinhoGeneralException("O avatar " + avatarId + "non existe");
     }
 
     /**
@@ -126,15 +128,13 @@ public class Xogo implements Comandos {
      * Este metodo lista todos os edificios dun grupo
      */
     @Override
-    public void listarEdificiosGrupo(String cmds){
+    public void listarEdificiosGrupo(String cmds) throws MonopolinhoGeneralException {
         Grupo grupo=taboeiro.buscarGrupo(cmds);
         if(grupo==null){
-            Xogo.consola.imprimirErro("Ese nome de grupo non existe.");
-            return;
+            throw new MonopolinhoGeneralException("O grupo "+cmds+" non existe");
         }
         if(grupo.getNumeroEdificios()==0){
-            Xogo.consola.imprimirErro("Este grupo non ten edificios.");
-            return;
+            throw new MonopolinhoGeneralException("O grupo "+cmds+" non ten edificios");
         }
         for(Solar c:grupo.getSolares()){
             consola.imprimir(c.describirEdificios());
@@ -175,16 +175,14 @@ public class Xogo implements Comandos {
      * Este metodo acaba o turno e pasallo ao seguinte.
      */
     @Override
-    public void pasarTurno(){
+    public void pasarTurno() throws MonopolinhoGeneralException {
         Xogador actual=turno.getXogador();
         int novoTurno;
         if(turno.podeLanzar() && turno.getXogador().estadoXogador()!=EstadoXogador.BANCARROTA && turno.getXogador().getTurnosInvalidado()==0){
-            Xogo.consola.imprimirErro("Tes que tirar antes de pasar turno.");
-            return;
+            throw new MonopolinhoGeneralException("Tes que tirar antes de pasar turno.");
         }
         if(turno.getXogador().estadoXogador() == EstadoXogador.TEN_DEBEDAS){
-            Xogo.consola.imprimirErro("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
-            return;
+            throw new MonopolinhoGeneralException("Non podes pasar de turno ata que saldes as débedas ou te declares en bancarrota.");
         }
 
         do{
@@ -207,9 +205,8 @@ public class Xogo implements Comandos {
                 taboeiro.engadirBote(Valor.SAIR_CARCERE);
                 return;
             }else{
-                Xogo.consola.imprimirErro("O xogador leva 3 turnos no cárcere e non ten cartos para saír, o xogador debe declararse en bancarrota");
                 turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
-                return;
+                throw new MonopolinhoGeneralException("O xogador leva 3 turnos no cárcere e non ten cartos para saír, o xogador debe declararse en bancarrota");
             }
         }
         actual.restarTurnosInvalidado();
@@ -221,17 +218,16 @@ public class Xogo implements Comandos {
      * Este metodo saca a un xogador da carcere.
      */
     @Override
-    public void sairCarcere(){
+    public void sairCarcere() throws MonopolinhoGeneralException {
         if (!turno.getXogador().estaNoCarcere()){
-            consola.imprimir("O xogador non está no cárcere");
-            return;
+            throw new MonopolinhoGeneralException("O xogador non está no cárcere");
         }
         if(turno.getXogador().quitarDinheiro(Valor.SAIR_CARCERE, TipoTransaccion.OTROS)){
             consola.imprimir(turno.getXogador().getNome()+" paga "+ Valor.SAIR_CARCERE + " e sae da cárcel. Podes lanzar os dados.");
             turno.getXogador().sairDoCarcere();
             taboeiro.engadirBote(Valor.SAIR_CARCERE);
         }else{
-            Xogo.consola.imprimirErro("Non tes o suficiente diñeiro para saír do cárcere");
+            throw new MonopolinhoGeneralException("Non tes o suficiente diñeiro para saír do cárcere");
         }
     }
 
@@ -245,39 +241,32 @@ public class Xogo implements Comandos {
         Xogador xogador=turno.getXogador();
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade comprar;
-        if(target==null)throw new MonopolinhoCasillaInexistente(nome);
+        if(target==null) throw new MonopolinhoCasillaInexistente(nome);
 
         if(!(target instanceof Propiedade)){
-            Xogo.consola.imprimirErro("Este tipo de casilla non se pode comprar esta casilla");
-            return;
+            throw new MonopolinhoGeneralException("Este tipo de casilla non se pode comprar esta casilla");
         }
         comprar=(Propiedade)target;
         if(turno.getVecesTiradas()==0){
-            consola.imprimir("Non podes comprar unha casilla se non lanzaches os dados");
-            return;
+            throw new MonopolinhoGeneralException("Non podes comprar unha casilla se non lanzaches os dados");
         }
         if(this.turno.getXogador().getAvatar().getModoXogo()==ModoXogo.AVANZADO){
             if(!this.turno.getHistorial().contains(comprar)){
-                Xogo.consola.imprimirErro("Non pasaches por esta casilla neste turno");
-                return;
+                throw new MonopolinhoGeneralException("Non pasaches por esta casilla neste turno");
             }
         }else{
             if(!this.turno.getPosicion().equals(comprar)){
-                Xogo.consola.imprimirErro("Non estás nesta casilla, non a podes comprar");
-                return;
+                throw new MonopolinhoGeneralException("Non estás nesta casilla, non a podes comprar");
             }
         }
         if (!comprar.pertenceXogador(banca)){
-            Xogo.consola.imprimirErro("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
-            return;
+            throw new MonopolinhoGeneralException("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
         }
         if(!xogador.quitarDinheiro(comprar.getValor(), TipoTransaccion.COMPRA)){
-            Xogo.consola.imprimirErro("Non tes suficiente diñeiro");
-            return ;
+            throw new MonopolinhoGeneralException("Non tes suficiente diñeiro");
         }
         if(xogador.getAvatar().getTipo()==TipoMovemento.COCHE && xogador.getAvatar().getModoXogo()==ModoXogo.AVANZADO && turno.getCompradasTurno()>=1){
-            Xogo.consola.imprimirErro("Non podes facer máis compras neste turno");
-            return;
+            throw new MonopolinhoGeneralException("Non podes facer máis compras neste turno");
         }
 
         comprar.comprar(this.turno.getXogador());
@@ -299,14 +288,14 @@ public class Xogo implements Comandos {
      * @param nome
      */
     @Override
-    public void mostrarEstadisticasXogador(String nome){
+    public void mostrarEstadisticasXogador(String nome) throws MonopolinhoGeneralException {
         for(Xogador x:this.xogadores){
             if(x.getNome().toLowerCase().equals(nome.toLowerCase())){
                 consola.imprimir(x.getEstadisticas());
                 return;
             }
         }
-        consola.imprimir("Non se atopou o xogador "+nome);
+        throw new MonopolinhoGeneralException("Non se atopou o xogador "+nome);
     }
 
     /**
@@ -329,21 +318,17 @@ public class Xogo implements Comandos {
         if(target==null)throw new MonopolinhoCasillaInexistente(nome);
 
         if(!(target instanceof Propiedade)){
-            Xogo.consola.imprimirErro("Non se pode hipotecar este tipo de casilla");
-            return;
+            throw new MonopolinhoGeneralException("Non se pode hipotecar este tipo de casilla");
         }
         c=(Propiedade)target;
         if(!c.pertenceXogador(turno.getXogador())){
-            Xogo.consola.imprimirErro("Non eres dono de esta casilla");
-            return;
+            throw new MonopolinhoGeneralException("Non eres dono de esta casilla");
         }
         if(c.getEstaHipotecada()){
-            Xogo.consola.imprimirErro("Esta casilla xa está hipotecada");
-            return;
+            throw new MonopolinhoGeneralException("Esta casilla xa está hipotecada");
         }
         if((c instanceof Solar) && (((Solar)c).getEdificios().size()!=0)){
-            Xogo.consola.imprimirErro(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
-            return;
+            throw new MonopolinhoGeneralException(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
         }
 
         c.setEstaHipotecada(true);
@@ -366,22 +351,18 @@ public class Xogo implements Comandos {
         if(target==null)throw new MonopolinhoCasillaInexistente(nome);
 
         if(!(target instanceof Propiedade)){
-            Xogo.consola.imprimirErro("Non se pode deshipotecar este tipo de casilla");
-            return;
+            throw new MonopolinhoGeneralException("Non se pode deshipotecar este tipo de casilla");
         }
         c=(Propiedade)target;
         if(!c.pertenceXogador(turno.getXogador())){
-            Xogo.consola.imprimirErro("Non eres dono de esta casilla");
-            return;
+            throw new MonopolinhoGeneralException("Non eres dono de esta casilla");
         }
         if(!c.getEstaHipotecada()){
-            Xogo.consola.imprimirErro("Esta casilla non está hipotecada");
-            return;
+            throw new MonopolinhoGeneralException("Esta casilla non está hipotecada");
         }
 
         if(!c.getDono().quitarDinheiro(c.getHipoteca()*1.1f, TipoTransaccion.OTROS)){
-            Xogo.consola.imprimirErro("Non tes o suficiente diñeiro para deshipotecar a propiedade");
-            return;
+            throw new MonopolinhoGeneralException("Non tes o suficiente diñeiro para deshipotecar a propiedade");
         }
         c.setEstaHipotecada(false);
         turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
@@ -393,7 +374,7 @@ public class Xogo implements Comandos {
      * Metodo bancarrota.
      */
     @Override
-    public void declararBancarrota(){
+    public void declararBancarrota() throws MonopolinhoGeneralException {
         this.turno.getXogador().setEstadoXogador(EstadoXogador.BANCARROTA);
         for(Propiedade c:this.turno.getXogador().getPropiedades()){
             c.setEstaHipotecada(false);
@@ -475,35 +456,31 @@ public class Xogo implements Comandos {
      * @param numero Número de edificios a vender
      */
     @Override
-    public void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente {
+    public void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente, MonopolinhoGeneralException {
         if(comprobarCarcere())return;
         Casilla target=taboeiro.buscarCasilla(casilla);
         Solar c;
         if(target==null)throw new MonopolinhoCasillaInexistente(casilla);
 
         if(!(target instanceof Solar)){
-            Xogo.consola.imprimirErro("Non se pode vender edificios dunha casilla que non sexa un SOLAR");
-            return;
+            throw new MonopolinhoGeneralException("Non se pode vender edificios dunha casilla que non sexa un SOLAR");
         }
         c=(Solar)target;
         if(tipo==null){
-            Xogo.consola.imprimirErro("Tipo de edificio incorrecto.");
-            return;
+            throw new MonopolinhoGeneralException("Tipo de edificio incorrecto.");
         }
 
         if(!c.pertenceXogador(turno.getXogador())){
-            Xogo.consola.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
-            return;
+            throw new MonopolinhoGeneralException("Non podes vender edificios en "+c.getNome()+" porque non é túa.");
         }
         if(c.getEstaHipotecada()){
-            Xogo.consola.imprimirErro("Non podes vender edificios en "+c.getNome()+" porque está hipotecada");
-            return;
+            throw new MonopolinhoGeneralException("Non podes vender edificios en "+c.getNome()+" porque está hipotecada");
         }
 
         int totalEdifs=c.getNumeroEdificiosTipo(tipo);
         float valor = numero*c.getPrecioEdificio(tipo)/2.0f;
         if(totalEdifs<numero){
-            Xogo.consola.imprimirErro("Non podes vender edificios de tipo "+tipo+". Solamente tes "+totalEdifs+" de tipo "+tipo+" por valor de "+valor);
+            throw new MonopolinhoGeneralException("Non podes vender edificios de tipo "+tipo+". Solamente tes "+totalEdifs+" de tipo "+tipo+" por valor de "+valor);
         }
 
         int edifsEliminados=0;
@@ -526,9 +503,9 @@ public class Xogo implements Comandos {
      * Mostra a información do turno actual
      */
     @Override
-    public void mostrarTurno() {
+    public void mostrarTurno() throws MonopolinhoGeneralException {
         if (turno!=null)consola.imprimir(turno.getXogador());
-        else Xogo.consola.imprimirErro("Non hai xogadores");
+        else throw new MonopolinhoGeneralException("Non hai xogadores");
     }
 
     /**
@@ -540,7 +517,11 @@ public class Xogo implements Comandos {
     @Override
     public boolean crearXogador(String nombre, TipoMovemento tipoMov){
         if(this.partidaComezada){
-            Xogo.consola.imprimirErro("Non se pode crear un xogador durante a partida");
+            try{
+                throw new MonopolinhoGeneralException("Non se pode crear un xogador durante a partida");
+            }catch (MonopolinhoGeneralException e){
+                e.imprimirErro();
+            }
             return false;
         }
         Xogador xogador=new Xogador(nombre, tipoMov);
@@ -565,18 +546,15 @@ public class Xogo implements Comandos {
      * - Se saen triples manda ao xogador para a carcere.
      */
     @Override
-    public void lanzarDados(){
+    public void lanzarDados() throws MonopolinhoException {
         if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS){
-            Xogo.consola.imprimirErro("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
-            return;
+            throw new MonopolinhoGeneralException("O xogador ten debedas, ten que declarase en bancarrota ou hipotecar propiedades");
         }
         if(!turno.podeLanzar()){
-            Xogo.consola.imprimirErro("O xogador xa lanzou os dados. Non se poden lanzar de novo");
-            return;
+            throw new MonopolinhoGeneralException("O xogador xa lanzou os dados. Non se poden lanzar de novo");
         }
         if(turno.getXogador().getTurnosInvalidado()>0){
-            Xogo.consola.imprimirErro("O xogador ten que esperar "+turno.getXogador().getTurnosInvalidado()+" turno para volver a lanzar");
-            return;
+            throw new MonopolinhoGeneralException("O xogador ten que esperar "+turno.getXogador().getTurnosInvalidado()+" turno para volver a lanzar");
         }
         dados.lanzarDados();
         turno.aumentarVecesTiradas();   //1 vez tirada
@@ -588,9 +566,8 @@ public class Xogo implements Comandos {
         if(turno.getXogador().estaNoCarcere()){
             if(!dados.sonDobles()){
                 consola.imprimir("Estás no CÁRCERE");
-                Xogo.consola.imprimirErro(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
                 turno.setPodeLanzar(false);
-                return;
+                throw new MonopolinhoGeneralException(mensaxe+". Tes que sacar dobles ou pagar para saír do cárcere.");
             }else{
                 turno.getXogador().sairDoCarcere();
                 turno.setVecesTiradas(0);
@@ -605,8 +582,7 @@ public class Xogo implements Comandos {
                 turno.engadirAccion(new Accion(TipoAccion.IR_CARCEL));
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCERE
                 turno.setPodeLanzar(false);
-                Xogo.consola.imprimirErro(mensaxe+" Saion triples e vas para o cárcere.");
-                return;
+                throw new MonopolinhoGeneralException(mensaxe+" Saion triples e vas para o cárcere.");
             }else{
                 turno.setPodeLanzar(false);
             }
@@ -637,19 +613,17 @@ public class Xogo implements Comandos {
      * @param cmds comandos do trato
      */
     @Override
-    public void proponerTrato(String[] cmds){ //FALTA IMPLEMENTAR O DE NOALQUILER
+    public void proponerTrato(String[] cmds) throws MonopolinhoGeneralException { //FALTA IMPLEMENTAR O DE NOALQUILER
 
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
 
 
         if(destinatario==null){
-            Xogo.consola.imprimirErro("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
-            return;
+            throw new MonopolinhoGeneralException("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
         }
         if(emisor.equals(destinatario)){
-            Xogo.consola.imprimirErro("Non podes propoñer un trato a ti mismo.");
-            return;
+            throw new MonopolinhoGeneralException("Non podes propoñer un trato a ti mismo.");
         }
 
         Trato trato=new Trato(emisor,destinatario,generarID());
@@ -714,7 +688,7 @@ public class Xogo implements Comandos {
      * @param id trato eliminar
      */
     @Override
-    public void eliminarTrato(String id){
+    public void eliminarTrato(String id) throws MonopolinhoGeneralException {
         for(Xogador x:this.xogadores){
             for(Trato t:x.getTratos().values()){
                 if(t.getEmisorTrato().equals(this.turno.getXogador()) && t.getID().equals(id.toLowerCase())) {
@@ -725,7 +699,7 @@ public class Xogo implements Comandos {
                 }
             }
         }
-        consola.imprimirErro("Non se puido eliminar o "+id);
+        throw new MonopolinhoGeneralException("Non se puido eliminar o "+id);
     }
 
 
@@ -809,7 +783,7 @@ public class Xogo implements Comandos {
      * @return Mensaxe da acción interpretada
      */
 
-    public void moverModoNormal(int valorDados){
+    public void moverModoNormal(int valorDados) throws MonopolinhoException {
         consola.imprimir(turno.getXogador().getAvatar().moverEnBasico(this,valorDados));
     }
 
@@ -871,16 +845,18 @@ public class Xogo implements Comandos {
      * @return true se se pode realizar o trato, false se non
      */
     private boolean comprobarOfrecerTrato(Casilla c,Xogador x,String nome){
-        if(c==null){
-            Xogo.consola.imprimirErro(nome+" non é unha casilla válida. Trato cancelado.");
-            return false;
-        }
-        if(!(c instanceof Propiedade)){
-            Xogo.consola.imprimirErro(nome+" non é unha propiedade. Trato cancelado.");
-            return false;
-        }
-        if(!((Propiedade) c).pertenceXogador(x)){
-            Xogo.consola.imprimirErro("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
+        try{
+            if(c==null){
+                throw new MonopolinhoGeneralException(nome+" non é unha casilla válida. Trato cancelado.");
+            }
+            if(!(c instanceof Propiedade)){
+                throw new MonopolinhoGeneralException(nome+" non é unha propiedade. Trato cancelado.");
+            }
+            if(!((Propiedade) c).pertenceXogador(x)){
+                throw new MonopolinhoGeneralException("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
+            }
+        }catch (MonopolinhoGeneralException e) {
+            e.imprimirErro();
             return false;
         }
         return true;
@@ -930,8 +906,13 @@ public class Xogo implements Comandos {
      */
     private boolean comprobarCarcere(){
         if(this.turno.getXogador().estaNoCarcere()){
-            Xogo.consola.imprimirErro("Non podes realizar está acción porque estás no cárcere");
-            return true;
+            try{
+                throw new MonopolinhoGeneralException("Non podes realizar está acción porque estás no cárcere");
+            }
+            catch (MonopolinhoGeneralException e){
+                e.imprimirErro();
+                return true;
+            }
         }
         return false;
     }
@@ -957,7 +938,7 @@ public class Xogo implements Comandos {
     }
     //BORRAR
 
-    public void mov(int i){
+    public void mov(int i) throws MonopolinhoException {
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
         moverModoNormal(i);

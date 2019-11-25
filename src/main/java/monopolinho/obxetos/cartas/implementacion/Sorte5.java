@@ -4,6 +4,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Sorte5 extends CartaComunidade {
@@ -13,7 +14,7 @@ public class Sorte5 extends CartaComunidade {
     }
 
     @Override
-    public String accion(Xogo xogo) {
+    public String accion(Xogo xogo) throws MonopolinhoException {
         Xogo.consola.imprimir(getMensaxe());
         xogo.moverModoNormal(-3);
         return "";

@@ -71,7 +71,7 @@ public abstract class Avatar {
      * @return Mensaxe da acción interpretada
      */
 
-    public String moverEnBasico(Xogo xogo, int valorDados){
+    public String moverEnBasico(Xogo xogo, int valorDados) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         String mensaxe="";
         Casilla current=turno.getPosicion();
@@ -85,11 +85,8 @@ public abstract class Avatar {
                 turno.getXogador().engadirDinheiro(Valor.VOLTA_COMPLETA, TipoTransaccion.VOLTA_COMPLETA);
             }
         }
-        try{
-            mensaxe+=next.interpretarCasilla(xogo,valorDados);
-        }catch (MonopolinhoException e){
-            e.imprimirErro();
-        }
+
+        mensaxe+=next.interpretarCasilla(xogo,valorDados);
         mensaxe="O avatar "  +turno.getXogador().getAvatar().getId() +" avanza " +valorDados+" posiciones, desde "+current.getNome()+" ata " + next.getNome() + " \n"+mensaxe;
 
         if(xogo.deronTodosCatroVoltas()){

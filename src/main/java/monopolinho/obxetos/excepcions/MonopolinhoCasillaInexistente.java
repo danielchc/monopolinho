@@ -10,6 +10,6 @@ public class MonopolinhoCasillaInexistente extends MonopolinhoException {
 
     @Override
     public void imprimirErro() {
-        Xogo.consola.imprimirErro("A casilla "+ casilla + " non existe");
+        Xogo.consola.imprimirErro("A casilla "+ super.getMessage() + " non existe");
     }
 }
