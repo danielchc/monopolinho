@@ -5,6 +5,7 @@ import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
@@ -51,7 +52,7 @@ public class Esfinxe extends Avatar{
                 next=taboeiro.getCasillas(zona).get(cpos);
                 Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
                 Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
-                if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
+                if(next instanceof Ir_Carcere)return;
             }
         }else{
             for(int i=1;i<=valorDados;i++){
@@ -60,7 +61,7 @@ public class Esfinxe extends Avatar{
                 next=taboeiro.getCasillas(zona).get(cpos);
                 Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
                 Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
-                if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
+                if(next instanceof Ir_Carcere)return;
             }
         }
 

@@ -166,7 +166,7 @@ public class Trato {
                 texto+=" e "+this.dinheiroOferta;
             }
         }
-        texto+=", e ti dasme ";
+        texto+=" e ti dasme ";
         for(Propiedade p:this.propiedadesDemanda){
             texto+=p.getNome()+" ";
         }
