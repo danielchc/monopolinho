@@ -716,10 +716,12 @@ public class Xogo implements Comandos {
     @Override
     public void eliminarTrato(String id){
         for(Xogador x:this.xogadores){
-            if(!this.turno.getXogador().equals(x)){
-                if(x.eliminarTrato(id.toLowerCase())){
-                    consola.imprimir(id+" eliminado correctamente.");
-                    return;
+            for(Trato t:x.getTratos().values()){
+                if(t.getEmisorTrato().equals(this.turno.getXogador()) && t.getID().equals(id.toLowerCase())) {
+                    if (x.eliminarTrato(id.toLowerCase())) {
+                        consola.imprimir(id + " eliminado correctamente.");
+                        return;
+                    }
                 }
             }
         }
@@ -877,7 +879,7 @@ public class Xogo implements Comandos {
             Xogo.consola.imprimirErro(nome+" non é unha propiedade. Trato cancelado.");
             return false;
         }
-        if(!((Propiedade) c).getDono().equals(x)){
+        if(!((Propiedade) c).pertenceXogador(x)){
             Xogo.consola.imprimirErro("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
             return false;
         }

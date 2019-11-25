@@ -116,7 +116,7 @@ public class Xogador {
      * @param Id key do trato
      * @return devolve o Trato eliminado, null si non se eliminou
      */
-    public boolean eliminarTrato(String Id){
+    public boolean eliminarTrato(String Id ){
         Trato t;
         if(Id!=null){
             t=this.tratos.remove(Id);
