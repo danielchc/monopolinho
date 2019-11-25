@@ -725,7 +725,7 @@ public class Xogo implements Comandos {
                 }
             }
         }
-        consola.imprimir("Non se puido eliminar o "+id);
+        consola.imprimirErro("Non se puido eliminar o "+id);
     }
 
 

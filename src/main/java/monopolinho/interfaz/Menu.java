@@ -194,8 +194,8 @@ public class Menu {
         Xogo.consola.imprimirSubComando("(<propiedade1>,<propiedade2> e diñeiro)","Cambia propiedade1 por propiedade2 mais diñeiro");
         Xogo.consola.imprimirSubComando("(<propiedade1> e diñeiro,<propiedade>)","Cambia propiedade1 mais diñerio por propiedade2");
         Xogo.consola.imprimirSubComando("(<propiedade1>,<propiedade2> e nonalquiler(<propiedade3>,turnos))" ,"Cambia propiedade1 por propiedade2 e non pagar alquiler en propiedade3 X turnos");
-        Xogo.consola.imprimirSubComando("aceptar <trato>" ,"Acepta un trato que se che propuxo");
-        Xogo.consola.imprimirSubComando("eliminar <trato>", "Elimina un trato que propuxeches");
+        Xogo.consola.imprimirComando("aceptar <trato>" ,"Acepta un trato que se che propuxo");
+        Xogo.consola.imprimirComando("eliminar <trato>", "Elimina un trato que propuxeches");
         Xogo.consola.imprimirComando("comandos","Mostra esta mensaxe de axuda");
     }
 
