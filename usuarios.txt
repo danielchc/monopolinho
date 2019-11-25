@@ -1,2 +1,5 @@
-crear jugador Dani pelota
+crear jugador Dani esfinxe
 crear jugador David coche
+mov 12
+cambiar modo
+mova 5

@@ -26,24 +26,49 @@ public class Esfinxe extends Avatar{
         int posicion;
         int cpos=0;
         Xogo.consola.imprimir("Atopaste en "+turno.getPosicion().getNome());
+        Casilla c=null;
         if(zona==Zona.ESTE){
-            turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(0));
+            c=taboeiro.getCasillas(Zona.SUR).get(1);
+            c.interpretarCasilla(xogo,valorDados);
+            valorDados--;
             zona=Zona.SUR;
+            Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + c.getNome());
         }
         if(zona==Zona.OESTE){
-            turno.setPosicion(taboeiro.getCasillas(Zona.SUR).get(1));
-            zona=Zona.SUR;
-        }
-        posicion=taboeiro.getCasillas(zona).indexOf(turno.getPosicion());
-        for(int i=1;i<=valorDados;i++){
-            zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
-            cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
-            next=taboeiro.getCasillas(zona).get(cpos);
-            Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
-            Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
-            if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
+            c=taboeiro.getCasillas(Zona.NORTE).get(1);
+            c.interpretarCasilla(xogo,valorDados);
+            valorDados--;
+            zona=Zona.NORTE;
+            Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + c.getNome());
         }
 
+
+        posicion=taboeiro.getCasillas(zona).indexOf(turno.getPosicion());
+        if(zona==Zona.NORTE){
+            for(int i=1;i<=valorDados;i++){
+                zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
+                cpos=Math.floorMod(((zona==Zona.NORTE)?(i+posicion):10-(i+posicion)),11);
+                next=taboeiro.getCasillas(zona).get(cpos);
+                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
+                Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
+                if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
+            }
+        }else{
+            for(int i=1;i<=valorDados;i++){
+                zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
+                cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
+                next=taboeiro.getCasillas(zona).get(cpos);
+                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
+                Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
+                if(next.getTipoCasilla()== TipoCasilla.IRCARCERE)return;
+            }
+        }
+
+
+
+    }
+
+    private void moverHaciaSur(){
 
     }
 

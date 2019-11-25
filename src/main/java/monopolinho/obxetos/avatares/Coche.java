@@ -6,6 +6,7 @@ import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
@@ -23,9 +24,8 @@ public class Coche extends Avatar{
         Xogo.consola.imprimir("Encontraste en "+ turno.getPosicion().getNome());
 
         if(turno.getVecesTiradas()>4){
-            Xogo.consola.imprimirErro("Non podes lanzar máis veces.Tes que pasar de turno");
             turno.setPodeLanzar(false);
-            return;
+            throw new MonopolinhoGeneralException("Non podes lanzar máis veces.Tes que pasar de turno");
         }
         if(valorDados>4){
             turno.setPodeLanzar(true);
