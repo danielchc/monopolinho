@@ -5,11 +5,12 @@ import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
-public class Sorte3 extends CartaComunidade {
+public class Sorte3 extends CartaSorte {
     public Sorte3() {
         //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.
         super("Saliche escollido conselleiro de urbanismo, soborna a cada xogador con 25000€");

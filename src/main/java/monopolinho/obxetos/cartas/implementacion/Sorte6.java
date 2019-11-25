@@ -3,10 +3,11 @@ package monopolinho.obxetos.cartas.implementacion;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
-public class Sorte6 extends CartaComunidade {
+public class Sorte6 extends CartaSorte {
     private final float PREMIO=1000000f;
     public Sorte6() {
         //6. ¡Has ganado el bote de la lotería! Recibe 1000000€.

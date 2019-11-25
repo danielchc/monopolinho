@@ -12,7 +12,7 @@ public class CasillaComunidade extends CasillaCarta {
 
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados)  throws MonopolinhoException {
-        Xogo.consola.imprimir("Caiches na casilla de COMUNIDADE");
+        Xogo.consola.imprimirAuto("Caiches na casilla de COMUNIDADE");
         xogo.getTurno().setPosicion(this);
         return super.pedirCarta(xogo);
     }

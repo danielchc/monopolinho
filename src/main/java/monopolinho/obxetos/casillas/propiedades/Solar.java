@@ -41,7 +41,6 @@ public class Solar extends Propiedade {
         String mensaxe="";
         if(this.getEstaHipotecada()){
             mensaxe+="Caiche na casila "+this.getNome()+", pero está hipotecada, non pagas.";
-            return mensaxe;
         }else{
             if((!this.pertenceXogador(xogador))&&(!this.pertenceXogador(xogo.getBanca()))){
                 float aPagar=this.totalPagoAlquiler();
@@ -53,7 +52,6 @@ public class Solar extends Propiedade {
                     this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
                     xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
                     mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
-                    return mensaxe;
                 }else{
                     throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
                 }

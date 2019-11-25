@@ -15,9 +15,11 @@ import monopolinho.tipos.*;
  */
 public abstract class Carta {
     private String mensaxe;
+    private boolean movese;
 
     public Carta(String mensaxe) {
         this.mensaxe = mensaxe;
+        this.movese=false;
     }
 
     /**
@@ -46,5 +48,13 @@ public abstract class Carta {
      */
     public void setMensaxe(String mensaxe) {
         this.mensaxe = mensaxe;
+    }
+
+    public boolean getMovese() {
+        return movese;
+    }
+
+    public void setMovese(boolean movese) {
+        this.movese = movese;
     }
 }

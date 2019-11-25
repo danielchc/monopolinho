@@ -4,6 +4,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.especiales.cartas.CasillaCarta;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
@@ -34,6 +35,7 @@ public class Pelota extends Avatar{
                 Xogo.consola.imprimir("Retrocedeches "+i+" posicións. Caiches en "+ next.getNome() + ". " +next.interpretarCasilla(xogo,i));
                 if(next.getTipoCasilla()==TipoCasilla.IRCARCERE)return;
                 if(turno.getXogador().estadoXogador()==EstadoXogador.TEN_DEBEDAS)return;
+                if(next instanceof CasillaCarta)if(((CasillaCarta)next).getUltimaCarta().getMovese())return;
             }
         }
     }

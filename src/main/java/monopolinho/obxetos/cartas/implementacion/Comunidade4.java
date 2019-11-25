@@ -18,6 +18,7 @@ public class Comunidade4 extends CartaComunidade {
                 "Vai directamente sen pasar pola casilla de Saída e sen cobrar os "
                 + Valor.VOLTA_COMPLETA
         );
+        this.setMovese(true);
     }
 
     @Override

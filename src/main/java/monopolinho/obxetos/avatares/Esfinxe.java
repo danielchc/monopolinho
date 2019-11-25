@@ -6,7 +6,9 @@ import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
+import monopolinho.obxetos.casillas.especiales.cartas.CasillaCarta;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 import monopolinho.tipos.Zona;
@@ -24,52 +26,39 @@ public class Esfinxe extends Avatar{
         Taboeiro taboeiro=xogo.getTaboeiro();
         Casilla next;
         Zona zona=turno.getPosicion().getZona();
+        Zona zonaInicial;
         int posicion;
         int cpos=0;
         Xogo.consola.imprimir("Atopaste en "+turno.getPosicion().getNome());
-        Casilla c=null;
-        if(zona==Zona.ESTE){
-            c=taboeiro.getCasillas(Zona.SUR).get(1);
-            c.interpretarCasilla(xogo,valorDados);
-            valorDados--;
-            zona=Zona.SUR;
-            Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + c.getNome());
-        }
-        if(zona==Zona.OESTE){
-            c=taboeiro.getCasillas(Zona.NORTE).get(1);
-            c.interpretarCasilla(xogo,valorDados);
-            valorDados--;
-            zona=Zona.NORTE;
-            Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + c.getNome());
-        }
 
+        if(valorDados>4){
+            if (zona==Zona.ESTE || zona==Zona.OESTE){
+                zona=(zona==Zona.ESTE)?Zona.SUR:Zona.NORTE;
+                next=taboeiro.getCasillas(zona).get(1);
+                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome() +". "+next.interpretarCasilla(xogo,valorDados));
+                valorDados--;
+            }
 
-        posicion=taboeiro.getCasillas(zona).indexOf(turno.getPosicion());
-        if(zona==Zona.NORTE){
+            posicion=taboeiro.getCasillas(zona).indexOf(turno.getPosicion());
+            zonaInicial=zona;
+
             for(int i=1;i<=valorDados;i++){
                 zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
-                cpos=Math.floorMod(((zona==Zona.NORTE)?(i+posicion):10-(i+posicion)),11);
+                if(zonaInicial==Zona.NORTE){
+                    cpos=Math.floorMod(((zona==Zona.NORTE)?(i+posicion):10-(i+posicion)),11);
+                }else{
+                    cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
+                }
                 next=taboeiro.getCasillas(zona).get(cpos);
-                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
-                Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
+                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome() + ". "+next.interpretarCasilla(xogo,valorDados));
                 if(next instanceof Ir_Carcere)return;
+                if(turno.getXogador().estadoXogador()== EstadoXogador.TEN_DEBEDAS)return;
+                if(next instanceof CasillaCarta)if(((CasillaCarta)next).getUltimaCarta().getMovese())return;
+
             }
         }else{
-            for(int i=1;i<=valorDados;i++){
-                zona=(zona==Zona.NORTE)?Zona.SUR:Zona.NORTE;
-                cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
-                next=taboeiro.getCasillas(zona).get(cpos);
-                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome());
-                Xogo.consola.imprimir(next.interpretarCasilla(xogo,valorDados));
-                if(next instanceof Ir_Carcere)return;
-            }
+            System.out.println("DESFACEERR!!!!!!!");
         }
-
-
-
-    }
-
-    private void moverHaciaSur(){
 
     }
 

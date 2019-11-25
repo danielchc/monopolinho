@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public  abstract class CasillaCarta extends Casilla {
     private ArrayList<Carta> cartas;
+    private Carta ultimaCarta;
 
     /**
      * Crea unha nova instancia de casilla
@@ -26,13 +27,14 @@ public  abstract class CasillaCarta extends Casilla {
 
     public String pedirCarta(Xogo xogo) throws MonopolinhoException {
         this.barallar();
-        this.listarCartas();
+        System.out.println(this.listarCartas());
         int nCarta=0;
         do{
-            Xogo.consola.imprimir("Escolle unha carta (1-6): ");
+            Xogo.consola.imprimirsl("\tEscolle unha carta (1-6): ");
             nCarta=new Scanner(System.in).nextInt();
         }while(nCarta<1 || nCarta>6);
-        return cartas.get(nCarta-1).accion(xogo);
+        this.ultimaCarta=cartas.get(nCarta-1);
+        return ultimaCarta.accion(xogo);
     }
 
     public void engadirCarta(Carta c){
@@ -53,10 +55,17 @@ public  abstract class CasillaCarta extends Casilla {
         String mensaxe="";
         int i=1;
         for(Carta c:this.cartas){
-            mensaxe+="\t"+i+".- "+c.getMensaxe();
+            mensaxe+="\n\t"+i+".- "+c.getMensaxe();
             i++;
         }
         return mensaxe;
     }
 
+    public Carta getUltimaCarta() {
+        return ultimaCarta;
+    }
+
+    public void setUltimaCarta(Carta ultimaCarta) {
+        this.ultimaCarta = ultimaCarta;
+    }
 }

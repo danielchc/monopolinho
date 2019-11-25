@@ -15,6 +15,7 @@ public class Comunidade6 extends CartaComunidade {
     public Comunidade6() {
         //4. Hacienda 50000€
         super("Retrocede a Pontepedra para facer unha Churrascada");
+        this.setMovese(true);
     }
 
     @Override

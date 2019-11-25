@@ -5,6 +5,7 @@ import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
@@ -13,7 +14,7 @@ import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 
-public class Sorte2 extends CartaComunidade {
+public class Sorte2 extends CartaSorte {
     public Sorte2() {
         //8. El  aumento  del  impuesto  sobre  bienes  inmuebles  afecta  a  todas  tus  propiedades.  Paga  400000€  por casa, 1150000M€ por hotel, 200.000€ por piscina y 750000€ por pista de deportes.
         super("Pilloute Hacienda, ahora aumenta o pago por cada edificio que teñas.\n" +
