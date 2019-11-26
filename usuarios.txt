@@ -1,5 +1,5 @@
-crear jugador Dani esfinxe
+crear jugador Dani sombreiro
 crear jugador David coche
-mov 12
+mov 21
 cambiar modo
 mova 5

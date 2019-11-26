@@ -35,7 +35,7 @@ public class Esfinxe extends Avatar{
             if (zona==Zona.ESTE || zona==Zona.OESTE){
                 zona=(zona==Zona.ESTE)?Zona.SUR:Zona.NORTE;
                 next=taboeiro.getCasillas(zona).get(1);
-                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome() +". "+next.interpretarCasilla(xogo,valorDados));
+                Xogo.consola.imprimir("Movicheste ao lado "+ zona + " á casilla " + next.getNome() +". "+next.interpretarCasilla(xogo,valorDados));
                 valorDados--;
             }
 
@@ -50,7 +50,7 @@ public class Esfinxe extends Avatar{
                     cpos=Math.floorMod(((zona==Zona.NORTE)?10-(i+posicion):(i+posicion)),11);
                 }
                 next=taboeiro.getCasillas(zona).get(cpos);
-                Xogo.consola.imprimir("Movecheste o lado "+ zona + " a casilla " + next.getNome() + ". "+next.interpretarCasilla(xogo,valorDados));
+                Xogo.consola.imprimir("Movicheste ao lado "+ zona + " á casilla " + next.getNome() + ". "+next.interpretarCasilla(xogo,valorDados));
                 if(next instanceof Ir_Carcere)return;
                 if(turno.getXogador().estadoXogador()== EstadoXogador.TEN_DEBEDAS)return;
                 if(next instanceof CasillaCarta)if(((CasillaCarta)next).getUltimaCarta().getMovese())return;
