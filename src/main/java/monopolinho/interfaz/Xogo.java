@@ -211,7 +211,7 @@ public class Xogo implements Comandos {
         }
         actual.restarTurnosInvalidado();
         consola.imprimir("Tiña o turno "+actual.getNome()+", agora teno "+turno.getXogador().getNome());
-        turno.getXogador().listarTratos();
+        System.out.println(turno.getXogador().listarTratos());
     }
 
     /**
@@ -679,8 +679,41 @@ public class Xogo implements Comandos {
      * @param id trato aceptar
      */
     @Override
-    public void aceptarTrato(String id){
-
+    public void aceptarTrato(String id) throws MonopolinhoGeneralException {
+        Trato trato=this.turno.getXogador().buscarTrato(id);
+        if(trato==null){
+            throw new MonopolinhoGeneralException("Trato inválido: non se puido aceptar o trato "+id+" porque non existe nos teus tratos.");
+        }
+        else{
+            Xogador emisor=trato.getEmisorTrato();
+            Xogador destinatario=trato.getDestinatarioTrato();
+            if(trato.getDinheiroOferta()!=-1){
+                if(!emisor.quitarDinheiro(trato.getDinheiroOferta(),TipoTransaccion.COMPRA)){
+                    throw new MonopolinhoGeneralException(emisor.getNome()+" non dispón de  "+trato.getDinheiroOferta()+" para este trato.");
+                }
+                else{
+                    destinatario.engadirDinheiro(trato.getDinheiroOferta(),TipoTransaccion.VENTA);
+                }
+            }
+            if(trato.getDinheiroDemanda()!=-1){
+                if(!destinatario.quitarDinheiro(trato.getDinheiroDemanda(),TipoTransaccion.COMPRA)){
+                    throw new MonopolinhoGeneralException(destinatario.getNome()+" non dispón de "+trato.getDinheiroDemanda()+" para este trato.");
+                }
+                else{
+                    emisor.engadirDinheiro(trato.getDinheiroDemanda(),TipoTransaccion.VENTA);
+                }
+            }
+            for(Propiedade p:trato.getPropiedadesOferta()){
+                emisor.eliminarPropiedade(p);
+                destinatario.engadirPropiedade(p);
+            }
+            for (Propiedade p:trato.getPropiedadesDemanda()){
+                destinatario.eliminarPropiedade(p);
+                emisor.engadirPropiedade(p);
+            }
+            consola.imprimir("Aceptouse o trato "+id+" con "+emisor.getNome()+": ( "+trato+" )");
+            this.turno.getXogador().eliminarTrato(id);
+        }
     }
 
     /**

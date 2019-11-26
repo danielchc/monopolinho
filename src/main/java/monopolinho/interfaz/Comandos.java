@@ -66,7 +66,7 @@ public interface Comandos {
 
     void listarTratos();
 
-    void aceptarTrato(String id);
+    void aceptarTrato(String id) throws MonopolinhoGeneralException;
 
     void eliminarTrato(String id) throws MonopolinhoGeneralException;
 

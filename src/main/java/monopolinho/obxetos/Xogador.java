@@ -129,6 +129,15 @@ public class Xogador {
     }
 
     /**
+     * Este método busca un trato na lista de tratos do xogador
+     * @param id Id do trato
+     * @return devolve o trato si o encontra, null se non
+     */
+    public Trato buscarTrato(String id){
+        return this.tratos.get(id.toLowerCase());
+    }
+
+    /**
      * Este método lista todos os tratos do xogador
      */
     public String listarTratos(){
