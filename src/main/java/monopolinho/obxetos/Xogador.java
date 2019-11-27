@@ -31,6 +31,7 @@ public class Xogador {
     private EstadoXogador estadoXogador;
     private EstadisticasXogador estadisticas;
     private HashMap<String,Trato> tratos;
+    private HashMap<Propiedade,Integer> nonAlquiler;
 
     /**
      *  Constructor sen argumentos crea a banca.
@@ -45,6 +46,7 @@ public class Xogador {
         this.estadoXogador=EstadoXogador.ESPECIAL;
         this.estadisticas=new EstadisticasXogador();
         this.tratos=new HashMap<>();
+        this.nonAlquiler=new HashMap<>();
     }
 
     /**
@@ -75,6 +77,7 @@ public class Xogador {
         this.estadoXogador=EstadoXogador.NORMAL;
         this.estadisticas=new EstadisticasXogador();
         this.tratos=new HashMap<>();
+        this.nonAlquiler=new HashMap<>();
     }
 
     /**
@@ -148,6 +151,38 @@ public class Xogador {
         }
         return tratos;
     }
+
+
+    /**
+     * Este método engade un trato de non pago de alquiler á lista
+     * @param prop propiedade
+     * @param veces veces sin pagar
+     */
+    public void engadirNonAlquiler(Propiedade prop,int veces){
+        if(prop!=null){
+            this.nonAlquiler.put(prop,new Integer(veces));
+        }
+    }
+
+    /**
+     * Este método resta en 1 as veces que quedas sen pagar alquiler
+     * @param prop propiedade a verificar
+     * @return Se non estás exento nesa propiedade devolve false, e se non se acabaron os turnos, restase 1 e devolve true
+     */
+    public boolean restarVecesNonAlquiler(Propiedade prop){
+        Integer oldVeces=this.nonAlquiler.get(prop);
+        if(oldVeces==null) return false;
+        oldVeces--;
+        if (oldVeces==0){
+            this.nonAlquiler.remove(prop);
+        }else{
+            this.nonAlquiler.replace(prop,oldVeces);
+            return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * Este metodo engade diñeiro ao xogador.

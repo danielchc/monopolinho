@@ -1,8 +1,10 @@
 package monopolinho.obxetos;
 
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.casillas.propiedades.Solar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Trato {
     private Xogador emisorTrato;
@@ -12,6 +14,8 @@ public class Trato {
     private float dinheiroOferta;
     private float dinheiroDemanda;
     private String ID;
+    private Propiedade noAlquilerSitio;
+    private int noAlquilerVeces;
 
     /**
      * Constructor dos tratos
@@ -26,6 +30,8 @@ public class Trato {
         this.dinheiroDemanda=-1f;
         this.dinheiroOferta=-1f;
         this.ID=ID;
+        this.noAlquilerSitio=null;
+        this.noAlquilerVeces=-1;
     }
 
 
@@ -61,7 +67,11 @@ public class Trato {
                 texto+=" y "+this.dinheiroDemanda;
             }
         }
-        texto+=")\n}";
+        texto+=")";
+        if(this.noAlquilerSitio!=null){
+            texto+=" e non pagar alquiler en "+this.noAlquilerSitio.getNome()+" durante "+this.noAlquilerVeces+" turnos.";
+        }
+        texto+="\n}";
         return texto;
     }
 
@@ -148,6 +158,22 @@ public class Trato {
         }
     }
 
+    public int getNoAlquilerVeces() {
+        return noAlquilerVeces;
+    }
+
+    public void setNoAlquilerVeces(int noAlquilerVeces) {
+        this.noAlquilerVeces = noAlquilerVeces;
+    }
+
+    public Propiedade getNoAlquilerSitio() {
+        return noAlquilerSitio;
+    }
+
+    public void setNoAlquilerSitio(Propiedade noAlquilerSitio) {
+        this.noAlquilerSitio = noAlquilerSitio;
+    }
+
     public String getID() {
         return ID;
     }
@@ -177,6 +203,9 @@ public class Trato {
             else{
                 texto+=" e "+this.dinheiroDemanda;
             }
+        }
+        if(this.noAlquilerSitio!=null){
+            texto+=" e non pagar alquiler en "+this.noAlquilerSitio.getNome()+" durante "+this.noAlquilerVeces+" turnos";
         }
         texto+="? ("+this.ID+")";
         return texto;

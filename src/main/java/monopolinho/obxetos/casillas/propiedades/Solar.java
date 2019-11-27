@@ -43,17 +43,21 @@ public class Solar extends Propiedade {
             mensaxe+="Caiche na casila "+this.getNome()+", pero está hipotecada, non pagas.";
         }else{
             if((!this.pertenceXogador(xogador))&&(!this.pertenceXogador(xogo.getBanca()))){
-                float aPagar=this.totalPagoAlquiler();
+                if(xogador.restarVecesNonAlquiler(this)){
+                    mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
+                }else {
+                    float aPagar=this.totalPagoAlquiler();
 
-                aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
+                    aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
 
-                if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
-                    this.getEstadisticas().engadirAlquilerPagado(aPagar);
-                    this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
-                    xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
-                    mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
-                }else{
-                    throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
+                    if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
+                        this.getEstadisticas().engadirAlquilerPagado(aPagar);
+                        this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
+                        xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
+                        mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
+                    }else{
+                        throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
+                    }
                 }
             }
         }

@@ -609,6 +609,37 @@ public class Xogo implements Comandos {
 
 
 
+    private void proba(String texto){ //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
+        String[] cmds=texto.split(":");
+        if (cmds.length!=2) return;
+        String opcions=cmds[1].replace(" ","");
+        String[] ops=opcions.split(",",2);
+
+        String oferta=ops[0];
+        String segundaParte=ops[1];
+
+        for(String s:oferta.split("y")){
+            if(s.equals("cambiar")) continue;
+            String lmao=s.replace("("," ").replace(")"," ").replace(","," ");
+            String[] caca=lmao.split(" ");
+            for(String x:caca){
+                System.out.println("oferta "+x);
+            }
+        }
+        for(String s:segundaParte.split("y")){
+            String lmao=s.replace("("," ").replace(")"," ").replace(","," ");
+            String[] caca=lmao.split(" ");
+            for(int i=0;i<caca.length;i++){
+                if(caca[i].equals("noalquiler")){
+                    System.out.println("noalquiler "+caca[i+1]);
+                    System.out.println("noalquiler "+caca[i+2]);
+                    i=i+3;
+                    if(i==caca.length) break;
+                }
+                System.out.println("demanda "+caca[i]);
+            }
+        }
+    }
 
     /**
      * Este método permite propoñer un trato.
@@ -616,6 +647,9 @@ public class Xogo implements Comandos {
      */
     @Override
     public void proponerTrato(String[] cmds) throws MonopolinhoGeneralException { //FALTA IMPLEMENTAR O DE NOALQUILER
+
+        proba(String.join(" ",cmds)); //maemia
+
 
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
@@ -632,12 +666,17 @@ public class Xogo implements Comandos {
 
         String[] limpo=new String[cmds.length];
         int limiteOferta=-1;
+        int limiteDemanda=-1;
         for (int i=0;i<cmds.length;i++){
             if(cmds[i].charAt(cmds[i].length()-1) == ','){
-                limiteOferta=i;
+                if(limiteOferta==-1) limiteOferta=i;
+            }
+            else if(cmds[i].charAt(cmds[i].length()-1)== ')'){
+                if(limiteDemanda==-1) limiteDemanda=i;
             }
             limpo[i]=cmds[i].replace("(","").replace(")","").replace(",","");
         }
+
 
         for (int i=3;i<=limiteOferta;i++){
             if(isNumeric(limpo[i])){

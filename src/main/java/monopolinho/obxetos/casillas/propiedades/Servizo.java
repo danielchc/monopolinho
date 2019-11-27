@@ -26,16 +26,20 @@ public class Servizo extends Propiedade {
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         if((!this.pertenceXogador(xogador)) && (!this.pertenceXogador(xogo.getBanca()))){
-            float aPagar=valorDados*this.getAlquiler();
+            if(xogador.restarVecesNonAlquiler(this)){
+                mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
+            }else {
+                float aPagar = valorDados * this.getAlquiler();
 
-            aPagar*=(this.getDono().numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1)?4.0f:10.0f;
+                aPagar *= (this.getDono().numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1) ? 4.0f : 10.0f;
 
-            if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
-                this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
-                xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
-                mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome() +" por usar "+this.getNome();
-            }else{
-                throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);
+                if (xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)) {
+                    this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
+                    xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER, this, aPagar));
+                    mensaxe += "Tes que pagarlle " + aPagar + " a " + this.getDono().getNome() + " por usar " + this.getNome();
+                } else {
+                    throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.", xogador);
+                }
             }
         }
         xogo.getTurno().setPosicion(this);
