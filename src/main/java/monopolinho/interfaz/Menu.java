@@ -147,7 +147,7 @@ public class Menu {
                 new Scanner(System.in).nextLine();
             }else{
                 if(leido.startsWith("#"))continue;
-                Xogo.consola.imprimirAuto(leido,"$> " );
+                Xogo.consola.imprimirAuto(leido,"$>" );
                 try{
                     interpretarComando(leido);
                 }catch (MonopolinhoException e){

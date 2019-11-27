@@ -989,16 +989,7 @@ public class Xogo implements Comandos {
     }
 
     public void desfacer(){
-        String mensaxe="";
-        while(!this.turno.getHistorialAccion().empty()){
-            Accion a=this.turno.getHistorialAccion().pop();
-            if(a.getCasilla()!=null)
-                mensaxe+=a.getTipo()+" -> "+a.getCasilla().getNome()+"\n";
-            else
-                mensaxe+=a.getTipo()+" -> "+a.getDinheiro()+"\n";
-            a.desfacer(this);
-        }
-        System.out.println(mensaxe);
+        this.turno.desfacer(this);
     }
 
 }

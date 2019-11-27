@@ -57,7 +57,8 @@ public class Esfinxe extends Avatar{
 
             }
         }else{
-            System.out.println("DESFACEERR!!!!!!!");
+            System.out.println("Sacaches menos de 4, desfacendo todo o que fixeches no turno");
+            turno.desfacer(xogo);
         }
 
     }

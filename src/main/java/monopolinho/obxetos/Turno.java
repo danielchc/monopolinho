@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.TipoAccion;
 
@@ -34,6 +35,20 @@ public class Turno {
             a.setTurno(this);
             historialAccion.add(a);
         }
+    }
+
+
+    public void desfacer(Xogo xogo){
+        String mensaxe="";
+        while(!this.historialAccion.empty()){
+            Accion a=historialAccion.pop();
+            if(a.getCasilla()!=null)
+                mensaxe+=a.getTipo()+" -> "+a.getCasilla().getNome()+"\n";
+            else
+                mensaxe+=a.getTipo()+" -> "+a.getDinheiro()+"\n";
+            a.desfacer(xogo);
+        }
+        System.out.println(mensaxe);
     }
 
     /**
