@@ -18,6 +18,7 @@ import monopolinho.tipos.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Daniel Chenel
@@ -334,7 +335,7 @@ public class Xogo implements Comandos {
         c.setEstaHipotecada(true);
         c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
         turno.engadirAccion(new Accion(TipoAccion.HIPOTECAR,c));
-        consola.imprimir("\nAcabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
+        consola.imprimir("Acabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
 
     }
 
@@ -366,7 +367,7 @@ public class Xogo implements Comandos {
         }
         c.setEstaHipotecada(false);
         turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
-        consola.imprimir("\nAcabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
+        consola.imprimir("Acabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
 
     }
 
@@ -588,6 +589,7 @@ public class Xogo implements Comandos {
             }
         }
         consola.imprimir(mensaxe);
+        turno.engadirAccion(new Accion(TipoAccion.LANZAR_DADOS,turno.getPosicion()));
         if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL){
             moverModoNormal(dados.valorLanzar());
         }else{
@@ -969,18 +971,34 @@ public class Xogo implements Comandos {
         }
         return false;
     }
-    //BORRAR
 
+
+    //BORRAR
     public void mov(int i) throws MonopolinhoException {
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
+        turno.engadirAccion(new Accion(TipoAccion.LANZAR_DADOS,turno.getPosicion()));
         moverModoNormal(i);
     }
 
     public void mova(int i){
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
+        turno.engadirAccion(new Accion(TipoAccion.LANZAR_DADOS,turno.getPosicion()));
         moverModoAvanzado(i);
+    }
+
+    public void desfacer(){
+        String mensaxe="";
+        while(!this.turno.getHistorialAccion().empty()){
+            Accion a=this.turno.getHistorialAccion().pop();
+            if(a.getCasilla()!=null)
+                mensaxe+=a.getTipo()+" -> "+a.getCasilla().getNome()+"\n";
+            else
+                mensaxe+=a.getTipo()+" -> "+a.getDinheiro()+"\n";
+            a.desfacer(this);
+        }
+        System.out.println(mensaxe);
     }
 
 }

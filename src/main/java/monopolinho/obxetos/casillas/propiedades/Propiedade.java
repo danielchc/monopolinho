@@ -45,8 +45,9 @@ public abstract class Propiedade extends Casilla {
      */
     public void setDono(Xogador dono) {
         if(dono!=null){
-            if(this.dono!=null)
-                dono.eliminarPropiedade(this);
+            if(this.dono!=null){
+                this.getDono().eliminarPropiedade(this);
+            }
             this.dono = dono;
             dono.engadirPropiedade(this);
         }

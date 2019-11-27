@@ -146,7 +146,8 @@ public class Menu {
                 Xogo.consola.imprimirAuto("Esperando a entrada para continuar...");
                 new Scanner(System.in).nextLine();
             }else{
-                Xogo.consola.imprimirAuto("Esperando a entrada para continuar...","$> " );
+                if(leido.startsWith("#"))continue;
+                Xogo.consola.imprimirAuto(leido,"$> " );
                 try{
                     interpretarComando(leido);
                 }catch (MonopolinhoException e){
@@ -385,6 +386,9 @@ public class Menu {
             case "mova":
                 //BORRARR
                 xogo.mova(Integer.parseInt(cmds[1]));
+                break;
+            case "desfacer":
+                xogo.desfacer();
                 break;
             case "comandos":
             case "axuda":

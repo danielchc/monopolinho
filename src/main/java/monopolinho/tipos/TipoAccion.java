@@ -13,5 +13,6 @@ public enum TipoAccion {
     PAGAR_ALQUILER,
     IR_CARCEL,
     PAGAR_CARTA,
+    LANZAR_DADOS,
     MOVERSE
 }

@@ -4,6 +4,7 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.TipoAccion;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * @author David Carracedo
@@ -14,7 +15,7 @@ public class Turno {
     private int vecesTiradas;
     private boolean podeLanzar;
     private ArrayList<Casilla> historial;
-    private ArrayList<Accion> historialAccion;
+    private Stack<Accion> historialAccion;
 
     /**
      * Crea un obxecto turno
@@ -25,12 +26,14 @@ public class Turno {
         this.vecesTiradas=0;
         this.podeLanzar=true;
         this.historial=new ArrayList<>();
-        this.historialAccion=new ArrayList<>();
+        this.historialAccion=new Stack<>();
     }
 
     public void engadirAccion(Accion a){
-        if(a!=null)
+        if(a!=null){
+            a.setTurno(this);
             historialAccion.add(a);
+        }
     }
 
     /**
@@ -121,7 +124,7 @@ public class Turno {
             if(h.getCasilla()!=null)
                 mensaxe+=h.getTipo()+" -> "+h.getCasilla().getNome()+"\n";
             else
-                mensaxe+=h.getTipo()+" -> "+h.dinheiro+"\n";
+                mensaxe+=h.getTipo()+" -> "+h.getDinheiro()+"\n";
         }
         return mensaxe;
     }
@@ -140,4 +143,12 @@ public class Turno {
         this.historial = historial;
     }
 
+
+    public Stack<Accion> getHistorialAccion() {
+        return historialAccion;
+    }
+
+    public void setHistorialAccion(Stack<Accion> historialAccion) {
+        this.historialAccion = historialAccion;
+    }
 }
