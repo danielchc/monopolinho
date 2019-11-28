@@ -8,6 +8,8 @@ public class Hotel extends Edificio{
     public Hotel(Solar posicion){
         super(posicion);
         super.setTipoEdificio(TipoEdificio.HOTEL);
+        super.setId(TipoEdificio.HOTEL + String.valueOf(posicion.getNumeroEdificiosTipo(TipoEdificio.HOTEL) + 1));
+
     }
 
     @Override

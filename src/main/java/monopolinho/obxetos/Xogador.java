@@ -15,6 +15,7 @@ import monopolinho.tipos.TipoMovemento;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 /**
  * @author Daniel Chenel
@@ -279,15 +280,15 @@ public class Xogador {
         String listaPropiedades="[",listaHipotecas="[",listaEdificios="[";
 
         for(Propiedade c:this.propiedades) {
-            if (!c.getEstaHipotecada())listaPropiedades += c.getNome() + ", ";
-            else listaHipotecas += c.getNome() + ", ";
             if(c instanceof Solar)
                 for(Edificio e:((Solar)c).getEdificios()) listaEdificios+=e+" ("+e.getPosicion().getNome()+"), ";
         }
 
-        listaHipotecas=(listaHipotecas.length()==1)?"[]":listaHipotecas.substring(0,listaHipotecas.length()-2)+"]";
-        listaPropiedades=(listaPropiedades.length()==1)?"[]":listaPropiedades.substring(0,listaPropiedades.length()-2)+"]";
+
         listaEdificios=(listaEdificios.length()==1)?"[]":listaEdificios.substring(0,listaEdificios.length()-2)+"]";
+
+        listaHipotecas= "["+this.propiedades.stream().filter(x->x.getEstaHipotecada()).map(Propiedade::getNome).collect(Collectors.joining(", "))+"]";
+        listaPropiedades= "["+this.propiedades.stream().filter(x->!x.getEstaHipotecada()).map(Propiedade::getNome).collect(Collectors.joining(", "))+"]";
 
         return "{\n\tNome:" +this.nome+
                 ",\n\tAvatar:"+ ((getAvatar()!=null)?getAvatar().getId():"-")+

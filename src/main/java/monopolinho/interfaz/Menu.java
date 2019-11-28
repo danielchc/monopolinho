@@ -1,5 +1,6 @@
 package monopolinho.interfaz;
 
+import monopolinho.axuda.Auxiliar;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
@@ -316,7 +317,7 @@ public class Menu {
                 }
                 break;
             case "vender":
-                if(cmds.length!=4){
+                if(cmds.length!=4 || (!Auxiliar.isNumeric(cmds[3]))){
                     throw new MonopolinhoComandoIncorrecto("Sintaxe: vender <casa/hotel/piscina/pista> <casilla> <numero> ");
                 }
                 xogo.venderEdificio(interpretarEdificio(cmds[1]),cmds[2],Integer.parseInt(cmds[3]));

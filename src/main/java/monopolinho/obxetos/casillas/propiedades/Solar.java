@@ -4,10 +4,12 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Accion;
+import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.edificios.*;
 import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
@@ -15,6 +17,7 @@ import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Solar extends Propiedade {
     private Grupo grupo;
@@ -46,10 +49,7 @@ public class Solar extends Propiedade {
                 if(xogador.restarVecesNonAlquiler(this)){
                     mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
                 }else {
-                    float aPagar=this.totalPagoAlquiler();
-
-                    aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
-
+                    float aPagar=this.getAlquiler();
                     if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                         this.getEstadisticas().engadirAlquilerPagado(aPagar);
                         this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
@@ -65,22 +65,51 @@ public class Solar extends Propiedade {
         return mensaxe;
     }
 
-    public void edificar(TipoEdificio tipo){
+    public void edificar(TipoEdificio tipo, Turno turno) throws MonopolinhoNonSePodeConstruir {
         switch (tipo){
-            case PISCINA:
-                this.engadirEdificio(new Piscina(this));
-                break;
             case CASA:
+                if(!this.getGrupo().tenTodoGrupo(turno.getXogador()) && this.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
+                    throw new MonopolinhoNonSePodeConstruir("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+this.getNome());
+                }
                 this.engadirEdificio(new Casa(this));
                 break;
-            case PISTA_DEPORTES:
-                this.engadirEdificio(new Pistadeportes(this));
-                break;
             case HOTEL:
+                if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
+                    throw new MonopolinhoNonSePodeConstruir("Necesitas 4 casas en "+this.getNome()+" para edificar un hotel");
+                }
+                this.eliminarNumeroEdificios(TipoEdificio.CASA,4);
                 this.engadirEdificio(new Hotel(this));
+                break;
+            case PISCINA:
+                if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
+                    throw new MonopolinhoNonSePodeConstruir("Necesitas polo menos 2 casas e 1 hotel en "+this.getNome()+" para edificar unha piscina.");
+                }
+                this.engadirEdificio(new Piscina(this));
+                break;
+            case PISTA_DEPORTES:
+                if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
+                    throw new MonopolinhoNonSePodeConstruir("Necesitas polo menos 2 hoteles en "+this.getNome()+" para edificar unha pista de deportes.");
+                }
+                this.engadirEdificio(new Pistadeportes(this));
                 break;
         }
     }
+
+    public void eliminarNumeroEdificios(TipoEdificio tipo,int numero){
+        int edifsEliminados=0;
+        ArrayList<Edificio> aBorrar=new ArrayList<>();
+        for(Edificio e:this.getEdificios()){
+            if((e.getTipoEdificio() == tipo) && (edifsEliminados<numero)){
+                aBorrar.add(e);
+                edifsEliminados++;
+            }
+        }
+        for(Edificio e:aBorrar){
+            this.eliminarEdificio(e);
+        }
+        this.renombrarEdificios();
+    }
+
     /**
      * Engade un edificio a unha casilla
      * @param e Edificio a engadir á casilla
@@ -137,7 +166,7 @@ public class Solar extends Propiedade {
     /**
      * Esta función renombra as casas para que sempre estean os ids entre 1 e N.
      */
-    public void renombrarEdificios(){
+    private void renombrarEdificios(){
         int contador=1;
         for(Edificio e:this.edificios){
             if(e instanceof Casa){
@@ -152,11 +181,11 @@ public class Solar extends Propiedade {
      */
     public String describirEdificios(){
         String text="";
-        String[] edificiosTexto={"[","[","[","["};
-        for(Edificio e:this.edificios)
-            edificiosTexto[e.getTipoEdificio().ordinal()]+=e+", ";
-        for(int i=0;i<4;i++)
-            edificiosTexto[i]=((edificiosTexto[i].length()==1)?"[":edificiosTexto[i].substring(0,edificiosTexto[i].length()-2))+"]";
+        String[] edificiosTexto=new String[4];
+        for(TipoEdificio k:TipoEdificio.values()){
+            edificiosTexto[k.ordinal()]="["+this.edificios.stream().filter(x->(x.getTipoEdificio()==k)).map(Edificio::getId).collect(Collectors.joining(", "))+"]";
+        }
+
         text+="{\n"+
                 "\n\tPropiedade: " + this.getNome() +
                 ",\n\tCasas: " + edificiosTexto[TipoEdificio.CASA.ordinal()]+
@@ -226,7 +255,6 @@ public class Solar extends Propiedade {
     public Grupo getGrupo() {
         return grupo;
     }
-
     /**
      * Establece o grupo dunha casilla, solo para solares
      * @param grupo
@@ -234,6 +262,7 @@ public class Solar extends Propiedade {
     public void setGrupo(Grupo grupo) {
         if(grupo!=null)this.grupo =grupo;
     }
+
     @Override
     public TipoCasilla getTipoCasilla() {
         return TipoCasilla.SOLAR;
@@ -256,41 +285,37 @@ public class Solar extends Propiedade {
         return texto;
     }
 
+    private float getAlquilerEdificioTipo(TipoEdificio tipo) {
+        return this.alquiler*Valor.FACTOR_ALQUILER_REDIFICIOS[tipo.ordinal()];
+    }
+
     /**
      * Este metodo permite calcular o total a pagar de alquiler
      * @return Total alquiler a pagar
      */
-    private float totalPagoAlquiler(){
+    @Override
+    public float getAlquiler() {
         float aPagar=0;
         if(this.getNumeroEdificios()!=0){
             if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>4)
-                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[4]*getAlquiler();
+                aPagar+=Valor.FACTOR_ALQUILER_CASA[4]*this.alquiler;
             else
-                aPagar+=Valor.FACTOR_ALQUILER_EDIFICIOS[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*getAlquiler();
+                aPagar+=Valor.FACTOR_ALQUILER_CASA[this.getNumeroEdificiosTipo(TipoEdificio.CASA)]*this.alquiler;
 
-            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*getAlquiler()*70;
-            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*getAlquiler()*25;
-            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*getAlquiler()*25;
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)*getAlquilerEdificioTipo(TipoEdificio.HOTEL);
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISCINA)*getAlquilerEdificioTipo(TipoEdificio.PISCINA);
+            aPagar+=this.getNumeroEdificiosTipo(TipoEdificio.PISTA_DEPORTES)*getAlquilerEdificioTipo(TipoEdificio.PISTA_DEPORTES);
         }else{
-            aPagar=getAlquiler(); //REVISAR ESTO
+            aPagar=this.alquiler; //REVISAR ESTO
         }
+        aPagar*=(this.getGrupo().tenTodoGrupo(this.getDono()))?Valor.FACTOR_PAGO_ALQUILER:1f;
         return aPagar;
     }
 
     @Override
-    public float getAlquiler() {
-        return alquiler;
-    }
-
-    @Override
     public String toString() {
-        String listaEdificios="[";
 
-        for(Edificio e:this.edificios){
-            listaEdificios+=e+", ";
-        }
-        listaEdificios=(listaEdificios.length()==1)?"[]":listaEdificios.substring(0,listaEdificios.length()-2)+"]";
-        
+        String listaEdificios="["+this.edificios.stream().map(Edificio::getId).collect(Collectors.joining(", "))+"]";
         return super.toString()+
             "\n\tGrupo: "+this.getGrupo().getNome() +
             "\n\tValor: "+this.getValor() +
@@ -299,14 +324,14 @@ public class Solar extends Propiedade {
             "\n\tValor hotel: "+this.getValor()*Valor.FACTOR_VALOR_HOTEL+
             "\n\tValor piscina: "+this.getValor()*Valor.FACTOR_VALOR_PISCINA+
             "\n\tValor pista deportes: "+this.getValor()*Valor.FACTOR_VALOR_PISTADEPORTES+
-            "\n\tAlquiler 1 casa: "+this.getAlquiler()*5+
-            "\n\tAlquiler 2 casa: "+this.getAlquiler()*15+
-            "\n\tAlquiler 3 casa: "+this.getAlquiler()*35+
-            "\n\tAlquiler 4 casa: "+this.getAlquiler()*50+
-            "\n\tAlquiler hotel: "+this.getAlquiler()*70+
-            "\n\tAlquiler piscina: "+this.getAlquiler()*25+
-            "\n\tAlquiler pista de deportes: "+this.getAlquiler()*25+
-            "\n\tTotal a pagar de alquiler actualmente: "+((this.getGrupo().tenTodoGrupo(this.getDono()) && !this.getDono().getNome().equals("Banca"))?this.totalPagoAlquiler()*Valor.FACTOR_PAGO_ALQUILER:this.totalPagoAlquiler())+
+            "\n\tAlquiler 1 casa: "+this.alquiler*5+
+            "\n\tAlquiler 2 casa: "+this.alquiler*15+
+            "\n\tAlquiler 3 casa: "+this.alquiler*35+
+            "\n\tAlquiler 4 casa: "+this.alquiler*50+
+            "\n\tAlquiler hotel: "+getAlquilerEdificioTipo(TipoEdificio.HOTEL)+
+            "\n\tAlquiler piscina: "+getAlquilerEdificioTipo(TipoEdificio.PISCINA)+
+            "\n\tAlquiler pista de deportes: "+getAlquilerEdificioTipo(TipoEdificio.PISTA_DEPORTES)+
+            "\n\tTotal a pagar de alquiler actualmente: "+(!this.getDono().getNome().equals("Banca")?this.getAlquiler():"")+
             "\n\tEdificios: "+listaEdificios+
             "\n}";
     }

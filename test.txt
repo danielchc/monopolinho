@@ -5,3 +5,12 @@ mov 1
 acabar turno
 mov 1
 comprar goiriz
+mov 2
+comprar sada
+edificar casa
+edificar casa
+edificar casa
+edificar casa
+describir sada
+#edificar hotel
+#describir sada

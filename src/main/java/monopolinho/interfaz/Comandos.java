@@ -50,7 +50,7 @@ public interface Comandos {
 
     void declararBancarrota() throws MonopolinhoGeneralException;
 
-    void edificar(TipoEdificio tipo) throws MonopolinhoNonSePodeConstruir;
+    void edificar(TipoEdificio tipo) throws MonopolinhoNonSePodeConstruir, MonopolinhoException;
 
     void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente, MonopolinhoGeneralException;
 

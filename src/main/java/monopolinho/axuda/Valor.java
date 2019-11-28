@@ -97,8 +97,9 @@ public class Valor {
 
     public static final float FACTOR_VALOR_PISTADEPORTES=1.25f;
 
-    public static final int[] FACTOR_ALQUILER_EDIFICIOS={1,5,15,35,50};
+    public static final int[] FACTOR_ALQUILER_CASA ={1,5,15,35,50};
 
+    public static final int[] FACTOR_ALQUILER_REDIFICIOS ={0,70,25,25};
 
     /**
      * Cores ascii
