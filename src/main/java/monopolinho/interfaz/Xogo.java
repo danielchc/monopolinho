@@ -609,48 +609,50 @@ public class Xogo implements Comandos {
 
 
 
-    private void proba(String texto){ //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
-        String[] cmds=texto.split(":");
-        if (cmds.length!=2) return;
-        String opcions=cmds[1].replace(" ","");
-        String[] ops=opcions.split(",",2);
-
-        String oferta=ops[0];
-        String segundaParte=ops[1];
-
-        for(String s:oferta.split("y")){
-            if(s.equals("cambiar")) continue;
-            String lmao=s.replace("("," ").replace(")"," ").replace(","," ");
-            String[] caca=lmao.split(" ");
-            for(String x:caca){
-                System.out.println("oferta "+x);
-            }
-        }
-        for(String s:segundaParte.split("y")){
-            String lmao=s.replace("("," ").replace(")"," ").replace(","," ");
-            String[] caca=lmao.split(" ");
-            for(int i=0;i<caca.length;i++){
-                if(caca[i].equals("noalquiler")){
-                    System.out.println("noalquiler "+caca[i+1]);
-                    System.out.println("noalquiler "+caca[i+2]);
-                    i=i+3;
-                    if(i==caca.length) break;
-                }
-                System.out.println("demanda "+caca[i]);
-            }
-        }
-    }
-
     /**
      * Este método permite propoñer un trato.
-     * @param cmds comandos do trato
+     * @param comandos comandos do trato
      */
     @Override
-    public void proponerTrato(String[] cmds) throws MonopolinhoGeneralException { //FALTA IMPLEMENTAR O DE NOALQUILER
+    public void proponerTrato(String[] comandos) throws MonopolinhoGeneralException { //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
+        String texto="".join(" ",comandos);
+        String[] cmds=texto.split(":");
+        if (cmds.length!=2) return;
+        String xogadorDestino=cmds[0].split(" ")[1];
+        String opcionsTrato=cmds[1].replace(" ","");
+        String[] partesTrato=opcionsTrato.split(",",2);
 
-        proba(String.join(" ",cmds)); //maemia
+        String parteOferta=partesTrato[0];
+        String parteDemanda=partesTrato[1];
 
-
+        for(String s:parteOferta.split("y")){ //revisar esto
+            String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ");
+            String[] elementosOferta=segmentoLimpo.split(" ");
+            for(int i=0;i<elementosOferta.length;i++){
+                if(elementosOferta[i].equals("cambiar")) continue;
+                if(elementosOferta[i].equals("noalquiler")){
+                    System.out.println("noalquiler "+elementosOferta[i+1]);
+                    System.out.println("noalquiler "+elementosOferta[i+2]);
+                    i=i+3;
+                    if(i==elementosOferta.length) break;
+                }
+                System.out.println("oferta "+elementosOferta[i]);
+            }
+        }
+        for(String s:parteDemanda.split("y")){
+            String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ");
+            String[] elementosDemanda=segmentoLimpo.split(" ");
+            for(int i=0;i<elementosDemanda.length;i++){
+                if(elementosDemanda[i].equals("noalquiler")){
+                    System.out.println("noalquiler "+elementosDemanda[i+1]);
+                    System.out.println("noalquiler "+elementosDemanda[i+2]);
+                    i=i+3;
+                    if(i==elementosDemanda.length) break;
+                }
+                System.out.println("demanda "+elementosDemanda[i]);
+            }
+        }
+        /*
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
 
@@ -705,6 +707,8 @@ public class Xogo implements Comandos {
         consola.imprimir(trato);
         destinatario.engadirTrato(trato);
         this.numTratos++;
+
+         */
     }
 
     /**
