@@ -135,10 +135,11 @@ public class Turno {
     public String listarAccions(){
         String mensaxe="";
         for(Accion h:historialAccion){
-            mensaxe+=h.getClass().getName();
+            mensaxe+=h.getClass().getSimpleName()+"\n";
         }
         return mensaxe;
     }
+
     /**
      * @return Obten o historial de casillas nas que se pasou nun turno
      */

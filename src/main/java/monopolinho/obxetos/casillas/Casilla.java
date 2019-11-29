@@ -218,8 +218,7 @@ public abstract class Casilla {
     }
     @Override
     public String toString() {
-        return "{\n"+
-                "\n\tNome: "+this.nome +
+        return "{\n\tNome: "+this.nome +
                 "\n\tTipo: "+this.getTipoCasilla();
     }
 

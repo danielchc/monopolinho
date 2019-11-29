@@ -6,16 +6,14 @@ import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.tipos.TipoTransaccion;
 
 public class AccionComprar extends Accion {
-    Casilla casilla;
-    public AccionComprar(Casilla c){
-        this.casilla=c;
+    Propiedade propiedade;
+    public AccionComprar(Propiedade c){
+        this.propiedade=c;
     }
     @Override
     public String desfacer(Xogo xogo) {
-        if(casilla instanceof Propiedade){
-            ((Propiedade)casilla).setDono(xogo.getBanca());
-            super.getTurno().getXogador().engadirDinheiro(((Propiedade)casilla).getValor(), TipoTransaccion.OTROS);
-        }
-        return "A propiedade "+casilla.getNome() +" xa non che pertenece";
+        propiedade.setDono(xogo.getBanca());
+        super.getTurno().getXogador().engadirDinheiro(propiedade.getValor(), TipoTransaccion.OTROS);
+        return "A propiedade "+ propiedade.getNome() +" xa non che pertenece";
     }
 }

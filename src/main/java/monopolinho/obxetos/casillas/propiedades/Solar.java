@@ -3,7 +3,6 @@ package monopolinho.obxetos.casillas.propiedades;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.accions.AccionAlquiler;
 import monopolinho.obxetos.avatares.Avatar;
@@ -12,7 +11,6 @@ import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
-import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
@@ -72,28 +70,25 @@ public class Solar extends Propiedade {
                 if(!this.getGrupo().tenTodoGrupo(turno.getXogador()) && this.numeroVecesCaidas(turno.getXogador().getAvatar())<2){
                     throw new MonopolinhoNonSePodeConstruir("Para edificar unha casa debes ter todo o grupo ou caer 2 veces en "+this.getNome());
                 }
-                this.engadirEdificio(new Casa(this));
                 break;
             case HOTEL:
                 if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<4){
                     throw new MonopolinhoNonSePodeConstruir("Necesitas 4 casas en "+this.getNome()+" para edificar un hotel");
                 }
                 this.eliminarNumeroEdificios(TipoEdificio.CASA,4);
-                this.engadirEdificio(new Hotel(this));
                 break;
             case PISCINA:
                 if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)<2 || this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<1){
                     throw new MonopolinhoNonSePodeConstruir("Necesitas polo menos 2 casas e 1 hotel en "+this.getNome()+" para edificar unha piscina.");
                 }
-                this.engadirEdificio(new Piscina(this));
                 break;
             case PISTA_DEPORTES:
                 if(this.getNumeroEdificiosTipo(TipoEdificio.HOTEL)<2){
                     throw new MonopolinhoNonSePodeConstruir("Necesitas polo menos 2 hoteles en "+this.getNome()+" para edificar unha pista de deportes.");
                 }
-                this.engadirEdificio(new Pistadeportes(this));
                 break;
         }
+        this.engadirEdificio(tipo);
     }
 
     public void eliminarNumeroEdificios(TipoEdificio tipo,int numero){
@@ -115,9 +110,21 @@ public class Solar extends Propiedade {
      * Engade un edificio a unha casilla
      * @param e Edificio a engadir á casilla
      */
-    public void engadirEdificio(Edificio e){
-        if(e!=null)
-            this.edificios.add(e);
+    public void engadirEdificio(TipoEdificio e){
+        switch (e){
+            case PISTA_DEPORTES:
+                this.edificios.add(new PistaDeportes(this));
+                break;
+            case HOTEL:
+                this.edificios.add(new Hotel(this));
+                break;
+            case PISCINA:
+                this.edificios.add(new Piscina(this));
+                break;
+            case CASA:
+                this.edificios.add(new Casa(this));
+                break;
+        }
     }
 
     /**

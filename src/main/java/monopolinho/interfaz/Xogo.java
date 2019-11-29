@@ -407,7 +407,7 @@ public class Xogo implements Comandos {
             throw new MonopolinhoGeneralException("Non tes suficiente diñeiro para edificar");
 
         actual.edificar(tipo,turno);
-       // turno.engadirAccion(new Accion(TipoAccion.EDIFICAR,actual));
+        turno.engadirAccion(new AccionEdificar(actual,tipo));
         consola.imprimir("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+actual.getPrecioEdificio(tipo));
     }
 
@@ -441,6 +441,7 @@ public class Xogo implements Comandos {
         float valor = numero*c.getPrecioEdificio(tipo)/2.0f;
         c.eliminarNumeroEdificios(tipo,numero);
         turno.getXogador().engadirDinheiro(valor, TipoTransaccion.OTROS);
+        turno.engadirAccion(new AccionVender(c,tipo,numero));
         consola.imprimir("Vendiches "+numero+" edificios de tipo "+tipo+" e recibes "+valor);
     }
 
@@ -723,12 +724,6 @@ public class Xogo implements Comandos {
         throw new MonopolinhoGeneralException("Non se puido eliminar o "+id);
     }
 
-
-    public void listarAccions(){
-        consola.imprimir(turno.listarAccions());
-    }
-
-
     /**
      * GETTERS AND SETTERS
      */
@@ -918,8 +913,7 @@ public class Xogo implements Comandos {
         if(this.turno.getXogador().estaNoCarcere()){
             try{
                 throw new MonopolinhoGeneralException("Non podes realizar está acción porque estás no cárcere");
-            }
-            catch (MonopolinhoGeneralException e){
+            }catch (MonopolinhoGeneralException e){
                 e.imprimirErro();
                 return true;
             }
@@ -948,7 +942,12 @@ public class Xogo implements Comandos {
     }
 
 
-    //BORRAR
+    /* ZONA DE FUNCIONS DE DEBUG */
+
+    public void listarAccions(){
+        consola.imprimir(turno.listarAccions());
+    }
+
     public void mov(int i) throws MonopolinhoException {
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
@@ -966,5 +965,7 @@ public class Xogo implements Comandos {
     public void desfacer() throws MonopolinhoException{
         this.turno.desfacer(this);
     }
+
+    /* FIN ZONA DEBUG */
 
 }
