@@ -2,11 +2,9 @@ package monopolinho.obxetos.casillas.propiedades;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionAlquiler;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
-import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 

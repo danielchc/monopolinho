@@ -2,11 +2,8 @@ package monopolinho.obxetos.accions;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
-import monopolinho.obxetos.edificios.Casa;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoEdificio;
-import monopolinho.tipos.TipoTransaccion;
 
 public class AccionVender extends Accion {
     Solar solar;

@@ -1,19 +1,17 @@
 package test.GUI;
 
-import java.awt.*;
-
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.*;
 import javafx.scene.text.Font;
-import monopolinho.obxetos.casillas.Casilla;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import monopolinho.obxetos.casillas.Casilla;
 
 public class CasillaUI extends StackPane {
 

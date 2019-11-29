@@ -1,13 +1,11 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Comunidade5 extends CartaComunidade {

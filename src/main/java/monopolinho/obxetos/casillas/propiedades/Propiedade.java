@@ -1,10 +1,8 @@
 package monopolinho.obxetos.casillas.propiedades;
 
 import monopolinho.axuda.Valor;
-import monopolinho.obxetos.Grupo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 
 public abstract class Propiedade extends Casilla {

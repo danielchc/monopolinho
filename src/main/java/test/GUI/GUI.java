@@ -3,9 +3,6 @@ package test.GUI;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import monopolinho.obxetos.Taboeiro;
 

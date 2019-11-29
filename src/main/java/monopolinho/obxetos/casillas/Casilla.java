@@ -4,10 +4,11 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasCasilla;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.*;
+import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.*;
+import monopolinho.tipos.TipoCasilla;
+import monopolinho.tipos.Zona;
 
 import java.util.ArrayList;
 

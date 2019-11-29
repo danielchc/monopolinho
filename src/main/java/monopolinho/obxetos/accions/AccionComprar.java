@@ -1,7 +1,6 @@
 package monopolinho.obxetos.accions;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.tipos.TipoTransaccion;
 

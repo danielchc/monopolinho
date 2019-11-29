@@ -1,8 +1,6 @@
 package monopolinho.obxetos;
 
-import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
-import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 

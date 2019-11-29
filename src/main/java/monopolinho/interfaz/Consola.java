@@ -1,8 +1,5 @@
 package monopolinho.interfaz;
 
-import monopolinho.axuda.ReprTab;
-import monopolinho.axuda.Valor;
-
 public interface Consola {
     void imprimir(String texto);
     void imprimirsl(String texto);

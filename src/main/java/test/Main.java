@@ -1,7 +1,8 @@
 package test;
+
 import monopolinho.interfaz.Menu;
+
 import java.io.IOException;
-import java.util.Stack;
 
 public class Main {
 

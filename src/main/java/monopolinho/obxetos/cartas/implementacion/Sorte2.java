@@ -1,7 +1,6 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionCarta;
@@ -10,7 +9,6 @@ import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
-import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 

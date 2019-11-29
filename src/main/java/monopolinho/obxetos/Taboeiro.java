@@ -2,7 +2,8 @@ package monopolinho.obxetos;
 
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
-import monopolinho.obxetos.casillas.*;
+import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.Imposto;
 import monopolinho.obxetos.casillas.especiales.accion.Carcere;
 import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
 import monopolinho.obxetos.casillas.especiales.accion.Parking;

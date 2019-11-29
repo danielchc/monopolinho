@@ -10,11 +10,8 @@ import monopolinho.obxetos.casillas.especiales.cartas.CasillaCarta;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.EstadoXogador;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 import monopolinho.tipos.Zona;
-
-import java.util.ArrayList;
 
 public class Esfinxe extends Avatar{
 

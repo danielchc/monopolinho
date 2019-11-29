@@ -1,18 +1,11 @@
 package monopolinho.interfaz;
 
-import monopolinho.obxetos.Dados;
-import monopolinho.obxetos.Taboeiro;
-import monopolinho.obxetos.Turno;
-import monopolinho.obxetos.Xogador;
-import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
-
-import java.util.ArrayList;
 
 public interface Comandos {
 

@@ -1,12 +1,8 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Turno;
-import monopolinho.obxetos.Xogador;
-import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.TipoTransaccion;
 
 public class Sorte5 extends CartaSorte {
     public Sorte5() {

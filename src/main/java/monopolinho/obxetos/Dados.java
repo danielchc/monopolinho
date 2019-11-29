@@ -1,5 +1,5 @@
 package monopolinho.obxetos;
-import monopolinho.axuda.ReprTab;
+
 import monopolinho.interfaz.Xogo;
 
 import java.util.Random;

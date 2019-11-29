@@ -4,7 +4,6 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.TipoTransaccion;
 
 public class Comunidade6 extends CartaComunidade {
     private final float PREMIO=50000;

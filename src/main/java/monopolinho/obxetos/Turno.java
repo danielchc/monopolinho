@@ -5,8 +5,6 @@ import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.accions.AccionComprar;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
-import monopolinho.tipos.TipoAccion;
 
 import java.util.ArrayList;
 import java.util.Stack;

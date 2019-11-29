@@ -3,7 +3,6 @@ package monopolinho.obxetos.accions;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.Carta;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 
 public class AccionCarta extends Accion {
     private Carta carta;

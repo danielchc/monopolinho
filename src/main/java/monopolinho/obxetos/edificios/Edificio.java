@@ -1,7 +1,6 @@
 package monopolinho.obxetos.edificios;
 
 import monopolinho.obxetos.casillas.propiedades.Solar;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoEdificio;
 
 /**

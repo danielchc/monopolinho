@@ -9,8 +9,8 @@ import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.edificios.Edificio;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
-import monopolinho.tipos.TipoTransaccion;
 import monopolinho.tipos.TipoMovemento;
+import monopolinho.tipos.TipoTransaccion;
 
 import java.util.ArrayList;
 import java.util.Collection;

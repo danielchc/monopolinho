@@ -1,14 +1,11 @@
 package monopolinho.obxetos.avatares;
 
-import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
-import monopolinho.tipos.EstadoXogador;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 
 public class Coche extends Avatar{

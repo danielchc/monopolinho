@@ -1,6 +1,5 @@
 package monopolinho.obxetos.avatares;
 
-import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.Turno;

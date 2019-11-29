@@ -1,7 +1,6 @@
 package monopolinho.obxetos;
 
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
-import monopolinho.obxetos.casillas.propiedades.Solar;
 
 import java.util.ArrayList;
 import java.util.HashMap;

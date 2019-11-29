@@ -1,13 +1,8 @@
 package monopolinho.obxetos.cartas;
 
-import monopolinho.axuda.ReprTab;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Turno;
-import monopolinho.obxetos.Xogador;
-import monopolinho.obxetos.casillas.propiedades.Propiedade;
-import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.*;
+import monopolinho.tipos.TipoCarta;
 
 /**
  * @author Daniel Chenel

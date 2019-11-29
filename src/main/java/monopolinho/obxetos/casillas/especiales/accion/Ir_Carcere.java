@@ -2,10 +2,8 @@ package monopolinho.obxetos.casillas.especiales.accion;
 
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.accions.AccionIrCarcere;
 import monopolinho.obxetos.casillas.especiales.Especial;
-import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoCasilla;
 
 public class Ir_Carcere extends Especial {
