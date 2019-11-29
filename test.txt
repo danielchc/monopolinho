@@ -1,16 +1,17 @@
 crear jugador Dani sombreiro
 crear jugador David coche
-#trato david: cambiar (1000, 99)
-#mov 1
-#acabar turno
-#mov 1
-#comprar goiriz
-#mov 2
-#comprar sada
-#edificar casa
-#edificar casa
-#edificar casa
-#edificar casa
-#describir sada
-#edificar hotel
-#describir sada
+mov 1
+comprar goiriz
+mov 2
+comprar sada
+mov 2
+comprar ave
+trato david: cambiar (sada y noalquiler(goiriz - 2), 1000)
+acabar turno
+aceptar trato1
+mov 1
+mov 39
+mov 1
+mov 39
+mov 1
+describir xogador david

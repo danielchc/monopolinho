@@ -1,5 +1,6 @@
 package monopolinho.interfaz;
 
+import monopolinho.axuda.Auxiliar;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogo;
@@ -555,7 +556,7 @@ public class Xogo implements Comandos {
 
     /**
      * Este método permite propoñer un trato.
-     * @param comandos comandos do trato
+     *
      */
     @Override
     public void proponerTrato(String[] comandos) throws MonopolinhoGeneralException { //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
@@ -569,40 +570,8 @@ public class Xogo implements Comandos {
         String parteOferta=partesTrato[0];
         String parteDemanda=partesTrato[1];
 
-        for(String s:parteOferta.split("y")){ //revisar esto
-            String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ");
-            String[] elementosOferta=segmentoLimpo.split(" ");
-            for(int i=0;i<elementosOferta.length;i++){
-                if(elementosOferta[i].equals("cambiar")) continue;
-                if(elementosOferta[i].equals("noalquiler")){
-                    System.out.println("noalquiler "+elementosOferta[i+1]);
-                    System.out.println("noalquiler "+elementosOferta[i+2]);
-                    i=i+3;
-                    if(i==elementosOferta.length) break;
-                }
-                System.out.println("oferta "+elementosOferta[i]);
-            }
-        }
-        for(String s:parteDemanda.split("y")){
-            String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ");
-            String[] elementosDemanda=segmentoLimpo.split(" ");
-            for(int i=0;i<elementosDemanda.length;i++){
-                if(elementosDemanda[i].equals("noalquiler")){
-                    System.out.println("noalquiler "+elementosDemanda[i+1]);
-                    System.out.println("noalquiler "+elementosDemanda[i+2]);
-                    i=i+3;
-                    if(i==elementosDemanda.length) break;
-                }
-                System.out.println("demanda "+elementosDemanda[i]);
-            }
-        }
-
-        /*
-        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Auxiliar.isNumeric()
-        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Xogador emisor=this.turno.getXogador();
-        Xogador destinatario=buscarXogadorPorNome(cmds[1].substring(0,cmds[1].length()-1));
+        Xogador destinatario=buscarXogadorPorNome(xogadorDestino);
         if(destinatario==null){
             throw new MonopolinhoGeneralException("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
         }
@@ -610,46 +579,72 @@ public class Xogo implements Comandos {
             throw new MonopolinhoGeneralException("Non podes propoñer un trato a ti mismo.");
         }
         Trato trato=new Trato(emisor,destinatario,generarID());
-        String[] limpo=new String[cmds.length];
-        int limiteOferta=-1;
-        int limiteDemanda=-1;
-        for (int i=0;i<cmds.length;i++){
-            if(cmds[i].charAt(cmds[i].length()-1) == ','){
-                if(limiteOferta==-1) limiteOferta=i;
-            }
-            else if(cmds[i].charAt(cmds[i].length()-1)== ')'){
-                if(limiteDemanda==-1) limiteDemanda=i;
-            }
-            limpo[i]=cmds[i].replace("(","").replace(")","").replace(",","");
-        }
-        for (int i=3;i<=limiteOferta;i++){
-            if(isNumeric(limpo[i])){
-                trato.setDinheiroOferta(Float.valueOf(limpo[i]));
-            }
-            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y") && !limpo[i].equals("")){
-                Casilla c=this.taboeiro.buscarCasilla(limpo[i]);
-                if(!comprobarOfrecerTrato(c,emisor,limpo[i])){
-                    return;
+
+
+
+
+
+        for(String s:parteOferta.split("y")){
+            String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
+            String[] elementosOferta=segmentoLimpo.split(" ");
+            for(int i=0;i<elementosOferta.length;i++){
+                if(elementosOferta[i].equals("cambiar")) continue;
+                else if(elementosOferta[i].equals("noalquiler")){
+                    if(!Auxiliar.isNumeric(elementosOferta[i+1]) && Auxiliar.isNumeric(elementosOferta[i+2])){
+                        Casilla x=this.taboeiro.buscarCasilla(elementosOferta[i+1]);
+                        if(!comprobarOfrecerTrato(x,emisor,elementosOferta[i+1])){
+                            return;
+                        }
+                        trato.engadirNoAlquilerOferta((Propiedade)x,Integer.valueOf(elementosOferta[i+2]));
+                    }
+                    else throw new MonopolinhoGeneralException("Sintaxe noalquiler incorrecta: noalquiler(solar, turnos)");
+                    i=i+3;
+                    if(i==elementosOferta.length) break;
                 }
-                trato.engadirPropiedadeOferta((Propiedade)c);
+                else if(Auxiliar.isNumeric(elementosOferta[i])){
+                    trato.setDinheiroOferta(Float.valueOf(elementosOferta[i]));
+                }
+                else{
+                    Casilla c=this.taboeiro.buscarCasilla(elementosOferta[i]);
+                    if(!comprobarOfrecerTrato(c,emisor,elementosOferta[i])){
+                        return;
+                    }
+                    trato.engadirPropiedadeOferta((Propiedade)c);
+                }
             }
         }
-        for (int i=limiteOferta+1;i<cmds.length;i++){
-            if(isNumeric(limpo[i])){
-                trato.setDinheiroDemanda(Float.valueOf(limpo[i]));
-            }
-            else if(!isNumeric(limpo[i]) && !limpo[i].equals("y") && !limpo[i].equals("")){
-                Casilla c=this.taboeiro.buscarCasilla(limpo[i]);
-                if(!comprobarOfrecerTrato(c,destinatario,limpo[i])){
-                    return;
+
+        for(String s:parteDemanda.split("y")){
+            String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
+            String[] elementosDemanda=segmentoLimpo.split(" ");
+            for(int i=0;i<elementosDemanda.length;i++){
+                if(elementosDemanda[i].equals("noalquiler")){
+                    if(!Auxiliar.isNumeric(elementosDemanda[i+1]) && Auxiliar.isNumeric(elementosDemanda[i+2])){
+                        Casilla x=this.taboeiro.buscarCasilla(elementosDemanda[i+1]);
+                        if(!comprobarOfrecerTrato(x,destinatario,elementosDemanda[i+1])){
+                            return;
+                        }
+                        trato.engadirNoAlquilerDemanda((Propiedade)x,Integer.valueOf(elementosDemanda[i+2]));
+                    }
+                    else throw new MonopolinhoGeneralException("Sintaxe noalquiler incorrecta: noalquiler(solar, turnos)");
+                    i=i+3;
+                    if(i==elementosDemanda.length) break;
                 }
-                trato.engadirPropiedadeDemanda((Propiedade)c);
+                else if(Auxiliar.isNumeric(elementosDemanda[i])){
+                    trato.setDinheiroDemanda(Float.valueOf(elementosDemanda[i]));
+                }
+                else{
+                    Casilla c=this.taboeiro.buscarCasilla(elementosDemanda[i]);
+                    if(!comprobarOfrecerTrato(c,destinatario,elementosDemanda[i])){
+                        return;
+                    }
+                    trato.engadirPropiedadeDemanda((Propiedade)c);
+                }
             }
         }
         consola.imprimir(trato);
         destinatario.engadirTrato(trato);
         this.numTratos++;
-         */
     }
 
     /**
@@ -697,6 +692,12 @@ public class Xogo implements Comandos {
             for (Propiedade p:trato.getPropiedadesDemanda()){
                 destinatario.eliminarPropiedade(p);
                 emisor.engadirPropiedade(p);
+            }
+            for(Propiedade p:trato.getNoAlquilerOferta().keySet()){
+                destinatario.engadirNonAlquiler(p,trato.vecesNoAlqOferta(p));
+            }
+            for(Propiedade p:trato.getNoAlquilerDemanda().keySet()){
+                emisor.engadirNonAlquiler(p,trato.vecesNoAlqDemanda(p));
             }
             consola.imprimir("Aceptouse o trato "+id+" con "+emisor.getNome()+": ( "+trato+" )");
             this.turno.getXogador().eliminarTrato(id);
@@ -874,6 +875,9 @@ public class Xogo implements Comandos {
             }
             if(!((Propiedade) c).pertenceXogador(x)){
                 throw new MonopolinhoGeneralException("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
+            }
+            if(c instanceof Solar && ((Solar) c).getNumeroEdificios() != 0){
+                throw new MonopolinhoGeneralException(nome+" ten edificios construidos. Trato cancelado.");
             }
         }catch (MonopolinhoGeneralException e) {
             e.imprimirErro();

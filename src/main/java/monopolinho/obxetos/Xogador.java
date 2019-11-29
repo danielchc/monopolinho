@@ -161,7 +161,7 @@ public class Xogador {
      */
     public void engadirNonAlquiler(Propiedade prop,int veces){
         if(prop!=null){
-            this.nonAlquiler.put(prop,new Integer(veces));
+            this.nonAlquiler.put(prop,new Integer(veces+1));
         }
     }
 

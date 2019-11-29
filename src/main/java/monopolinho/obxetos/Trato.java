@@ -14,8 +14,9 @@ public class Trato {
     private float dinheiroOferta;
     private float dinheiroDemanda;
     private String ID;
-    private Propiedade noAlquilerSitio;
-    private int noAlquilerVeces;
+    private HashMap<Propiedade,Integer> noAlquilerDemanda;
+    private HashMap<Propiedade,Integer> noAlquilerOferta;
+
 
     /**
      * Constructor dos tratos
@@ -30,8 +31,8 @@ public class Trato {
         this.dinheiroDemanda=-1f;
         this.dinheiroOferta=-1f;
         this.ID=ID;
-        this.noAlquilerSitio=null;
-        this.noAlquilerVeces=-1;
+        this.noAlquilerDemanda=new HashMap<>();
+        this.noAlquilerOferta=new HashMap<>();
     }
 
 
@@ -68,8 +69,18 @@ public class Trato {
             }
         }
         texto+=")";
-        if(this.noAlquilerSitio!=null){
-            texto+=" e non pagar alquiler en "+this.noAlquilerSitio.getNome()+" durante "+this.noAlquilerVeces+" turnos.";
+
+        if(!this.noAlquilerDemanda.isEmpty()){
+            texto+="\n\tE "+this.emisorTrato.getNome()+" non paga alquiler en:";
+            for(Propiedade p:this.noAlquilerDemanda.keySet()){
+                texto+="\n\t\t"+p.getNome()+" durante "+this.noAlquilerDemanda.get(p)+" turnos";
+            }
+        }
+        if(!this.noAlquilerOferta.isEmpty()){
+            texto+="\n\tE "+this.destinatarioTrato.getNome()+" non paga alquiler en:";
+            for(Propiedade p:this.noAlquilerOferta.keySet()){
+                texto+="\n\t\t"+p.getNome()+" durante "+this.noAlquilerOferta.get(p)+" turnos";
+            }
         }
         texto+="\n}";
         return texto;
@@ -96,7 +107,25 @@ public class Trato {
         }
     }
 
+    public void engadirNoAlquilerOferta(Propiedade p,Integer veces){
+        if(p!=null){
+            this.noAlquilerOferta.put(p,veces);
+        }
+    }
 
+    public void engadirNoAlquilerDemanda(Propiedade p,Integer veces){
+        if(p!=null){
+            this.noAlquilerDemanda.put(p,veces);
+        }
+    }
+
+    public Integer vecesNoAlqOferta(Propiedade p){
+        return this.noAlquilerOferta.get(p);
+    }
+
+    public Integer vecesNoAlqDemanda(Propiedade p){
+        return this.noAlquilerDemanda.get(p);
+    }
 
 
     /**
@@ -158,20 +187,20 @@ public class Trato {
         }
     }
 
-    public int getNoAlquilerVeces() {
-        return noAlquilerVeces;
+    public void setNoAlquilerDemanda(HashMap<Propiedade, Integer> noAlquilerDemanda) {
+        this.noAlquilerDemanda = noAlquilerDemanda;
     }
 
-    public void setNoAlquilerVeces(int noAlquilerVeces) {
-        this.noAlquilerVeces = noAlquilerVeces;
+    public HashMap<Propiedade, Integer> getNoAlquilerDemanda() {
+        return noAlquilerDemanda;
     }
 
-    public Propiedade getNoAlquilerSitio() {
-        return noAlquilerSitio;
+    public HashMap<Propiedade, Integer> getNoAlquilerOferta() {
+        return noAlquilerOferta;
     }
 
-    public void setNoAlquilerSitio(Propiedade noAlquilerSitio) {
-        this.noAlquilerSitio = noAlquilerSitio;
+    public void setNoAlquilerOferta(HashMap<Propiedade, Integer> noAlquilerOferta) {
+        this.noAlquilerOferta = noAlquilerOferta;
     }
 
     public String getID() {
@@ -204,9 +233,20 @@ public class Trato {
                 texto+=" e "+this.dinheiroDemanda;
             }
         }
-        if(this.noAlquilerSitio!=null){
-            texto+=" e non pagar alquiler en "+this.noAlquilerSitio.getNome()+" durante "+this.noAlquilerVeces+" turnos";
+
+        if(!this.noAlquilerDemanda.isEmpty()){
+            texto+=" e "+this.emisorTrato.getNome()+" non paga alquiler en ";
+            for(Propiedade p:this.noAlquilerDemanda.keySet()){
+                texto+=p.getNome()+" durante "+this.noAlquilerDemanda.get(p)+" turnos, ";
+            }
         }
+        if(!this.noAlquilerOferta.isEmpty()){
+            texto+=" e "+this.destinatarioTrato.getNome()+" non paga alquiler en ";
+            for(Propiedade p:this.noAlquilerOferta.keySet()){
+                texto+=p.getNome()+" durante "+this.noAlquilerOferta.get(p)+" turnos, ";
+            }
+        }
+
         texto+="? ("+this.ID+")";
         return texto;
     }
