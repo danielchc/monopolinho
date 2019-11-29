@@ -1,17 +1,22 @@
-package monopolinho.obxetos;
+package monopolinho.obxetos.accions;
 
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.Imposto;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
-public class Accion {
-    private TipoAccion tipo;
+public abstract class Accion {
+    private Turno turno;
+    public abstract String desfacer(Xogo xogo) throws MonopolinhoException;
+
+    /*private TipoAccion tipo;
     private Casilla casilla;
     private float dinheiro;
-    private Turno turno;
 
     public Accion(TipoAccion tipoAccion){
         this.tipo=tipoAccion;
@@ -39,14 +44,12 @@ public class Accion {
         }
         switch (tipo){
             case COMPRAR:
-                p.setDono(xogo.getBanca());
-                this.turno.getXogador().engadirDinheiro(p.getValor(), TipoTransaccion.OTROS);
+
                 break;
             case VENDER:
                 break;
             case HIPOTECAR:
-                p.setEstaHipotecada(false);
-                this.turno.getXogador().quitarDinheiro(p.getHipoteca(),TipoTransaccion.OTROS);
+
                 break;
             case DESHIPOTECAR:
                 p.setEstaHipotecada(true);
@@ -60,9 +63,8 @@ public class Accion {
                 this.turno.getXogador().quitarDinheiro(this.dinheiro,TipoTransaccion.OTROS);
                 break;
             case PAGAR_IMPOSTO:
-                this.turno.getXogador().engadirDinheiro(((Imposto)casilla).getImposto(),TipoTransaccion.OTROS);
-                break;
 
+                break;
             case PAGAR_ALQUILER:
             case PAGAR_XOGADORES:
                 this.turno.getXogador().engadirDinheiro(this.dinheiro,TipoTransaccion.OTROS);
@@ -102,7 +104,7 @@ public class Accion {
     public void setDinheiro(float dinheiro) {
         this.dinheiro = dinheiro;
     }
-
+*/
     public Turno getTurno() {
         return turno;
     }

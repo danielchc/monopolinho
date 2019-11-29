@@ -1,12 +1,9 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Accion;
 import monopolinho.obxetos.Turno;
-import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Comunidade6 extends CartaComunidade {
@@ -23,5 +20,8 @@ public class Comunidade6 extends CartaComunidade {
         Turno turno=xogo.getTurno();
         turno.setPosicion((xogo.getTaboeiro().getCasilla(8)));
         return getMensaxe() +" "+ turno.getPosicion().interpretarCasilla(xogo,0);
+    }
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
+        return "";
     }
 }

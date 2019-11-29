@@ -8,6 +8,7 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
 import monopolinho.obxetos.casillas.especiales.cartas.CasillaCarta;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
@@ -29,6 +30,11 @@ public class Esfinxe extends Avatar{
         Zona zonaInicial;
         int posicion;
         int cpos=0;
+        if(turno.getVecesTiradas()>3){
+            turno.setPodeLanzar(false);
+            throw new MonopolinhoGeneralException("Non podes lanzar máis veces.Tes que pasar de turno");
+        }
+
         Xogo.consola.imprimir("Atopaste en "+turno.getPosicion().getNome());
 
         if(valorDados>4){

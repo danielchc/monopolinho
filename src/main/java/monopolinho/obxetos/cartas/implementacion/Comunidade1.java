@@ -1,15 +1,18 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Accion;
+import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
+import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
 public class Comunidade1 extends CartaComunidade {
+    private final float PREZO=20000f;
 
     public Comunidade1() {
         //8. Alquilas a tus compañeros una villa en Cannes durante una semana. Paga 200000€ a cada jugador. 4
@@ -17,18 +20,29 @@ public class Comunidade1 extends CartaComunidade {
     }
 
     @Override
-    public String accion(Xogo xogo) throws MonopolinhoSinDinheiro {
+    public String accion(Xogo xogo) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         Xogador xogador=turno.getXogador();
-        float dinheiroPagar=20000f;
-        if(!xogador.quitarDinheiro(dinheiroPagar*(xogo.getNumeroXogadores()-1), TipoTransaccion.TASAS)){
+        if(!xogador.quitarDinheiro(PREZO*(xogo.getNumeroXogadores()-1), TipoTransaccion.TASAS)){
             throw new MonopolinhoSinDinheiro(getMensaxe()+ ". Non tes suficiente diñeiro para pagar os xogadores",xogador);
         }
         for(Xogador x:xogo.getXogadores()){
             if(!x.equals(turno.getXogador()))
-                x.engadirDinheiro(dinheiroPagar, TipoTransaccion.OTROS);
+                x.engadirDinheiro(PREZO, TipoTransaccion.OTROS);
         }
-        turno.engadirAccion(new Accion(TipoAccion.PAGAR_XOGADORES,dinheiroPagar));
+        turno.engadirAccion(new AccionCarta(this));
         return getMensaxe();
+    }
+
+    @Override
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
+        Turno turno=xogo.getTurno();
+        Xogador xogador=turno.getXogador();
+        xogador.engadirDinheiro(PREZO*(xogo.getNumeroXogadores()-1), TipoTransaccion.OTROS);
+        for(Xogador x:xogo.getXogadores()){
+            if(!x.equals(turno.getXogador()))
+                x.quitarDinheiro(PREZO, TipoTransaccion.OTROS);
+        }
+        return "Devolvenche "+PREZO +" cada xogador en concepto de Alugar a villa no quinto pino";
     }
 }

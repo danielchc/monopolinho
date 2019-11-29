@@ -1,9 +1,10 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Accion;
-import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.accions.Accion;
+import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaSorte;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoAccion;
 import monopolinho.tipos.TipoTransaccion;
 
@@ -17,7 +18,13 @@ public class Sorte6 extends CartaSorte {
     @Override
     public String accion(Xogo xogo) {
         xogo.getTurno().getXogador().engadirDinheiro(PREMIO, TipoTransaccion.BOTE_PREMIO);
-        xogo.getTurno().engadirAccion(new Accion(TipoAccion.RECIBIR_PREMIO,PREMIO));
+        xogo.getTurno().engadirAccion(new AccionCarta(this));
         return getMensaxe();
+    }
+
+    @Override
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
+        xogo.getTurno().getXogador().engadirDinheiro( PREMIO, TipoTransaccion.BOTE_PREMIO);
+        return "Tua filla roubouche "+PREMIO+ " da súa rifa";
     }
 }

@@ -3,8 +3,9 @@ package monopolinho.obxetos.casillas.propiedades;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Accion;
+import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Turno;
+import monopolinho.obxetos.accions.AccionAlquiler;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.edificios.*;
 import monopolinho.obxetos.Grupo;
@@ -53,7 +54,7 @@ public class Solar extends Propiedade {
                     if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                         this.getEstadisticas().engadirAlquilerPagado(aPagar);
                         this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
-                        xogo.getTurno().engadirAccion(new Accion(TipoAccion.PAGAR_ALQUILER,this,aPagar));
+                        xogo.getTurno().engadirAccion(new AccionAlquiler(this,aPagar));
                         mensaxe+="Tes que pagarlle "+aPagar+" a "+this.getDono().getNome();
                     }else{
                         throw new MonopolinhoSinDinheiro("Non tes suficiente diñeiro para pagar o alquiler, teste que declarar en bancarrota ou hipotecar unha propiedade.",xogador);

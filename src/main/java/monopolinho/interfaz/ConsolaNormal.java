@@ -44,7 +44,7 @@ public class ConsolaNormal implements Consola {
 
     @Override
     public void imprimirNegrita(String texto) {
-
+        System.out.println(ReprTab.colorear(Valor.ReprColor.ANSI_BLACK_BOLD,texto));
     }
 
     @Override

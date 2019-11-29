@@ -20,4 +20,9 @@ public class Sorte1 extends CartaSorte {
         turno.setPosicion((xogo.getTaboeiro().getCasilla(13)));
         return getMensaxe()+" "+(turno.getPosicion().interpretarCasilla(xogo,0));
     }
+
+    @Override
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
+        return "";
+    }
 }

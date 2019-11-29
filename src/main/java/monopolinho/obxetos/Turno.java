@@ -1,7 +1,11 @@
 package monopolinho.obxetos;
 
 import monopolinho.interfaz.Xogo;
+import monopolinho.obxetos.accions.Accion;
+import monopolinho.obxetos.accions.AccionComprar;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoAccion;
 
 import java.util.ArrayList;
@@ -38,17 +42,12 @@ public class Turno {
     }
 
 
-    public void desfacer(Xogo xogo){
+    public void desfacer(Xogo xogo) throws MonopolinhoException {
         String mensaxe="";
         while(!this.historialAccion.empty()){
             Accion a=historialAccion.pop();
-            if(a.getCasilla()!=null)
-                mensaxe+=a.getTipo()+" -> "+a.getCasilla().getNome()+"\n";
-            else
-                mensaxe+=a.getTipo()+" -> "+a.getDinheiro()+"\n";
-            a.desfacer(xogo);
+            Xogo.consola.imprimirNegrita("\t-> "+a.desfacer(xogo));
         }
-        System.out.println(mensaxe);
     }
 
     /**
@@ -66,7 +65,7 @@ public class Turno {
     public void setPosicion(Casilla c){
         this.xogador.setPosicion(c);
         this.historial.add(c);
-        engadirAccion(new Accion(TipoAccion.MOVERSE,c));
+        //engadirAccion(new Accion(TipoAccion.MOVERSE,c));
     }
 
     /**
@@ -127,7 +126,7 @@ public class Turno {
     public int getCompradasTurno() {
         int compradasTurno=0;
         for(Accion a:historialAccion){
-            if(a.getTipo()==TipoAccion.COMPRAR)
+            if(a instanceof AccionComprar)
                 compradasTurno++;
         }
         return compradasTurno;
@@ -136,10 +135,7 @@ public class Turno {
     public String listarAccions(){
         String mensaxe="";
         for(Accion h:historialAccion){
-            if(h.getCasilla()!=null)
-                mensaxe+=h.getTipo()+" -> "+h.getCasilla().getNome()+"\n";
-            else
-                mensaxe+=h.getTipo()+" -> "+h.getDinheiro()+"\n";
+            mensaxe+=h.getClass().getName();
         }
         return mensaxe;
     }

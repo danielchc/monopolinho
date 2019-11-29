@@ -1,10 +1,10 @@
 package monopolinho.obxetos.cartas.implementacion;
 
 import monopolinho.interfaz.Xogo;
-import monopolinho.obxetos.Accion;
+import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
-import monopolinho.obxetos.cartas.CartaComunidade;
+import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
@@ -40,7 +40,12 @@ public class Sorte2 extends CartaSorte {
             throw new MonopolinhoSinDinheiro(getMensaxe()+ ". Non tes suficiente diñeiro para pagar "+aPagar,xogador);
         }
 
-        turno.engadirAccion(new Accion(TipoAccion.PAGAR_CARTA,aPagar));
+        turno.engadirAccion(new AccionCarta(this));
         return getMensaxe() + " Tes que pagar "+aPagar;
+    }
+
+    @Override
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
+        return "";
     }
 }

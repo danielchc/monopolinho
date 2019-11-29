@@ -21,12 +21,12 @@ public class Coche extends Avatar{
         Casilla next;
         Turno turno=xogo.getTurno();
         int cPos=turno.getPosicion().getPosicionIndex();
-        Xogo.consola.imprimir("Encontraste en "+ turno.getPosicion().getNome());
-
         if(turno.getVecesTiradas()>4){
             turno.setPodeLanzar(false);
             throw new MonopolinhoGeneralException("Non podes lanzar máis veces.Tes que pasar de turno");
         }
+
+        Xogo.consola.imprimir("Encontraste en "+ turno.getPosicion().getNome());
         if(valorDados>4){
             turno.setPodeLanzar(true);
             next=xogo.getTaboeiro().getCasilla(cPos+valorDados);

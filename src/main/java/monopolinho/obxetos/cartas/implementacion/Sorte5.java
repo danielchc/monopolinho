@@ -21,4 +21,9 @@ public class Sorte5 extends CartaSorte {
         xogo.moverModoNormal(-3);
         return "";
     }
+
+    @Override
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
+        return "";
+    }
 }

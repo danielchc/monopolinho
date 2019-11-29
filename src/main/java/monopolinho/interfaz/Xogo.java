@@ -4,6 +4,7 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.estadisticas.EstadisticasXogo;
 import monopolinho.obxetos.*;
+import monopolinho.obxetos.accions.*;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
@@ -268,7 +269,7 @@ public class Xogo implements Comandos {
         }
 
         comprar.comprar(this.turno.getXogador());
-        turno.engadirAccion(new Accion(TipoAccion.COMPRAR,comprar));
+        turno.engadirAccion(new AccionComprar(comprar));
         consola.imprimir("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
     }
 
@@ -329,7 +330,7 @@ public class Xogo implements Comandos {
 
         c.setEstaHipotecada(true);
         c.getDono().engadirDinheiro(c.getHipoteca(), TipoTransaccion.OTROS);
-        turno.engadirAccion(new Accion(TipoAccion.HIPOTECAR,c));
+        turno.engadirAccion(new AccionHipotecar(c));
         consola.imprimir("Acabas de hipotecar a casilla "+c.getNome()+" e recibes "+c.getHipoteca());
 
     }
@@ -359,7 +360,7 @@ public class Xogo implements Comandos {
 
 
         c.setEstaHipotecada(false);
-        turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
+        //turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
         consola.imprimir("Acabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
 
     }
@@ -405,7 +406,7 @@ public class Xogo implements Comandos {
             throw new MonopolinhoGeneralException("Non tes suficiente diñeiro para edificar");
 
         actual.edificar(tipo,turno);
-        turno.engadirAccion(new Accion(TipoAccion.EDIFICAR,actual));
+       // turno.engadirAccion(new Accion(TipoAccion.EDIFICAR,actual));
         consola.imprimir("O usuario "+turno.getXogador().getNome() +" edificou en "+actual.getNome()+": "+tipo+". A súa fortuna redúcese en "+actual.getPrecioEdificio(tipo));
     }
 
@@ -522,7 +523,7 @@ public class Xogo implements Comandos {
                 mensaxe+="\nAo sair dobles, o xogador "+turno.getXogador().getNome()+" volve tirar.";
             }else if(dados.sonDobles() && turno.getVecesTiradas()==3){
                 turno.getXogador().meterNoCarcere();
-                turno.engadirAccion(new Accion(TipoAccion.IR_CARCEL));
+                turno.engadirAccion(new AccionIrCarcere());
                 turno.setPosicion(this.taboeiro.getCasilla(10)); //CASILLA CARCERE
                 turno.setPodeLanzar(false);
                 throw new MonopolinhoGeneralException(mensaxe+" Saion triples e vas para o cárcere.");
@@ -531,7 +532,7 @@ public class Xogo implements Comandos {
             }
         }
         consola.imprimir(mensaxe);
-        turno.engadirAccion(new Accion(TipoAccion.LANZAR_DADOS,turno.getPosicion()));
+        turno.engadirAccion(new AccionLanzarDados(turno.getPosicion()));
         if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL){
             moverModoNormal(dados.valorLanzar());
         }else{
@@ -947,18 +948,18 @@ public class Xogo implements Comandos {
     public void mov(int i) throws MonopolinhoException {
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
-        turno.engadirAccion(new Accion(TipoAccion.LANZAR_DADOS,turno.getPosicion()));
+        turno.engadirAccion(new AccionLanzarDados(turno.getPosicion()));
         moverModoNormal(i);
     }
 
     public void mova(int i){
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
-        turno.engadirAccion(new Accion(TipoAccion.LANZAR_DADOS,turno.getPosicion()));
+        turno.engadirAccion(new AccionLanzarDados(turno.getPosicion()));
         moverModoAvanzado(i);
     }
 
-    public void desfacer(){
+    public void desfacer() throws MonopolinhoException{
         this.turno.desfacer(this);
     }
 

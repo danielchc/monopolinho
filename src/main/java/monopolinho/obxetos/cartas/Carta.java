@@ -29,6 +29,7 @@ public abstract class Carta {
      */
     public abstract String accion(Xogo xogo) throws MonopolinhoException;
 
+    public abstract String desfacer(Xogo xogo) throws MonopolinhoException;
     /**
      * Establece a acción da carta
      * @return
