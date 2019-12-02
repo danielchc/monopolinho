@@ -1,7 +1,10 @@
 package monopolinho.obxetos;
 
 import com.sun.istack.internal.NotNull;
+import monopolinho.obxetos.avatares.*;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
+import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
+import monopolinho.tipos.TipoTransaccion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +19,8 @@ public class Trato {
     private String ID;
     private HashMap<Propiedade,Integer> noAlquilerDemanda;
     private HashMap<Propiedade,Integer> noAlquilerOferta;
+    private boolean cambioAvatares;
+
 
 
     /**
@@ -33,6 +38,20 @@ public class Trato {
         this.ID=ID;
         this.noAlquilerDemanda=new HashMap<>();
         this.noAlquilerOferta=new HashMap<>();
+        this.cambioAvatares=false;
+    }
+
+    public Trato(Xogador emisorTrato,Xogador destinatarioTrato,String ID,boolean avatar){
+        this.emisorTrato = emisorTrato;
+        this.destinatarioTrato = destinatarioTrato;
+        this.propiedadesOferta=new ArrayList<>();
+        this.propiedadesDemanda=new ArrayList<>();
+        this.dinheiroDemanda=-1f;
+        this.dinheiroOferta=-1f;
+        this.ID=ID;
+        this.noAlquilerDemanda=new HashMap<>();
+        this.noAlquilerOferta=new HashMap<>();
+        this.cambioAvatares=avatar;
     }
 
 
@@ -81,6 +100,9 @@ public class Trato {
             for(Propiedade p:this.noAlquilerOferta.keySet()){
                 texto+="\n\t\t"+p.getNome()+" durante "+this.noAlquilerOferta.get(p)+" turnos";
             }
+        }
+        if(this.cambioAvatares){
+            texto+="\n\tE intercambiar os avatares";
         }
         texto+="\n}";
         return texto;
@@ -149,9 +171,122 @@ public class Trato {
     }
 
 
+
+    public String aceptarTrato() throws MonopolinhoGeneralException {
+        Xogador emisor=this.emisorTrato;
+        Xogador destinatario=this.destinatarioTrato;
+        if(!comprobarPerteneceXogador(this.propiedadesOferta,emisor)){
+            throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de oferta non son de "+emisor.getNome());
+        }
+        if(!comprobarPerteneceXogador(this.propiedadesDemanda,destinatario)){
+            throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de demanda non son de "+destinatario.getNome());
+        }
+
+        if(emisor.getFortuna()<this.dinheiroOferta || destinatario.getFortuna()<this.dinheiroDemanda){
+            throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque non se dispón dos cartos necesarios");
+        }
+        if(this.dinheiroOferta!=-1){
+            emisor.quitarDinheiro(this.dinheiroOferta, TipoTransaccion.COMPRA);
+            destinatario.engadirDinheiro(this.dinheiroOferta,TipoTransaccion.VENTA);
+        }
+        if(this.dinheiroDemanda!=-1){
+            destinatario.quitarDinheiro(this.dinheiroDemanda,TipoTransaccion.COMPRA);
+            emisor.engadirDinheiro(this.dinheiroDemanda,TipoTransaccion.VENTA);
+        }
+        
+        for(Propiedade p:this.propiedadesOferta){
+            p.setDono(destinatario);
+        }
+        for (Propiedade p:this.propiedadesDemanda){
+            p.setDono(emisor);
+        }
+        for(Propiedade p:this.noAlquilerOferta.keySet()){
+            destinatario.engadirNonAlquiler(p,this.vecesNoAlqOferta(p));
+        }
+        for(Propiedade p:this.noAlquilerDemanda.keySet()){
+            emisor.engadirNonAlquiler(p,this.vecesNoAlqDemanda(p));
+        }
+        if(this.cambioAvatares){
+            Avatar avatarEmisor=emisor.getAvatar();
+            Avatar avatarDestinatario=destinatario.getAvatar();
+            //System.out.println("Antes trato");
+            //System.out.println(emisor.getAvatar());
+            //System.out.println(destinatario.getAvatar());
+            novoAvatar(emisor,avatarEmisor,avatarDestinatario);
+            novoAvatar(destinatario,avatarDestinatario,avatarEmisor);
+            //System.out.println("Despois trato");
+            //System.out.println(emisor.getAvatar());
+            //System.out.println(destinatario.getAvatar());
+        }
+
+        this.destinatarioTrato.eliminarTrato(this.ID);
+        String mensaxe = "Aceptouse o trato " + this.ID + " con " + emisor.getNome() + ": ( " + this + " )";
+        return mensaxe;
+    }
+
+    private void novoAvatar(Xogador x,Avatar orixinal,Avatar avatarACopiar){
+        if(avatarACopiar instanceof Coche){
+            Coche c=new Coche(x);
+            c.setId(orixinal.getId());
+            c.setModoXogo(orixinal.getModoXogo());
+            c.setPosicion(orixinal.getPosicion());
+            c.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
+            x.setAvatar(c);
+        }
+        else if(avatarACopiar instanceof Pelota){
+            Pelota p=new Pelota(x);
+            p.setId(orixinal.getId());
+            p.setModoXogo(orixinal.getModoXogo());
+            p.setPosicion(orixinal.getPosicion());
+            p.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
+            x.setAvatar(p);        }
+        else if(avatarACopiar instanceof Sombreiro){
+            Sombreiro s=new Sombreiro(x);
+            s.setId(orixinal.getId());
+            s.setModoXogo(orixinal.getModoXogo());
+            s.setPosicion(orixinal.getPosicion());
+            s.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
+            x.setAvatar(s);
+        }
+        else if(avatarACopiar instanceof Esfinxe){
+            Esfinxe e=new Esfinxe(x);
+            e.setId(orixinal.getId());
+            e.setModoXogo(orixinal.getModoXogo());
+            e.setPosicion(orixinal.getPosicion());
+            e.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
+            x.setAvatar(e);
+        }
+    }
+
+
+    /**
+     * Este método comproba se un conxunto de propiedades lle pertenecen a un xogador
+     * @param propiedades Arraylist de propiedades a comprobar
+     * @param x Xogador a comporbar
+     * @return true se todas lle pertenecen, false se non
+     */
+    private boolean comprobarPerteneceXogador(ArrayList<Propiedade> propiedades,Xogador x){
+        for(Propiedade p:propiedades){
+            if(!p.pertenceXogador(x)) return false;
+        }
+        return true;
+    }
+
+
+
+
     /**
      * GETTERS E SETTERS
      */
+
+    public boolean isCambioAvatares() {
+        return cambioAvatares;
+    }
+
+    public void setCambioAvatares(boolean cambioAvatares) {
+        this.cambioAvatares = cambioAvatares;
+    }
+
 
     public void setEmisorTrato(Xogador emisorTrato) {
         this.emisorTrato = emisorTrato;
@@ -230,7 +365,9 @@ public class Trato {
 
     @Override
     public String toString(){
-        String texto=this.destinatarioTrato.getNome()+", douche ";
+        String texto=this.destinatarioTrato.getNome();
+        if(cambioAvatares) texto+=", intercambiamos os avatares";
+        texto+=", douche ";
         for(Propiedade p:this.propiedadesOferta){
             texto+=p.getNome()+" ";
         }

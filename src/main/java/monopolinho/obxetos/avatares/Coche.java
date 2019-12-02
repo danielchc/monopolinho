@@ -14,6 +14,10 @@ public class Coche extends Avatar{
         super(xogador);
     }
 
+    public Coche(Xogador xogador,String id) {
+        super(xogador,id);
+    }
+
     public void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException {
         Casilla next;
         Turno turno=xogo.getTurno();

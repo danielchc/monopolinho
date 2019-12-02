@@ -19,6 +19,10 @@ public class Sombreiro extends Avatar{
         super(xogador);
     }
 
+    public Sombreiro(Xogador xogador,String id) {
+        super(xogador,id);
+    }
+
     public void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         Taboeiro taboeiro=xogo.getTaboeiro();

@@ -564,12 +564,12 @@ public class Xogo implements Comandos {
         String texto="".join(" ",comandos);
         String[] cmds=texto.split(":");
         if (cmds.length!=2) return;
+        if(cmds[0].split(" ").length!=2){
+            throw new MonopolinhoGeneralException("Non podes ofrecer un trato a mais de un xogador ao mesmo tempo");
+        }
         String xogadorDestino=cmds[0].split(" ")[1];
         String opcionsTrato=cmds[1].replace(" ","");
         String[] partesTrato=opcionsTrato.split(",",2);
-
-        String parteOferta=partesTrato[0];
-        String parteDemanda=partesTrato[1];
 
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(xogadorDestino);
@@ -579,17 +579,34 @@ public class Xogo implements Comandos {
         if(emisor.equals(destinatario)){
             throw new MonopolinhoGeneralException("Non podes propoñer un trato a ti mismo.");
         }
+
+        if(partesTrato.length==1){ //esto vale pa poder facer trato jose: cambiar (avatares)
+            String segmentoLimpo=partesTrato[0].replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
+            String[] comUnico=segmentoLimpo.split(" ");
+            if(comUnico[1].equals("avatares")){
+                Trato trato=new Trato(emisor,destinatario,generarID(),true);
+                consola.imprimir(destinatario.getNome()+", intercambiamos avatares? ("+trato.getID()+")");
+                destinatario.engadirTrato(trato);
+                this.numTratos++;
+                return;
+            }
+            else{
+                throw new MonopolinhoGeneralException("Sintaxe: trato <nome>: cambiar (avatares)");
+            }
+        }
+        String parteOferta=partesTrato[0];
+        String parteDemanda=partesTrato[1];
+
         Trato trato=new Trato(emisor,destinatario,generarID());
-
-
-
-
 
         for(String s:parteOferta.split("y")){
             String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
             String[] elementosOferta=segmentoLimpo.split(" ");
             for(int i=0;i<elementosOferta.length;i++){
                 if(elementosOferta[i].equals("cambiar")) continue;
+                else if(elementosOferta[i].equals("avatares")){
+                    trato.setCambioAvatares(true);
+                }
                 else if(elementosOferta[i].equals("noalquiler")){
                     if(!Auxiliar.isNumeric(elementosOferta[i+1]) && Auxiliar.isNumeric(elementosOferta[i+2])){
                         Casilla x=this.taboeiro.buscarCasilla(elementosOferta[i+1]);
@@ -619,7 +636,8 @@ public class Xogo implements Comandos {
             String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
             String[] elementosDemanda=segmentoLimpo.split(" ");
             for(int i=0;i<elementosDemanda.length;i++){
-                if(elementosDemanda[i].equals("noalquiler")){
+                if(elementosDemanda[i].equals("avatares")) continue;
+                else if(elementosDemanda[i].equals("noalquiler")){
                     if(!Auxiliar.isNumeric(elementosDemanda[i+1]) && Auxiliar.isNumeric(elementosDemanda[i+2])){
                         Casilla x=this.taboeiro.buscarCasilla(elementosDemanda[i+1]);
                         if(!comprobarOfrecerTrato(x,destinatario,elementosDemanda[i+1])){
@@ -667,51 +685,8 @@ public class Xogo implements Comandos {
         if(trato==null){
             throw new MonopolinhoGeneralException("Trato inválido: non se puido aceptar o trato "+id+" porque non existe nos teus tratos.");
         }
-        else{
-            //METE ESTO EN TRATO
-            Xogador emisor=trato.getEmisorTrato();
-            Xogador destinatario=trato.getDestinatarioTrato();
-            if(!comprobarPerteneceXogador(trato.getPropiedadesOferta(),emisor)){
-                throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de oferta non son de "+emisor.getNome());
-            }
-            if(!comprobarPerteneceXogador(trato.getPropiedadesDemanda(),destinatario)){
-                throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de demanda non son de "+destinatario.getNome());
-            }
-
-            if(emisor.getFortuna()<trato.getDinheiroOferta() || destinatario.getFortuna()<trato.getDinheiroDemanda()){
-                throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque non se dispón dos cartos necesarios");
-            }
-            if(trato.getDinheiroOferta()!=-1){
-                if(!emisor.quitarDinheiro(trato.getDinheiroOferta(),TipoTransaccion.COMPRA)){
-                    throw new MonopolinhoGeneralException(emisor.getNome()+" non dispón de  "+trato.getDinheiroOferta()+" para este trato.");
-                }
-                else{
-                    destinatario.engadirDinheiro(trato.getDinheiroOferta(),TipoTransaccion.VENTA);
-                }
-            }
-            if(trato.getDinheiroDemanda()!=-1){
-                if(!destinatario.quitarDinheiro(trato.getDinheiroDemanda(),TipoTransaccion.COMPRA)){
-                    throw new MonopolinhoGeneralException(destinatario.getNome()+" non dispón de "+trato.getDinheiroDemanda()+" para este trato.");
-                }
-                else{
-                    emisor.engadirDinheiro(trato.getDinheiroDemanda(),TipoTransaccion.VENTA);
-                }
-            }
-            for(Propiedade p:trato.getPropiedadesOferta()){
-                p.setDono(destinatario);
-            }
-            for (Propiedade p:trato.getPropiedadesDemanda()){
-                p.setDono(emisor);
-            }
-            for(Propiedade p:trato.getNoAlquilerOferta().keySet()){
-                destinatario.engadirNonAlquiler(p,trato.vecesNoAlqOferta(p));
-            }
-            for(Propiedade p:trato.getNoAlquilerDemanda().keySet()){
-                emisor.engadirNonAlquiler(p,trato.vecesNoAlqDemanda(p));
-            }
-            consola.imprimir("Aceptouse o trato "+id+" con "+emisor.getNome()+": ( "+trato+" )");
-            this.turno.getXogador().eliminarTrato(id);
-        }
+        String mensaxe=trato.aceptarTrato();
+        consola.imprimir(mensaxe);
     }
 
     /**
@@ -890,18 +865,7 @@ public class Xogo implements Comandos {
         return true;
     }
 
-    /**
-     * Este método comproba se un conxunto de propiedades lle pertenecen a un xogador
-     * @param propiedades Arraylist de propiedades a comprobar
-     * @param x Xogador a comporbar
-     * @return true se todas lle pertenecen, false se non
-     */
-    private boolean comprobarPerteneceXogador(ArrayList<Propiedade> propiedades,Xogador x){
-        for(Propiedade p:propiedades){
-            if(!p.pertenceXogador(x)) return false;
-        }
-        return true;
-    }
+
 
     /**
      * Este metodo busca un xogador do xogo polo nome
