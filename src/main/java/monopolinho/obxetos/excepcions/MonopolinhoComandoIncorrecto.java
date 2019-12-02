@@ -6,8 +6,4 @@ public class MonopolinhoComandoIncorrecto extends MonopolinhoComando {
         super(mensaxe);
     }
 
-    public void imprimirErro() {
-        super.imprimirErro();
-    }
-
 }

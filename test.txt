@@ -1,17 +1,23 @@
 crear jugador Dani sombreiro
-crear jugador David coche
+crear jugador David esfinxe
+crear jugador Ramon esfinxe
 mov 1
 comprar goiriz
-mov 2
+mov 1
+acabar turno
+mov 3
 comprar sada
-mov 2
+mov 1
+acabar turno
+mov 5
 comprar ave
-trato david: cambiar (sada y noalquiler(goiriz - 2), 1000)
+trato dani: cambiar (ave, 10)
+trato david: cambiar (ave, 10)
+mov 1
 acabar turno
 aceptar trato1
+describir xogador ramon
+describir ave
 mov 1
-mov 39
-mov 1
-mov 39
-mov 1
-describir xogador david
+acabar turno
+aceptar trato2

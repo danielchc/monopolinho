@@ -574,7 +574,7 @@ public class Xogo implements Comandos {
         Xogador emisor=this.turno.getXogador();
         Xogador destinatario=buscarXogadorPorNome(xogadorDestino);
         if(destinatario==null){
-            throw new MonopolinhoGeneralException("Non podes propoñer ese trato porque " + cmds[1] + " non é un xogador da partida.");
+            throw new MonopolinhoGeneralException("Non podes propoñer ese trato porque " + xogadorDestino + " non é un xogador da partida.");
         }
         if(emisor.equals(destinatario)){
             throw new MonopolinhoGeneralException("Non podes propoñer un trato a ti mismo.");
@@ -656,6 +656,7 @@ public class Xogo implements Comandos {
         consola.imprimir(this.turno.getXogador().listarTratos());
     }
 
+
     /**
      * Este método permite aceptar un trato
      * @param id trato aceptar
@@ -670,6 +671,16 @@ public class Xogo implements Comandos {
             //METE ESTO EN TRATO
             Xogador emisor=trato.getEmisorTrato();
             Xogador destinatario=trato.getDestinatarioTrato();
+            if(!comprobarPerteneceXogador(trato.getPropiedadesOferta(),trato.getDinheiroOferta(),emisor)){
+                throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de oferta non son de "+emisor.getNome());
+            }
+            if(!comprobarPerteneceXogador(trato.getPropiedadesDemanda(),trato.getDinheiroDemanda(),destinatario)){
+                throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de demanda non son de "+destinatario.getNome());
+            }
+
+            if(emisor.getFortuna()<trato.getDinheiroOferta() || destinatario.getFortuna()<trato.getDinheiroDemanda()){
+                throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque non se dispón dos cartos necesarios");
+            }
             if(trato.getDinheiroOferta()!=-1){
                 if(!emisor.quitarDinheiro(trato.getDinheiroOferta(),TipoTransaccion.COMPRA)){
                     throw new MonopolinhoGeneralException(emisor.getNome()+" non dispón de  "+trato.getDinheiroOferta()+" para este trato.");
@@ -687,12 +698,10 @@ public class Xogo implements Comandos {
                 }
             }
             for(Propiedade p:trato.getPropiedadesOferta()){
-                emisor.eliminarPropiedade(p);
-                destinatario.engadirPropiedade(p);
+                p.setDono(destinatario);
             }
             for (Propiedade p:trato.getPropiedadesDemanda()){
-                destinatario.eliminarPropiedade(p);
-                emisor.engadirPropiedade(p);
+                p.setDono(emisor);
             }
             for(Propiedade p:trato.getNoAlquilerOferta().keySet()){
                 destinatario.engadirNonAlquiler(p,trato.vecesNoAlqOferta(p));
@@ -881,6 +890,12 @@ public class Xogo implements Comandos {
         return true;
     }
 
+    private boolean comprobarPerteneceXogador(ArrayList<Propiedade> propiedades,float dinheiro,Xogador x){
+        for(Propiedade p:propiedades){
+            if(!p.pertenceXogador(x)) return false;
+        }
+        return true;
+    }
 
     /**
      * Este metodo busca un xogador do xogo polo nome

@@ -6,6 +6,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.excepcions.MonopolinhoComando;
 import monopolinho.obxetos.excepcions.MonopolinhoComandoIncorrecto;
+import monopolinho.obxetos.excepcions.MonopolinhoComandoNonExiste;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
@@ -396,7 +397,7 @@ public class Menu {
                 mostrarComandos();
                 break;
             default:
-                throw new MonopolinhoComando(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe comandos"));
+                throw new MonopolinhoComandoNonExiste(ReprTab.colorear(Valor.ReprColor.ANSI_RED,"Comando non recoñecido, para máis información escribe comandos"));
         }
     }
 }

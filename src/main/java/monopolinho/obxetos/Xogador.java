@@ -145,6 +145,7 @@ public class Xogador {
      * Este método lista todos os tratos do xogador
      */
     public String listarTratos(){
+        if(this.tratos.isEmpty()) return "Non tes tratos.";
         String tratos="";
         Collection<Trato> col=this.tratos.values();
         for (Trato t:col){
