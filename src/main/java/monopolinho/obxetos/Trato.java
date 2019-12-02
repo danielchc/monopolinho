@@ -1,5 +1,6 @@
 package monopolinho.obxetos;
 
+import com.sun.istack.internal.NotNull;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 
 import java.util.ArrayList;
@@ -106,22 +107,43 @@ public class Trato {
         }
     }
 
+    /**
+     * Este método engade unha propiedade á oferta de non pagar alquiler
+     * @param p Propiedade
+     * @param veces Número de turnos
+     */
     public void engadirNoAlquilerOferta(Propiedade p,Integer veces){
         if(p!=null){
             this.noAlquilerOferta.put(p,veces);
         }
     }
 
+    /**
+     * Este método engade unha propiedade á demanda de non pagar alquiler
+     * @param p Propiedade
+     * @param veces Número de turnos
+     */
     public void engadirNoAlquilerDemanda(Propiedade p,Integer veces){
         if(p!=null){
             this.noAlquilerDemanda.put(p,veces);
         }
     }
 
+
+    /**
+     * Este método devolve o número de veces que non pagas nun trato de non pagar alquiler
+     * @param p Propiedade
+     * @return devolve o número de turnos que non pagas
+     */
     public Integer vecesNoAlqOferta(Propiedade p){
         return this.noAlquilerOferta.get(p);
     }
 
+    /**
+     * Este método devolve o número de veces que non pagas nun trato  de non pagar alquiler
+     * @param p Propiedade
+     * @return devolve o número de turnos que non pagas
+     */
     public Integer vecesNoAlqDemanda(Propiedade p){
         return this.noAlquilerDemanda.get(p);
     }

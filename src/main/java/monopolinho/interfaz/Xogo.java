@@ -671,10 +671,10 @@ public class Xogo implements Comandos {
             //METE ESTO EN TRATO
             Xogador emisor=trato.getEmisorTrato();
             Xogador destinatario=trato.getDestinatarioTrato();
-            if(!comprobarPerteneceXogador(trato.getPropiedadesOferta(),trato.getDinheiroOferta(),emisor)){
+            if(!comprobarPerteneceXogador(trato.getPropiedadesOferta(),emisor)){
                 throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de oferta non son de "+emisor.getNome());
             }
-            if(!comprobarPerteneceXogador(trato.getPropiedadesDemanda(),trato.getDinheiroDemanda(),destinatario)){
+            if(!comprobarPerteneceXogador(trato.getPropiedadesDemanda(),destinatario)){
                 throw new MonopolinhoGeneralException("Non se pode aceptar este trato porque as propiedades de demanda non son de "+destinatario.getNome());
             }
 
@@ -890,7 +890,13 @@ public class Xogo implements Comandos {
         return true;
     }
 
-    private boolean comprobarPerteneceXogador(ArrayList<Propiedade> propiedades,float dinheiro,Xogador x){
+    /**
+     * Este método comproba se un conxunto de propiedades lle pertenecen a un xogador
+     * @param propiedades Arraylist de propiedades a comprobar
+     * @param x Xogador a comporbar
+     * @return true se todas lle pertenecen, false se non
+     */
+    private boolean comprobarPerteneceXogador(ArrayList<Propiedade> propiedades,Xogador x){
         for(Propiedade p:propiedades){
             if(!p.pertenceXogador(x)) return false;
         }
