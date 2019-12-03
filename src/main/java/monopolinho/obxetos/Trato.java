@@ -64,45 +64,55 @@ public class Trato {
         texto+="\n\t"+ID;
         texto+="\n\txogadorPropon: " + emisorTrato.getNome();
         texto+="\n\ttrato: cambiar(";
-        for(Propiedade p:this.propiedadesOferta){
-            texto+=p.getNome()+" ";
+        if(!this.propiedadesOferta.isEmpty() || this.dinheiroOferta!=-1){
+            for(Propiedade p:this.propiedadesOferta){
+                texto+=p.getNome()+" ";
+            }
+            if(this.dinheiroOferta!=-1){
+                if(this.propiedadesOferta.isEmpty()){
+                    texto+=this.dinheiroOferta;
+                }
+                else{
+                    texto+=" e "+this.dinheiroOferta;
+                }
+            }
         }
-        if(this.dinheiroOferta!=-1){
-            if(this.propiedadesOferta.isEmpty()){
-                texto+=this.dinheiroOferta;
-            }
-            else{
-                texto+=" y "+this.dinheiroOferta;
-            }
+        else{
+            texto+=" - ";
         }
         texto+=", ";
-        for(Propiedade p:this.propiedadesDemanda){
-            texto+=p.getNome()+" ";
+        if(!this.propiedadesDemanda.isEmpty() || this.dinheiroDemanda!=-1){
+            for(Propiedade p:this.propiedadesDemanda){
+                texto+=p.getNome()+" ";
+            }
+            if(this.dinheiroDemanda!=-1){
+                if(this.propiedadesDemanda.isEmpty()){
+                    texto+=this.dinheiroDemanda;
+                }
+                else{
+                    texto+=" e "+this.dinheiroDemanda;
+                }
+            }
         }
-        if(this.dinheiroDemanda!=-1){
-            if(this.propiedadesDemanda.isEmpty()){
-                texto+=this.dinheiroDemanda;
-            }
-            else{
-                texto+=" y "+this.dinheiroDemanda;
-            }
+        else{
+            texto+=" - ";
         }
         texto+=")";
 
         if(!this.noAlquilerDemanda.isEmpty()){
-            texto+="\n\tE "+this.emisorTrato.getNome()+" non paga alquiler en:";
+            texto+="\n\t"+this.emisorTrato.getNome()+" non paga alquiler en:";
             for(Propiedade p:this.noAlquilerDemanda.keySet()){
                 texto+="\n\t\t"+p.getNome()+" durante "+this.noAlquilerDemanda.get(p)+" turnos";
             }
         }
         if(!this.noAlquilerOferta.isEmpty()){
-            texto+="\n\tE "+this.destinatarioTrato.getNome()+" non paga alquiler en:";
+            texto+="\n\t"+this.destinatarioTrato.getNome()+" non paga alquiler en:";
             for(Propiedade p:this.noAlquilerOferta.keySet()){
                 texto+="\n\t\t"+p.getNome()+" durante "+this.noAlquilerOferta.get(p)+" turnos";
             }
         }
         if(this.cambioAvatares){
-            texto+="\n\tE intercambiar os avatares";
+            texto+="\n\tIntercambiar os avatares";
         }
         texto+="\n}";
         return texto;
@@ -209,14 +219,14 @@ public class Trato {
         if(this.cambioAvatares){
             Avatar avatarEmisor=emisor.getAvatar();
             Avatar avatarDestinatario=destinatario.getAvatar();
-            //System.out.println("Antes trato");
-            //System.out.println(emisor.getAvatar());
-            //System.out.println(destinatario.getAvatar());
+            System.out.println("Avatares antes de cambiarse no trato");
+            System.out.println(emisor.getAvatar());
+            System.out.println(destinatario.getAvatar());
             novoAvatar(emisor,avatarEmisor,avatarDestinatario);
             novoAvatar(destinatario,avatarDestinatario,avatarEmisor);
-            //System.out.println("Despois trato");
-            //System.out.println(emisor.getAvatar());
-            //System.out.println(destinatario.getAvatar());
+            System.out.println("Avatares despois de cambiarse no trato");
+            System.out.println(emisor.getAvatar());
+            System.out.println(destinatario.getAvatar());
         }
 
         this.destinatarioTrato.eliminarTrato(this.ID);
@@ -367,30 +377,32 @@ public class Trato {
     public String toString(){
         String texto=this.destinatarioTrato.getNome();
         if(cambioAvatares) texto+=", intercambiamos os avatares";
-        texto+=", douche ";
-        for(Propiedade p:this.propiedadesOferta){
-            texto+=p.getNome()+" ";
-        }
-        if(this.dinheiroOferta!=-1){
-            if(this.propiedadesOferta.isEmpty()){
-                texto+=this.dinheiroOferta;
+
+        if(!this.propiedadesOferta.isEmpty() || this.dinheiroOferta!=-1){
+            texto+=", douche ";
+            for(Propiedade p:this.propiedadesOferta){
+                texto+=p.getNome()+", ";
             }
-            else{
-                texto+=" e "+this.dinheiroOferta;
-            }
-        }
-        texto+=" e ti dasme ";
-        for(Propiedade p:this.propiedadesDemanda){
-            texto+=p.getNome()+" ";
-        }
-        if(this.dinheiroDemanda!=-1){
-            if(this.propiedadesDemanda.isEmpty()){
-                texto+=this.dinheiroDemanda;
-            }
-            else{
-                texto+=" e "+this.dinheiroDemanda;
+            if(this.dinheiroOferta!=-1){
+                if(this.propiedadesOferta.isEmpty())
+                    texto+=this.dinheiroOferta;
+                else
+                    texto+=" e "+this.dinheiroOferta;
             }
         }
+        if(!this.propiedadesDemanda.isEmpty() || this.dinheiroDemanda!=-1){
+            texto+=" e ti dasme ";
+            for(Propiedade p:this.propiedadesDemanda){
+                texto+=p.getNome()+", ";
+            }
+            if(this.dinheiroDemanda!=-1){
+                if(this.propiedadesDemanda.isEmpty())
+                    texto+=this.dinheiroDemanda;
+                else
+                    texto+=" e "+this.dinheiroDemanda;
+            }
+        }
+
 
         if(!this.noAlquilerDemanda.isEmpty()){
             texto+=" e "+this.emisorTrato.getNome()+" non paga alquiler en ";
@@ -403,6 +415,9 @@ public class Trato {
             for(Propiedade p:this.noAlquilerOferta.keySet()){
                 texto+=p.getNome()+" durante "+this.noAlquilerOferta.get(p)+" turnos, ";
             }
+        }
+        if(texto.charAt(texto.length()-2)==','){
+            texto=texto.substring(0,texto.length()-2);
         }
 
         texto+="? ("+this.ID+")";

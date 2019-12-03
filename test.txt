@@ -1,14 +1,13 @@
 crear jugador Dani sombreiro
 crear jugador David esfinxe
-#mov 1
-#comprar goiriz
-#trato david: cambiar (goiriz, 9999)
-#acabar turno
-#aceptar trato1
-#trato david: cambiar (1, 2)
-trato david: cambiar (asdadsadaas)
-trato david: cambiar (avatares)
-trato david: cambiar (avatares y 100, avatares y 2)
 mov 1
+comprar goiriz
+trato david: cambiar (avatares)
+trato david: cambiar (1, 2)
+trato david: cambiar (asdadsadaas)
+trato david: cambiar (avatares y 100, avatares y 2)
+trato david: cambiar (goiriz, 9999)
+trato david: cambiar (avatares, 1000)
+trato david: cambiar (goiriz y noalquiler(goiriz - 2), 100)
 acabar turno
 aceptar trato1

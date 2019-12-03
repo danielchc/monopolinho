@@ -585,7 +585,7 @@ public class Xogo implements Comandos {
             String[] comUnico=segmentoLimpo.split(" ");
             if(comUnico[1].equals("avatares")){
                 Trato trato=new Trato(emisor,destinatario,generarID(),true);
-                consola.imprimir(destinatario.getNome()+", intercambiamos avatares? ("+trato.getID()+")");
+                consola.imprimir(trato);
                 destinatario.engadirTrato(trato);
                 this.numTratos++;
                 return;
