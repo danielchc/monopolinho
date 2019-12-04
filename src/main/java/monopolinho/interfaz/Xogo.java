@@ -356,7 +356,7 @@ public class Xogo implements Comandos {
 
 
         c.setEstaHipotecada(false);
-        //turno.engadirAccion(new Accion(TipoAccion.DESHIPOTECAR,c));
+        turno.engadirAccion(new AccionDeshipotecar(c));
         consola.imprimir("Acabas de deshipotecar a casilla "+c.getNome()+". Pagas "+c.getHipoteca()*1.1f);
 
     }
