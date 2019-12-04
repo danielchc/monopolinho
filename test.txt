@@ -3,11 +3,14 @@ crear jugador David esfinxe
 mov 1
 comprar goiriz
 trato david: cambiar (avatares)
-trato david: cambiar (1, 2)
-trato david: cambiar (asdadsadaas)
-trato david: cambiar (avatares y 100, avatares y 2)
-trato david: cambiar (goiriz, 9999)
-trato david: cambiar (avatares, 1000)
-trato david: cambiar (goiriz y noalquiler(goiriz - 2), 100)
+#trato david: cambiar (1, 2)
+#trato david: cambiar (asdadsadaas)
+#trato david: cambiar (avatares y 100, avatares y 2)
+#trato david: cambiar (goiriz, 9999)
+#trato david: cambiar (avatares, 1000)
+#trato david: cambiar (goiriz y noalquiler(goiriz - 2), 100)
 acabar turno
+cambiar modo
+mova 10
 aceptar trato1
+mova 10

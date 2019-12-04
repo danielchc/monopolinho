@@ -85,7 +85,6 @@ public abstract class Casilla {
         return this.avatares.contains(a);
     }
 
-    //TA BEN IMPLEMENTAO ESTO???
     public int frecuenciaCasilla(){
         return this.estadisticasCasilla.getVisitas();
     }
