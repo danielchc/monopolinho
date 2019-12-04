@@ -5,7 +5,10 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.especiales.Especial;
 import monopolinho.tipos.TipoCasilla;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Carcere extends Especial {
     public Carcere() {
         super("CARCERE");

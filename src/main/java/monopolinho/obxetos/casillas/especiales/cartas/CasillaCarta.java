@@ -8,7 +8,10 @@ import monopolinho.obxetos.excepcions.MonopolinhoException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public  abstract class CasillaCarta extends Casilla {
     private ArrayList<Carta> cartas;
     private Carta ultimaCarta;

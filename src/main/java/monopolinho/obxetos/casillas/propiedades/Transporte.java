@@ -7,7 +7,10 @@ import monopolinho.obxetos.accions.AccionAlquiler;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Transporte extends Propiedade {
     public Transporte(String nome){
         super(nome);

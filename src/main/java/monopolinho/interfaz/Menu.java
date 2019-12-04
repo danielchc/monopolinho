@@ -251,7 +251,7 @@ public class Menu {
                         xogo.listarEdificios();
                         break;
                     default:
-                        throw new MonopolinhoComandoIncorrecto("\nOpción de listaxe non válida");
+                        throw new MonopolinhoComandoIncorrecto("Opción de listaxe non válida");
                 }
                 break;
             case "lanzar":

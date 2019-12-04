@@ -1,6 +1,5 @@
 package monopolinho.obxetos;
 
-import com.sun.istack.internal.NotNull;
 import monopolinho.obxetos.avatares.*;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
@@ -8,6 +7,8 @@ import monopolinho.tipos.TipoTransaccion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class Trato {
     private Xogador emisorTrato;
@@ -20,7 +21,7 @@ public class Trato {
     private HashMap<Propiedade,Integer> noAlquilerDemanda;
     private HashMap<Propiedade,Integer> noAlquilerOferta;
     private boolean cambioAvatares;
-
+    private final static Iterator<Integer> generadorId = Stream.iterate(1, i -> i + 1).iterator();
 
 
     /**
@@ -28,29 +29,21 @@ public class Trato {
      * @param emisorTrato Xogador que crea o trato
      * @param destinatarioTrato Xogador ao que se lle propón o trato
      */
-    public Trato(Xogador emisorTrato,Xogador destinatarioTrato,String ID){
+    public Trato(Xogador emisorTrato,Xogador destinatarioTrato){
         this.emisorTrato = emisorTrato;
         this.destinatarioTrato = destinatarioTrato;
         this.propiedadesOferta=new ArrayList<>();
         this.propiedadesDemanda=new ArrayList<>();
         this.dinheiroDemanda=-1f;
         this.dinheiroOferta=-1f;
-        this.ID=ID;
+        this.ID="trato"+generadorId.next();
         this.noAlquilerDemanda=new HashMap<>();
         this.noAlquilerOferta=new HashMap<>();
         this.cambioAvatares=false;
     }
 
-    public Trato(Xogador emisorTrato,Xogador destinatarioTrato,String ID,boolean avatar){
-        this.emisorTrato = emisorTrato;
-        this.destinatarioTrato = destinatarioTrato;
-        this.propiedadesOferta=new ArrayList<>();
-        this.propiedadesDemanda=new ArrayList<>();
-        this.dinheiroDemanda=-1f;
-        this.dinheiroOferta=-1f;
-        this.ID=ID;
-        this.noAlquilerDemanda=new HashMap<>();
-        this.noAlquilerOferta=new HashMap<>();
+    public Trato(Xogador emisorTrato,Xogador destinatarioTrato,boolean avatar){
+        this(emisorTrato,destinatarioTrato);
         this.cambioAvatares=avatar;
     }
 
@@ -61,9 +54,9 @@ public class Trato {
      */
     public String describirTrato(){
         String texto="{";
-        texto+="\n\t"+ID;
-        texto+="\n\txogadorPropon: " + emisorTrato.getNome();
-        texto+="\n\ttrato: cambiar(";
+        texto+="\n\tID:"+ID;
+        texto+=",\n\txogadorPropon: " + emisorTrato.getNome();
+        texto+=",\n\ttrato: cambiar(";
         if(!this.propiedadesOferta.isEmpty() || this.dinheiroOferta!=-1){
             for(Propiedade p:this.propiedadesOferta){
                 texto+=p.getNome()+" ";
@@ -235,37 +228,21 @@ public class Trato {
     }
 
     private void novoAvatar(Xogador x,Avatar orixinal,Avatar avatarACopiar){
+        Avatar a = null;
         if(avatarACopiar instanceof Coche){
-            Coche c=new Coche(x);
-            c.setId(orixinal.getId());
-            c.setModoXogo(orixinal.getModoXogo());
-            c.setPosicion(orixinal.getPosicion());
-            c.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
-            x.setAvatar(c);
+            a=new Coche(x);
+        }else if(avatarACopiar instanceof Pelota){
+            a=new Pelota(x);
+        }else if(avatarACopiar instanceof Sombreiro){
+            a=new Sombreiro(x);
+        }else if(avatarACopiar instanceof Esfinxe){
+            a=new Esfinxe(x);
         }
-        else if(avatarACopiar instanceof Pelota){
-            Pelota p=new Pelota(x);
-            p.setId(orixinal.getId());
-            p.setModoXogo(orixinal.getModoXogo());
-            p.setPosicion(orixinal.getPosicion());
-            p.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
-            x.setAvatar(p);        }
-        else if(avatarACopiar instanceof Sombreiro){
-            Sombreiro s=new Sombreiro(x);
-            s.setId(orixinal.getId());
-            s.setModoXogo(orixinal.getModoXogo());
-            s.setPosicion(orixinal.getPosicion());
-            s.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
-            x.setAvatar(s);
-        }
-        else if(avatarACopiar instanceof Esfinxe){
-            Esfinxe e=new Esfinxe(x);
-            e.setId(orixinal.getId());
-            e.setModoXogo(orixinal.getModoXogo());
-            e.setPosicion(orixinal.getPosicion());
-            e.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
-            x.setAvatar(e);
-        }
+        a.setId(orixinal.getId());
+        a.setModoXogo(orixinal.getModoXogo());
+        a.setPosicion(orixinal.getPosicion());
+        a.setVoltasTaboeiro(orixinal.getVoltasTaboeiro());
+        x.setAvatar(a);
     }
 
 
@@ -281,8 +258,6 @@ public class Trato {
         }
         return true;
     }
-
-
 
 
     /**

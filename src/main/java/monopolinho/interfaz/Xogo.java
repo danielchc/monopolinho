@@ -11,10 +11,7 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.edificios.Edificio;
-import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
-import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
+import monopolinho.obxetos.excepcions.*;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -33,7 +30,6 @@ public class Xogo implements Comandos {
     private Xogador banca;
     private boolean partidaComezada;
     private EstadisticasXogo estadisticasXogo;
-    private int numTratos;
     public static final Consola consola = new ConsolaNormal();
 
     /**
@@ -52,7 +48,6 @@ public class Xogo implements Comandos {
         partidaComezada=false;
         xogadores=new ArrayList<Xogador>();
         estadisticasXogo=new EstadisticasXogo(this);
-        this.numTratos=0;
     }
 
     /**
@@ -237,7 +232,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void comprarCasilla(String nome) throws MonopolinhoException {
-        if(comprobarCarcere())return;
+        comprobarCarcere();
         Xogador xogador=turno.getXogador();
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade comprar;
@@ -312,7 +307,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void hipotecarCasilla(String nome) throws MonopolinhoException {
-        if(comprobarCarcere())return;
+        comprobarCarcere();
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade c;
 
@@ -343,7 +338,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void deshipotecarCasilla(String nome) throws MonopolinhoException {
-        if(comprobarCarcere())return;
+        comprobarCarcere();
         Casilla target=this.taboeiro.buscarCasilla(nome);
         Propiedade c;
 
@@ -378,7 +373,7 @@ public class Xogo implements Comandos {
             //PA O XOGADOR QUE TES A DEBEDA, normalmente vas ter a débeda co xogador da casilla na que estás
             //c.setDono(this.turno.getPosicion().getDono());
         }
-        consola.imprimir("\nO xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
+        consola.imprimirAuto("O xogador "+this.turno.getXogador().getNome()+" declarouse en bancarrota.");
         pasarTurno();
     }
 
@@ -388,7 +383,7 @@ public class Xogo implements Comandos {
      */
     @Override
     public void edificar(TipoEdificio tipo) throws MonopolinhoException {
-        if(comprobarCarcere())return;
+        comprobarCarcere();
         Solar actual;
         Casilla target=turno.getPosicion();
 
@@ -419,8 +414,8 @@ public class Xogo implements Comandos {
      * @param numero Número de edificios a vender
      */
     @Override
-    public void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente, MonopolinhoGeneralException {
-        if(comprobarCarcere())return;
+    public void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoException {
+        comprobarCarcere();
         Casilla target=taboeiro.buscarCasilla(casilla);
         Solar c;
 
@@ -584,10 +579,9 @@ public class Xogo implements Comandos {
             String segmentoLimpo=partesTrato[0].replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
             String[] comUnico=segmentoLimpo.split(" ");
             if(comUnico[1].equals("avatares")){
-                Trato trato=new Trato(emisor,destinatario,generarID(),true);
-                consola.imprimir(trato);
-                destinatario.engadirTrato(trato);
-                this.numTratos++;
+                Trato tratoAvatar=new Trato(emisor,destinatario,true);
+                consola.imprimir(tratoAvatar);
+                destinatario.engadirTrato(tratoAvatar);
                 return;
             }
             else{
@@ -597,7 +591,7 @@ public class Xogo implements Comandos {
         String parteOferta=partesTrato[0];
         String parteDemanda=partesTrato[1];
 
-        Trato trato=new Trato(emisor,destinatario,generarID());
+        Trato trato=new Trato(emisor,destinatario);
 
         for(String s:parteOferta.split("y")){
             String segmentoLimpo=s.replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
@@ -610,9 +604,7 @@ public class Xogo implements Comandos {
                 else if(elementosOferta[i].equals("noalquiler")){
                     if(!Auxiliar.isNumeric(elementosOferta[i+1]) && Auxiliar.isNumeric(elementosOferta[i+2])){
                         Casilla x=this.taboeiro.buscarCasilla(elementosOferta[i+1]);
-                        if(!comprobarOfrecerTrato(x,emisor,elementosOferta[i+1])){
-                            return;
-                        }
+                        comprobarOfrecerTrato(x,emisor,elementosOferta[i+1]);
                         trato.engadirNoAlquilerOferta((Propiedade)x,Integer.valueOf(elementosOferta[i+2]));
                     }
                     else throw new MonopolinhoGeneralException("Sintaxe noalquiler incorrecta: noalquiler(solar, turnos)");
@@ -624,9 +616,7 @@ public class Xogo implements Comandos {
                 }
                 else{
                     Casilla c=this.taboeiro.buscarCasilla(elementosOferta[i]);
-                    if(!comprobarOfrecerTrato(c,emisor,elementosOferta[i])){
-                        return;
-                    }
+                    comprobarOfrecerTrato(c,emisor,elementosOferta[i]);
                     trato.engadirPropiedadeOferta((Propiedade)c);
                 }
             }
@@ -640,9 +630,7 @@ public class Xogo implements Comandos {
                 else if(elementosDemanda[i].equals("noalquiler")){
                     if(!Auxiliar.isNumeric(elementosDemanda[i+1]) && Auxiliar.isNumeric(elementosDemanda[i+2])){
                         Casilla x=this.taboeiro.buscarCasilla(elementosDemanda[i+1]);
-                        if(!comprobarOfrecerTrato(x,destinatario,elementosDemanda[i+1])){
-                            return;
-                        }
+                        comprobarOfrecerTrato(x,destinatario,elementosDemanda[i+1]);
                         trato.engadirNoAlquilerDemanda((Propiedade)x,Integer.valueOf(elementosDemanda[i+2]));
                     }
                     else throw new MonopolinhoGeneralException("Sintaxe noalquiler incorrecta: noalquiler(solar, turnos)");
@@ -654,16 +642,13 @@ public class Xogo implements Comandos {
                 }
                 else{
                     Casilla c=this.taboeiro.buscarCasilla(elementosDemanda[i]);
-                    if(!comprobarOfrecerTrato(c,destinatario,elementosDemanda[i])){
-                        return;
-                    }
+                    comprobarOfrecerTrato(c,destinatario,elementosDemanda[i]);
                     trato.engadirPropiedadeDemanda((Propiedade)c);
                 }
             }
         }
         consola.imprimir(trato);
         destinatario.engadirTrato(trato);
-        this.numTratos++;
     }
 
     /**
@@ -790,12 +775,8 @@ public class Xogo implements Comandos {
     /**
      * Move os avatares de en modo avanzado
      */
-    private void moverModoAvanzado(int valorDados){
-        try{
-            turno.getXogador().getAvatar().moverEnAvanzado(this,valorDados);
-        }catch (MonopolinhoException e){
-            e.imprimirErro();
-        }
+    private void moverModoAvanzado(int valorDados) throws MonopolinhoException {
+        turno.getXogador().getAvatar().moverEnAvanzado(this,valorDados);
     }
 
     /**
@@ -829,42 +810,18 @@ public class Xogo implements Comandos {
 
 
     /**
-     * Este método genera un Id correlativo
-     * @return Id do trato
-     */
-    private String generarID(){
-        String id="trato"+(this.numTratos+1);
-        return id;
-    }
-
-    /**
      * Este método comproba se se cumplen os requisitos dunha casilla para un trato.
      * @param c Casilla a comprobar
      * @param x xogador a comprobar
      * @param nome nome da casilla a comprobar
      * @return true se se pode realizar o trato, false se non
      */
-    private boolean comprobarOfrecerTrato(Casilla c,Xogador x,String nome){
-        try{
-            if(c==null){
-                throw new MonopolinhoGeneralException(nome+" non é unha casilla válida. Trato cancelado.");
-            }
-            if(!(c instanceof Propiedade)){
-                throw new MonopolinhoGeneralException(nome+" non é unha propiedade. Trato cancelado.");
-            }
-            if(!((Propiedade) c).pertenceXogador(x)){
-                throw new MonopolinhoGeneralException("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
-            }
-            if(c instanceof Solar && ((Solar) c).getNumeroEdificios() != 0){
-                throw new MonopolinhoGeneralException(nome+" ten edificios construidos. Trato cancelado.");
-            }
-        }catch (MonopolinhoGeneralException e) {
-            e.imprimirErro();
-            return false;
-        }
-        return true;
+    private  void comprobarOfrecerTrato(Casilla c,Xogador x,String nome) throws MonopolinhoGeneralException {
+        if(c==null)throw new MonopolinhoGeneralException(nome+" non é unha casilla válida. Trato cancelado.");
+        if(!(c instanceof Propiedade))throw new MonopolinhoGeneralException(nome+" non é unha propiedade. Trato cancelado.");
+        if(!((Propiedade) c).pertenceXogador(x))throw new MonopolinhoGeneralException("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
+        if(c instanceof Solar && ((Solar) c).getNumeroEdificios() != 0)throw new MonopolinhoGeneralException(nome+" ten edificios construidos. Trato cancelado.");
     }
-
 
 
     /**
@@ -894,28 +851,16 @@ public class Xogo implements Comandos {
     /**
      * @return Non permite realizar a acción se está no cárcere
      */
-    private boolean comprobarCarcere(){
-        if(this.turno.getXogador().estaNoCarcere()){
-            try{
-                throw new MonopolinhoGeneralException("Non podes realizar está acción porque estás no cárcere");
-            }catch (MonopolinhoGeneralException e){
-                e.imprimirErro();
-                return true;
-            }
-        }
-        return false;
+    private void comprobarCarcere() throws MonopolinhoXogadorCarcere {
+        if(this.turno.getXogador().estaNoCarcere())
+            throw new MonopolinhoXogadorCarcere();
     }
 
     /**
      * @return Comproba se acabou a partida
      */
     private boolean comprobarFinPartida(){
-        int xogadoresEnBancarrota=0;
-        for(Xogador x:this.xogadores){
-            if(x.estadoXogador()==EstadoXogador.BANCARROTA)
-                xogadoresEnBancarrota++;
-        }
-        return ((this.xogadores.size()-1)==xogadoresEnBancarrota);
+        return ((this.xogadores.size()-1)==this.xogadores.stream().filter(xogador -> xogador.estadoXogador()==EstadoXogador.BANCARROTA).count());
     }
 
 
@@ -940,7 +885,7 @@ public class Xogo implements Comandos {
         moverModoNormal(i);
     }
 
-    public void mova(int i){
+    public void mova(int i) throws MonopolinhoException{
         turno.aumentarVecesTiradas();
         turno.setPodeLanzar(false);
         turno.engadirAccion(new AccionLanzarDados(turno.getPosicion()));

@@ -17,7 +17,10 @@ import monopolinho.tipos.TipoTransaccion;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Solar extends Propiedade {
     private Grupo grupo;
     private ArrayList<Edificio> edificios;

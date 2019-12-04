@@ -5,7 +5,10 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.accions.AccionIrCarcere;
 import monopolinho.obxetos.casillas.especiales.Especial;
 import monopolinho.tipos.TipoCasilla;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Ir_Carcere extends Especial {
     public Ir_Carcere() {
         super("IR_CARCERE");

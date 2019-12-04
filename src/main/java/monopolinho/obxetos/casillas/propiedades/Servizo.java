@@ -8,7 +8,10 @@ import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Servizo extends Propiedade {
     /**
      * Contructor para casilla TRANSPORTE OU SERVIZO

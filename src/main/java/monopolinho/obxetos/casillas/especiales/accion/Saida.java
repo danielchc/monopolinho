@@ -4,7 +4,10 @@ import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.especiales.Especial;
 import monopolinho.tipos.TipoCasilla;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class Saida extends Especial {
     public Saida() {
         super("SAIDA");

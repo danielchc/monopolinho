@@ -6,7 +6,10 @@ import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.especiales.Especial;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
-
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public class Parking extends Especial {
     public Parking() {
         super("PARKING");

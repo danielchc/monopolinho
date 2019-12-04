@@ -1,6 +1,9 @@
 package monopolinho.obxetos.excepcions;
-
 import monopolinho.interfaz.Xogo;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public abstract class MonopolinhoException extends Exception {
     public MonopolinhoException(String mensaxe) {

@@ -1,5 +1,8 @@
 package monopolinho.interfaz;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public interface Consola {
     void imprimir(String texto);
     void imprimirsl(String texto);

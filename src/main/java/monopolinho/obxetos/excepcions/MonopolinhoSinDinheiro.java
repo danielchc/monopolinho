@@ -1,7 +1,10 @@
 package monopolinho.obxetos.excepcions;
-
 import monopolinho.obxetos.Xogador;
 import monopolinho.tipos.EstadoXogador;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class MonopolinhoSinDinheiro extends MonopolinhoException {
 

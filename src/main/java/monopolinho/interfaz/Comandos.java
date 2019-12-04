@@ -1,17 +1,19 @@
 package monopolinho.interfaz;
 
-import monopolinho.obxetos.excepcions.MonopolinhoCasillaInexistente;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
-import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
 
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public interface Comandos {
 
-    void describirCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
+    void describirCasilla(String nome) throws MonopolinhoException;
 
-    void describirXogador(String nome) throws MonopolinhoGeneralException, MonopolinhoException;
+    void describirXogador(String nome) throws MonopolinhoException;
 
     void describirAvatar(String avatarId) throws MonopolinhoException;
 
@@ -29,7 +31,7 @@ public interface Comandos {
 
     void sairCarcere() throws MonopolinhoGeneralException;
 
-    void comprarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
+    void comprarCasilla(String nome) throws MonopolinhoException;
 
     void mostrarTaboeiro();
 
@@ -37,15 +39,15 @@ public interface Comandos {
 
     void mostrarEstadisticasXogo();
 
-    void hipotecarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
+    void hipotecarCasilla(String nome) throws  MonopolinhoException;
 
-    void deshipotecarCasilla(String nome) throws MonopolinhoCasillaInexistente, MonopolinhoException;
+    void deshipotecarCasilla(String nome) throws MonopolinhoException;
 
     void declararBancarrota() throws MonopolinhoGeneralException;
 
-    void edificar(TipoEdificio tipo) throws MonopolinhoNonSePodeConstruir, MonopolinhoException;
+    void edificar(TipoEdificio tipo) throws MonopolinhoException;
 
-    void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoCasillaInexistente, MonopolinhoGeneralException;
+    void venderEdificio(TipoEdificio tipo, String casilla, int numero) throws MonopolinhoException;
 
     void mostrarTurno() throws MonopolinhoGeneralException;
 
@@ -67,6 +69,6 @@ public interface Comandos {
 
     void mov(int i) throws MonopolinhoException;
 
-    void mova(int i);
+    void mova(int i) throws MonopolinhoException;
 
 }

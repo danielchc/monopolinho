@@ -3,6 +3,10 @@ package monopolinho.obxetos.edificios;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.tipos.TipoEdificio;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class PistaDeportes extends Edificio{
     public PistaDeportes(Solar posicion){

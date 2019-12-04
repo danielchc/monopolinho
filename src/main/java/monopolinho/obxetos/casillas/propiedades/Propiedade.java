@@ -4,7 +4,10 @@ import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.tipos.TipoTransaccion;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public abstract class Propiedade extends Casilla {
     private Xogador dono;
     private float valor;

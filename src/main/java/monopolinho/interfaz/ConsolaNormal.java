@@ -4,7 +4,10 @@ import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 
 import java.util.Scanner;
-
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 public class ConsolaNormal implements Consola {
     Scanner scanner;
     @Override

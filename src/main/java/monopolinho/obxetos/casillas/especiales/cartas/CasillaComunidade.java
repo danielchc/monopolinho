@@ -4,7 +4,10 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.implementacion.*;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
-
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 public class CasillaComunidade extends CasillaCarta {
     public CasillaComunidade() {
         super("COMUNIDADE");
