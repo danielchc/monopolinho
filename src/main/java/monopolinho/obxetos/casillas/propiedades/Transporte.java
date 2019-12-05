@@ -27,7 +27,7 @@ public class Transporte extends Propiedade {
                 mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
             }else{
                 float aPagar=0;
-                aPagar=this.getAlquiler()*(this.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
+                aPagar=this.alquiler()*(this.getDono().numTipoCasillaPosesion(TipoCasilla.TRANSPORTE)/4.0f);
                 if(xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)){
                     this.getDono().engadirDinheiro(aPagar, TipoTransaccion.OTROS);
                     xogo.getTurno().engadirAccion(new AccionAlquiler(this,aPagar));
@@ -47,14 +47,14 @@ public class Transporte extends Propiedade {
     }
 
     @Override
-    public float getAlquiler() {
+    public float alquiler() {
         return Valor.USO_TRANSPORTE;
     }
 
     @Override
     public String toString() {
         return super.toString()+
-                "\n\tPrezo: "+this.getValor()+
+                "\n\tPrezo: "+this.valor()+
                 "\n}";
     }
 }

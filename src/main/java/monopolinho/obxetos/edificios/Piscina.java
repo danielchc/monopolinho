@@ -17,6 +17,6 @@ public class Piscina extends Edificio{
 
     @Override
     public float getPrecio() {
-        return Valor.FACTOR_VALOR_PISCINA*getPosicion().getValor();
+        return Valor.FACTOR_VALOR_PISCINA*getPosicion().valor();
     }
 }

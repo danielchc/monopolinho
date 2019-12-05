@@ -12,7 +12,7 @@ public class AccionComprar extends Accion {
     @Override
     public String desfacer(Xogo xogo) {
         propiedade.setDono(xogo.getBanca());
-        super.getTurno().getXogador().engadirDinheiro(propiedade.getValor(), TipoTransaccion.OTROS);
+        super.getTurno().getXogador().engadirDinheiro(propiedade.valor(), TipoTransaccion.OTROS);
         return "A propiedade "+ propiedade.getNome() +" xa non che pertenece";
     }
 }

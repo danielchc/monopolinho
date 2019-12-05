@@ -17,20 +17,31 @@ public abstract class Propiedade extends Casilla {
         super(nome);
     }
 
-    public void comprar(Xogador x){
-        this.getDono().engadirDinheiro(this.getValor(), TipoTransaccion.VENTA);
-        this.setDono(x);
-    }
 
     public boolean pertenceXogador(Xogador x){
         return this.dono.equals(x);
     }
 
+    public abstract float alquiler();
+
+    /**
+     * @return Devolve o valor dunha casilla
+     */
+    public float valor() {
+        return valor;
+    }
+
+    public void comprar(Xogador x){
+        this.getDono().engadirDinheiro(this.valor(), TipoTransaccion.VENTA);
+        this.setDono(x);
+    }
+
+
     /**
      * @return Devolve o prezo a pagar pola hipoteca
      */
     public float getHipoteca(){
-        return getValor()* Valor.FACTOR_HIPOTECA;
+        return valor()* Valor.FACTOR_HIPOTECA;
     }
 
     /**
@@ -52,13 +63,6 @@ public abstract class Propiedade extends Casilla {
             this.dono = dono;
             dono.engadirPropiedade(this);
         }
-    }
-
-    /**
-     * @return Devolve o valor dunha casilla
-     */
-    public float getValor() {
-        return valor;
     }
 
     /**
@@ -84,7 +88,6 @@ public abstract class Propiedade extends Casilla {
         this.estaHipotecada = estaHipotecada;
     }
 
-    public abstract float getAlquiler();
 
 
     @Override

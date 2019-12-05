@@ -17,7 +17,7 @@ public class PistaDeportes extends Edificio{
 
     @Override
     public float getPrecio() {
-        return Valor.FACTOR_VALOR_PISTADEPORTES*getPosicion().getValor();
+        return Valor.FACTOR_VALOR_PISTADEPORTES*getPosicion().valor();
     }
 
 }

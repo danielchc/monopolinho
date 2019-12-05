@@ -31,7 +31,7 @@ public class Servizo extends Propiedade {
             if(xogador.restarVecesNonAlquiler(this)){
                 mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
             }else {
-                float aPagar = valorDados * this.getAlquiler();
+                float aPagar = valorDados * this.alquiler();
 
                 aPagar *= (this.getDono().numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1) ? 4.0f : 10.0f;
 
@@ -54,14 +54,14 @@ public class Servizo extends Propiedade {
     }
 
     @Override
-    public float getAlquiler() {
+    public float alquiler() {
         return Valor.USO_SERVIZO;
     }
 
     @Override
     public String toString() {
         return super.toString()+
-                "\n\tPrezo: "+this.getValor()+
+                "\n\tPrezo: "+this.valor()+
                 "\n}";
     }
 }

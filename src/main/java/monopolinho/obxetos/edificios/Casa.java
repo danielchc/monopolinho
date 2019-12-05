@@ -16,6 +16,6 @@ public class Casa extends Edificio{
     }
     @Override
     public float getPrecio() {
-        return Valor.FACTOR_VALOR_CASA*getPosicion().getValor();
+        return Valor.FACTOR_VALOR_CASA*getPosicion().valor();
     }
 }

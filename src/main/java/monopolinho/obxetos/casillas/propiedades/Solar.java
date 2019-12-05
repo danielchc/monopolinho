@@ -36,7 +36,7 @@ public class Solar extends Propiedade {
         this.grupo=grupo;
         this.grupo.engadirSolar(this);
         super.setValor((float) Math.ceil((this.grupo.getValor()/this.grupo.getNumeroSolares())));
-        this.alquiler=this.getValor()* Valor.FACTOR_ALQUILER;
+        this.alquiler=this.valor()* Valor.FACTOR_ALQUILER;
         this.setColorCasilla(this.getGrupo().getColor());
     }
 
@@ -51,7 +51,7 @@ public class Solar extends Propiedade {
                 if(xogador.restarVecesNonAlquiler(this)){
                     mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
                 }else {
-                    float aPagar=this.getAlquiler();
+                    float aPagar=this.alquiler();
                     if(xogador.quitarDinheiro(aPagar, TipoTransaccion.ALQUILER)){
                         this.getEstadisticas().engadirAlquilerPagado(aPagar);
                         this.getDono().engadirDinheiro(aPagar, TipoTransaccion.ALQUILER);
@@ -203,7 +203,7 @@ public class Solar extends Propiedade {
                 ",\n\tHoteles: " + edificiosTexto[TipoEdificio.HOTEL.ordinal()]+
                 ",\n\tPiscinas: " + edificiosTexto[TipoEdificio.PISCINA.ordinal()]+
                 ",\n\tPistas de deportes: " + edificiosTexto[TipoEdificio.PISTA_DEPORTES.ordinal()]+
-                ",\n\tAlquiler: " + getAlquiler()+
+                ",\n\tAlquiler: " + alquiler()+
                 "\n}"+
                 "\n" + queSePodeConstruir();
         return text;
@@ -216,7 +216,7 @@ public class Solar extends Propiedade {
         return new String[]{
                 ReprTab.colorear(this.getColorCasilla(), ReprTab.borde()),
                 ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(this.getNome())),
-                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(ReprTab.formatearNumeros(this.getValor()))),
+                ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(ReprTab.formatearNumeros(this.valor()))),
                 ReprTab.colorear(this.getColorCasilla(), ReprTab.bordeTextoCentrado(avataresCasilla)),
                 ReprTab.colorear(this.getColorCasilla(), ReprTab.borde())
         };
@@ -231,13 +231,13 @@ public class Solar extends Propiedade {
     public float getPrecioEdificio(TipoEdificio tipo){
         switch (tipo){
             case HOTEL:
-                return Valor.FACTOR_VALOR_HOTEL*this.getValor();
+                return Valor.FACTOR_VALOR_HOTEL*this.valor();
             case CASA:
-                return Valor.FACTOR_VALOR_CASA*this.getValor();
+                return Valor.FACTOR_VALOR_CASA*this.valor();
             case PISCINA:
-                return Valor.FACTOR_VALOR_PISCINA*this.getValor();
+                return Valor.FACTOR_VALOR_PISCINA*this.valor();
             case PISTA_DEPORTES:
-                return Valor.FACTOR_VALOR_PISTADEPORTES*this.getValor();
+                return Valor.FACTOR_VALOR_PISTADEPORTES*this.valor();
         }
         return -1f;
     }
@@ -305,7 +305,7 @@ public class Solar extends Propiedade {
      * @return Total alquiler a pagar
      */
     @Override
-    public float getAlquiler() {
+    public float alquiler() {
         float aPagar=0;
         if(this.getNumeroEdificios()!=0){
             if(this.getNumeroEdificiosTipo(TipoEdificio.CASA)>4)
@@ -329,12 +329,12 @@ public class Solar extends Propiedade {
         String listaEdificios="["+this.edificios.stream().map(Edificio::getId).collect(Collectors.joining(", "))+"]";
         return super.toString()+
             "\n\tGrupo: "+this.getGrupo().getNome() +
-            "\n\tValor: "+this.getValor() +
-            "\n\tAlquiler: "+this.getAlquiler()+
-            "\n\tValor casa: "+this.getValor()*Valor.FACTOR_VALOR_CASA+
-            "\n\tValor hotel: "+this.getValor()*Valor.FACTOR_VALOR_HOTEL+
-            "\n\tValor piscina: "+this.getValor()*Valor.FACTOR_VALOR_PISCINA+
-            "\n\tValor pista deportes: "+this.getValor()*Valor.FACTOR_VALOR_PISTADEPORTES+
+            "\n\tValor: "+this.valor() +
+            "\n\tAlquiler: "+this.alquiler()+
+            "\n\tValor casa: "+this.valor()*Valor.FACTOR_VALOR_CASA+
+            "\n\tValor hotel: "+this.valor()*Valor.FACTOR_VALOR_HOTEL+
+            "\n\tValor piscina: "+this.valor()*Valor.FACTOR_VALOR_PISCINA+
+            "\n\tValor pista deportes: "+this.valor()*Valor.FACTOR_VALOR_PISTADEPORTES+
             "\n\tAlquiler 1 casa: "+this.alquiler*5+
             "\n\tAlquiler 2 casa: "+this.alquiler*15+
             "\n\tAlquiler 3 casa: "+this.alquiler*35+
@@ -342,7 +342,7 @@ public class Solar extends Propiedade {
             "\n\tAlquiler hotel: "+getAlquilerEdificioTipo(TipoEdificio.HOTEL)+
             "\n\tAlquiler piscina: "+getAlquilerEdificioTipo(TipoEdificio.PISCINA)+
             "\n\tAlquiler pista de deportes: "+getAlquilerEdificioTipo(TipoEdificio.PISTA_DEPORTES)+
-            "\n\tTotal a pagar de alquiler actualmente: "+(!this.getDono().getNome().equals("Banca")?this.getAlquiler():"")+
+            "\n\tTotal a pagar de alquiler actualmente: "+(!this.getDono().getNome().equals("Banca")?this.alquiler():"")+
             "\n\tEdificios: "+listaEdificios+
             "\n}";
     }

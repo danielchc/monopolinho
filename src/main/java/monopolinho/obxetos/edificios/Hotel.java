@@ -17,6 +17,6 @@ public class Hotel extends Edificio{
 
     @Override
     public float getPrecio() {
-        return Valor.FACTOR_VALOR_HOTEL*super.getPosicion().getValor();
+        return Valor.FACTOR_VALOR_HOTEL*super.getPosicion().valor();
     }
 }

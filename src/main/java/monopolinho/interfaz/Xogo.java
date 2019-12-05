@@ -257,7 +257,7 @@ public class Xogo implements Comandos {
         if (!comprar.pertenceXogador(banca)){
             throw new MonopolinhoGeneralException("Esta casilla pertence a " + comprar.getDono().getNome()+". Non a podes comprar");
         }
-        if(!xogador.quitarDinheiro(comprar.getValor(), TipoTransaccion.COMPRA)){
+        if(!xogador.quitarDinheiro(comprar.valor(), TipoTransaccion.COMPRA)){
             throw new MonopolinhoGeneralException("Non tes suficiente diñeiro");
         }
         if(xogador.getAvatar().getTipo()==TipoMovemento.COCHE && xogador.getAvatar().getModoXogo()==ModoXogo.AVANZADO && turno.getCompradasTurno()>=1){
@@ -266,7 +266,7 @@ public class Xogo implements Comandos {
 
         comprar.comprar(this.turno.getXogador());
         turno.engadirAccion(new AccionComprar(comprar));
-        consola.imprimir("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.getValor());
+        consola.imprimir("O usuario "+xogador.getNome() +" comprou "+comprar.getNome() +" por "+comprar.valor());
     }
 
 
@@ -801,7 +801,7 @@ public class Xogo implements Comandos {
                 if(c instanceof Propiedade){
                     Propiedade p=(Propiedade)c;
                     if(p.pertenceXogador(banca) && (c instanceof Solar)){
-                        p.setValor(p.getValor()*1.05f);
+                        p.setValor(p.valor()*1.05f);
                     }
                 }
             }
