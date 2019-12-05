@@ -8,7 +8,6 @@ import monopolinho.interfaz.Xogo;
  */
 
 public class MonopolinhoCasillaInexistente extends MonopolinhoException {
-    String casilla;
     public MonopolinhoCasillaInexistente(String casilla) {
         super(casilla);
     }

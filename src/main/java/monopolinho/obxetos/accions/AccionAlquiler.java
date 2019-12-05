@@ -6,8 +6,8 @@ import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
 
 public class AccionAlquiler extends Accion {
-    Propiedade propiedade;
-    float alquiler;
+    private Propiedade propiedade;
+    private float alquiler;
     public AccionAlquiler(Propiedade c,float alquiler){
         this.propiedade =c;
         this.alquiler=alquiler;

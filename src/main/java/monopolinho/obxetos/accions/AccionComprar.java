@@ -5,7 +5,7 @@ import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.tipos.TipoTransaccion;
 
 public class AccionComprar extends Accion {
-    Propiedade propiedade;
+    private Propiedade propiedade;
     public AccionComprar(Propiedade c){
         this.propiedade=c;
     }

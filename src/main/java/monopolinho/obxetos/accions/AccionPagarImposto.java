@@ -6,7 +6,7 @@ import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
 
 public class AccionPagarImposto extends Accion {
-    Imposto casillaImposto;
+    private Imposto casillaImposto;
     public AccionPagarImposto(Imposto c){
         this.casillaImposto =c;
     }

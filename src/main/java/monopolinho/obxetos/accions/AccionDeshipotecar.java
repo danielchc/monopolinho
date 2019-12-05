@@ -6,7 +6,7 @@ import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
 
 public class AccionDeshipotecar extends Accion {
-    Propiedade propiedade;
+    private Propiedade propiedade;
     public AccionDeshipotecar(Propiedade c){
         this.propiedade =c;
     }

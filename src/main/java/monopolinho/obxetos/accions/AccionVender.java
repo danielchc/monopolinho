@@ -6,8 +6,8 @@ import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
 
 public class AccionVender extends Accion {
-    Solar solar;
-    TipoEdificio tipoEdificio;
+    private Solar solar;
+    private TipoEdificio tipoEdificio;
     int numeroEdificios=0;
     public AccionVender(Solar c, TipoEdificio tipoEdificio,int numero){
         this.solar =c;

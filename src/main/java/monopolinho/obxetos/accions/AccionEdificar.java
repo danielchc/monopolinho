@@ -8,8 +8,8 @@ import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 
 public class AccionEdificar extends Accion {
-    Solar solar;
-    TipoEdificio tipoEdificio;
+    private Solar solar;
+    private TipoEdificio tipoEdificio;
     public AccionEdificar(Solar c, TipoEdificio tipoEdificio){
         this.solar =c;
         this.tipoEdificio=tipoEdificio;

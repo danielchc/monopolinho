@@ -5,7 +5,7 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 
 public class AccionLanzarDados extends Accion {
-    Casilla casilla;
+    private Casilla casilla;
     public AccionLanzarDados(Casilla c){
         this.casilla=c;
     }
