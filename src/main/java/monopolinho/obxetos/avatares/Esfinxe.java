@@ -13,6 +13,11 @@ import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoMovemento;
 import monopolinho.tipos.Zona;
 
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
+
 public class Esfinxe extends Avatar{
 
     public Esfinxe(Xogador xogador) {
@@ -23,6 +28,12 @@ public class Esfinxe extends Avatar{
         super(xogador,id);
     }
 
+    /**
+     * Establece o movemento avanzado dos xogaodres
+     * @param xogo
+     * @param valorDados
+     * @throws MonopolinhoException
+     */
     public void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException {
         Turno turno=xogo.getTurno();
         Taboeiro taboeiro=xogo.getTaboeiro();
@@ -65,7 +76,7 @@ public class Esfinxe extends Avatar{
             }
         }else{
             System.out.println("Sacaches menos de 4, desfacendo todo o que fixeches no turno");
-            turno.desfacer(xogo);
+            Xogo.consola.imprimirNegrita(turno.desfacer(xogo));
         }
 
     }

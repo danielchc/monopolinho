@@ -4,6 +4,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.especiales.Especial;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 /**
  * @author Daniel Chenel
@@ -15,9 +16,15 @@ public class Carcere extends Especial {
         this.setColorCasilla(Valor.ReprColor.ANSI_BLACK_BOLD);
     }
 
+    /**
+     * Establece a acción ao caer na casilla carcere
+     * @param xogo
+     * @param valorDados
+     * @return
+     */
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) {
-        xogo.getTurno().setPosicion(this);
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo, valorDados);
         return "Só de visita...";
     }
 
@@ -26,6 +33,9 @@ public class Carcere extends Especial {
         return TipoCasilla.CARCERE;
     }
 
+    /**
+     * @return Devolve os xogadores no carcere
+     */
     @Override
     public String toString() {
         String xogadoresCarcere="";

@@ -8,6 +8,10 @@ import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Comunidade2 extends CartaComunidade {
     private final float PREZO=50000;

@@ -4,6 +4,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.casillas.especiales.Especial;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 /**
@@ -18,12 +19,12 @@ public class Parking extends Especial {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo, valorDados);
         String mensaxe="";
         mensaxe="O xogador "+ xogo.getTurno().getXogador().getNome() + " recibe "+xogo.getTaboeiro().getBote()+", do bote.";
         xogo.getTurno().getXogador().engadirDinheiro(xogo.getTaboeiro().getBote(), TipoTransaccion.BOTE_PREMIO);
         xogo.getTaboeiro().setBote(0);
-        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 

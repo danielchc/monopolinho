@@ -4,6 +4,10 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class AccionDeshipotecar extends Accion {
     private Propiedade propiedade;
@@ -13,7 +17,8 @@ public class AccionDeshipotecar extends Accion {
     @Override
     public String desfacer(Xogo xogo) throws MonopolinhoGeneralException {
         propiedade.setEstaHipotecada(true);
-        super.getTurno().getXogador().engadirDinheiro(propiedade.getHipoteca()*1.1f,TipoTransaccion.OTROS);
+        xogo.getTurno().getXogador().engadirDinheiro(propiedade.getHipoteca()*1.1f,TipoTransaccion.OTROS);
+        xogo.getTurno().getXogador().getEstadisticas().restarDineroGastado(propiedade.valor());
         return "A propiedade "+ propiedade.getNome() +" está hipotecada. Devolveronche os "+propiedade.getHipoteca()*1.1f +" da hipoteca";
     }
 }

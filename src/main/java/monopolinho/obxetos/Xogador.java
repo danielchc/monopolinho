@@ -438,10 +438,17 @@ public class Xogador {
         this.turnosInvalidado = turnosInvalidado+1;
     }
 
+    /**
+     * @return Devolve o listado de tratos do xogador
+     */
     public HashMap<String, Trato> getTratos() {
         return tratos;
     }
 
+    /**
+     * Establece os tratos do xogador
+     * @param tratos
+     */
     public void setTratos(HashMap<String, Trato> tratos) {
         if(tratos!=null){
             this.tratos = tratos;

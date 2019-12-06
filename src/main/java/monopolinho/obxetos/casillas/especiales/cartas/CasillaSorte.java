@@ -13,13 +13,23 @@ public class CasillaSorte extends CasillaCarta {
         super("SORTE");
     }
 
+    /**
+     * Establece a posición do xogador e pide a carta
+     * @param xogo
+     * @param valorDados
+     * @return
+     * @throws MonopolinhoException
+     */
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo, valorDados);
         Xogo.consola.imprimirAuto("Caiches na casilla de SORTE");
-        xogo.getTurno().setPosicion(this);
         return super.pedirCarta(xogo);
     }
 
+    /**
+     * @return Devole o tipo de casilla
+     */
     @Override
     public TipoCasilla getTipoCasilla() {
         return TipoCasilla.SORTE;

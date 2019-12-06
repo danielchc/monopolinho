@@ -5,6 +5,10 @@ import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Sorte6 extends CartaSorte {
     private final float PREMIO=1000000f;

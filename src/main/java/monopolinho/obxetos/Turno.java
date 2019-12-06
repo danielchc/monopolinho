@@ -32,6 +32,9 @@ public class Turno {
         this.historialAccion=new Stack<>();
     }
 
+    /**
+     * @param a Engade unha acción ao turno
+     */
     public void engadirAccion(Accion a){
         if(a!=null){
             a.setTurno(this);
@@ -40,12 +43,18 @@ public class Turno {
     }
 
 
-    public void desfacer(Xogo xogo) throws MonopolinhoException {
+    /**
+     * Desfai as accións realizadas no turno
+     * @param xogo
+     * @throws MonopolinhoException
+     */
+    public String desfacer(Xogo xogo) throws MonopolinhoException {
         String mensaxe="";
         while(!this.historialAccion.empty()){
             Accion a=historialAccion.pop();
-            Xogo.consola.imprimirNegrita("\t-> "+a.desfacer(xogo));
+            mensaxe+="\t-> "+a.desfacer(xogo)+"\n";
         }
+        return mensaxe;
     }
 
     /**
@@ -63,7 +72,6 @@ public class Turno {
     public void setPosicion(Casilla c){
         this.xogador.setPosicion(c);
         this.historial.add(c);
-        //engadirAccion(new Accion(TipoAccion.MOVERSE,c));
     }
 
     /**
@@ -154,10 +162,17 @@ public class Turno {
     }
 
 
+    /**
+     * @return Obten o historial de accions
+     */
     public Stack<Accion> getHistorialAccion() {
         return historialAccion;
     }
 
+    /**
+     * Establece o historial de accións dun turno
+     * @param historialAccion
+     */
     public void setHistorialAccion(Stack<Accion> historialAccion) {
         this.historialAccion = historialAccion;
     }

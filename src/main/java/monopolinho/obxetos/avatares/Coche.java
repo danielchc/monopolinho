@@ -7,6 +7,10 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoMovemento;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Coche extends Avatar{
 
@@ -18,6 +22,12 @@ public class Coche extends Avatar{
         super(xogador,id);
     }
 
+    /**
+     * Establece o movemento avanzado dos xogaodres
+     * @param xogo
+     * @param valorDados
+     * @throws MonopolinhoException
+     */
     public void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException {
         Casilla next;
         Turno turno=xogo.getTurno();

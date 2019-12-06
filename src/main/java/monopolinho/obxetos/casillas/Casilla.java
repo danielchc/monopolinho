@@ -95,7 +95,10 @@ public abstract class Casilla {
      * @param valorDados
      * @return Información da acción interpretada
      */
-    public abstract String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException;
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException{
+        xogo.getTurno().setPosicion(this);
+        return "";
+    }
 
 
     /**
@@ -219,7 +222,7 @@ public abstract class Casilla {
     @Override
     public String toString() {
         return "{\n\tNome: "+this.nome +
-                "\n\tTipo: "+this.getTipoCasilla();
+                ",\n\tTipo: "+this.getTipoCasilla();
     }
 
     /**

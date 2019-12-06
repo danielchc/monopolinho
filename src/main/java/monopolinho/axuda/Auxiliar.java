@@ -1,4 +1,8 @@
 package monopolinho.axuda;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Auxiliar {
     /**

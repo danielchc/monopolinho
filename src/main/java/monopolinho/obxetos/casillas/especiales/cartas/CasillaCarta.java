@@ -30,7 +30,7 @@ public  abstract class CasillaCarta extends Casilla {
 
     public String pedirCarta(Xogo xogo) throws MonopolinhoException {
         this.barallar();
-        System.out.println(this.listarCartas());
+        //System.out.println(this.listarCartas());
         int nCarta=0;
         do{
             Xogo.consola.imprimirsl("\tEscolle unha carta (1-6): ");

@@ -4,6 +4,10 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Sorte1 extends CartaSorte {
     public Sorte1() {

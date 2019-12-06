@@ -15,6 +15,12 @@ public class Ir_Carcere extends Especial {
         this.setColorCasilla(Valor.ReprColor.ANSI_BLACK_BOLD);
     }
 
+    /**
+     * Interpeta as accións a realizar na casilla de Ir_Carcere
+     * @param xogo
+     * @param valorDados
+     * @return
+     */
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados) {
         String mensaxe="O avatar colocase na casilla CÁRCERE";
@@ -24,6 +30,9 @@ public class Ir_Carcere extends Especial {
         return mensaxe;
     }
 
+    /**
+     * @return Devolve o tipo de casilla
+     */
     @Override
     public TipoCasilla getTipoCasilla() {
         return TipoCasilla.IRCARCERE;

@@ -9,6 +9,7 @@ import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionAlquiler;
 import monopolinho.obxetos.avatares.Avatar;
 import monopolinho.obxetos.edificios.*;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoNonSePodeConstruir;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoCasilla;
@@ -41,7 +42,8 @@ public class Solar extends Propiedade {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoSinDinheiro {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo,valorDados);
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         if(this.getEstaHipotecada()){
@@ -63,7 +65,6 @@ public class Solar extends Propiedade {
                 }
             }
         }
-        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 
@@ -274,6 +275,9 @@ public class Solar extends Propiedade {
         if(grupo!=null)this.grupo =grupo;
     }
 
+    /**
+     * @return
+     */
     @Override
     public TipoCasilla getTipoCasilla() {
         return TipoCasilla.SOLAR;

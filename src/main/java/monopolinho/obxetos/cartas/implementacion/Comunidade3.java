@@ -7,6 +7,10 @@ import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Comunidade3 extends CartaComunidade {
     private final float PREMIO=200000f;

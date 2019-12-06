@@ -36,6 +36,13 @@ public class EstadisticasXogador {
     public void engadirDineroGastado(float engadir){
         this.dineroGastado+=engadir;
     }
+    /**
+     * Aumenta o diñeiro gastado
+     * @param engadir
+     */
+    public void restarDineroGastado(float engadir){
+        this.dineroGastado-=engadir;
+    }
 
     /**
      * Aumenta o diñeiro que se invirtiu

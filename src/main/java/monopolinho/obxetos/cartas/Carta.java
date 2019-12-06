@@ -2,7 +2,6 @@ package monopolinho.obxetos.cartas;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.tipos.TipoCarta;
 
 /**
  * @author Daniel Chenel
@@ -25,11 +24,6 @@ public abstract class Carta {
     public abstract String accion(Xogo xogo) throws MonopolinhoException;
 
     public abstract String desfacer(Xogo xogo) throws MonopolinhoException;
-    /**
-     * Establece a acción da carta
-     * @return
-     */
-    public abstract TipoCarta getTipoCarta();
 
     /**
      * @return Devolve o mensaxe da Carta

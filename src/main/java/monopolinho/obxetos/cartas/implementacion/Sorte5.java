@@ -3,6 +3,10 @@ package monopolinho.obxetos.cartas.implementacion;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.CartaSorte;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Sorte5 extends CartaSorte {
     public Sorte5() {

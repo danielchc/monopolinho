@@ -7,8 +7,7 @@ import monopolinho.obxetos.casillas.Casilla;
  */
 public abstract class Especial extends Casilla {
     /**
-     * Crea unha nova instancia de casilla
-     *
+     * Crea unha nova instancia de casilla Especial
      * @param nome Nome da casilla
      */
     public Especial(String nome) {

@@ -71,6 +71,9 @@ public class Grupo {
         return true;
     }
 
+    /**
+     * @return Devolve o número edificios dun grupo
+     */
     public int getNumeroEdificios(){
         int n=0;
         for(Solar c:this.solares)

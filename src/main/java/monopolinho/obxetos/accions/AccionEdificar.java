@@ -6,12 +6,16 @@ import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class AccionEdificar extends Accion {
     private Solar solar;
     private TipoEdificio tipoEdificio;
     public AccionEdificar(Solar c, TipoEdificio tipoEdificio){
-        this.solar =c;
+        this.solar=c;
         this.tipoEdificio=tipoEdificio;
     }
     @Override
@@ -21,7 +25,8 @@ public class AccionEdificar extends Accion {
             if(tipoEdificio==TipoEdificio.HOTEL){
                 for(int i=0;i<4;i++)this.solar.engadirEdificio(TipoEdificio.CASA);
             }
-            xogo.getTurno().getXogador().engadirDinheiro(this.solar.getPrecioEdificio(tipoEdificio), TipoTransaccion.OTROS);
+            super.getTurno().getXogador().engadirDinheiro(this.solar.getPrecioEdificio(tipoEdificio), TipoTransaccion.OTROS);
+            super.getTurno().getXogador().getEstadisticas().restarDineroGastado(this.solar.getPrecioEdificio(tipoEdificio));
             return "Destruese un edificio de tipo "+tipoEdificio;
         }
         throw new MonopolinhoGeneralException("MEO DEOS");

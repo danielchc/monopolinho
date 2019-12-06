@@ -23,8 +23,16 @@ public class Servizo extends Propiedade {
         this.setValor(Valor.VALOR_SERVIZO);
     }
 
+    /**
+     * Interpreta a accion ao caer nunha casilla Servizo
+     * @param xogo
+     * @param valorDados
+     * @return Texto cas accións interpretadas
+     * @throws MonopolinhoSinDinheiro Non tes diñeiro para pagar o alquiler
+     */
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo, valorDados);
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         if((!this.pertenceXogador(xogador)) && (!this.pertenceXogador(xogo.getBanca()))){
@@ -32,7 +40,6 @@ public class Servizo extends Propiedade {
                 mensaxe="Un trato fixo que non tiveras que pagar alquiler en "+super.getNome();
             }else {
                 float aPagar = valorDados * this.alquiler();
-
                 aPagar *= (this.getDono().numTipoCasillaPosesion(TipoCasilla.SERVIZO) == 1) ? 4.0f : 10.0f;
 
                 if (xogador.quitarDinheiro(aPagar, TipoTransaccion.OTROS)) {
@@ -44,7 +51,6 @@ public class Servizo extends Propiedade {
                 }
             }
         }
-        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 

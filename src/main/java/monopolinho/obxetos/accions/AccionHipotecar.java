@@ -4,12 +4,23 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class AccionHipotecar extends Accion {
     private Propiedade propiedade;
     public AccionHipotecar(Propiedade c){
-        this.propiedade =c;
+        this.propiedade=c;
     }
+
+    /**
+     * Desfai o acción da hipotecar
+     * @param xogo
+     * @return
+     * @throws MonopolinhoGeneralException
+     */
     @Override
     public String desfacer(Xogo xogo) throws MonopolinhoGeneralException {
         propiedade.setEstaHipotecada(false);

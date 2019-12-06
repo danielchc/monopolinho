@@ -537,6 +537,9 @@ public class Xogo implements Comandos {
         }
     }
 
+    /**
+     * Metodo que permite o xogador actual cambiar o modo de xogo
+     */
     @Override
     public void cambiarModoXogo(){
         if(turno.getXogador().getAvatar().getModoXogo()==ModoXogo.NORMAL)
@@ -552,7 +555,6 @@ public class Xogo implements Comandos {
 
     /**
      * Este método permite propoñer un trato.
-     *
      */
     @Override
     public void proponerTrato(String[] comandos) throws MonopolinhoGeneralException { //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
@@ -864,6 +866,11 @@ public class Xogo implements Comandos {
     }
 
 
+    /**
+     * Comproba se existe un avatar repetido
+     * @param avatar
+     * @return
+     */
     public boolean comprobarAvatarRepetido(Avatar avatar){
         for(Xogador x:this.xogadores){
             if(x.getAvatar().equals(avatar))return true;
@@ -893,7 +900,7 @@ public class Xogo implements Comandos {
     }
 
     public void desfacer() throws MonopolinhoException{
-        this.turno.desfacer(this);
+        Xogo.consola.imprimirNegrita(this.turno.desfacer(this));
     }
 
     /* FIN ZONA DEBUG */

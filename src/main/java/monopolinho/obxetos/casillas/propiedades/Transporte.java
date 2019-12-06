@@ -4,6 +4,7 @@ import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionAlquiler;
+import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
@@ -19,7 +20,8 @@ public class Transporte extends Propiedade {
     }
 
     @Override
-    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoSinDinheiro {
+    public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo, valorDados);
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         if((!this.pertenceXogador(xogador)) && (!this.pertenceXogador(xogo.getBanca()))){
@@ -37,7 +39,6 @@ public class Transporte extends Propiedade {
                 }
             }
         }
-        xogo.getTurno().setPosicion(this);
         return mensaxe;
     }
 

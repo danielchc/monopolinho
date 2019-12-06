@@ -10,13 +10,14 @@ deshipotecar goiriz
 describir xogador dani
 desfacer
 describir xogador dani
-#trato david: cambiar (avatares)
-#trato david: cambiar (1, 2)
-#trato david: cambiar (asdadsadaas)
-#trato david: cambiar (avatares y 100, avatares y 2)
-#trato david: cambiar (goiriz, 9999)
-#trato david: cambiar (avatares, 1000)
-#trato david: cambiar (goiriz y noalquiler(goiriz - 2), 100)
+trato david: cambiar (avatares)
+trato david: cambiar (1, 2)
+trato david: cambiar (asdadsadaas)
+trato david: cambiar (avatares y 100, avatares y 2)
+trato david: cambiar (goiriz, 9999)
+trato david: cambiar (avatares, 1000)
+trato david: cambiar (goiriz y noalquiler(goiriz - 2), 100)
+mov 1
 #acabar turno
 #cambiar modo
 #mova 10

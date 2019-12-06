@@ -12,6 +12,10 @@ import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.EstadoXogador;
 import monopolinho.tipos.TipoMovemento;
 import monopolinho.tipos.Zona;
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 
 public class Sombreiro extends Avatar{
 
@@ -66,7 +70,7 @@ public class Sombreiro extends Avatar{
             }
         }else{
             System.out.println("Sacaches menos de 4, desfacendo todo o que fixeches no turno");
-            turno.desfacer(xogo);
+            Xogo.consola.imprimirNegrita(turno.desfacer(xogo));
         }
 
     }

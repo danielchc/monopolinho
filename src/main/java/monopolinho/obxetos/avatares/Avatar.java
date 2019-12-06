@@ -5,6 +5,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
+import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.ModoXogo;
 import monopolinho.tipos.TipoCasilla;
@@ -78,7 +79,7 @@ public abstract class Avatar {
         int nPos=current.getPosicionIndex()+valorDados;
         Casilla next=xogo.getTaboeiro().getCasilla(nPos);
 
-        if(next.getTipoCasilla()!= TipoCasilla.IRCARCERE) {
+        if(!(next instanceof Ir_Carcere)) {
             if(nPos>39) {
                 mensaxe="O xogador "+turno.getXogador().getNome()+" recibe "+ Valor.VOLTA_COMPLETA + " por completar unha volta o taboeiro.\n";
                 turno.getXogador().getAvatar().voltaTaboeiro();

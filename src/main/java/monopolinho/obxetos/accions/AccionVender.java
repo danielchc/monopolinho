@@ -4,6 +4,10 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
+/**
+ * @author David Carracedo
+ * @author Daniel Chenel
+ */
 
 public class AccionVender extends Accion {
     private Solar solar;

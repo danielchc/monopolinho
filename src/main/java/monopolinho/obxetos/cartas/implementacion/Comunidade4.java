@@ -7,6 +7,10 @@ import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Comunidade4 extends CartaComunidade {
     public Comunidade4() {

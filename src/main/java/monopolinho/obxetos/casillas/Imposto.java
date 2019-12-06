@@ -20,8 +20,16 @@ public class Imposto extends Casilla {
         this.imposto=imposto;
     }
 
+    /**
+     * Interpreta a acción a realizar ao caer nunha casilla imposto
+     * @param xogo
+     * @param valorDados
+     * @return
+     * @throws MonopolinhoException
+     */
     @Override
     public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException {
+        super.interpretarCasilla(xogo, valorDados);
         Xogador xogador=xogo.getTurno().getXogador();
         String mensaxe="";
         mensaxe="O xogador "+ xogador.getNome() +  " ten que pagar "+this.getImposto() + " por caer en "+this.getNome();
@@ -31,8 +39,6 @@ public class Imposto extends Casilla {
             throw new MonopolinhoSinDinheiro("O xogador "+xogador.getNome()+" non ten suficiente dinheiro para pagar o imposto",xogador);
         }
         xogo.getTurno().engadirAccion(new AccionPagarImposto(this));
-        xogo.getTurno().setPosicion(this);
-
         return mensaxe;
     }
 

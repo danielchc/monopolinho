@@ -1,6 +1,4 @@
 package monopolinho.axuda;
-
-
 /**
  * @author David Carracedo
  * @author Daniel Chenel

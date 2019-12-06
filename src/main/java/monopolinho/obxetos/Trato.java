@@ -173,8 +173,11 @@ public class Trato {
         return this.noAlquilerDemanda.get(p);
     }
 
-
-
+    /**
+     * Acepta un trato
+     * @return
+     * @throws MonopolinhoGeneralException
+     */
     public String aceptarTrato() throws MonopolinhoGeneralException {
         Xogador emisor=this.emisorTrato;
         Xogador destinatario=this.destinatarioTrato;

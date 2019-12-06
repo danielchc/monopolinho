@@ -8,6 +8,10 @@ import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.obxetos.excepcions.MonopolinhoException;
 import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoTransaccion;
+/**
+ * @author Daniel Chenel
+ * @author David Carracedo
+ */
 
 public class Comunidade1 extends CartaComunidade {
     private final float PREZO=20000f;
@@ -17,6 +21,12 @@ public class Comunidade1 extends CartaComunidade {
         super("Alúgaslle aos teus compañeiros un chalet no Quinto Pino(Arteixo) durante unha semana. Paga 20000€ a cada xogador");
     }
 
+    /**
+     * Establece acción da carta
+     * @param xogo
+     * @return
+     * @throws MonopolinhoException
+     */
     @Override
     public String accion(Xogo xogo) throws MonopolinhoException {
         Turno turno=xogo.getTurno();

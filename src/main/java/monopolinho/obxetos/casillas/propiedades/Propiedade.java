@@ -13,15 +13,26 @@ public abstract class Propiedade extends Casilla {
     private float valor;
     private boolean estaHipotecada;
 
+    /**
+     * Crea unha propiedade
+     * @param nome
+     */
     public Propiedade(String nome) {
         super(nome);
     }
 
 
+    /**
+     * @param x
+     * @return Determina se a propiedade é dun xogador
+     */
     public boolean pertenceXogador(Xogador x){
         return this.dono.equals(x);
     }
 
+    /**
+     * @return Metodo abstracto que implementa a función do alquiler
+     */
     public abstract float alquiler();
 
     /**
@@ -31,6 +42,10 @@ public abstract class Propiedade extends Casilla {
         return valor;
     }
 
+    /**
+     * Metodo co cal se compra unha propiedade
+     * @param x Xogador destino
+     */
     public void comprar(Xogador x){
         this.getDono().engadirDinheiro(this.valor(), TipoTransaccion.VENTA);
         this.setDono(x);
@@ -87,8 +102,6 @@ public abstract class Propiedade extends Casilla {
     public void setEstaHipotecada(boolean estaHipotecada) {
         this.estaHipotecada = estaHipotecada;
     }
-
-
 
     @Override
     public String toString() {
