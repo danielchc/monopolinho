@@ -3,7 +3,7 @@ package monopolinho.obxetos.cartas.implementacion;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.cartas.CartaComunidade;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 
 public class Comunidade6 extends CartaComunidade {
 

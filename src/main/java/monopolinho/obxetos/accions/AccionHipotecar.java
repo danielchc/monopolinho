@@ -2,7 +2,7 @@ package monopolinho.obxetos.accions;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
+import monopolinho.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
 /**
  * @author Daniel Chenel

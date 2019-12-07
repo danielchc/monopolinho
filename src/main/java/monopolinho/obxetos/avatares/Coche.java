@@ -4,8 +4,8 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
+import monopolinho.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoMovemento;
 /**
  * @author Daniel Chenel

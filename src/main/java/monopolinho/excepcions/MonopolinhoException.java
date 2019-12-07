@@ -1,4 +1,4 @@
-package monopolinho.obxetos.excepcions;
+package monopolinho.excepcions;
 import monopolinho.interfaz.Xogo;
 /**
  * @author Daniel Chenel

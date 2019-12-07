@@ -1,7 +1,7 @@
 package monopolinho.interfaz;
 
-import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
+import monopolinho.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
 
@@ -57,7 +57,7 @@ public interface Comandos {
 
     void cambiarModoXogo();
 
-    void proponerTrato(String[] cmds) throws MonopolinhoGeneralException;
+    void proponerTrato(String[] cmds) throws MonopolinhoException;
 
     void listarTratos();
 

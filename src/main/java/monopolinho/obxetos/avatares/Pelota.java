@@ -6,9 +6,8 @@ import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
 import monopolinho.obxetos.casillas.especiales.cartas.CasillaCarta;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.EstadoXogador;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 /**
  * @author Daniel Chenel

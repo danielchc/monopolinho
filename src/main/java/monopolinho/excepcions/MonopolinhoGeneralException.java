@@ -1,4 +1,4 @@
-package monopolinho.obxetos.excepcions;
+package monopolinho.excepcions;
 /**
  * @author Daniel Chenel
  * @author David Carracedo

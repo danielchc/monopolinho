@@ -2,7 +2,7 @@ package monopolinho.obxetos.accions;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
 /**
  * @author David Carracedo

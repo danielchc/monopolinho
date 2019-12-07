@@ -4,8 +4,8 @@ import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionPagarImposto;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
+import monopolinho.excepcions.MonopolinhoException;
+import monopolinho.excepcions.xogador.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoTransaccion;
 /**

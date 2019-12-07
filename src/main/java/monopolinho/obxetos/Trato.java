@@ -2,7 +2,7 @@ package monopolinho.obxetos;
 
 import monopolinho.obxetos.avatares.*;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
+import monopolinho.excepcions.MonopolinhoGeneralException;
 import monopolinho.tipos.TipoTransaccion;
 
 import java.util.ArrayList;

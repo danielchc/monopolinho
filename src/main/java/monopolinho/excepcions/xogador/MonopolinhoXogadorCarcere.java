@@ -1,11 +1,12 @@
-package monopolinho.obxetos.excepcions;
+package monopolinho.excepcions.xogador;
 import monopolinho.interfaz.Xogo;
+
 /**
  * @author Daniel Chenel
  * @author David Carracedo
  */
 
-public class MonopolinhoXogadorCarcere extends MonopolinhoException {
+public class MonopolinhoXogadorCarcere extends MonopolinhoXogadorException {
     public MonopolinhoXogadorCarcere() {
         super("");
     }

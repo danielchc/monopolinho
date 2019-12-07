@@ -1,4 +1,4 @@
-package monopolinho.obxetos.excepcions;
+package monopolinho.excepcions.casilla;
 
 import monopolinho.interfaz.Xogo;
 
@@ -7,7 +7,7 @@ import monopolinho.interfaz.Xogo;
  * @author David Carracedo
  */
 
-public class MonopolinhoCasillaInexistente extends MonopolinhoException {
+public class MonopolinhoCasillaInexistente extends MonopolinhoCasillaException {
     public MonopolinhoCasillaInexistente(String casilla) {
         super(casilla);
     }

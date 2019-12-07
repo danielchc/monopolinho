@@ -6,9 +6,8 @@ import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.especiales.accion.Ir_Carcere;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.ModoXogo;
-import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.TipoMovemento;
 import monopolinho.tipos.TipoTransaccion;
 
@@ -54,14 +53,14 @@ public abstract class Avatar {
     /**
      * Este método engade 1 ás voltas ao taboeiro.
      */
-    public void voltaTaboeiro(){
+    public final void voltaTaboeiro(){
         this.voltasTaboeiro++;
     }
 
     /**
      * Este método xera un identificador aleatorio
      */
-    public void xerarId(){
+    public final void xerarId(){
         Random aleatorio=new Random(System.nanoTime());
         this.id=""+(char) (aleatorio.nextInt(20)+65);
     }
@@ -96,18 +95,21 @@ public abstract class Avatar {
         }
         return mensaxe;
     }
-
+    /**
+     * Implementase en Esfinxe/Pelota/Coche/Sombreiro
+     * */
     public abstract void moverEnAvanzado(Xogo xogo, int valorDados) throws MonopolinhoException;
 
 
     /**
      * @return posicion do avatar
      */
-    public Casilla getPosicion() {
+    public final Casilla getPosicion() {
         return posicion;
     }
 
     /**
+     * Implementase en Esfinxe/Pelota/Coche/Sombreiro
      * @return tipo de movemento do avatar
      */
     public abstract TipoMovemento getTipo();
@@ -116,7 +118,7 @@ public abstract class Avatar {
     /**
      * @return xogador que ten o avatar
      */
-    public Xogador getXogador() {
+    public final Xogador getXogador() {
         return xogador;
     }
 
@@ -124,7 +126,7 @@ public abstract class Avatar {
     /**
      * @return identificador do avatar
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
@@ -132,7 +134,7 @@ public abstract class Avatar {
     /**
      * @return voltas dadas ao taboeiro
      */
-    public int getVoltasTaboeiro() {
+    public final int getVoltasTaboeiro() {
         return voltasTaboeiro;
     }
 
@@ -140,7 +142,7 @@ public abstract class Avatar {
      * Establece a posicion dun avatar
      * @param posicion casilla na que se vai colocar o avatar
      */
-    public void setPosicion(Casilla posicion) {
+    public final void setPosicion(Casilla posicion) {
         if(posicion!=null){
             if (this.posicion!=null)this.posicion.eliminarAvatar(this);
             this.posicion = posicion;
@@ -152,7 +154,7 @@ public abstract class Avatar {
      * Establece o xogador dun avatar
      * @param xogador xogador que vai ter o avatar
      */
-    public void setXogador(Xogador xogador) {
+    public final void setXogador(Xogador xogador) {
         if(xogador!=null)this.xogador = xogador;
     }
 
@@ -160,7 +162,7 @@ public abstract class Avatar {
      * Establece o identificador dun avatar
      * @param id identificador do avatar
      */
-    public void setId(String id) {
+    public final void setId(String id) {
         if(id!=null)
             this.id = id;
     }
@@ -169,14 +171,14 @@ public abstract class Avatar {
      * Estable as voltas ao taboeiro
      * @param voltasTaboeiro voltas ao taboeiro
      */
-    public void setVoltasTaboeiro(int voltasTaboeiro) {
+    public final void setVoltasTaboeiro(int voltasTaboeiro) {
         this.voltasTaboeiro = voltasTaboeiro;
     }
 
     /**
      * @return Devolve o modo de xogo do xogador
      */
-    public ModoXogo getModoXogo() {
+    public final ModoXogo getModoXogo() {
         return modoXogo;
     }
 
@@ -184,7 +186,7 @@ public abstract class Avatar {
      * Establece o modo de xogo
      * @param modoXogo
      */
-    public void setModoXogo(ModoXogo modoXogo) {
+    public final void setModoXogo(ModoXogo modoXogo) {
         this.modoXogo = modoXogo;
     }
 
@@ -194,7 +196,7 @@ public abstract class Avatar {
      * @return devolve verdadeiro ou falso
      */
     @Override
-    public boolean equals(Object obj){
+    public final boolean equals(Object obj){
         return (obj instanceof Avatar)&&(this.id.equals(((Avatar) obj).id));
     }
 

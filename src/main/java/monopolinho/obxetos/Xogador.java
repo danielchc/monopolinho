@@ -147,7 +147,7 @@ public class Xogador {
     public String listarTratos(){
         if(this.tratos.isEmpty()) return "Non tes tratos.";
         String tratos="";
-        Collection<Trato> col=this.tratos.values();
+        Collection<Trato> col=this.tratos.values().stream().sorted((o1, o2) -> o1.getID().compareTo(o2.getID())).collect(Collectors.toList());
         for (Trato t:col){
             tratos+=t.describirTrato()+"\n";
         }

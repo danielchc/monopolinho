@@ -3,7 +3,7 @@ package monopolinho.obxetos.casillas.especiales.accion;
 import monopolinho.axuda.Valor;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.especiales.Especial;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 /**
  * @author Daniel Chenel

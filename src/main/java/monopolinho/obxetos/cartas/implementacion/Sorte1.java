@@ -3,7 +3,7 @@ package monopolinho.obxetos.cartas.implementacion;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.cartas.CartaSorte;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 /**
  * @author Daniel Chenel
  * @author David Carracedo

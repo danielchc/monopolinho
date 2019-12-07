@@ -11,7 +11,12 @@ import monopolinho.obxetos.casillas.Casilla;
 import monopolinho.obxetos.casillas.propiedades.Propiedade;
 import monopolinho.obxetos.casillas.propiedades.Solar;
 import monopolinho.obxetos.edificios.Edificio;
-import monopolinho.obxetos.excepcions.*;
+import monopolinho.excepcions.*;
+import monopolinho.excepcions.casilla.MonopolinhoCasillaHipotecada;
+import monopolinho.excepcions.casilla.MonopolinhoCasillaInexistente;
+import monopolinho.excepcions.casilla.MonopolinhoNonPropiedade;
+import monopolinho.excepcions.casilla.MonopolinhoNonSePodeConstruir;
+import monopolinho.excepcions.xogador.MonopolinhoXogadorCarcere;
 import monopolinho.tipos.*;
 
 import java.util.ArrayList;
@@ -239,7 +244,7 @@ public class Xogo implements Comandos {
         if(target==null) throw new MonopolinhoCasillaInexistente(nome);
 
         if(!(target instanceof Propiedade)){
-            throw new MonopolinhoGeneralException("Este tipo de casilla non se pode comprar esta casilla");
+            throw new MonopolinhoNonPropiedade("Este tipo de casilla non se pode comprar esta casilla");
         }
         comprar=(Propiedade)target;
         if(turno.getVecesTiradas()==0){
@@ -314,12 +319,12 @@ public class Xogo implements Comandos {
         if(target==null)
             throw new MonopolinhoCasillaInexistente(nome);
         if(!(target instanceof Propiedade))
-            throw new MonopolinhoGeneralException("Non se pode hipotecar este tipo de casilla");
+            throw new MonopolinhoNonPropiedade("Non se pode hipotecar este tipo de casilla");
         c=(Propiedade)target;
         if(!c.pertenceXogador(turno.getXogador()))
             throw new MonopolinhoGeneralException("Non eres dono de esta casilla");
         if(c.getEstaHipotecada())
-            throw new MonopolinhoGeneralException("Esta casilla xa está hipotecada");
+            throw new MonopolinhoCasillaHipotecada("Esta casilla xa está hipotecada");
         if((c instanceof Solar) && (((Solar)c).getEdificios().size()!=0))
             throw new MonopolinhoGeneralException(c.getNome()+" conten edificios, tes que vendelos antes de hipotecar.");
 
@@ -345,12 +350,12 @@ public class Xogo implements Comandos {
         if(target==null)
             throw new MonopolinhoCasillaInexistente(nome);
         if(!(target instanceof Propiedade))
-            throw new MonopolinhoGeneralException("Non se pode deshipotecar unha casilla que non sexa unha propiedade");
+            throw new MonopolinhoNonPropiedade("Non se pode deshipotecar unha casilla que non sexa unha propiedade");
         c=(Propiedade)target;
         if(!c.pertenceXogador(turno.getXogador()))
             throw new MonopolinhoGeneralException("Non eres dono de esta casilla");
         if(!c.getEstaHipotecada())
-            throw new MonopolinhoGeneralException("Esta casilla non está hipotecada");
+            throw new MonopolinhoCasillaHipotecada("Esta casilla non está hipotecada");
         if(!c.getDono().quitarDinheiro(c.getHipoteca()*1.1f, TipoTransaccion.OTROS))
             throw new MonopolinhoGeneralException("Non tes o suficiente diñeiro para deshipotecar a propiedade");
 
@@ -557,7 +562,7 @@ public class Xogo implements Comandos {
      * Este método permite propoñer un trato.
      */
     @Override
-    public void proponerTrato(String[] comandos) throws MonopolinhoGeneralException { //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
+    public void proponerTrato(String[] comandos) throws MonopolinhoException { //trato nombre: cambiar (solar1, solar2 y noalquiler(solar3, 5))
         String texto="".join(" ",comandos);
         String[] cmds=texto.split(":");
         if (cmds.length!=2) return;
@@ -580,6 +585,7 @@ public class Xogo implements Comandos {
         if(partesTrato.length==1){ //esto vale pa poder facer trato jose: cambiar (avatares)
             String segmentoLimpo=partesTrato[0].replace("("," ").replace(")"," ").replace(","," ").replace("-"," ");
             String[] comUnico=segmentoLimpo.split(" ");
+            if(comUnico.length<=1)return;
             if(comUnico[1].equals("avatares")){
                 Trato tratoAvatar=new Trato(emisor,destinatario,true);
                 consola.imprimir(tratoAvatar);
@@ -818,9 +824,9 @@ public class Xogo implements Comandos {
      * @param nome nome da casilla a comprobar
      * @return true se se pode realizar o trato, false se non
      */
-    private  void comprobarOfrecerTrato(Casilla c,Xogador x,String nome) throws MonopolinhoGeneralException {
-        if(c==null)throw new MonopolinhoGeneralException(nome+" non é unha casilla válida. Trato cancelado.");
-        if(!(c instanceof Propiedade))throw new MonopolinhoGeneralException(nome+" non é unha propiedade. Trato cancelado.");
+    private  void comprobarOfrecerTrato(Casilla c,Xogador x,String nome) throws MonopolinhoException {
+        if(c==null)throw new MonopolinhoCasillaInexistente(nome);
+        if(!(c instanceof Propiedade))throw new MonopolinhoNonPropiedade(nome+" non é unha propiedade. Trato cancelado.");
         if(!((Propiedade) c).pertenceXogador(x))throw new MonopolinhoGeneralException("Trato cancelado: Non podes ofrecer "+nome+" porque non é "+ (x.equals(this.turno.getXogador())? "túa.":"de "+x.getNome()));
         if(c instanceof Solar && ((Solar) c).getNumeroEdificios() != 0)throw new MonopolinhoGeneralException(nome+" ten edificios construidos. Trato cancelado.");
     }

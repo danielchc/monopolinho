@@ -2,8 +2,7 @@ package monopolinho.obxetos.accions;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.casillas.propiedades.Solar;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoGeneralException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 /**
@@ -29,6 +28,6 @@ public class AccionEdificar extends Accion {
             super.getTurno().getXogador().getEstadisticas().restarDineroGastado(this.solar.getPrecioEdificio(tipoEdificio));
             return "Destruese un edificio de tipo "+tipoEdificio;
         }
-        throw new MonopolinhoGeneralException("MEO DEOS");
+        return "";
     }
 }

@@ -4,7 +4,9 @@ import monopolinho.axuda.Auxiliar;
 import monopolinho.axuda.ReprTab;
 import monopolinho.axuda.Valor;
 import monopolinho.obxetos.Xogador;
-import monopolinho.obxetos.excepcions.*;
+import monopolinho.excepcions.*;
+import monopolinho.excepcions.comandos.MonopolinhoComandoIncorrecto;
+import monopolinho.excepcions.comandos.MonopolinhoComandoNonExiste;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoMovemento;
 
@@ -128,7 +130,7 @@ public class Menu {
     }
 
     /**
-     * Lee os comando dun arquvio
+     * Lee os comando dun arquivo
      */
     public void leerComandosArchivo(String directorio) throws IOException {
         BufferedReader buffRead = null;

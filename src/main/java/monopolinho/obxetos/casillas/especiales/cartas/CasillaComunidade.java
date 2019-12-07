@@ -2,7 +2,7 @@ package monopolinho.obxetos.casillas.especiales.cartas;
 
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.cartas.implementacion.*;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 /**
  * @author David Carracedo

@@ -5,8 +5,8 @@ import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.Xogador;
 import monopolinho.obxetos.accions.AccionCarta;
 import monopolinho.obxetos.cartas.CartaComunidade;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
-import monopolinho.obxetos.excepcions.MonopolinhoSinDinheiro;
+import monopolinho.excepcions.MonopolinhoException;
+import monopolinho.excepcions.xogador.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoTransaccion;
 /**
  * @author Daniel Chenel

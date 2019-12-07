@@ -4,7 +4,7 @@ import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.accions.Accion;
 import monopolinho.obxetos.accions.AccionComprar;
 import monopolinho.obxetos.casillas.Casilla;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -54,7 +54,7 @@ public class Turno {
             Accion a=historialAccion.pop();
             mensaxe+="\t-> "+a.desfacer(xogo)+"\n";
         }
-        return mensaxe;
+        return mensaxe.substring(0,mensaxe.length()-1);
     }
 
     /**

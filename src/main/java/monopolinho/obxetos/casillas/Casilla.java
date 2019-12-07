@@ -6,7 +6,7 @@ import monopolinho.estadisticas.EstadisticasCasilla;
 import monopolinho.interfaz.Xogo;
 import monopolinho.obxetos.Taboeiro;
 import monopolinho.obxetos.avatares.Avatar;
-import monopolinho.obxetos.excepcions.MonopolinhoException;
+import monopolinho.excepcions.MonopolinhoException;
 import monopolinho.tipos.TipoCasilla;
 import monopolinho.tipos.Zona;
 
@@ -48,7 +48,7 @@ public abstract class Casilla {
      * NON CHAMAR ESTA FUNCIÓN FORA DE XOGADOR
      * @param a Avatar a colocar
      */
-    public void engadirAvatar(Avatar a){
+    public final void engadirAvatar(Avatar a){
         if(a==null)return;
         if(!avatares.contains(a)){
             avatares.add(a);
@@ -61,7 +61,7 @@ public abstract class Casilla {
      * NON CHAMAR ESTA FUNCIÓN FORA DE XOGADOR
      * @param a Avatar a eliminar da casilla
      */
-    public void eliminarAvatar(Avatar a){
+    public final void eliminarAvatar(Avatar a){
         if(a==null)return;
         if(avatares.contains(a)){
             avatares.remove(a);
@@ -73,7 +73,7 @@ public abstract class Casilla {
      * @param a Avatar a buscar
      * @return Número de veces caídas
      */
-    public int numeroVecesCaidas(Avatar a){
+    public final int numeroVecesCaidas(Avatar a){
         int contador=0;
         for(Avatar x:this.estadisticasCasilla.getHistorial())
             if(x.equals(a))
@@ -81,11 +81,11 @@ public abstract class Casilla {
         return contador;
     }
 
-    public boolean estaAvatar(Avatar a){
+    public final boolean estaAvatar(Avatar a){
         return this.avatares.contains(a);
     }
 
-    public int frecuenciaCasilla(){
+    public final int frecuenciaCasilla(){
         return this.estadisticasCasilla.getVisitas();
     }
 
@@ -94,6 +94,7 @@ public abstract class Casilla {
      * @param xogo
      * @param valorDados
      * @return Información da acción interpretada
+     * Sobrescribese en Fillos da Casilla
      */
     public String interpretarCasilla(Xogo xogo, int valorDados) throws MonopolinhoException{
         xogo.getTurno().setPosicion(this);
@@ -103,6 +104,7 @@ public abstract class Casilla {
 
     /**
      * @return Devolve as liñas que representan unha casilla
+     * Sobrescribese en Solar
      */
     public String[] getRepresentacion(){
         String avataresCasilla="";
@@ -121,7 +123,7 @@ public abstract class Casilla {
     /**
      * @return Obten as estadisticas dunha casilla
      */
-    public EstadisticasCasilla getEstadisticas() {
+    public final EstadisticasCasilla getEstadisticas() {
         return estadisticasCasilla;
     }
 
@@ -129,7 +131,7 @@ public abstract class Casilla {
      * Establece a estadisticas dunha casilla
      * @param estadisticasCasilla
      */
-    public void setEstadisticas(EstadisticasCasilla estadisticasCasilla) {
+    public final void setEstadisticas(EstadisticasCasilla estadisticasCasilla) {
         this.estadisticasCasilla = estadisticasCasilla;
     }
 
@@ -141,7 +143,7 @@ public abstract class Casilla {
     /**
      * @return Devolve o nome da casilla
      */
-    public String getNome() {
+    public final String getNome() {
         return nome;
     }
 
@@ -149,14 +151,14 @@ public abstract class Casilla {
      * Establece o nome dunha casilla
      * @param nome
      */
-    public void setNome(String nome) {
+    public final void setNome(String nome) {
         if(nome!=null)this.nome = nome;
     }
 
     /**
      * @return Devolve a posición da casilla no taboeiro, do 0 o 39
      */
-    public int getPosicionIndex() {
+    public final int getPosicionIndex() {
         return posicion;
     }
 
@@ -164,28 +166,28 @@ public abstract class Casilla {
      * Establece o indice no taboeiro da casilla
      * @param posicion
      */
-    public void setPosicionIndex(int posicion) {
+    public final void setPosicionIndex(int posicion) {
         this.posicion = posicion;
     }
 
     /**
      * @return Devolve o valor dunha casilla
      */
-    public Valor.ReprColor getColorCasilla() {
+    public final Valor.ReprColor getColorCasilla() {
         return colorCasilla;
     }
 
     /**
      * @param colorCasilla Establece a cor dunha casilla
      */
-    public void setColorCasilla(Valor.ReprColor colorCasilla) {
+    public final void setColorCasilla(Valor.ReprColor colorCasilla) {
         this.colorCasilla = colorCasilla;
     }
 
     /**
      * @return Devolve o taboeiro no que se atopa a casilla
      */
-    public Taboeiro getTaboeiro() {
+    public final Taboeiro getTaboeiro() {
         return taboeiro;
     }
 
@@ -193,14 +195,14 @@ public abstract class Casilla {
      * Establece o taboeiro no que se atopa a casilla
      * @param taboeiro
      */
-    public void setTaboeiro(Taboeiro taboeiro) {
+    public final void setTaboeiro(Taboeiro taboeiro) {
         if(taboeiro!=null)this.taboeiro = taboeiro;
     }
 
     /**
      * @return Devolve os avatares que se atopan na casilla
      */
-    public ArrayList<Avatar> getAvatares() {
+    public final ArrayList<Avatar> getAvatares() {
         return avatares;
     }
 
@@ -208,15 +210,15 @@ public abstract class Casilla {
      * Establece os avatares dunha casilla
      * @param avatares
      */
-    public void setAvatares(ArrayList<Avatar> avatares) {
+    public final void setAvatares(ArrayList<Avatar> avatares) {
         if(avatares!=null)this.avatares = avatares;
     }
 
-    public void setZona(Zona z) {
+    public final void setZona(Zona z) {
         this.zona=z;
     }
 
-    public Zona getZona(){
+    public final Zona getZona(){
         return zona;
     }
     @Override

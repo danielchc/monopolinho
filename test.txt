@@ -17,7 +17,7 @@ trato david: cambiar (avatares y 100, avatares y 2)
 trato david: cambiar (goiriz, 9999)
 trato david: cambiar (avatares, 1000)
 trato david: cambiar (goiriz y noalquiler(goiriz - 2), 100)
-mov 1
+mov 7
 #acabar turno
 #cambiar modo
 #mova 10
