@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author Daniel Chenel
  * @author David Carracedo
  */
-public class ConsolaNormal implements Consola {
+public final class ConsolaNormal implements Consola {
     Scanner scanner;
 
     /**

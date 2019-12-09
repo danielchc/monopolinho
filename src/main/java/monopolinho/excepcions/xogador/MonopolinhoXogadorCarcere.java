@@ -6,7 +6,7 @@ import monopolinho.interfaz.Xogo;
  * @author David Carracedo
  */
 
-public class MonopolinhoXogadorCarcere extends MonopolinhoXogadorException {
+public final class MonopolinhoXogadorCarcere extends MonopolinhoXogadorException {
     public MonopolinhoXogadorCarcere() {
         super("");
     }

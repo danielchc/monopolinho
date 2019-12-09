@@ -4,7 +4,7 @@ package monopolinho.estadisticas;
  * @author David Carracedo
  * @author Daniel Chenel
  */
-public class EstadisticasXogador {
+public final class EstadisticasXogador {
     private float dineroGastado;
     private float dineroInvertido;
     private float pagoTasasEImpuestos;

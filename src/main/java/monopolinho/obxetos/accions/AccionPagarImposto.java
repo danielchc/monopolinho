@@ -9,7 +9,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author Daniel Chenel
  */
 
-public class AccionPagarImposto extends Accion {
+public final class AccionPagarImposto extends Accion {
     private Imposto casillaImposto;
     public AccionPagarImposto(Imposto c){
         this.casillaImposto =c;

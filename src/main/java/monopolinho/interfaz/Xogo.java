@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author David Carracedo
  */
 
-public class Xogo implements Comandos {
+public final class Xogo implements Comandos {
 
     private ArrayList<Xogador> xogadores;
     private Taboeiro taboeiro;

@@ -10,7 +10,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class AccionEdificar extends Accion {
+public final class AccionEdificar extends Accion {
     private Solar solar;
     private TipoEdificio tipoEdificio;
     public AccionEdificar(Solar c, TipoEdificio tipoEdificio){

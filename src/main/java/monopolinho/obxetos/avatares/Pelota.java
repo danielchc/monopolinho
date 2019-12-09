@@ -14,7 +14,7 @@ import monopolinho.tipos.TipoMovemento;
  * @author David Carracedo
  */
 
-public class Pelota extends Avatar{
+public final class Pelota extends Avatar{
 
     public Pelota(Xogador xogador) {
         super(xogador);

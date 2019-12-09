@@ -7,7 +7,7 @@ import monopolinho.interfaz.Xogo;
  * @author David Carracedo
  */
 
-public class MonopolinhoCasillaInexistente extends MonopolinhoCasillaException {
+public final class MonopolinhoCasillaInexistente extends MonopolinhoCasillaException {
     public MonopolinhoCasillaInexistente(String casilla) {
         super(casilla);
     }

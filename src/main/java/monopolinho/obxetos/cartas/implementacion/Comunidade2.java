@@ -13,7 +13,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class Comunidade2 extends CartaComunidade {
+public final class Comunidade2 extends CartaComunidade {
     private final float PREZO=50000;
     public Comunidade2() {
         super("Paga 50000€ por un fin de semana nas termas de Ourense");

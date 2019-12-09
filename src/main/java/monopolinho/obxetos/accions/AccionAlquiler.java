@@ -9,7 +9,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class AccionAlquiler extends Accion {
+public final class AccionAlquiler extends Accion {
     private Propiedade propiedade;
     private float alquiler;
     public AccionAlquiler(Propiedade c,float alquiler){

@@ -12,7 +12,7 @@ import monopolinho.tipos.TipoMovemento;
  * @author David Carracedo
  */
 
-public class Coche extends Avatar{
+public final class Coche extends Avatar{
 
     public Coche(Xogador xogador) {
         super(xogador);

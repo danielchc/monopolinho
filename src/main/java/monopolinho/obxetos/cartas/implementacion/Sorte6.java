@@ -10,7 +10,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class Sorte6 extends CartaSorte {
+public final class Sorte6 extends CartaSorte {
     private final float PREMIO=1000000f;
     public Sorte6() {
         //6. ¡Has ganado el bote de la lotería! Recibe 1000000€.

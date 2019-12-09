@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author David Carracedo
  */
 
-public class Grupo {
+public final class Grupo {
 
     private String grupo_nome;
     private float valor;

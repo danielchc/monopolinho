@@ -12,7 +12,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class Sorte4 extends CartaSorte {
+public final class Sorte4 extends CartaSorte {
     private final float PREMIO=50000f;
     public Sorte4() {
         //3. Vendes tu billete de avión para Terrassa en una subasta por Internet. Cobra 500000€.

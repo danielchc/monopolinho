@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Daniel Chenel
  * @author David Carracedo
  */
-public class EstadisticasCasilla {
+public final class EstadisticasCasilla {
     private ArrayList<Avatar> historial;
     private float alquileresPagados;
 

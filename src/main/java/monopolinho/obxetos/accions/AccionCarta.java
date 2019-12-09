@@ -8,7 +8,7 @@ import monopolinho.excepcions.MonopolinhoException;
  * @author David Carracedo
  */
 
-public class AccionCarta extends Accion {
+public final class AccionCarta extends Accion {
     private Carta carta;
     public AccionCarta(Carta carta){
         this.carta=carta;

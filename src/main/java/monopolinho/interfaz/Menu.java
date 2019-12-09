@@ -23,7 +23,7 @@ import java.util.Scanner;
  * @author David Carracedo
  */
 
-public class Menu {
+public final class Menu {
     private Xogo xogo;
     private ArrayList<Xogador> xogadores;
 

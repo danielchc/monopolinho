@@ -8,7 +8,7 @@ import monopolinho.excepcions.MonopolinhoException;
  * @author David Carracedo
  */
 
-public class Sorte5 extends CartaSorte {
+public final class Sorte5 extends CartaSorte {
     public Sorte5() {
         //11. ¡Hora punta de tráfico! Retrocede tres casillas.
         super( "Pillaches atasco en Virxe da Cerca, retrocede 3 casillas");

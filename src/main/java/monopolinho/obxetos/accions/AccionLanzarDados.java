@@ -8,7 +8,7 @@ import monopolinho.excepcions.MonopolinhoException;
  * @author Daniel Chenel
  */
 
-public class AccionLanzarDados extends Accion {
+public final class AccionLanzarDados extends Accion {
     private Casilla casilla;
     public AccionLanzarDados(Casilla c){
         this.casilla=c;

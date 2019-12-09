@@ -9,7 +9,7 @@ import monopolinho.obxetos.casillas.Casilla;
 
 
 
-public class ReprTab {
+public final class ReprTab {
 
 
     public static final int WIDTH=20;

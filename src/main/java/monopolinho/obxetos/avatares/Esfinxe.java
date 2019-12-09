@@ -18,7 +18,7 @@ import monopolinho.tipos.Zona;
  * @author David Carracedo
  */
 
-public class Esfinxe extends Avatar{
+public final class Esfinxe extends Avatar{
 
     public Esfinxe(Xogador xogador) {
         super(xogador);

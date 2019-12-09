@@ -12,7 +12,7 @@ import monopolinho.excepcions.MonopolinhoException;
  * @author David Carracedo
  */
 
-public class Comunidade4 extends CartaComunidade {
+public final class Comunidade4 extends CartaComunidade {
     public Comunidade4() {
         //2. Te investigan por fraude de identidad. Ve a la Cárcel. Ve directamente sin pasar por la casilla de Salida y sin cobrar los 2000000€.
         super("Investingante por mover os marcos das fincas. Vai ó cárcere. " +

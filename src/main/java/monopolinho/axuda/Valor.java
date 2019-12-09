@@ -3,7 +3,7 @@ package monopolinho.axuda;
  * @author David Carracedo
  * @author Daniel Chenel
  */
-public class Valor {
+public final class Valor {
 
 
     /**

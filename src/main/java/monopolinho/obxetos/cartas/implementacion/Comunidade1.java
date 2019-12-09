@@ -13,7 +13,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class Comunidade1 extends CartaComunidade {
+public final class Comunidade1 extends CartaComunidade {
     private final float PREZO=20000f;
 
     public Comunidade1() {

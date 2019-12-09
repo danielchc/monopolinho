@@ -7,7 +7,7 @@ import monopolinho.excepcions.MonopolinhoException;
  * @author David Carracedo
  */
 
-public class AccionIrCarcere extends Accion{
+public final class AccionIrCarcere extends Accion{
     public AccionIrCarcere(){
 
     }

@@ -11,7 +11,7 @@ import java.util.Random;
  */
 
 
-public class Dados {
+public final class Dados {
     private int dado1;
     private int dado2;
 

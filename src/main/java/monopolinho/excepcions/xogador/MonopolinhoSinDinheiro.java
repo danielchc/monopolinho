@@ -6,7 +6,7 @@ import monopolinho.tipos.EstadoXogador;
  * @author David Carracedo
  */
 
-public class MonopolinhoSinDinheiro extends MonopolinhoXogadorException {
+public final class MonopolinhoSinDinheiro extends MonopolinhoXogadorException {
 
     public MonopolinhoSinDinheiro(String mensaxe, Xogador x) {
         super(mensaxe);

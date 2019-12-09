@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author David Carracedo
  */
 
-public class EstadisticasXogo {
+public final class EstadisticasXogo {
     Xogo xogo;
 
     /**

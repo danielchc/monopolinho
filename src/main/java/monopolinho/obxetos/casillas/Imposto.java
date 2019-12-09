@@ -12,7 +12,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author Daniel Chenel
  * @author David Carracedo
  */
-public class Imposto extends Casilla {
+public final class Imposto extends Casilla {
     private float imposto;
     public Imposto(String nome,float imposto) {
         super(nome);

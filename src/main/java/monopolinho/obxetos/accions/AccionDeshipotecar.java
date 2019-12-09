@@ -9,7 +9,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class AccionDeshipotecar extends Accion {
+public final class AccionDeshipotecar extends Accion {
     private Propiedade propiedade;
     public AccionDeshipotecar(Propiedade c){
         this.propiedade =c;

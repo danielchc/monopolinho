@@ -12,7 +12,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class Comunidade3 extends CartaComunidade {
+public final class Comunidade3 extends CartaComunidade {
     private final float PREMIO=200000f;
     public Comunidade3() {
         //4. Tu compañía de Internet obtiene beneficios. Recibe 2000000€.

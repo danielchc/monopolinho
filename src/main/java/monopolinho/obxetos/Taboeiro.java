@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author David Carracedo
  * @author Daniel Chenel
  */
-public class Taboeiro {
+public final class Taboeiro {
     private ArrayList<ArrayList<Casilla>> casillas;
     private ArrayList<Grupo> grupos;
     private float bote=0.0f;

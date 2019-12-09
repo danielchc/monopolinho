@@ -13,7 +13,7 @@ import monopolinho.tipos.TipoTransaccion;
  * @author David Carracedo
  */
 
-public class Sorte3 extends CartaSorte {
+public final class Sorte3 extends CartaSorte {
     private final float PREZO=25000f;
     public Sorte3() {
         //10. Has sido elegido presidente de la junta directiva. Paga a cada jugador 250000€.

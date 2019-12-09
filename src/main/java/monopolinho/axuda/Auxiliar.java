@@ -4,7 +4,7 @@ package monopolinho.axuda;
  * @author David Carracedo
  */
 
-public class Auxiliar {
+public final class Auxiliar {
     /**
      * Este metodo comproba si un string é un número
      * @param str string a comprobar

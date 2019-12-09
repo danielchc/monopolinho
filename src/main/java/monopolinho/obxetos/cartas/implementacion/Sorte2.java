@@ -12,7 +12,7 @@ import monopolinho.excepcions.xogador.MonopolinhoSinDinheiro;
 import monopolinho.tipos.TipoEdificio;
 import monopolinho.tipos.TipoTransaccion;
 
-public class Sorte2 extends CartaSorte {
+public final class Sorte2 extends CartaSorte {
     private final float PRECIO_CASA=40000.0f;
     private final float PRECIO_HOTEL=115000.0f;
     private final float PRECIO_PISCINA=20000.0f;

@@ -17,7 +17,7 @@ import monopolinho.tipos.Zona;
  * @author Daniel Chenel
  */
 
-public class Sombreiro extends Avatar{
+public final class Sombreiro extends Avatar{
 
     public Sombreiro(Xogador xogador) {
         super(xogador);

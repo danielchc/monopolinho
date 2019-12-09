@@ -13,7 +13,7 @@ import java.util.Stack;
  * @author David Carracedo
  * @author Daniel Chenel
  */
-public class Turno {
+public final class Turno {
     private Xogador xogador;
     private int vecesTiradas;
     private boolean podeLanzar;

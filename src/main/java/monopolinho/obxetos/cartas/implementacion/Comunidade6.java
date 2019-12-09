@@ -5,7 +5,7 @@ import monopolinho.obxetos.Turno;
 import monopolinho.obxetos.cartas.CartaComunidade;
 import monopolinho.excepcions.MonopolinhoException;
 
-public class Comunidade6 extends CartaComunidade {
+public final class Comunidade6 extends CartaComunidade {
 
     public Comunidade6() {
         super("Retrocede a Pontepedra para facer unha Churrascada");

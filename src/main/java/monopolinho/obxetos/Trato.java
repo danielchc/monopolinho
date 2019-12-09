@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-public class Trato {
+public final class Trato {
     private Xogador emisorTrato;
     private Xogador destinatarioTrato;
     private ArrayList<Propiedade> propiedadesOferta;

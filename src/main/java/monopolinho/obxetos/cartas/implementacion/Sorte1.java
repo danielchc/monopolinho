@@ -9,7 +9,7 @@ import monopolinho.excepcions.MonopolinhoException;
  * @author David Carracedo
  */
 
-public class Sorte1 extends CartaSorte {
+public final class Sorte1 extends CartaSorte {
     public Sorte1() {
         //2. Decides hacer un viaje de placer. Avanza hasta Cádiz.
         super("Ganaches un viaxe de placer a MONELOS");

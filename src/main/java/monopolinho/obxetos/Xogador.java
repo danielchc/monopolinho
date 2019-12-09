@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author Daniel Chenel
  * @author David Carracedo
  */
-public class Xogador {
+public final class Xogador {
 
     private String nome;
     private Avatar avatar;
