@@ -68,6 +68,7 @@ public class Sombreiro extends Avatar{
                 if(next instanceof CasillaCarta)if(((CasillaCarta)next).getUltimaCarta().getMovese())return;
 
             }
+            turno.setPodeLanzar(true);
         }else{
             System.out.println("Sacaches menos de 4, desfacendo todo o que fixeches no turno");
             Xogo.consola.imprimirNegrita(turno.desfacer(xogo));

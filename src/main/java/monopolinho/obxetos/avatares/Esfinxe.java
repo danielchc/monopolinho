@@ -72,8 +72,8 @@ public class Esfinxe extends Avatar{
                 if(next instanceof Ir_Carcere)return;
                 if(turno.getXogador().estadoXogador()== EstadoXogador.TEN_DEBEDAS)return;
                 if(next instanceof CasillaCarta)if(((CasillaCarta)next).getUltimaCarta().getMovese())return;
-
             }
+            turno.setPodeLanzar(true);
         }else{
             System.out.println("Sacaches menos de 4, desfacendo todo o que fixeches no turno");
             Xogo.consola.imprimirNegrita(turno.desfacer(xogo));
